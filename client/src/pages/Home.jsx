@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
 
 const Home = () => {
-  return (
-    <div>Home</div>
-  )
-}
+  const [products, setProducts] = useState([]);
+  const fetchData = () => {
+    fetch("http://localhost:5000/products", {
+    })
+      .then((res) => res.json())
+      .then((data) => console.log());
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-export default Home
+  return <div className="container-full"></div>;
+};
+
+export default Home;

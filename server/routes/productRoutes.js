@@ -5,7 +5,7 @@ const ProductModel = require("../models/ProductModel");
 const router = Router();
 
 router.get("/products", async (req, res) => {
-  const products = await ProductModel.find();
+  const products = await ProductModel.find().populate("createdBy", "_id name");
   res.status(200).json({
     products,
   });
@@ -28,6 +28,7 @@ router.post(
       price,
       image,
       createdAt,
+      createdBy: req.user,
     });
     try {
       await product.save();
@@ -39,5 +40,27 @@ router.post(
     }
   }
 );
+// Update product
+router.put(
+  "/product/update/:id",
+  authMiddleware,
+  async (req, res) => {
+    const { name, price, descr, image } = req.body;
+    const updateProduct = await ProductModel.findByIdAndUpdate(req.params.id, {
+      name,
+      price,
+      image,
+      descr
+    });
+    res.status(200).json({ updateProduct });
+  }
+);
+//
+router.delete("/product/delete/:id", authMiddleware, async (req, res) => {
+  await ProductModel.findByIdAndDelete(req.params.id)
+  res.status(201).json({
+    msg: "DELETED"
+  })
+})
 
 module.exports = router;

@@ -1,6 +1,39 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../App";
 
 const SignUp = () => {
+  const {dispatch} = useContext(UserContext)
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const signUpHandler = async (e) => {
+    e.preventDefault();
+    fetch("http://localhost:5000/signup", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          console.log(data.error);
+        } else {
+          localStorage.setItem("jwt", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user));
+          dispatch({ type: "USER", payload: data.user });
+          navigate("/");
+        }
+      });
+  };
   return (
     <div className="h-screen flex">
       <div
@@ -21,7 +54,7 @@ const SignUp = () => {
           <p className="text-white mt-1">The simplest app to use</p>
           <div className="flex justify-center lg:justify-start mt-6">
             <a
-              href="#"
+              href="s#"
               className="hover:bg-indigo-700 hover:text-white hover:-translate-y-1 transition-all duration-500 bg-white text-indigo-800 mt-4 px-4 py-2 rounded-2xl font-bold mb-2"
             >
               Get Started
@@ -31,13 +64,12 @@ const SignUp = () => {
       </div>
       <div className="flex w-full lg:w-1/2 justify-center items-center bg-white space-y-8">
         <div className="w-full px-8 md:px-32 lg:px-24">
-          <form className="bg-white rounded-md shadow-2xl p-5">
-            <h1 className="text-gray-800 font-bold text-2xl mb-1">
-              Hello
-            </h1>
-            <p className="text-sm font-normal text-gray-600 mb-8">
-              Welcome
-            </p>
+          <form
+            onSubmit={signUpHandler}
+            className="bg-white rounded-md shadow-2xl p-5"
+          >
+            <h1 className="text-gray-800 font-bold text-2xl mb-1">Hello</h1>
+            <p className="text-sm font-normal text-gray-600 mb-8">Welcome</p>
             <div className="flex items-center border-2 mb-8 py-2 px-3 rounded-2xl">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -58,6 +90,8 @@ const SignUp = () => {
                 className=" pl-2 w-full outline-none border-none"
                 type="text"
                 name="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 placeholder="Enter your name"
               />
             </div>
@@ -82,6 +116,8 @@ const SignUp = () => {
                 type="email"
                 name="email"
                 placeholder="Email Address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="flex items-center border-2 mb-12 py-2 px-3 rounded-2xl ">
@@ -100,9 +136,9 @@ const SignUp = () => {
               <input
                 className="pl-2 w-full outline-none border-none"
                 type="password"
-                name="password"
-                id="password"
                 placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <button

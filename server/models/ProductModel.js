@@ -21,6 +21,10 @@ const productSchema = new Schema({
     type: Date,
     default: new Date(),
   },
+  createdBy: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  }
 });
 
 module.exports = model("Product", productSchema);

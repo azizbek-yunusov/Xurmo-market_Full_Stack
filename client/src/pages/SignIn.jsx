@@ -1,6 +1,36 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../App";
 
 const SignIn = () => {
+  const { dispatch } = useContext(UserContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const signInHandler = async (e) => {
+    e.preventDefault();
+    fetch("http://localhost:5000/signin", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          console.log(data.error);
+        } else {
+          localStorage.setItem("jwt", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user));
+          dispatch({ type: "USER", payload: data.user });
+          navigate("/");
+        }
+      });
+  };
   return (
     <div className="h-screen flex">
       <div
@@ -21,7 +51,7 @@ const SignIn = () => {
           <p className="text-white mt-1">The simplest app to use</p>
           <div className="flex justify-center lg:justify-start mt-6">
             <a
-              href="#"
+              href="#s"
               className="hover:bg-indigo-700 hover:text-white hover:-translate-y-1 transition-all duration-500 bg-white text-indigo-800 mt-4 px-4 py-2 rounded-2xl font-bold mb-2"
             >
               Get Started
@@ -31,7 +61,10 @@ const SignIn = () => {
       </div>
       <div className="flex w-full lg:w-1/2 justify-center items-center bg-white space-y-8">
         <div className="w-full px-8 md:px-32 lg:px-24">
-          <form className="bg-white rounded-md shadow-2xl p-5">
+          <form
+            onSubmit={signInHandler}
+            className="bg-white rounded-md shadow-2xl p-5"
+          >
             <h1 className="text-gray-800 font-bold text-2xl mb-1">
               Hello Again
             </h1>
@@ -58,7 +91,8 @@ const SignIn = () => {
                 id="email"
                 className=" pl-2 w-full outline-none border-none"
                 type="email"
-                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email Address"
               />
             </div>
@@ -78,9 +112,10 @@ const SignIn = () => {
               <input
                 className="pl-2 w-full outline-none border-none"
                 type="password"
-                name="password"
-                id="password"
                 placeholder="Password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <button
@@ -95,7 +130,7 @@ const SignIn = () => {
               </span>
 
               <a
-                href="#"
+                href="s#"
                 className="text-sm ml-2 hover:text-blue-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all"
               >
                 Don't have an account yet?
