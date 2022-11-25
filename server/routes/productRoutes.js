@@ -4,15 +4,20 @@ const authMiddleware = require("../middleware/authMiddleware");
 const ProductModel = require("../models/ProductModel");
 const router = Router();
 
-router.get("/products", async (req, res) => {
+router.get("/products", authMiddleware, async (req, res) => {
   const products = await ProductModel.find().populate("createdBy", "_id name");
-  res.status(200).json({
+  res.status(201).json({
     products,
   });
 });
 
+router.get("/product/:id", authMiddleware, async (req, res) => {
+  const product = await ProductModel.findById(req.params.id);
+  res.status(201).json({ product });
+});
+
 router.post(
-  "/product/add",
+  "/product/create",
   authMiddleware,
   authAdminMiddleware,
   async (req, res) => {
@@ -41,26 +46,26 @@ router.post(
   }
 );
 // Update product
-router.put(
-  "/product/update/:id",
-  authMiddleware,
-  async (req, res) => {
+router.put("/product/update/:id", authMiddleware, async (req, res) => {
+  try {
     const { name, price, descr, image } = req.body;
     const updateProduct = await ProductModel.findByIdAndUpdate(req.params.id, {
       name,
       price,
       image,
-      descr
+      descr,
     });
     res.status(200).json({ updateProduct });
+  } catch (err) {
+    console.log(err);
   }
-);
+});
 //
 router.delete("/product/delete/:id", authMiddleware, async (req, res) => {
-  await ProductModel.findByIdAndDelete(req.params.id)
+  await ProductModel.findByIdAndDelete(req.params.id);
   res.status(201).json({
-    msg: "DELETED"
-  })
-})
+    msg: "DELETED",
+  });
+});
 
 module.exports = router;

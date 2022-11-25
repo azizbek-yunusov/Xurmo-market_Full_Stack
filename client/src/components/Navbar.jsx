@@ -1,12 +1,21 @@
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from "../App";
+import { UserContext } from "../reducers/useReducer";
 
 const Navbar = () => {
   const { state, dispatch } = useContext(UserContext);
   const navigate = useNavigate();
+  const { userInfo } = state;
+  const signoutHandler = () => {
+    dispatch({ type: "CLEAR" });
+    localStorage.removeItem("user");
+    localStorage.removeItem("jwt");
+    // window.location.href = "/signin";
+    navigate("/signin")
+  };
+  // console.log(userInfo);
   const userNavigation = () => {
-    if (state) {
+    if (userInfo) {
       return (
         <>
           <li>
@@ -18,21 +27,26 @@ const Navbar = () => {
               Home
             </Link>
           </li>
-
+          {userInfo.admin ? (
+            <li>
+              <Link
+                to={"/dashboard"}
+                className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
+                aria-current="page"
+              >
+                Dashboard
+              </Link>
+            </li>
+          ) : null}
           <li className="bg-red-600 p-1 rounded-sm">
             <button
-              onClick={() => {
-                localStorage.clear();
-                dispatch({ type: "CLEAR" });
-                navigate("/signin");
-              }}
+              onClick={signoutHandler}
               className="block py-2 bg-red-600 pl-3 pr-4 text-white rounded md:bg-transparent md:text-white md:p-0 dark:text-white"
               aria-current="page"
             >
               Sign Out
             </button>
           </li>
-          
         </>
       );
     } else {
@@ -63,12 +77,8 @@ const Navbar = () => {
   return (
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-900 z-[1000]">
       <div className="container-full flex flex-wrap items-center justify-between mx-auto">
-        <a href="https://flowbite.com/" className="flex items-center">
-          <img
-            src="https://flowbite.com/docs/images/logo.svg"
-            className="h-6 mr-3 sm:h-9"
-            alt="Flowbite Logo"
-          />
+        <a href="3d" className="flex items-center">
+         
           <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
             e-commerce
           </span>

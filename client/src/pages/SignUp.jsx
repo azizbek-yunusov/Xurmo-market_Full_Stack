@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../App";
+import { UserContext } from "../reducers/useReducer";
 
 const SignUp = () => {
   const {dispatch} = useContext(UserContext)
@@ -30,7 +30,7 @@ const SignUp = () => {
           localStorage.setItem("jwt", data.token);
           localStorage.setItem("user", JSON.stringify(data.user));
           dispatch({ type: "USER", payload: data.user });
-          navigate("/");
+          navigate("/")
         }
       });
   };
@@ -153,7 +153,7 @@ const SignUp = () => {
               </span>
 
               <a
-                href="#"
+                href="#s"
                 className="text-sm ml-2 hover:text-blue-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all"
               >
                 Don't have an account yet?

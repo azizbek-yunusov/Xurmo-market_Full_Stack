@@ -1,71 +1,55 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
+import Header from "./components/Header/Header";
+import TopLink from "./components/Header/TopLink";
 import Navbar from "./components/Navbar";
-import HomeDashboard from "./dashboard/HomeDashboard HomeDashboard";
+import CreateProduct from "./dashboard/CreateProduct";
+import HomeDashboard from "./dashboard/Home";
+import ProductsTable from "./dashboard/ProductsTable";
+import UpdateProduct from "./dashboard/UpdateProduct";
 import AddProduct from "./pages/AddProduct";
 import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import { initialState, reducer } from "./reducers/useReducer";
+import { UserContext } from "./reducers/useReducer";
 
-export const UserContext = createContext();
-
-const Routing = () => {
-  const [isAdmin, setIsAdmin] = useState(false);
-  const navigate = useNavigate();
+function App() {
   const { state, dispatch } = useContext(UserContext);
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
-      dispatch({ type: "USER", payload: user });
-      setIsAdmin(user.admin);
-      if(user.admin) {
-        navigate("/")
-      }
-      else {
-        navigate("/");
-      }
-    } else {
-      navigate("/signin");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  console.log(isAdmin);
-  if (isAdmin) {
-    return (
-      <Routes>
-        <Route path="/" element={<HomeDashboard />} />
-      </Routes>
-    );
-  }
+  // const navigate = useNavigate();
+  console.log(state);
   return (
     <>
-      <Navbar />
+      <ToastContainer autoClose={1000} />
+      <>
+        <TopLink />
+        <Header />
+        <Navbar />
+      </>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/signin" element={<SignIn />} />
+        <Route path="*" element={<NotFound />} />
+        {!state.userInfo && (
+          <>
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signin" element={<SignIn />} />
+          </>
+        )}
         <Route path="/add" element={<AddProduct />} />
+        {state.userInfo && state.userInfo.admin && (
+          <>
+            <Route path="/dashboard" element={<HomeDashboard />} />,
+            <Route path="/product/update/:id" element={<UpdateProduct />} />
+            <Route path="/product/create" element={<CreateProduct />} />
+            <Route path="/dashboard/products" element={<ProductsTable />} />
+            
+          </>
+        )}
       </Routes>
     </>
-  );
-};
-function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  return (
-    <UserContext.Provider value={{ state, dispatch }}>
-      <ToastContainer />
-      <Routing />
-    </UserContext.Provider>
   );
 }
 

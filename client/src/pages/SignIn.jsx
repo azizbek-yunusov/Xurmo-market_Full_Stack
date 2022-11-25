@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../App";
+import { UserContext } from "../reducers/useReducer";
 
 const SignIn = () => {
-  const { dispatch } = useContext(UserContext);
+  const {dispatch } = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -27,13 +27,14 @@ const SignIn = () => {
           localStorage.setItem("jwt", data.token);
           localStorage.setItem("user", JSON.stringify(data.user));
           dispatch({ type: "USER", payload: data.user });
-          navigate("/");
+          navigate("/")
         }
       });
   };
   return (
     <div className="h-screen flex">
       <div
+      style={{width: "65%"}}
         className="hidden lg:flex w-full lg:w-1/2 login_img_section
           justify-around items-center"
       >
@@ -43,7 +44,9 @@ const SignIn = () => {
                   opacity-20 
                   inset-0 
                   z-0"
-        ></div>
+        >
+          <img src="https://skywell.software/wp-content/uploads/2021/10/3d-modeling-in-ecommerce.jpeg" alt="" />
+        </div>
         <div className="w-full mx-auto px-20 flex-col items-center space-y-6">
           <h1 className="text-white font-bold text-4xl font-sans">
             Simple App
