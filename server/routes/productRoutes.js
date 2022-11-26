@@ -46,7 +46,7 @@ router.post(
   }
 );
 // Update product
-router.put("/product/update/:id", authMiddleware, async (req, res) => {
+router.put("/product/update/:id", authMiddleware, authAdminMiddleware, async (req, res) => {
   try {
     const { name, price, descr, image } = req.body;
     const updateProduct = await ProductModel.findByIdAndUpdate(req.params.id, {
@@ -61,7 +61,7 @@ router.put("/product/update/:id", authMiddleware, async (req, res) => {
   }
 });
 //
-router.delete("/product/delete/:id", authMiddleware, async (req, res) => {
+router.delete("/product/delete/:id", authMiddleware, authAdminMiddleware, async (req, res) => {
   await ProductModel.findByIdAndDelete(req.params.id);
   res.status(201).json({
     msg: "DELETED",

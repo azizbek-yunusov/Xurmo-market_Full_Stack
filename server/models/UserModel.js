@@ -5,6 +5,15 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  lastName: {
+    type: String,
+  },
+  lastName: {
+    type: String,
+  },
+  phoneNumber: {
+    type: String
+  },
   email: {
     type: String,
     required: true,
@@ -17,6 +26,10 @@ const userSchema = new Schema({
     type: Boolean,
     required: true,
     default: false,
+  },
+  createdAt: {
+    type: Date,
+    default: new Date(),
   },
 });
 

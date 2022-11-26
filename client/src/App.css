@@ -3,10 +3,25 @@
     url(https://unctad.org/sites/default/files/2021-05/2021-03-15_eCommerceCOVID19report-3-1220x675px.jpg)
       center center;
 }
-/* Custom style */
-.header-right {
-  width: calc(100% - 3.5rem);
+.bg_image {
+  background-image: url("https://images.unsplash.com/photo-1494621930069-4fd4b2e24a11?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=715&q=80");
 }
+/* Custom style */
+/* .header-right {
+  width: calc(100% - 3.5rem);
+} */
 /* .sidebar:hover {
   width: 16rem;
 } */
+::-webkit-scrollbar {
+  width: 14px;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #b4b4b4;
+  border-radius: 6px;
+  border: 3px solid white;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #ffb20b;
+}
