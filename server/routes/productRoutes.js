@@ -12,7 +12,7 @@ router.get("/products", authMiddleware, async (req, res) => {
 });
 
 router.get("/product/:id", authMiddleware, async (req, res) => {
-  const product = await ProductModel.findById(req.params.id);
+  const product = await ProductModel.findById(req.params.id).populate("createdBy", "_id name");
   res.status(201).json({ product });
 });
 

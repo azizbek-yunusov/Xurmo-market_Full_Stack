@@ -1,9 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { AiOutlineHome, AiOutlineInbox, AiOutlineUser } from 'react-icons/ai';
-import { BsCart2 } from 'react-icons/bs';
+import { Link, useLocation } from "react-router-dom";
+import { AiOutlineHome, AiOutlineInbox, AiOutlineUser } from "react-icons/ai";
+import { BsCart2 } from "react-icons/bs";
+import { RiAdminLine } from "react-icons/ri";
 
 const SideBar = () => {
+  const pathname = useLocation().pathname;
+  console.log(pathname);
   return (
     <div className="min-h-screen flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64 h-full text-white transition-all duration-300 border-none z-10 sidebar">
       <div className="flex flex-col justify-between flex-grow">
@@ -16,12 +19,19 @@ const SideBar = () => {
             </div>
           </li>
           <li>
-            <Link
-              to={"/dashboard"}
-              className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
-            >
-              <AiOutlineHome className="md:text-lg ml-4" />
-              <span className="ml-2 text-sm tracking-wide truncate">Home</span>
+            <Link to={"/dashboard"}>
+              <div
+                className={`${
+                  pathname === "/dashboard"
+                    ? "sidebar_link-active"
+                    : "sidebar-link"
+                }`}
+              >
+                <AiOutlineHome className="md:text-lg ml-4" />
+                <span className="ml-2 text-sm tracking-wide truncate">
+                  Home
+                </span>
+              </div>
             </Link>
           </li>
           <li>
@@ -29,7 +39,7 @@ const SideBar = () => {
               to={"/dashboard/products"}
               className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
             >
-              <AiOutlineInbox  className="md:text-lg ml-4"/>
+              <AiOutlineInbox className="md:text-lg ml-4" />
               <span className="ml-2 text-sm tracking-wide truncate">
                 Products
               </span>
@@ -37,7 +47,7 @@ const SideBar = () => {
           </li>
           <li>
             <Link
-            to={"/dashboard/orders"}
+              to={"/dashboard/orders"}
               className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
             >
               <BsCart2 className="md:text-lg ml-4" />
@@ -53,6 +63,17 @@ const SideBar = () => {
             >
               <AiOutlineUser className="md:text-lg ml-4" />
               <span className="ml-2 text-sm tracking-wide truncate">Users</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={"/dashboard/admins"}
+              className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
+            >
+              <RiAdminLine className="md:text-lg ml-4" />
+              <span className="ml-2 text-sm tracking-wide truncate">
+                Admins
+              </span>
             </Link>
           </li>
           <li>

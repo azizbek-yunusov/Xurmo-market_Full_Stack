@@ -16,7 +16,7 @@ const NavbarD = () => {
     navigate("/signin");
   };
   return (
-    <div className=" bg-slate-50">
+    <div className="bg-slate-50 shadow-2xl border-b border-b-gray-200">
       <div className="container-full grid grid-cols-8 items-center py-3">
         <div className=" w-full col-span-4 grid grid-cols-3 items-center">
           <Link to={"/dashboard"} className="">
