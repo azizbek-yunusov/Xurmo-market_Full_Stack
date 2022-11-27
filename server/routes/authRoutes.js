@@ -7,7 +7,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post("/signup", async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, admin } = req.body;
     if (!name || !email || !password) {
       return res.status(400).json({ error: "Please add all the feilds" });
     }
@@ -26,6 +26,7 @@ router.post("/signup", async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      admin
     });
     const token = jwt.sign({ _id: user._id }, JWT_SECRET);
     await user.save();

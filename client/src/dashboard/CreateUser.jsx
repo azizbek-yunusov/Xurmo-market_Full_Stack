@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Checkbox, Select } from "antd";
 import { UserContext } from "../reducers/useReducer";
 import Layout from "./Layout";
 
@@ -9,9 +10,11 @@ const CreateUser = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [admin, setAdmin] = useState(false);
+  const [admin, setAdmin] = useState(Boolean);
   const navigate = useNavigate();
-
+  const handleChange = (value) => {
+    setAdmin(value);
+  };
   const signUpHandler = async (e) => {
     e.preventDefault();
     fetch("http://localhost:5000/signup", {
@@ -34,7 +37,6 @@ const CreateUser = () => {
         } else {
           toast.success("User Successfuly");
           navigate("/dashboard/users");
-          
         }
       });
   };
@@ -56,7 +58,7 @@ const CreateUser = () => {
                 and begin setting up your profile.
               </p>
 
-              <div className="mt-6">
+              {/* <div className="mt-3">
                 <h1 className="text-gray-500 ">Select type of account</h1>
 
                 <div className="mt-3 md:flex md:items-center md:-mx-2">
@@ -101,17 +103,18 @@ const CreateUser = () => {
                     <span className="mx-2">Admin</span>
                   </button>
                 </div>
-              </div>
+              </div> */}
 
               <form
                 onSubmit={signUpHandler}
-                className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2"
+                className="grid grid-cols-1 gap-4 mt-8 md:grid-cols-2"
               >
                 <div>
                   <label className="block mb-2 text-sm text-gray-600 ">
                     First Name
                   </label>
                   <input
+                    required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     type="text"
@@ -165,6 +168,24 @@ const CreateUser = () => {
                     type="password"
                     placeholder="Enter your password"
                     className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                  />
+
+                  <Select
+                    defaultValue="USER"
+                    style={{
+                      width: 120,
+                    }}
+                    onChange={handleChange}
+                    options={[
+                      {
+                        value: true,
+                        label: "ADMIN",
+                      },
+                      {
+                        value: false,
+                        label: "USER",
+                      },
+                    ]}
                   />
                 </div>
 

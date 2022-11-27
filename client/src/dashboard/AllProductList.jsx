@@ -46,6 +46,7 @@ const AllProductList = () => {
   useEffect(() => {
     fetchData();
   }, []);
+  console.log(products);
   return (
     <div className="w-full lg:w-5/6">
       <div className="bg-white shadow-md rounded my-6">
