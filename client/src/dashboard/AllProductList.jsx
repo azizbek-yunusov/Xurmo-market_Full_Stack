@@ -1,5 +1,7 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import { AiOutlineFolderAdd } from "react-icons/ai";
+import { IoBagAddOutline } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -50,6 +52,15 @@ const AllProductList = () => {
   return (
     <div className="w-full lg:w-5/6">
       <div className="bg-white shadow-md rounded my-6">
+        <Link
+          to={"/product/create"}
+          className="w-full flex items-center justify-end"
+        >
+          <button className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 py-2 my-2 mx-2 px-10 text-lg text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            <AiOutlineFolderAdd className="text-2xl mr-2 text-white" />
+            Create
+          </button>
+        </Link>
         <table className="min-w-max w-full table-auto rounded-lg">
           <thead>
             <tr className="bg-gray-300 text-gray-900 text-sm rounded-t-lg leading-normal">
@@ -90,7 +101,10 @@ const AllProductList = () => {
 
                   <td className="py-3 px-6 text-center">
                     <div className="flex item-center justify-center">
-                      <Link to={`/product/${product._id}`} className="cursor-pointer w-5 mr-3 transform hover:text-purple-500 hover:scale-110">
+                      <Link
+                        to={`/product/${product._id}`}
+                        className="cursor-pointer w-5 mr-3 transform hover:text-purple-500 hover:scale-110"
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"

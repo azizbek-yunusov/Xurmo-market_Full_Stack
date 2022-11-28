@@ -16,15 +16,10 @@ const NavbarD = () => {
     navigate("/signin");
   };
   return (
-    <div className="bg-slate-50 shadow-2xl border-b border-b-gray-200">
-      <div className="container-full grid grid-cols-8 items-center py-3">
-        <div className=" w-full col-span-4 grid grid-cols-3 items-center">
-          <Link to={"/dashboard"} className="">
-            e-commerce
-          </Link>
-          <div className="col-span-2">
-            <SearchInput />
-          </div>
+    <div className="bg-slate-50 shadow-md border-b border-b-gray-200">
+      <div className="lg:px-6 px-3 grid grid-cols-8 items-center py-3">
+        <div className="w-full col-span-4 flex justify-end items-center">
+          <SearchInput />
         </div>
         <div className="col-span-4 flex justify-end items-center">
           <div className="flex items-center">

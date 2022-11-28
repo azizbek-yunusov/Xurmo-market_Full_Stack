@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { AiOutlineHome, AiOutlineInbox, AiOutlineUser } from "react-icons/ai";
 import { BsCart2 } from "react-icons/bs";
 import { RiAdminLine } from "react-icons/ri";
+import { sidebar } from "../data/sidebar";
 
 const SideBar = () => {
   const pathname = useLocation().pathname;
@@ -11,6 +12,9 @@ const SideBar = () => {
     <div className="min-h-screen flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64 h-full text-white transition-all duration-300 border-none z-10 sidebar">
       <div className="flex flex-col justify-between flex-grow">
         <ul className="flex flex-col py-4 space-y-1">
+          <li className="my-4 px-4 text-xl">
+            <Link to={"/dashboard"}>E-commece</Link>
+          </li>
           <li className="px-5 hidden md:block">
             <div className="flex flex-row items-center h-8">
               <div className="text-sm font-light tracking-wide text-gray-400 uppercase">
@@ -18,90 +22,25 @@ const SideBar = () => {
               </div>
             </div>
           </li>
-          <li>
-            <Link to={"/dashboard"}>
-              <div
-                className={`${
-                  pathname === "/dashboard"
-                    ? "sidebar_link-active"
-                    : "sidebar-link"
-                }`}
-              >
-                <AiOutlineHome className="md:text-lg ml-4" />
-                <span className="ml-2 text-sm tracking-wide truncate">
-                  Home
-                </span>
-              </div>
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={"/dashboard/products"}
-              className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
-            >
-              <AiOutlineInbox className="md:text-lg ml-4" />
-              <span className="ml-2 text-sm tracking-wide truncate">
-                Products
-              </span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={"/dashboard/orders"}
-              className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
-            >
-              <BsCart2 className="md:text-lg ml-4" />
-              <span className="ml-2 text-sm tracking-wide truncate">
-                Orders
-              </span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={"/dashboard/users"}
-              className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
-            >
-              <AiOutlineUser className="md:text-lg ml-4" />
-              <span className="ml-2 text-sm tracking-wide truncate">Users</span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={"/dashboard/admins"}
-              className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
-            >
-              <RiAdminLine className="md:text-lg ml-4" />
-              <span className="ml-2 text-sm tracking-wide truncate">
-                Admins
-              </span>
-            </Link>
-          </li>
-          <li>
-            <a
-              href="s#"
-              className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
-            >
-              <span className="inline-flex justify-center items-center ml-4">
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+          {sidebar.map((item, index) => (
+            <li>
+              <Link key={index} to={`${item.path}`}>
+                <div
+                  className={`${
+                    pathname === item.path
+                      ? "sidebar_link-active"
+                      : "sidebar-link"
+                  }`}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                  ></path>
-                </svg>
-              </span>
-              <span className="ml-2 text-sm tracking-wide truncate">
-                Notifications
-              </span>
-            </a>
-          </li>
+                  {item.icon}
+                  <span className="ml-2 text-sm tracking-wide truncate">
+                    {item.name}
+                  </span>
+                </div>
+              </Link>
+            </li>
+          ))}
+
           <li className="px-5 hidden md:block">
             <div className="flex flex-row items-center mt-5 h-8">
               <div className="text-sm font-light tracking-wide text-gray-400 uppercase">

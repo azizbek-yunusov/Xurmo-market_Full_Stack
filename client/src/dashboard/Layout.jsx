@@ -4,14 +4,14 @@ import SideBar from "./SideBar";
 
 const Layout = ({ children }) => {
   return (
-    <div className="flex flex-col bg-slate-200 text-black">
-      <NavbarD />
-
-      <div className="grid grid-cols-12 bg-violet-800 gap-0 justify-between w-full">
-        <div className="col-span-2">
+    <div className="flex flex-col bg-slate-50 text-black">
+      <div className="grid grid-cols-12 gap-0 justify-between w-full">
+        <div className="col-span-2 bg-violet-700">
           <SideBar />
         </div>
-        <div className="col-span-10 bg-slate-100">
+        <div className="col-span-10 bg-slate-50 ml-3">
+          <NavbarD />
+
           {children}
         </div>
       </div>

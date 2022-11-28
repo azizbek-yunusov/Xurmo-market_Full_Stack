@@ -20,10 +20,12 @@
 .flex_center {
   @apply flex items-center justify-center
 }
+.tranistion_normal {
+  @apply transition duration-200 ease-linear
+}
 .sidebar-link {
-  @apply relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 text-gray-100 hover:text-gray-800 border-l-4 border-transparent hover:border-blue-500 pr-6
+  @apply relative flex rounded-l-3xl flex-row items-center h-11 tranistion_normal focus:outline-none hover:bg-blue-400 text-gray-100 hover:text-gray-800
 }
 .sidebar_link-active {
-  @apply relative flex flex-row items-center h-11 focus:outline-none bg-blue-800 text-gray-100 hover:text-gray-800 border-l-4 border-transparent hover:border-blue-500 pr-6
-  
+  @apply relative flex rounded-l-3xl flex-row items-center h-11 focus:outline-none bg-slate-50 text-gray-800 hover:text-gray-800
 }

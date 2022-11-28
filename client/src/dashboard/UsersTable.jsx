@@ -1,4 +1,6 @@
+import moment from "moment";
 import React, { useEffect, useState } from "react";
+import { AiOutlineFolderAdd, AiOutlineUserAdd } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Layout from "./Layout";
@@ -54,18 +56,23 @@ const UsersTable = () => {
   return (
     <Layout>
       <div className="flex items-center flex-col justify-center font-sans">
-        <Link to={"/user/create"} className="w-full float-left">
-          <button className="py-2 px-3 m-2 bg-blue-500 text-white">
-            create product
-          </button>
-        </Link>
         <div className="w-full lg:w-5/6">
           <div className="bg-white shadow-md rounded my-6">
+            <Link
+              to={"/user/create"}
+              className="w-full flex items-center justify-end"
+            >
+              <button className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 py-2 my-2 mx-2 px-10 text-lg text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                <AiOutlineUserAdd className="text-2xl mr-2 text-white" />
+                Create
+              </button>
+            </Link>
             <table className="min-w-max w-full table-auto">
               <thead>
                 <tr className="bg-gray-200 text-gray-600 text-sm leading-normal">
                   <th className="py-3 px-6 text-left">Name</th>
                   <th className="py-3 px-6 text-left">Email</th>
+                  <th className="py-3 px-6 text-center">Created</th>
                   <th className="py-3 px-6 text-center">Role</th>
                   <th className="py-3 px-6 text-center">Actions</th>
                 </tr>
@@ -81,6 +88,10 @@ const UsersTable = () => {
                         {user.name}
                       </td>
                       <td className="py-3 px-6 text-left">{user.email}</td>
+                      <td className="text-center">
+                        {user.createdAt ? moment(user.createdAt).format("lll"): null}
+                      </td>
+
                       <td className="py-3 px-6 text-center">
                         <div className="flex justify-center items-center">
                           <div className="mr-2"></div>
@@ -90,7 +101,6 @@ const UsersTable = () => {
                           {/* <span>{moment(product.createdAt).format("lll")}</span> */}
                         </div>
                       </td>
-
                       <td className="py-3 px-6 text-center">
                         <div className="flex item-center justify-center">
                           <div className="cursor-pointer w-5 mr-3 transform hover:text-purple-500 hover:scale-110">

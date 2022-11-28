@@ -9,6 +9,7 @@ import Admins from "./dashboard/Admins";
 import CreateProduct from "./dashboard/CreateProduct";
 import CreateUser from "./dashboard/CreateUser";
 import HomeDashboard from "./dashboard/Home";
+import OrdersList from "./dashboard/OrdersList";
 import ProductDetail from "./dashboard/ProductDetail";
 import ProductsTable from "./dashboard/ProductsTable";
 import UpdateProduct from "./dashboard/UpdateProduct";
@@ -54,6 +55,7 @@ function App() {
             <Route path="/dashboard/users" element={<UsersTable />} />
             <Route path="/user/create" element={<CreateUser />} />
             <Route path="/dashboard/admins" element={<Admins />} />
+            <Route path="/dashboard/orders" element={<OrdersList />} />
           </>
         )}
       </Routes>

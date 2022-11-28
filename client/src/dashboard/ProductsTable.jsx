@@ -15,11 +15,7 @@ const ProductsTable = () => {
   return (
     <Layout>
       <div className="flex items-center flex-col justify-center font-sans">
-        <Link to={"/product/create"} className="w-full float-left">
-          <button className="py-2 px-3 m-2 bg-blue-500 text-white">
-            create product
-          </button>
-        </Link>
+
         <AllProductList />
       </div>
     </Layout>
