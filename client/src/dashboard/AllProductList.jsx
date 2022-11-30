@@ -1,46 +1,31 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { AiOutlineFolderAdd } from "react-icons/ai";
-import { IoBagAddOutline } from "react-icons/io";
-import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const AllProductList = () => {
   const [products, setProducts] = useState([]);
   const [id, setId] = useState("");
-  const navigate = useNavigate();
   const fetchData = async () => {
-    // const { products } = await axios.get("http://localhost:5000/api/travel");
-    // setProducts(products);
-    try {
-      fetch("http://localhost:5000/products", {
-        headers: {
-          Authorization: localStorage.getItem("jwt"),
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => setProducts(data.products));
-    } catch (err) {
-      console.log(err);
-    }
+    const { data } = await axios.get("/products", {
+      headers: { Authorization: localStorage.getItem("jwt") },
+    });
+    setProducts(data.products);
   };
   const deleteHandler = async (e) => {
     e.preventDefault();
     try {
-      fetch(`http://localhost:5000/product/delete/${id}`, {
-        method: "delete",
-        headers: {
-          Authorization: localStorage.getItem("jwt"),
-        },
-      }).then((data) => {
-        if (data.err) {
-          toast.error(data.err);
-        } else {
-          toast.success("Deleted");
-          // navigate("/");
-          fetchData();
-        }
+      const { data } = await axios.delete(`/product/delete/${id}`, {
+        headers: { Authorization: localStorage.getItem("jwt") },
       });
+      if (data.error) {
+        toast.error(data.err);
+      } else {
+        fetchData();
+        toast.success("Deleted");
+      }
     } catch (err) {
       console.log(err);
     }
@@ -50,7 +35,7 @@ const AllProductList = () => {
   }, []);
   console.log(products);
   return (
-    <div className="w-full lg:w-5/6">
+    <div className="w-full px-5">
       <div className="bg-white shadow-md rounded my-6">
         <Link
           to={"/product/create"}

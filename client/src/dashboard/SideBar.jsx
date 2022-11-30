@@ -1,15 +1,11 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { AiOutlineHome, AiOutlineInbox, AiOutlineUser } from "react-icons/ai";
-import { BsCart2 } from "react-icons/bs";
-import { RiAdminLine } from "react-icons/ri";
 import { sidebar } from "../data/sidebar";
 
 const SideBar = () => {
   const pathname = useLocation().pathname;
-  console.log(pathname);
   return (
-    <div className="min-h-screen flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64 h-full text-white transition-all duration-300 border-none z-10 sidebar">
+    <div className="min-h-screen fixed top-0 left-0 flex flex-col w-14 hover:w-64 md:w-64 h-full text-white transition-all duration-300 border-none z-10 sidebar">
       <div className="flex flex-col justify-between flex-grow">
         <ul className="flex flex-col py-4 space-y-1">
           <li className="my-4 px-4 text-xl">
@@ -23,8 +19,8 @@ const SideBar = () => {
             </div>
           </li>
           {sidebar.map((item, index) => (
-            <li>
-              <Link key={index} to={`${item.path}`}>
+            <li key={index}>
+              <Link to={`${item.path}`}>
                 <div
                   className={`${
                     pathname === item.path
@@ -49,8 +45,8 @@ const SideBar = () => {
             </div>
           </li>
           <li>
-            <a
-              href="#s"
+            <Link
+              to={"/dashboard/myprofile"}
               className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
             >
               <span className="inline-flex justify-center items-center ml-4">
@@ -72,7 +68,7 @@ const SideBar = () => {
               <span className="ml-2 text-sm tracking-wide truncate">
                 Profile
               </span>
-            </a>
+            </Link>
           </li>
           <li>
             <a
@@ -107,9 +103,6 @@ const SideBar = () => {
             </a>
           </li>
         </ul>
-        <p className="mb-14 px-5 py-3 hidden md:block text-center text-xs">
-          Copyright @2021
-        </p>
       </div>
     </div>
   );

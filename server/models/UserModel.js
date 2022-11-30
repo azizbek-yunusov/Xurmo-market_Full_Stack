@@ -8,11 +8,13 @@ const userSchema = new Schema({
   lastName: {
     type: String,
   },
-  lastName: {
+  image: {
     type: String,
+    default:
+      "https://res.cloudinary.com/dtabxocmw/image/upload/v1635099407/78-785827_user-profile-avatar-login-account-male-user-icon_kmmxgw.jpg",
   },
   phoneNumber: {
-    type: String
+    type: String,
   },
   email: {
     type: String,

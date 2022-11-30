@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../reducers/useReducer";
 import { FiLogOut } from "react-icons/fi";
 import SearchInput from "./SearchInput";
 
 const NavbarD = () => {
-  const { state, dispatch } = useContext(UserContext);
+  const { dispatch } = useContext(UserContext);
 
   const navigate = useNavigate();
   const signoutHandler = () => {
@@ -16,7 +16,7 @@ const NavbarD = () => {
     navigate("/signin");
   };
   return (
-    <div className="bg-slate-50 shadow-md border-b border-b-gray-200">
+    <div className="sticky top-0 bg-slate-50 shadow-md border-b border-b-gray-200 z-50">
       <div className="lg:px-6 px-3 grid grid-cols-8 items-center py-3">
         <div className="w-full col-span-4 flex justify-end items-center">
           <SearchInput />

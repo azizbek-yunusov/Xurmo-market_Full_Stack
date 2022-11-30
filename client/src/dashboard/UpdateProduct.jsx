@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import { toast } from "react-toastify";
 import Layout from "./Layout";
 
@@ -11,13 +10,6 @@ const UpdateProduct = () => {
   const [image, setImage] = useState("");
   const { id } = useParams();
   const navigate = useNavigate();
-  const config = {
-    headers: {
-      headers: {
-        Authorization: localStorage.getItem("jwt"),
-      },
-    },
-  };
   const fetchData = () => {
     fetch(`http://localhost:5000/product/${id}`, {
       method: "get",
@@ -71,6 +63,7 @@ const UpdateProduct = () => {
   // };
   useEffect(() => {
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Layout>

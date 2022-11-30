@@ -5,7 +5,7 @@ import Layout from "./Layout";
 const ProductDetail = () => {
   const goback = useNavigate();
   const { id } = useParams();
-  const [product, setProduct] = useState([]);
+  const [product, setProduct] = useState({});
   const productDetail = () => {
     fetch(`http://localhost:5000/product/${id}`, {
       method: "get",
@@ -20,6 +20,7 @@ const ProductDetail = () => {
   };
   useEffect(() => {
     productDetail();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   console.log(product);

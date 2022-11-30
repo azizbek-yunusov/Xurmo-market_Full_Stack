@@ -1,6 +1,6 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { AiOutlineFolderAdd, AiOutlineUserAdd } from "react-icons/ai";
+import { AiOutlineUserAdd } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Layout from "./Layout";
@@ -22,9 +22,6 @@ const UsersTable = () => {
       console.log(err);
     }
   };
-  // const filterUser = .filter(user => {
-  //   return user.admin !== admin
-  // })
   const client = users.filter((user) => {
     return user.admin !== admin;
   });
@@ -56,7 +53,7 @@ const UsersTable = () => {
   return (
     <Layout>
       <div className="flex items-center flex-col justify-center font-sans">
-        <div className="w-full lg:w-5/6">
+        <div className="w-full px-5">
           <div className="bg-white shadow-md rounded my-6">
             <Link
               to={"/user/create"}
@@ -89,7 +86,9 @@ const UsersTable = () => {
                       </td>
                       <td className="py-3 px-6 text-left">{user.email}</td>
                       <td className="text-center">
-                        {user.createdAt ? moment(user.createdAt).format("lll"): null}
+                        {user.createdAt
+                          ? moment(user.createdAt).format("lll")
+                          : null}
                       </td>
 
                       <td className="py-3 px-6 text-center">
@@ -103,7 +102,10 @@ const UsersTable = () => {
                       </td>
                       <td className="py-3 px-6 text-center">
                         <div className="flex item-center justify-center">
-                          <div className="cursor-pointer w-5 mr-3 transform hover:text-purple-500 hover:scale-110">
+                          <Link
+                            to={`/user/${user._id}`}
+                            className="cursor-pointer w-5 mr-3 transform hover:text-purple-500 hover:scale-110"
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
@@ -123,8 +125,8 @@ const UsersTable = () => {
                                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                               />
                             </svg>
-                          </div>
-                          <Link to={`/product/update/${user._id}`}>
+                          </Link>
+                          <Link to={`/users/update/${user._id}`}>
                             <div className="cursor-pointer w-5 mr-3 transform hover:text-purple-500 hover:scale-110">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"

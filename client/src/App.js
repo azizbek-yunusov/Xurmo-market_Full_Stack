@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
@@ -12,7 +12,10 @@ import HomeDashboard from "./dashboard/Home";
 import OrdersList from "./dashboard/OrdersList";
 import ProductDetail from "./dashboard/ProductDetail";
 import ProductsTable from "./dashboard/ProductsTable";
+import Profile from "./dashboard/Profile";
 import UpdateProduct from "./dashboard/UpdateProduct";
+import UpdateUser from "./dashboard/UpdateUser";
+import UserProfile from "./dashboard/UserProfile";
 import UsersTable from "./dashboard/UsersTable";
 import AddProduct from "./pages/AddProduct";
 import Home from "./pages/Home";
@@ -23,15 +26,18 @@ import { UserContext } from "./reducers/useReducer";
 
 function App() {
   const { state } = useContext(UserContext);
-
-  console.log(state);
-
+  const pathname = useLocation().pathname;
   return (
     <>
       <ToastContainer autoClose={1000} />
       <>
-        <TopLink />
-        <Header />
+        {pathname === "/signup" || pathname === "/signin" ? null : (
+          <>
+            <TopLink />
+            <Header />
+          </>
+        )}
+
         {/* <Navbar /> */}
       </>
       <Routes>
@@ -56,6 +62,9 @@ function App() {
             <Route path="/user/create" element={<CreateUser />} />
             <Route path="/dashboard/admins" element={<Admins />} />
             <Route path="/dashboard/orders" element={<OrdersList />} />
+            <Route path="/dashboard/myprofile" element={<Profile />} />
+            <Route path="/user/:id" element={<UserProfile />} />
+            <Route path="/users/update/:id" element={<UpdateUser />} />
           </>
         )}
       </Routes>

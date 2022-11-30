@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import { UserContext } from "../reducers/useReducer";
 
 const Home = () => {
-  const { state, dispatch } = useContext(UserContext);
+  const { state } = useContext(UserContext);
   // const navigate = useNavigate();
   const { userInfo } = state;
   // const [products, setProducts] = useState([]);

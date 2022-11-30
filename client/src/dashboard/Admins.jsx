@@ -5,7 +5,6 @@ import Layout from "./Layout";
 
 const Admins = () => {
   const [users, setUsers] = useState([]);
-  const [id, setId] = useState("");
   let admin = true;
   const fetchUsers = async () => {
     try {
@@ -20,9 +19,6 @@ const Admins = () => {
       console.log(err);
     }
   };
-  // const filterUser = .filter(user => {
-  //   return user.admin !== admin
-  // })
   const admins = users.filter((user) => {
     return user.admin === admin;
   });
@@ -32,7 +28,7 @@ const Admins = () => {
   return (
     <Layout>
       <div className="flex items-center flex-col justify-center font-sans">
-        <div className="w-full lg:w-5/6">
+        <div className="w-full px-5">
           <div className="bg-white shadow-md rounded my-6">
           <Link
               to={"/user/create"}
