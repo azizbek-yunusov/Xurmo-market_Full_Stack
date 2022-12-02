@@ -61,7 +61,7 @@ const UsersTable = () => {
             >
               <button className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 py-2 my-2 mx-2 px-10 text-lg text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                 <AiOutlineUserAdd className="text-2xl mr-2 text-white" />
-                Create
+                Add Customer
               </button>
             </Link>
             <table className="min-w-max w-full table-auto">

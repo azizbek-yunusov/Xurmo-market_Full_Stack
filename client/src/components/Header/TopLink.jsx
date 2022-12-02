@@ -24,7 +24,7 @@ const TopLink = () => {
                 +998 (71) 202 20 21
               </p>
               <Link className="border-2 mr-8 text-center border-white rounded-xl px-2 py-1 text-white">
-                olcha da soting
+                .............
               </Link>
               <div className="flex justify-between items-center">
                 <Link className="text-white text-lg mr-6">Ўзб</Link>

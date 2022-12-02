@@ -30,27 +30,31 @@ router.get(
     }
   }
 );
-router.put("/profile", authAdminMiddleware, async (req, res) => {
-  const user = await UserModel.findById(req.user._id);
-  if (user) {
-    user.name = req.body.name || user.name;
-    user.email = req.body.email || user.email;
-    if (req.body.password) {
-      user.password = bcrypt.hashSync(req.body.password, 8);
+router.put(
+  "/user/update/:id",
+  authMiddleware,
+  authAdminMiddleware,
+  async (req, res) => {
+    try {
+      const user = await UserModel.findById(req.params.id);
+      if (user) {
+        user.name = req.body.name || user.name;
+        user.email = req.body.email || user.email;
+        user.admin = req.body.admin || user.admin;
+        const updatedUser = await user.save();
+        res.json({
+          name: updatedUser.name,
+          email: updatedUser.email,
+          admin: updatedUser.admin,
+        });
+      } else {
+        res.status(404).send({ message: "User not found" });
+      }
+    } catch (err) {
+      console.log(err);
     }
-
-    const updatedUser = await user.save();
-    res.send({
-      _id: updatedUser._id,
-      name: updatedUser.name,
-      email: updatedUser.email,
-      admin: updatedUser.admin,
-      token: generateToken(updatedUser),
-    });
-  } else {
-    res.status(404).send({ message: "User not found" });
   }
-});
+);
 
 router.delete("/user/delete/:id", authMiddleware, async (req, res) => {
   await UserModel.findByIdAndDelete(req.params.id);

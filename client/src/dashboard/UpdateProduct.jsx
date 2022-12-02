@@ -9,6 +9,7 @@ const UpdateProduct = () => {
   const [descr, setDescr] = useState("");
   const [image, setImage] = useState("");
   const { id } = useParams();
+  const goback = useNavigate();
   const navigate = useNavigate();
   const fetchData = () => {
     fetch(`http://localhost:5000/product/${id}`, {
@@ -63,7 +64,7 @@ const UpdateProduct = () => {
   // };
   useEffect(() => {
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Layout>
@@ -169,7 +170,7 @@ const UpdateProduct = () => {
                     >
                       Cover photo
                     </label>
-                    <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
+                    <div className="mt-1 flex bg-white justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
                       <div className="space-y-1 text-center">
                         <svg
                           className="mx-auto h-12 w-12 text-gray-400"
@@ -208,6 +209,12 @@ const UpdateProduct = () => {
                   </label>
                 </div>
                 <div className="w-full mt-8 flex justify-end">
+                <div
+                    onClick={() => goback(-1)}
+                    className="inline-flex justify-center cursor-pointer rounded-md border-2 mr-3 border-indigo-600 py-3 px-10 text-lg font-medium text-indigo-600 shadow-sm hover:bg-indigo-700 hover:text-white tranistion_normal focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  >
+                    Cancel
+                  </div>
                   <button
                     type="submit"
                     className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-10 text-lg font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"

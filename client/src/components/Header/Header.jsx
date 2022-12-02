@@ -1,71 +1,37 @@
 import React, { useContext } from "react";
+import { Avatar, Badge, Space } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../reducers/useReducer";
+import { FiShoppingCart } from "react-icons/fi";
+import Cart from "../Cart/Cart";
+import UserButton from "../Buttons/UserButton";
+import FavoritesButton from "../Buttons/FavoritesButton";
+import SearchBox from "../Search/SearchBox";
+import AuthButton from "../Buttons/AuthButton";
 
 const Header = () => {
   const { state, dispatch } = useContext(UserContext);
   const { userInfo } = state;
-  const navigate = useNavigate();
-  const signoutHandler = () => {
-    dispatch({ type: "CLEAR" });
-    localStorage.removeItem("user");
-    localStorage.removeItem("jwt");
-    // window.location.href = "/signin";
-    navigate("/signin");
-  };
-  const userNavigation = () => {
-    if (userInfo) {
-      return (
-        <>
-          <li>
-            <Link to={"/"} className="">
-              Home
-            </Link>
-          </li>
-          {userInfo.admin ? (
-            <li>
-              <Link to={"/dashboard"} className="">
-                Dashboard
-              </Link>
-            </li>
-          ) : null}
-          <li className="bg-red-600 p-1 rounded-sm">
-            <button
-              onClick={signoutHandler}
-              className="block py-2 bg-red-600 pl-3 pr-4 text-white rounded md:bg-transparent md:text-white md:p-0 dark:text-white"
-              aria-current="page"
-            >
-              Sign Out
-            </button>
-          </li>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <li>
-            <Link to={"/signup"}>Sign Up</Link>
-          </li>
-          <li>
-            <Link to={"/signin"}>Sign In</Link>
-          </li>
-        </>
-      );
-    }
-  };
+
   return (
     <>
       {userInfo && userInfo.admin ? null : (
-        <div className="">
-          <div className="container-full flex justify-between items-center md:py-4">
-            <div className="flex justify-between items-center">
+        <div className="md:my-2">
+          <div className="container-full grid grid-cols-12 md:py-4">
+            <div className="col-span-3 flex justify-start items-center">
               <Link to="/" className="text-red-600 md:text-4xl font-bold">
-                olcha
+                ??????
               </Link>
             </div>
-            <div className="flex justify-between items-center">
+            <div className="col-span-6 flex justify-center items-center">
+              <SearchBox />
+            </div>
+            <div className="col-span-3 flex justify-end items-center">
               <ul className="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
-                {userNavigation()}
+                {/* {userNavigation()} */}
+                <FavoritesButton />
+                <Cart />
+                {userInfo ? <AuthButton /> : <UserButton />}
               </ul>
             </div>
           </div>

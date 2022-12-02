@@ -46,7 +46,6 @@ function App() {
         {!state.userInfo && (
           <>
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/user/create" element={<CreateUser />} />
             <Route path="/signin" element={<SignIn />} />
           </>
         )}

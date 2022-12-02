@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Navigate } from "react-router-dom";
+import BannerCarousel from "../components/Banner/BannerCarousel";
 import { UserContext } from "../reducers/useReducer";
 
 const Home = () => {
@@ -22,7 +23,10 @@ const Home = () => {
       {userInfo && userInfo.admin ? (
         <Navigate to={"/dashboard"} />
       ) : (
-        <div className="">Home</div>
+        <>
+          <BannerCarousel />
+          <h1>page2</h1>
+        </>
       )}
     </>
   );
