@@ -1,8 +1,6 @@
 import React, { useContext } from "react";
-import { Avatar, Badge, Space } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { UserContext } from "../../reducers/useReducer";
-import { FiShoppingCart } from "react-icons/fi";
 import Cart from "../Cart/Cart";
 import UserButton from "../Buttons/UserButton";
 import FavoritesButton from "../Buttons/FavoritesButton";
@@ -10,7 +8,7 @@ import SearchBox from "../Search/SearchBox";
 import AuthButton from "../Buttons/AuthButton";
 
 const Header = () => {
-  const { state, dispatch } = useContext(UserContext);
+  const { state } = useContext(UserContext);
   const { userInfo } = state;
 
   return (

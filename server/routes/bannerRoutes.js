@@ -4,14 +4,14 @@ const authMiddleware = require("../middleware/authMiddleware");
 const BannerModel = require("../models/BannerModel");
 const router = Router();
 
-router.get("/banners", authMiddleware, async (req, res) => {
+router.get("/banners", async (req, res) => {
   const banners = await BannerModel.find().populate("createdBy", "_id name");
   res.status(201).json({
     banners,
   });
 });
 
-router.get("/banner/:id", authMiddleware, async (req, res) => {
+router.get("/banner/:id", async (req, res) => {
   const banner = await BannerModel.findById(req.params.id).populate(
     "createdBy",
     "_id name"

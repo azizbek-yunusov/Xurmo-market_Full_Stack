@@ -1,5 +1,5 @@
 import { AiOutlineHome, AiOutlineInbox, AiOutlineUser } from "react-icons/ai";
-import { BsCart2 } from "react-icons/bs";
+import { BsCardImage, BsCart2 } from "react-icons/bs";
 import { RiAdminLine } from "react-icons/ri";
 
 export const sidebar = [
@@ -14,6 +14,12 @@ export const sidebar = [
     path: "/dashboard/products",
     name: "Products",
     icon: <AiOutlineInbox className="md:text-lg ml-4" />
+  },
+  {
+    id: 2,
+    path: "/dashboard/banners",
+    name: "Banners",
+    icon: <BsCardImage className="md:text-lg ml-4" />
   },
   {
     id: 1,

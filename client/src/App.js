@@ -5,7 +5,9 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Header from "./components/Header/Header";
 import TopLink from "./components/Header/TopLink";
+import AddBanner from "./dashboard/AddBanner";
 import Admins from "./dashboard/Admins";
+import BannersTable from "./dashboard/BannersTable";
 import CreateProduct from "./dashboard/CreateProduct";
 import CreateUser from "./dashboard/CreateUser";
 import HomeDashboard from "./dashboard/Home";
@@ -57,6 +59,8 @@ function App() {
             <Route path="/product/create" element={<CreateProduct />} />
             <Route path="/dashboard/products" element={<ProductsTable />} />
             <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/dashboard/banners" element={<BannersTable />} />
+            <Route path="/banner/add" element={<AddBanner />} />
             <Route path="/dashboard/users" element={<UsersTable />} />
             <Route path="/user/create" element={<CreateUser />} />
             <Route path="/dashboard/admins" element={<Admins />} />

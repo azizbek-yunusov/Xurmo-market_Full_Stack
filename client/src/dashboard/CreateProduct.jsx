@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Layout from "./Layout";
-const CreateProduct = () => {
+const CreateBanner = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [descr, setDescr] = useState("");
@@ -236,4 +236,4 @@ const CreateProduct = () => {
   );
 };
 
-export default CreateProduct;
+export default CreateBanner;

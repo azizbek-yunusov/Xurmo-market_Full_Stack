@@ -19,6 +19,7 @@ const UserProfile = () => {
   };
   useEffect(() => {
     fetchUser();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   console.log(user.name);
   return (

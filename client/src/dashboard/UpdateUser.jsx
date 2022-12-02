@@ -1,4 +1,4 @@
-import { Radio, Select } from "antd";
+import { Radio } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -11,9 +11,9 @@ const UpdateUser = () => {
   const [password, setPassword] = useState("");
   const [admin, setAdmin] = useState(Boolean);
   const navigate = useNavigate();
-  const handleChange = (value) => {
-    setAdmin(value);
-  };
+  // const handleChange = (value) => {
+  //   setAdmin(value);
+  // };
 
   const params = useParams();
   const { id: userId } = params;
@@ -64,6 +64,7 @@ const UpdateUser = () => {
   };
   useEffect(() => {
     fetchUser();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Layout>
