@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import UploadImages from "./Forms/UploadImages";
 import Layout from "./Layout";
 const CreateBanner = () => {
   const [name, setName] = useState("");
@@ -133,7 +134,7 @@ const CreateBanner = () => {
                   /> */}
                   </div>
 
-                  <label htmlFor="file-upload">
+                  {/* <label htmlFor="file-upload">
                     <label
                       htmlFor="file-upload"
                       className="block text-sm font-medium mb-3 text-gray-700"
@@ -176,7 +177,10 @@ const CreateBanner = () => {
                         </p>
                       </div>
                     </div>
-                  </label>
+                  </label> */}
+                  <div className="">
+                    <UploadImages />
+                  </div>
                 </div>
                 <div className="w-full mt-8 flex justify-end">
                   <div
