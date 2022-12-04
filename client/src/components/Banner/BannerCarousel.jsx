@@ -25,7 +25,6 @@ const BannerCarousel = () => {
   useEffect(() => {
     fetchBanners();
   }, []);
-  console.log(banners);
   return (
     <div className="container-full grid grid-cols-12">
       <Carousel
@@ -33,6 +32,7 @@ const BannerCarousel = () => {
         autoPlay={true}
         autoPlaySpeed={3000}
         infinite
+        draggable={false}
         // customLeftArrow={customLeftArrow}
         // customRightArrow={customRightArrow}
         responsive={responsive}

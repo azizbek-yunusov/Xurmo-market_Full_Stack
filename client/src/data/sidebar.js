@@ -1,6 +1,7 @@
 import { AiOutlineHome, AiOutlineInbox, AiOutlineUser } from "react-icons/ai";
 import { BsCardImage, BsCart2 } from "react-icons/bs";
 import { RiAdminLine } from "react-icons/ri";
+import { BiCategory } from "react-icons/bi";
 
 export const sidebar = [
   {
@@ -22,11 +23,17 @@ export const sidebar = [
     icon: <BsCardImage className="md:text-lg ml-4" />
   },
   {
+    id: 2,
+    path: "/dashboard/categories",
+    name: "Categories",
+    icon: <BiCategory className="md:text-lg ml-4" />
+  },
+  {
     id: 1,
     path: "/dashboard/orders",
     name: "Orders",
     icon: <BsCart2 className="md:text-lg ml-4" />
-  },
+  }, 
   {
     id: 1,
     path: "/dashboard/users",

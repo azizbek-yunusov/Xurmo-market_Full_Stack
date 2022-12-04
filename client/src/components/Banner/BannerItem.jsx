@@ -4,7 +4,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 
 const BannerItem = ({name, image, href}) => {
   return (
-    <div className="w-full cursor-pointer">
+    <div className="w-full cursor-pointer flex justify-start items-center px-1">
       <LazyLoadImage
         src={image}
         alt={name}

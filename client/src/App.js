@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,6 +8,8 @@ import TopLink from "./components/Header/TopLink";
 import AddBanner from "./dashboard/AddBanner";
 import Admins from "./dashboard/Admins";
 import BannersTable from "./dashboard/BannersTable";
+import AddCategory from "./dashboard/CategoryItems/AddCategory";
+import CategoriesTable from "./dashboard/CategoryItems/CategoriesTable";
 import CreateProduct from "./dashboard/CreateProduct";
 import CreateUser from "./dashboard/CreateUser";
 import HomeDashboard from "./dashboard/Home";
@@ -26,7 +28,17 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import { UserContext } from "./reducers/useReducer";
 
+
 function App() {
+  // useEffect(() => {
+  //   window.replainSettings = { id: '0db757df-71b5-4fe7-b872-436f5f6ccd57' };
+  //   (function (u) {
+  //     var s = document.createElement('script'); s.async = true; s.src = u;
+  //     var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);
+  //   })('https://widget.replain.cc/dist/client.js');
+
+  
+  // }, [])
   const { state } = useContext(UserContext);
   const pathname = useLocation().pathname;
   return (
@@ -61,6 +73,8 @@ function App() {
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/dashboard/banners" element={<BannersTable />} />
             <Route path="/banner/add" element={<AddBanner />} />
+            <Route path="/dashboard/categories" element={<CategoriesTable />} />
+            <Route path="/category/add" element={<AddCategory />} />
             <Route path="/dashboard/users" element={<UsersTable />} />
             <Route path="/user/create" element={<CreateUser />} />
             <Route path="/dashboard/admins" element={<Admins />} />

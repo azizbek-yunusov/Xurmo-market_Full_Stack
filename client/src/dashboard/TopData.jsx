@@ -23,48 +23,48 @@ const TopData = () => {
   }, []);
   return (
     <div className="w-full px-5 grid grid-cols-4 gap-4 md:my-4">
-      <div className="flex justify-between items-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-400  px-5 py-5 border-b-4 border-b-green-400 rounded-xl">
-        <div className="bg-pink-400 p-2 rounded-full">
+      <div className="flex justify-between items-center bg-slate-50 border border-gray-300  px-6 py-6 rounded-xl">
+        <div className="bg-orange-200 p-4 rounded-xl">
+          <BsFolder className="text-orange-500 text-3xl" />
+        </div>
+        <div className="">
+          <p className="text-2xl font-semibold font-mono text-right mr-2 text-gray-800 ">
+            {products.length}
+          </p>
+          <p className="text-base text-gray-600">Total products</p>
+        </div>
+      </div>
+      <div className="flex justify-between items-center px-5 border border-gray-300 rounded-xl bg-slate-50 ">
+        <div className="bg-violet-200 p-4 rounded-xl">
+          <AiOutlineUser className="text-violet-900 text-3xl" />
+        </div>
+        <div className="">
+          <p className="text-2xl font-semibold font-mono text-right mr-2 text-gray-800">
+            {products.length}
+          </p>
+          <p className="text-base text-gray-600">Total products</p>
+        </div>
+      </div>
+      <div className="flex justify-between items-center px-5 border border-gray-300 rounded-xl bg-slate-50 ">
+        <div className="bg-green-200 p-4 rounded-xl">
+          <AiOutlineShopping className="text-green-700 text-3xl" />
+        </div>
+        <div className="">
+          <p className="text-2xl font-semibold font-mono text-right mr-2 text-gray-800">
+            {products.length}
+          </p>
+          <p className="text-base text-gray-600">Total products</p>
+        </div>
+      </div>
+      <div className="flex justify-between items-center px-5 border border-gray-300 rounded-xl bg-slate-50 ">
+        <div className="bg-pink-400 p-4 rounded-xl">
           <BsFolder className="text-white text-3xl" />
         </div>
         <div className="">
-          <p className="text-lg text-gray-50">Total products</p>
-          <p className="text-xl text-right mr-2 text-gray-50">
+          <p className="text-2xl font-semibold font-mono text-right mr-2 text-gray-800">
             {products.length}
           </p>
-        </div>
-      </div>
-      <div className="flex justify-between items-center bg-violet-700 px-5 rounded-xl border-b-4 border-b-green-400 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-400 ">
-        <div className="bg-pink-400 p-2 rounded-full">
-          <AiOutlineUser className="text-white text-3xl" />
-        </div>
-        <div className="">
-          <p className="text-lg text-gray-50">Total clients</p>
-          <p className="text-xl text-right mr-2 text-gray-50">
-            {products.length}
-          </p>
-        </div>
-      </div>
-      <div className="flex justify-between items-center bg-violet-700 px-5 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-400 ">
-        <div className="bg-pink-400 p-2 rounded-full">
-          <AiOutlineShopping className="text-white text-3xl" />
-        </div>
-        <div className="">
-          <p className="text-lg text-gray-50">New orders</p>
-          <p className="text-xl text-right mr-2 text-gray-50">
-            {products.length}
-          </p>
-        </div>
-      </div>
-      <div className="flex justify-between items-center bg-violet-700 px-5 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-400 ">
-        <div className="bg-pink-400 p-2 rounded-full">
-          <BsFolder className="text-white text-3xl" />
-        </div>
-        <div className="">
-          <p className="text-lg text-gray-50">Total products</p>
-          <p className="text-xl text-right mr-2 text-gray-50">
-            {products.length}
-          </p>
+          <p className="text-base text-gray-600">Total products</p>
         </div>
       </div>
     </div>

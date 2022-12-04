@@ -1,13 +1,13 @@
 import React from "react";
-import { Helmet } from "react-helmet";
 import Layout from "./Layout";
 import TopData from "./TopData";
+import { Helmet } from 'react-helmet-async';
 
 const HomeDashboard = () => {
   return (
     <>
       <Helmet>
-        <title>Dashboard | E-commerce</title>
+        <title data-rh="true">Dashboard | E-commerce</title>
       </Helmet>
       <Layout>
         <h1 className="text-3xl text-gray-700 font-semibold mt-2 ml-4">

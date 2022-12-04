@@ -30,5 +30,5 @@
   @apply relative flex rounded-l-3xl flex-row items-center h-11 tranistion_normal focus:outline-none hover:bg-blue-400 text-gray-100 hover:text-gray-800
 }
 .sidebar_link-active {
-  @apply relative flex rounded-l-3xl flex-row items-center h-11 focus:outline-none bg-slate-50 text-gray-800 hover:text-gray-800
+  @apply relative flex rounded-l-3xl flex-row items-center h-11 focus:outline-none bg-gray-100 text-gray-800 hover:text-gray-800
 }
