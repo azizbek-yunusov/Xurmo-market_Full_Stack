@@ -1,3 +1,4 @@
+import axios from 'axios'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { AiOutlineUserAdd } from 'react-icons/ai'
@@ -10,13 +11,8 @@ const CategoriesTable = () => {
   const [id, setId] = useState("");
   const fetchData = async () => {
     try {
-      fetch("http://localhost:5000/categories", {
-        headers: {
-          Authorization: localStorage.getItem("jwt"),
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => setCategories(data.categories));
+      const { data } = await axios.get("/categories")
+      setCategories(data.categories)
     } catch (err) {
       console.log(err);
     }
@@ -63,8 +59,8 @@ const CategoriesTable = () => {
             <table className="min-w-max w-full table-auto">
               <thead>
                 <tr className="bg-gray-200 text-gray-600 text-sm leading-normal">
-                  <th className="py-3 px-6 text-left">Id</th>
                   <th className="py-3 px-6 text-left">Name</th>
+                  <th className="py-3 px-6 text-left">Slug</th>
                   <th className="py-3 px-6 text-center">Created At</th>
                   <th className="py-3 px-6 text-center">Created By</th>
                   <th className="py-3 px-6 text-center">Actions</th>
@@ -77,10 +73,19 @@ const CategoriesTable = () => {
                       key={index}
                       className="border-b border-gray-200 hover:bg-gray-100"
                     >
-                      <td className="py-3 px-6 text-left whitespace-nowrap">
-                        {item._id}
+                      <td className="py-3 px-6 whitespace-nowrap">
+                      <div className="flex justify-start items-center">
+                          <div className="mr-2">
+                            <img
+                              className="w-7 h-7 rounded-full"
+                              src={item.image}
+                              alt=""
+                            />
+                          </div>
+                          <span className="mr-2">{item.name}</span>
+                        </div>
                       </td>
-                      <td className="py-3 px-6 text-left">{item.slug}</td>
+                      <td className="py-3 font-mono px-6 text-left">{item.slug}</td>
                       <td className="text-center">
                         {item.createdAt
                           ? moment(item.createdAt).format("lll")

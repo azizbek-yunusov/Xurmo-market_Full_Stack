@@ -1,9 +1,18 @@
-import React from 'react'
+import React from "react";
+import { Link } from "react-router-dom";
 
-const CategoryItem = () => {
+const CategoryItem = ({ name, slug, image }) => {
   return (
-    <div>CategoryItem</div>
-  )
-}
+    <Link
+      to={`/category/${slug}`}
+      className="cursor-pointer flex flex-col items-center mx-2"
+    >
+      <div className="">
+        <img className="w-36 h-36 object-cover" src={image} alt="" />
+      </div>
+      <p className="text-zinc-800 lg:text-base text-center text-xs tranistion_normal hover:text-red-600">{name}</p>
+    </Link>
+  );
+};
 
-export default CategoryItem
+export default CategoryItem;

@@ -4,6 +4,7 @@ import { AiOutlineFolderAdd } from "react-icons/ai";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { FiEdit } from "react-icons/fi";
 
 const AllProductList = () => {
   const [products, setProducts] = useState([]);
@@ -34,7 +35,7 @@ const AllProductList = () => {
   console.log(products);
   return (
     <div className="w-full px-5">
-      <div className="bg-white shadow-md rounded my-6">
+      <div className="bg-white dark:bg-[#2e2d4a] shadow-md rounded my-6">
         <Link
           to={"/product/create"}
           className="w-full flex items-center justify-end"
@@ -46,22 +47,31 @@ const AllProductList = () => {
         </Link>
         <table className="min-w-max w-full table-auto rounded-lg">
           <thead>
-            <tr className="bg-gray-300 text-gray-900 text-sm rounded-t-lg leading-normal">
+            <tr className="bg-gray-300 dark:bg-[#232338] text-gray-900 dark:text-gray-200 text-sm rounded-t-lg leading-normal">
               <th className="py-3 px-6 text-left">Name</th>
               <th className="py-3 px-6 text-left">Price</th>
               <th className="py-3 px-6 text-center">CreatedBy</th>
               <th className="py-3 px-6 text-center">Actions</th>
             </tr>
           </thead>
-          <tbody className="text-gray-600 text-sm font-light">
+          <tbody className="text-gray-600 dark:text-gray-300 text-sm font-light">
             {products
               .map((product, index) => (
                 <tr
                   key={index}
-                  className="border-b border-gray-200 hover:bg-gray-100"
+                  className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100"
                 >
-                  <td className="py-3 px-6 text-left whitespace-nowrap">
-                    {product.name}
+                  <td className="py-3 px-6 whitespace-nowrap">
+                    <div className="flex justify-start items-center">
+                      <div className="mr-2">
+                        <img
+                          className="w-7 h-7 rounded-full"
+                          src={product.image}
+                          alt=""
+                        />
+                      </div>
+                      <span className="mr-2">{product.name}</span>
+                    </div>
                   </td>
                   <td className="py-3 px-6 text-left">
                     {product.price}
@@ -110,19 +120,7 @@ const AllProductList = () => {
                       </Link>
                       <Link to={`/product/update/${product._id}`}>
                         <div className="cursor-pointer w-5 mr-3 transform hover:text-purple-500 hover:scale-110">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                            />
-                          </svg>
+                          <FiEdit className="text-lg" />
                         </div>
                       </Link>
                       <button

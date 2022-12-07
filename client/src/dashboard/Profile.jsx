@@ -7,57 +7,54 @@ const Profile = () => {
   const { userInfo} = state
   return (
     <Layout>
-      <div className="pr-5 relative">
-        <div className="rounded-t-3xl overflow-hidden h-52">
-          <img
-            src="https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=2710&amp;q=80"
-            alt=""
-            className="w-full"
-          />
-        </div>
-        <div className="w-full flex justify-between">
-          <div className="flex">
-            <div className="-mt-11 ml-4">
-              <div className=" border-4 rounded-full bg-white">
-                <img
-                  src="https://avatars.githubusercontent.com/u/100751089?v=4"
-                  alt=""
-                  className="rounded-full w-44"
-                />
-              </div>
-            </div>
-            <div className="ml-4 mt-4">
-              <h1 className="text-3xl font-semibold text-gray-800">
-                {userInfo.name}
-              </h1>
-            </div>
-          </div>
-        </div>
-        <div className="mt-8 ml-5 grid grid-cols-6">
-          <div className="col-span-2">
-            <h1 className="text-2xl font-semibold text-gray-800">
-              Personal Info
+      <div className="grid grid-cols-12 gap-5 mx-5 min-h-screen my-5">
+        <div className="col-span-4 border p-5 bg-white dark:bg-[#2e2d4a] border-gray-300 dark:border-gray-700 rounded-xl  flex flex-col">
+          <div className="flex flex-col items-center mt-10">
+            <img src="https://demos.themeselection.com/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/4.png" className="w-28 h-28 rounded-xl" alt="" />
+            <h1 className="text-2xl mt-3 text-zinc-600 dark:text-zinc-100 font-medium">
+              {userInfo.name}
             </h1>
-            <ul class="mt-2 text-gray-700">
-              <li class="flex border-y py-2">
-                <span class="font-bold w-24">Full name:</span>
-                <span class="text-gray-700">{userInfo.name}</span>
+            <p className="bg-pink-200 dark:bg-green-200 text-center text-red-500 dark:text-green-500 px-4 pb-1 mt-3 rounded-xl">
+              {userInfo.admin && "admin"}
+            </p>
+          </div>
+          <div className="mt-8">
+            <h1 className="text-2xl my-3 text-zinc-600 dark:text-zinc-100">
+            Details
+            </h1>
+            <ul className="border-t border-t-gray-300">
+              <li className="text-zinc-500 dark:text-zinc-400 my-2">
+                <span className="text-zinc-600 dark:text-zinc-100 mr-2">Full name:</span>
+                 {userInfo.name}
               </li>
-              <li class="flex border-b py-2">
-                <span class="font-bold w-24">Joined:</span>
-                <span class="text-gray-700">10 Jan 2022 (25 days ago)</span>
+              <li className="text-zinc-500 dark:text-zinc-400 my-2">
+                <span className="text-zinc-600 dark:text-zinc-100 mr-2">Email:</span>
+                 {userInfo.email}
               </li>
-              <li class="flex border-b py-2">
-                <span class="font-bold w-24">Mobile:</span>
-                <span class="text-gray-700">(123) 123-1234</span>
+              <li className="text-zinc-500 dark:text-green-400 my-2">
+                <span className="text-zinc-600 dark:text-zinc-100 mr-2">Status:</span>
+                 {"active"}
               </li>
-              <li class="flex border-b py-2">
-                <span class="font-bold w-24">Email:</span>
-                <span class="text-gray-700">{userInfo.email}</span>
+              <li className="text-zinc-500 dark:text-zinc-400 my-2">
+                <span className="text-zinc-600 dark:text-zinc-100 mr-2">Role:</span>
+                 {userInfo.admin && "admin"}
+              </li>
+              <li className="text-zinc-500 dark:text-zinc-400 my-2">
+                <span className="text-zinc-600 dark:text-zinc-100 mr-2">Contact:</span>
+                 {"+1 (479) 232-9151"}
+              </li>
+              <li className="text-zinc-500 dark:text-zinc-400 my-2">
+                <span className="text-zinc-600 dark:text-zinc-100 mr-2">Language:</span>
+                 {"English"}
+              </li>
+              <li className="text-zinc-500 dark:text-zinc-400 my-2">
+                <span className="text-zinc-600 dark:text-zinc-100 mr-2">Country:</span>
+                 {"Uzbekistan"}
               </li>
             </ul>
           </div>
         </div>
+        <div className="col-span-8 border p-5 bg-white dark:bg-[#2e2d4a] border-gray-300 rounded-xl dark:border-gray-700 flex flex-col">s</div>
       </div>
     </Layout>
   );

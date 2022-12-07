@@ -4,14 +4,14 @@ const authMiddleware = require("../middleware/authMiddleware");
 const ProductModel = require("../models/ProductModel");
 const router = Router();
 
-router.get("/products", authMiddleware, async (req, res) => {
+router.get("/products", async (req, res) => {
   const products = await ProductModel.find().populate("createdBy", "_id name");
   res.status(201).json({
     products,
   });
 });
 
-router.get("/product/:id", authMiddleware, async (req, res) => {
+router.get("/product/:id", async (req, res) => {
   const product = await ProductModel.findById(req.params.id).populate("createdBy", "_id name");
   res.status(201).json({ product });
 });
@@ -21,8 +21,8 @@ router.post(
   authMiddleware,
   authAdminMiddleware,
   async (req, res) => {
-    const { _id, name, descr, price, image, createdAt } = req.body;
-    if (!name || !descr || !price || !image) {
+    const { _id, name, descr, price, image, createdAt, category } = req.body;
+    if (!name || !descr || !price || !image, !category) {
       return res.status(400).json({ error: "Please add all the feilds" });
     }
     // Create product
@@ -33,6 +33,7 @@ router.post(
       price,
       image,
       createdAt,
+      category,
       createdBy: req.user,
     });
     try {

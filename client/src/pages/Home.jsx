@@ -26,7 +26,7 @@ const Home = () => {
       ) : (
         <>
           <BannerCarousel />
-          {/* <CategoryList /> */}
+          <CategoryList />
         </>
       )}
     </>

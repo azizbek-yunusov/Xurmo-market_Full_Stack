@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Header from "./components/Header/Header";
 import TopLink from "./components/Header/TopLink";
+import MyProfile from "./components/Profile/MyProfile";
 import AddBanner from "./dashboard/AddBanner";
 import Admins from "./dashboard/Admins";
 import BannersTable from "./dashboard/BannersTable";
@@ -56,6 +57,7 @@ function App() {
       </>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/myprofile" element={<MyProfile />} />
         <Route path="*" element={<NotFound />} />
         {!state.userInfo && (
           <>

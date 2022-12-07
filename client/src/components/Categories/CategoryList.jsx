@@ -1,71 +1,46 @@
-import React from "react";
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
-
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import CategoryItem from "./CategoryItem";
+import { Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-
 // Import Swiper styles
 import "swiper/css";
-import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "swiper/css/scrollbar";
 
 const CategoryList = () => {
+  const [categories, setCategories] = useState([]);
+  const fetchData = async () => {
+    try {
+      const { data } = await axios.get("/categories");
+      setCategories(data.categories);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
-    <>
-    s
-    </>
-    // <Swiper
-    //   // install Swiper modules
-    //   modules={[Navigation, Pagination, Scrollbar, A11y]}
-    //   spaceBetween={50}
-    //   slidesPerView={1}
-    //   navigation
-    //   pagination={{ clickable: true }}
-    //   onSwiper={(swiper) => console.log(swiper)}
-    // >
-    //   <SwiperSlide>
-    //     <img
-    //       src="https://olcha.uz/image/original/sliders/oz/iR1rhv7MghF8F9AtsApdMHZbSfTzXL6VwY3lzUPMstt5wmek5ncgfFvBOIbE."
-    //       alt=""
-    //     />
-    //   </SwiperSlide>
-    //   <SwiperSlide>
-    //     <img
-    //       src="https://olcha.uz/image/original/sliders/oz/iR1rhv7MghF8F9AtsApdMHZbSfTzXL6VwY3lzUPMstt5wmek5ncgfFvBOIbE."
-    //       alt=""
-    //     />
-    //   </SwiperSlide>
-    //   <SwiperSlide>
-    //     <img
-    //       src="https://olcha.uz/image/original/sliders/oz/iR1rhv7MghF8F9AtsApdMHZbSfTzXL6VwY3lzUPMstt5wmek5ncgfFvBOIbE."
-    //       alt=""
-    //     />
-    //   </SwiperSlide>
-    //   <SwiperSlide>
-    //     <img
-    //       src="https://olcha.uz/image/original/sliders/oz/iR1rhv7MghF8F9AtsApdMHZbSfTzXL6VwY3lzUPMstt5wmek5ncgfFvBOIbE."
-    //       alt=""
-    //     />
-    //   </SwiperSlide>
-    //   <SwiperSlide>
-    //     <img
-    //       src="https://olcha.uz/image/original/sliders/oz/iR1rhv7MghF8F9AtsApdMHZbSfTzXL6VwY3lzUPMstt5wmek5ncgfFvBOIbE."
-    //       alt=""
-    //     />
-    //   </SwiperSlide>
-    //   <SwiperSlide>
-    //     <img
-    //       src="https://olcha.uz/image/original/sliders/oz/iR1rhv7MghF8F9AtsApdMHZbSfTzXL6VwY3lzUPMstt5wmek5ncgfFvBOIbE."
-    //       alt=""
-    //     />
-    //   </SwiperSlide>
-    //   <SwiperSlide>
-    //     <img
-    //       src="https://olcha.uz/image/original/sliders/oz/iR1rhv7MghF8F9AtsApdMHZbSfTzXL6VwY3lzUPMstt5wmek5ncgfFvBOIbE."
-    //       alt=""
-    //     />
-    //   </SwiperSlide>
-    // </Swiper>
+    <div className="md:my-10 container-full">
+      <Swiper
+        // install Swiper modules
+        modules={[Pagination]}
+        spaceBetween={40}
+        slidesPerView={7}
+        navigation
+        pagination={{ clickable: true }}
+        scrollbar={{ draggable: true }}
+        onSwiper={(swiper) => console.log(swiper)}
+        onSlideChange={() => console.log("slide change")}
+      >
+        {categories.map((item, index) => (
+          <SwiperSlide key={index}>
+            <CategoryItem {...item} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   );
 };
 

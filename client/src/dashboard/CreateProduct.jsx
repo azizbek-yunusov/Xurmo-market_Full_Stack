@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import { Select } from "antd";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import UploadImages from "./Forms/UploadImages";
@@ -8,9 +10,14 @@ const CreateBanner = () => {
   const [price, setPrice] = useState("");
   const [descr, setDescr] = useState("");
   const [image, setImage] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState("");
   const [loading, setLoading] = useState(false);
   const goback = useNavigate();
   const navigate = useNavigate();
+  const selectedChange = (e) => {
+    setCategory(e.target.value);
+  };
   const createHandler = (e) => {
     e.preventDefault();
     fetch("http://localhost:5000/product/create", {
@@ -24,6 +31,7 @@ const CreateBanner = () => {
         price,
         descr,
         image,
+        category,
       }),
     })
       .then((res) => res.json())
@@ -37,6 +45,18 @@ const CreateBanner = () => {
         }
       });
   };
+  const fetchData = async () => {
+    try {
+      const { data } = await axios.get("/categories");
+      setCategories(data.categories);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+  console.log(category);
   return (
     <Layout>
       <section className="">
@@ -69,14 +89,41 @@ const CreateBanner = () => {
                   </div>
 
                   <div>
-                    <label className="block mb-2 text-sm text-gray-600 ">
+                    <label
+                      htmlFor="countries"
+                      className="block mb-2 text-sm text-gray-600 "
+                    >
                       Category
                     </label>
-                    <input
-                      type="text"
-                      placeholder="Laptop"
-                      className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                    />
+                    {/* <Select
+                      showSearch
+                      style={{
+                        width: 200,
+                      }}
+                      placeholder="Search to Select"
+                      optionFilterProp="children"
+                      filterOption={(input, option) =>
+                        (option?.name ?? "").includes(input)
+                      }
+                      filterSort={(optionA, optionB) =>
+                        (optionA?.name ?? "")
+                          .toLowerCase()
+                          .localeCompare((optionB?.name ?? "").toLowerCase())
+                      }
+                      options={categories}
+                    /> */}
+                    <select
+                      value={category}
+                      onChange={selectedChange}
+                      id="countries"
+                      className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md  focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                    >
+                      {categories.map((item) => (
+                        <option key={item._id} value={item.name}>
+                          {item.name}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   <div>

@@ -1,48 +1,60 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
+import { Pagination } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
 import BannerItem from "./BannerItem";
-// import img from "../assets/img/1.jpg"
-const responsive = {
-  all: {
-    breakpoint: { max: 2560, min: 320 },
-    items: 1,
-  },
-};
+import DayProductList from "./DayProductList";
+
 const BannerCarousel = () => {
   const [banners, setBanners] = useState([]);
+  const [products, setProducts] = useState([]);
   const fetchBanners = async () => {
     try {
-      const { data } = await axios.get("/banners", {
-        headers: { Authorization: localStorage.getItem("jwt") },
-      });
+      const { data } = await axios.get("/banners");
       setBanners(data.banners);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const fetchProducts = async () => {
+    try {
+      const { data } = await axios.get("/products");
+      setProducts(data.products);
     } catch (err) {
       console.log(err);
     }
   };
   useEffect(() => {
     fetchBanners();
+    fetchProducts();
   }, []);
   return (
-    <div className="container-full grid grid-cols-12">
-      <Carousel
-        showDots={true}
-        autoPlay={true}
-        autoPlaySpeed={3000}
-        infinite
-        draggable={false}
-        // customLeftArrow={customLeftArrow}
-        // customRightArrow={customRightArrow}
-        responsive={responsive}
-        className="col-span-9 rounded-xl"
-      >
-        {banners.map((item) => (
-          <BannerItem key={item._id} {...item} />
-        ))}
-      </Carousel>
-      <div className="col-span-3"></div>
+    <div className="container-full grid grid-cols-12 gap-5 overflow-hidden">
+      <div className="col-span-9 rounded-xl overflow-hidden">
+        <Swiper
+          // install Swiper modules
+          modules={[Pagination]}
+          spaceBetween={40}
+          slidesPerView={1}
+          navigation
+          pagination={{ clickable: true }}
+          scrollbar={{ draggable: true }}
+          onSwiper={(swiper) => console.log(swiper)}
+          onSlideChange={() => console.log("slide change")}
+        >
+          {banners.map((item, index) => (
+            <SwiperSlide key={index}>
+              <BannerItem {...item} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+      <div className="col-span-3 flex items-center justify-center">
+        <DayProductList products={products} />
+      </div>
     </div>
   );
 };

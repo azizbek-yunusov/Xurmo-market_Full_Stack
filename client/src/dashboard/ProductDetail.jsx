@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Layout from "./Layout";
@@ -6,21 +7,17 @@ const ProductDetail = () => {
   const goback = useNavigate();
   const { id } = useParams();
   const [product, setProduct] = useState({});
-  const productDetail = () => {
-    fetch(`http://localhost:5000/product/${id}`, {
-      method: "get",
-      headers: {
-        Authorization: localStorage.getItem("jwt"),
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setProduct(data.product);
-      });
+  const productDetail = async () => {
+    try {
+      const { data } = await axios.get(`/product/${id}`);
+      setProduct(data.product);
+    } catch (err) {
+      console.log(err);
+    }
   };
   useEffect(() => {
     productDetail();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   console.log(product);

@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { BsFullscreen } from "react-icons/bs";
+import { MdFullscreen } from "react-icons/md";
 
 const FullScreen = () => {
-  // let elem = document.documentElement;
-
   // function requestFullScreen() {
   //   if (elem.requestFullscreen) {
   //     elem.requestFullscreen();
@@ -16,29 +14,25 @@ const FullScreen = () => {
   //   }
   // }
 
-  // // playing bg music
-
-  // const fullScreen = () => {
-  //   requestFullScreen();
-  // };
-
-const [isFullscreen, setIsFullscreen] = useState(false);
-
-// Watch for fullscreenchange
-useEffect(() => {
-  function onFullscreenChange() {
-    setIsFullscreen(Boolean(document.fullscreenElement));
+  let elem = document.documentElement;
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      elem.requestFullscreen().catch((err) => {
+        alert(
+          `Error attempting to enable fullscreen mode: ${err.message} (${err.name})`
+        );
+      });
+    } else {
+      document.exitFullscreen();
+    }
   }
-        
-  document.addEventListener('fullscreenchange', onFullscreenChange);
-
-  return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
-}, []);
-
+  const fullScreen = () => {
+    toggleFullscreen();
+  };
   return (
     <>
-      <button className="cursor-pointer mx-3" onClick={() => setIsFullscreen(true)}>
-        <BsFullscreen className="text-xl text-gray-600" />
+      <button className="cursor-pointer p-1">
+        <MdFullscreen onClick={fullScreen} className="text-3xl text-gray-600 dark:text-gray-100" />
       </button>
     </>
   );

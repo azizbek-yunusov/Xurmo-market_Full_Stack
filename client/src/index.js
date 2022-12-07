@@ -9,12 +9,12 @@ import { StoreProvider } from "./reducers/useReducer";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <HelmetProvider>
-      <StoreProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </StoreProvider>
-    </HelmetProvider>
+      <HelmetProvider>
+        <StoreProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </StoreProvider>
+      </HelmetProvider>
   </React.StrictMode>
 );

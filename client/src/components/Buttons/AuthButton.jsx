@@ -20,7 +20,7 @@ const AuthButton = () => {
   const items = [
     {
       key: "1",
-      label: <Link to={"/profile"}>Profile</Link>,
+      label: <Link to={"/myprofile"}>Profile</Link>,
     },
     {
       key: "2",
