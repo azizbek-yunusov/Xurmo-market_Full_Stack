@@ -23,59 +23,115 @@ const ProductDetail = () => {
   console.log(product);
   return (
     <Layout>
-      <section className="text-gray-400 min-h-screen bg-slate-50 body-font overflow-hidden">
-        <div className="px-5 py-5">
-          <button
-            onClick={() => goback(-1)}
-            className="lg:px-4 px-2 text-md  rounded-full py-3 flex font-medium border text-gray-500 border-gray-500"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 19l-7-7 7-7"
+      <section>
+        <div className="relative mx-auto max-w-screen-xl px-4 py-8">
+          <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-2">
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-1">
+              <img
+                alt="Les Paul"
+                src={product.image}
+                className="aspect-square w-full rounded-xl object-cover"
               />
-            </svg>
-            <p className="">Назад</p>
-          </button>
-          <div className=" flex flex-wrap">
-            <div className="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
-              <h1 className="text-zinc-700 text-3xl title-font font-medium mb-4">
-                id : {product._id}
-              </h1>
-              <h1 className="text-zinc-700 border-t py-2 border-gray-500 text-3xl title-font font-medium">
-                Name: {product.name}
-              </h1>
-              {/* <div className="flex mb-4">
-                <a className="flex-grow text-yellow-400 border-b-2 border-yellow-500 py-2 text-lg px-1">
-                  Description
-                </a>
-                <a className="flex-grow border-b-2 border-gray-800 py-2 text-lg px-1">
-                  Reviews
-                </a>
-                <a className="flex-grow border-b-2 border-gray-800 py-2 text-lg px-1">
-                  Details
-                </a>
-              </div> */}
-              <h1 className="text-zinc-700 text-xl border-t py-2 border-gray-500 title-font font-medium">
-                Price: {product.price}$
-              </h1>
-              <h1 className="text-zinc-700 border-t py-2 border-gray-500 text-xl title-font font-medium">
-                descr: {product.descr}
-              </h1>
+
+              <div className="grid grid-cols-4 gap-4 lg:mt-1">
+                <img
+                  alt="Les Paul"
+                  src="https://images.unsplash.com/photo-1456948927036-ad533e53865c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+                  className="aspect-square w-full rounded-xl object-cover"
+                />
+
+                <img
+                  alt="Les Paul"
+                  src="https://images.unsplash.com/photo-1456948927036-ad533e53865c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+                  className="aspect-square w-full rounded-xl object-cover"
+                />
+
+                <img
+                  alt="Les Paul"
+                  src="https://images.unsplash.com/photo-1456948927036-ad533e53865c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+                  className="aspect-square w-full rounded-xl object-cover"
+                />
+
+                <img
+                  alt="Les Paul"
+                  src="https://images.unsplash.com/photo-1456948927036-ad533e53865c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+                  className="aspect-square w-full rounded-xl object-cover"
+                />
+              </div>
             </div>
-            <img
-              alt={product.name}
-              className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
-              src={product.image}
-            />
+
+            <div className="sticky top-0">
+              <strong className="rounded-full border border-blue-600 bg-gray-100 px-3 py-0.5 text-xs font-medium tracking-wide text-blue-600">
+                Pre Order
+              </strong>
+
+              <div className="mt-8 flex justify-between">
+                <div className="">
+                  <h1 className="text-2xl font-semibold">
+                    {"id:"}
+                    {product._id}
+                  </h1>
+                  <h1 className="text-xl font-semibold">{product.name}</h1>
+                  <p className="text-lg font-semibold">
+                    {"Price: "}
+                    {product.price}
+                    {"$"}
+                  </p>
+                  <p className="mt-0.5 text-sm">Highest Rated Product</p>
+
+                  <div className="mt-2 -ml-0.5 flex">
+                    <svg
+                      className="h-5 w-5 text-yellow-400"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+
+                    <svg
+                      className="h-5 w-5 text-yellow-400"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+
+                    <svg
+                      className="h-5 w-5 text-yellow-400"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+
+                    <svg
+                      className="h-5 w-5 text-yellow-400"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+
+                    <svg
+                      className="h-5 w-5 text-gray-200"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <div className="group relative mt-4">
+                <p className="">{product.descr}</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

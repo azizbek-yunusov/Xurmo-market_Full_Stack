@@ -24,7 +24,9 @@ const CategoryList = () => {
   return (
     <div className="md:my-10 container-full">
       <Swiper
-        // install Swiper modules
+        style={{
+          "--swiper-navigation-size": "18px",
+        }}
         modules={[Pagination]}
         spaceBetween={40}
         slidesPerView={7}

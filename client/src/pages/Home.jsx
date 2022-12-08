@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import BannerCarousel from "../components/Banner/BannerCarousel";
 import CategoryList from "../components/Categories/CategoryList";
+import BestProductsList from "../components/ProductItems/BestProductsList";
 import { UserContext } from "../reducers/useReducer";
 
 const Home = () => {
@@ -27,6 +28,7 @@ const Home = () => {
         <>
           <BannerCarousel />
           <CategoryList />
+          <BestProductsList />
         </>
       )}
     </>

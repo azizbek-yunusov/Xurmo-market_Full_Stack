@@ -13,12 +13,12 @@ const DayProductList = ({ products }) => {
   return (
     <>
       <Swiper
-        className="container testimonials__container"
+        className="border-[3px] border-red-600 rounded-xl mx-10"
         // install Swiper modules
         modules={[Pagination]}
         spaceBetween={40}
         slidesPerView={1}
-        navigation
+        navigation={false}
         pagination={{ clickable: true }}
         scrollbar={{ draggable: true }}
         onSwiper={(swiper) => console.log(swiper)}

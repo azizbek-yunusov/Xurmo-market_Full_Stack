@@ -3,6 +3,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
+import Footer from "./components/Footer";
 import Header from "./components/Header/Header";
 import TopLink from "./components/Header/TopLink";
 import MyProfile from "./components/Profile/MyProfile";
@@ -87,6 +88,9 @@ function App() {
           </>
         )}
       </Routes>
+      {pathname === "/signup" || pathname === "/signin" ? null : (
+         <Footer />
+        )}
     </>
   );
 }

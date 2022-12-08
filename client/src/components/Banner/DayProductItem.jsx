@@ -1,13 +1,20 @@
-import React from 'react'
+import React from "react";
 
-const DayProductItem = ({name, image, price}) => {
+const DayProductItem = ({ name, image, price }) => {
   return (
-    <div className="border-4 border-red-600 overflow-hidden p-2 rounded-xl h-[350px]">
-      <img src={image} alt="" />
-      <p className="">{name}</p>
-      <p className="">{price}</p>
+    <div className=" overflow-hidden p-3 rounded-xl flex flex-col items-center h-[350px]">
+      <img src={image} className="h-44 mt-9" alt={name} />
+      <div className="w-full">
+        <p className="">{name}</p>
+      </div>
+      <div className="w-full ">
+        <p className="md:text-xl font-semibold">
+          {price}
+          {"$"}
+        </p>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default DayProductItem
+export default DayProductItem;

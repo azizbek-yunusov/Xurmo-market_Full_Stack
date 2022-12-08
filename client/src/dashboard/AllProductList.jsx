@@ -65,7 +65,7 @@ const AllProductList = () => {
                     <div className="flex justify-start items-center">
                       <div className="mr-2">
                         <img
-                          className="w-7 h-7 rounded-full"
+                          className="w-7 h-7 rounded-lg"
                           src={product.image}
                           alt=""
                         />

@@ -4,7 +4,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 
 const BannerItem = ({name, image, href}) => {
   return (
-    <div className="w-full overflow-hidden cursor-pointer flex justify-start items-center px-1">
+    <div onMouseMove={() => console.log("hover")} className="w-full overflow-hidden cursor-pointer flex justify-start items-center px-1">
       <LazyLoadImage
         src={image}
         alt={name}

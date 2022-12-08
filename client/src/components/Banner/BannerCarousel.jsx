@@ -1,10 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Pagination } from "swiper";
+import { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/navigation";
 import BannerItem from "./BannerItem";
 import DayProductList from "./DayProductList";
 
@@ -32,14 +33,17 @@ const BannerCarousel = () => {
     fetchProducts();
   }, []);
   return (
-    <div className="container-full grid grid-cols-12 gap-5 overflow-hidden">
+    <div className="container-full grid grid-cols-12 overflow-hidden">
       <div className="col-span-9 rounded-xl overflow-hidden">
         <Swiper
           // install Swiper modules
-          modules={[Pagination]}
+          style={{
+            "--swiper-navigation-size": "18px",
+          }}
+          modules={[Pagination, Navigation]}
           spaceBetween={40}
           slidesPerView={1}
-          navigation
+          navigation={true}
           pagination={{ clickable: true }}
           scrollbar={{ draggable: true }}
           onSwiper={(swiper) => console.log(swiper)}
@@ -52,7 +56,7 @@ const BannerCarousel = () => {
           ))}
         </Swiper>
       </div>
-      <div className="col-span-3 flex items-center justify-center">
+      <div className="col-span-3 ml-10 flex items-center justify-center">
         <DayProductList products={products} />
       </div>
     </div>
