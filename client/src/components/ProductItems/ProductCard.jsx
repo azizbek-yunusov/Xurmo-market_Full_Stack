@@ -7,7 +7,7 @@ const ProductCard = ({_id, name, image, price }) => {
   return (
     <div className="overflow-hidden flex tranistion_normal hover:shadow-xl flex-col justify-between h-[440px] rounded-2xl p-3">
       <div className="mt-1">
-        <Link to={`/product/${_id}`} className="flex justify-center items-center">
+        <Link to={`/product/view/${_id}`} className="flex justify-center items-center">
           <img className="h-44" src={image} alt="" />
         </Link>
         <div className="w-full mt-3">

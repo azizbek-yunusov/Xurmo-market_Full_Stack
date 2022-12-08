@@ -75,7 +75,7 @@ const Footer = () => {
                     </div>
                   </div>
                   <div className="w-full flex">
-                    <img
+                    {/* <img
                       className="mx-1 object-cover max-h-8 w-52 cursor-pointer"
                       src="https://olcha.uz/_nuxt/img/appstore.367673c.png"
                       alt="appstore"
@@ -84,7 +84,7 @@ const Footer = () => {
                       className="mx-1 object-cover max-h-8 w-52 cursor-pointer"
                       src="https://olcha.uz/_nuxt/img/googleplay.c20cdde.png"
                       alt="googleplay"
-                    />
+                    /> */}
                   </div>
                 </div>
                 <div className="block">
@@ -148,13 +148,13 @@ const Footer = () => {
                       target="_blank"
                       rel="noreferrer"
                     >
-                      <img
+                      {/* <img
                         width="80"
                         height="56"
                         src="https://olcha.uz/_nuxt/img/apelsin.93106ae.png"
                         alt="apelsin"
                         className="w-24 h-14 object-contain rounded-sm"
-                      />
+                      /> */}
                     </a>
                   </li>
                   <li className="bg-white px-4 h-16 rounded-md flex justify-center ites cursor-pointer">
@@ -180,13 +180,13 @@ const Footer = () => {
                       target="_blank"
                       rel="noreferrer"
                     >
-                      <img
+                      {/* <img
                         width="80"
                         height="56"
                         src="https://olcha.uz/_nuxt/img/payme.e57aa2a.png"
                         alt="apelsin"
                         className="w-24 h-14 object-contain rounded-sm"
-                      />
+                      /> */}
                     </a>
                   </li>
                   <li className="bg-white px-4 h-16 rounded-md flex justify-center ites cursor-pointer">
@@ -196,13 +196,13 @@ const Footer = () => {
                       target="_blank"
                       rel="noreferrer"
                     >
-                      <img
+                      {/* <img
                         width="80"
                         height="56"
                         src="https://olcha.uz/_nuxt/img/click.93445f6.png"
                         alt="apelsin"
                         className="w-24 h-14 object-contain rounded-sm"
-                      />
+                      /> */}
                     </a>
                   </li>
                   <li className="bg-white px-4 h-16 rounded-md flex justify-center ites cursor-pointer">
@@ -212,13 +212,13 @@ const Footer = () => {
                       target="_blank"
                       rel="noreferrer"
                     >
-                      <img
+                      {/* <img
                         width="80"
                         height="56"
                         src="https://olcha.uz/_nuxt/img/humo.7dc7e40.jpeg"
                         alt="apelsin"
                         className="w-24 h-14 object-contain rounded-sm"
-                      />
+                      /> */}
                     </a>
                   </li>
                   <li className="bg-white px-4 h-16 rounded-md flex justify-center ites cursor-pointer">
@@ -228,13 +228,13 @@ const Footer = () => {
                       target="_blank"
                       rel="noreferrer"
                     >
-                      <img
+                      {/* <img
                         width="80"
                         height="56"
                         src="https://olcha.uz/_nuxt/img/logo-paynet.48b4b59.png"
                         alt="apelsin"
                         className="w-24 h-14 object-contain rounded-sm"
-                      />
+                      /> */}
                     </a>
                   </li>
                 </ul>

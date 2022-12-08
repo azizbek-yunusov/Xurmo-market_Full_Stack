@@ -6,6 +6,7 @@ import "./App.css";
 import Footer from "./components/Footer";
 import Header from "./components/Header/Header";
 import TopLink from "./components/Header/TopLink";
+import ProductDetail from "./components/ProductItems/ProductDetail";
 import MyProfile from "./components/Profile/MyProfile";
 import AddBanner from "./dashboard/AddBanner";
 import Admins from "./dashboard/Admins";
@@ -16,7 +17,7 @@ import CreateProduct from "./dashboard/CreateProduct";
 import CreateUser from "./dashboard/CreateUser";
 import HomeDashboard from "./dashboard/Home";
 import OrdersList from "./dashboard/OrdersList";
-import ProductDetail from "./dashboard/ProductDetail";
+// import ProductDetail from "./dashboard/ProductDetail";
 import ProductsTable from "./dashboard/ProductsTable";
 import Profile from "./dashboard/Profile";
 import UpdateProduct from "./dashboard/UpdateProduct";
@@ -60,6 +61,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/myprofile" element={<MyProfile />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/product/view/:id" element={<ProductDetail />} />
         {!state.userInfo && (
           <>
             <Route path="/signup" element={<SignUp />} />
@@ -73,7 +75,7 @@ function App() {
             <Route path="/product/update/:id" element={<UpdateProduct />} />
             <Route path="/product/create" element={<CreateProduct />} />
             <Route path="/dashboard/products" element={<ProductsTable />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
+            {/* <Route path="/product/:id" element={<ProductDetail />} /> */}
             <Route path="/dashboard/banners" element={<BannersTable />} />
             <Route path="/banner/add" element={<AddBanner />} />
             <Route path="/dashboard/categories" element={<CategoriesTable />} />

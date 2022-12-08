@@ -51,17 +51,7 @@ const UpdateProduct = () => {
         }
       });
   };
-  // await axios.put(`http://localhost:5000/product/update/${id}`, {
-  //   headers: {
-  //     authorization: localStorage.getItem("jwt"),
-  //   },
-  //   name,
-  //   descr,
-  //   price,
-  //   image,
-  // });
-  //   navigate("/");
-  // };
+
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
