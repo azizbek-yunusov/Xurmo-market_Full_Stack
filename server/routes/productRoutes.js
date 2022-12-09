@@ -89,17 +89,19 @@ router.put("/review", authMiddleware, async (req, res) => {
 
   const review = {
     user: req.user._id,
+    name: req.user,
     rating: Number(rating),
     comment,
   };
-  console.log(review);
+
   const product = await ProductModel.findById(productId);
 
-  const isReviewed = product.reviews.find((rev) => rev.user === req.user._id);
-
-  if (isReviewed) {
+  const isReviewed = product.reviews.find(
+    (rev) => rev.user.toString() === req.user._id.toString()
+  );
+    if (isReviewed) {
     product.reviews.forEach((rev) => {
-      if (rev.user === req.user._id)
+      if (rev.user.toString() === req.user._id.toString())
         (rev.rating = rating), (rev.comment = comment);
     });
   } else {
@@ -119,7 +121,7 @@ router.put("/review", authMiddleware, async (req, res) => {
 
   res.status(200).json({
     success: true,
-    product,
+    product
   });
 });
 

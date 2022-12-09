@@ -1,0 +1,7 @@
+.ant-modal-footer {
+  display: none !important;
+}
+.ant-modal-wrap {
+  background-color: #00000038;
+  backdrop-filter: blur(1px);
+}

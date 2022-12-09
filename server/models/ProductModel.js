@@ -39,12 +39,19 @@ const productSchema = new Schema(
         user: {
           type: Schema.Types.ObjectId,
           ref: "User",
+        }, 
+        name: {
+          type: String,
         },
         rating: {
           type: Number,
         },
         comment: {
           type: String,
+        },
+        createdAt: {
+          type: Date,
+          default: new Date(),
         },
       },
     ],

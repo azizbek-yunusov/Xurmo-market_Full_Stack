@@ -1,21 +1,30 @@
 import React from "react";
+import moment from "moment";
 import { Rate } from "antd";
 
 const Comments = ({ review }) => {
-  console.log(review);
   return (
-    <div className="">
+    <div className="rounded-lg my-5 shadow-md p-5 w-full">
       <div className="flex justify-between items-center">
-        <div className="flex">
-          <img src="" className="w-9 h-9" alt="" />
-          <p className="">{review.user.name}</p>
-          <span className="">08.12.2022</span>
+        <div className="flex items-center">
+          <img
+            src="https://www.ihp.ie/wp-content/uploads/profile-img.jpg"
+            className="w-12 h-1w-12 rounded-full"
+            alt=""
+          />
+          <div className="ml-1">
+            <h1 className="md:text-xl mx-2">{review.user.name}</h1>
+            <p className="md:text-sm text-gray-600 mx-2">
+              {review.createdAt ? review.createdAt.substring(0, 10) : ""}
+            </p>
+          </div>
         </div>
-        <div className="">
+        <div className="flex items-center">
+          <p className="md:text-xl mx-2">{review.rating}</p>
           <Rate disabled value={review.rating} />
         </div>
       </div>
-      <div className="">
+      <div className="mt-5 ml-[60px] mr-9">
         <p className="">{review.comment}</p>
       </div>
     </div>

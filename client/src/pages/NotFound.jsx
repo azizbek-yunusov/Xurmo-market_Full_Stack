@@ -3,24 +3,40 @@ import { Link } from "react-router-dom";
 
 const NotFound = () => {
   return (
-    <section className="flex items-center h-full p-16 dark:bg-gray-900 dark:text-gray-100">
-      <div className="container flex flex-col items-center justify-center px-5 mx-auto my-8">
-        <div className="max-w-md text-center">
-          <h2 className="mb-8 font-extrabold text-9xl dark:text-gray-600">
-            <span className="sr-only">Error</span>404
-          </h2>
-          <p className="text-2xl font-semibold md:text-3xl">
-            Sorry, we couldn't find this page.
-          </p>
-          <p className="mt-4 mb-8 dark:text-gray-400">
-            But dont worry, you can find plenty of other things on our homepage.
-          </p>
-          <Link
-            to={"/"}
-            className="px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-gray-900"
-          >
-            Back to homepage
-          </Link>
+    <section className="pt-32 pb-36 bg-white overflow-hidden">
+      <div className="container px-4 mx-auto flex items-center justify-center w-full">
+        <div className="flex flex-wrap -m-8">
+          <div className="w-full md:w-1/2 p-8">
+            <div className="flex flex-col justify-between h-full">
+              <div className="mb-8">
+                <h2 className="mb-6 text-9xl text-indigo-600 font-bold tracking-px-2n leading-none">
+                  404
+                </h2>
+                <h3 className="mb-4 text-3xl font-bold font-heading leading-snug">
+                  Something is wrong!
+                </h3>
+                <p className="text-lg text-gray-600 font-medium leading-normal md:max-w-md">
+                  The page you are looking for is not found! Try something else
+                  or go back to homepage.
+                </p>
+              </div>
+              <div>
+                <Link
+                  to={"/"}
+                  className="inline-flex items-center text-center font-semibold text-indigo-600 hover:text-indigo-700 leading-normal"
+                >
+                  <span>Go Back to Homepage</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+          <div className="w-full md:w-1/2 p-8 self-end">
+            <img
+              className="mx-auto transform hover:-translate-x-4 transition ease-in-out duration-1000"
+              src="flaro-assets/images/http-codes/illustration.png"
+              alt=""
+            />
+          </div>
         </div>
       </div>
     </section>
