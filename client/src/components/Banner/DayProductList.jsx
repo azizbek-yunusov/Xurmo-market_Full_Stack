@@ -13,7 +13,7 @@ const DayProductList = ({ products }) => {
   return (
     <>
       <Swiper
-        className="border-[3px] border-red-600 rounded-xl mx-10"
+        className="rounded-xl mx-10"
         // install Swiper modules
         modules={[Pagination]}
         spaceBetween={40}
@@ -25,7 +25,7 @@ const DayProductList = ({ products }) => {
         onSlideChange={() => console.log("slide change")}
       >
         {products.map((item, index) => (
-          <SwiperSlide key={index} className="testimonials">
+          <SwiperSlide key={index} className="day_gradient_border">
             <DayProductItem {...item} />
           </SwiperSlide>
         ))}

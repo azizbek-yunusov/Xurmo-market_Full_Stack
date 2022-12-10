@@ -114,21 +114,21 @@ const ProductDetail = () => {
               to={"/"}
               className="lg:px-4 px-2 lg:text-lg text-base capitalize text-red-500"
             >
-              Главная
+              Home
             </Link>{" "}
             {"/"}
             <Link
-              // to={`/category/${product.category}`}
+              to={`/category/${product.category}`}
               className="capitalize lg:px-4 px-2 lg:text-lg text-base text-red-500"
             >
               {product.category}
             </Link>{" "}
             {"/"}
             <Link
-              // to={`/manufacturer/${product.brandName}`}
+              to={`/manufacturer/${product.brandName}`}
               className="lg:px-4 capitalize px-[5px] lg:text-lg text-base text-red-500"
             >
-              {/* {product.brandName} */}
+              {product.name}
             </Link>
           </div>
 
@@ -136,15 +136,14 @@ const ProductDetail = () => {
             {product.category} {product.name}
           </h1>
           <div className="lg:flex hidden py-1 items-center">
-            <div className="lg:flex text-zinc-400 ">
-              {/* <p className="p-[1px]">{StarSolidIcon}</p>
-              <p className="p-[1px]">{StarSolidIcon}</p>
-              <p className="p-[1px]">{StarSolidIcon}</p>
-              <p className="p-[1px]">{StarSolidIcon}</p>
-              <p className="p-[1px]">{StarSolidIcon}</p> */}
+            <div className="lg:flex items-center text-zinc-400 ">
+              <h1 className="text-xl text-gray-700 mr-2">
+                {product.ratings?.toFixed(1)}
+              </h1>
+              <Rate disabled allowHalf value={product.ratings} />
             </div>
             <h1 className="ml-4 font-medium text-lg text-zinc-700">
-              0 отзывов
+              {product.numOfReviews} reviews
             </h1>
             <div className="p-2 ml-5 cursor-pointer">
               {/* {!copyUrl ? (
