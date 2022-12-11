@@ -66,7 +66,7 @@ const AllProductList = () => {
                       <div className="mr-2">
                         <img
                           className="w-7 h-7 rounded-lg"
-                          src={product.image}
+                          src={product.images[0].url}
                           alt=""
                         />
                       </div>

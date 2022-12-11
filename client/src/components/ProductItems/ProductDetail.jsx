@@ -81,6 +81,7 @@ const ProductDetail = () => {
   //   window.scrollTo(0, 0);
   // }, [location]);
   const signInNavigate = () => navigate("/signin");
+  console.log(product.images);
   return (
     <>
       <Helmet>
@@ -175,7 +176,7 @@ const ProductDetail = () => {
                   transitionTime={.5}
                 /> */}
                 <img
-                  src={product.image}
+                  src={product.images[0].url}
                   className="transition-colors ease-in-out duration-300"
                   width={400}
                   height={400}
@@ -183,23 +184,23 @@ const ProductDetail = () => {
                 />
               </div>
               <div className="flex overflow-x-scroll scrollMobile">
-                {/* {product.imgUrl.map((img, index) => (
-                    <img
-                      src={img}
-                      alt="img"
-                      // style={{
-                      //   border:
-                      //     product.imgUrl[selectedImg] === img
-                      //       ? "2px solid #ffd500"
-                      //       : " ",
-                      // }}
-                      width={70}
-                      className="cursor-pointer m-1 p-1 border hover:scale-105 border-gray-200 transition ease-in-out duration-300 rounded"
-                      height={70}
-                      key={index}
-                      onClick={() => setSelectedImg(index)}
-                    />
-                  ))} */}
+                {product.images.map((item, index) => (
+                  <img
+                    src={item.url}
+                    alt="img"
+                    // style={{
+                    //   border:
+                    //     product.imgUrl[selectedImg] === img
+                    //       ? "2px solid #ffd500"
+                    //       : " ",
+                    // }}
+                    width={70}
+                    className="cursor-pointer m-1 p-1 border hover:scale-105 border-gray-200 transition ease-in-out duration-300 rounded"
+                    height={70}
+                    key={index}
+                    // onClick={() => setSelectedImg(index)}
+                  />
+                ))}
               </div>
             </div>
             <div className="block px-2 text-left">

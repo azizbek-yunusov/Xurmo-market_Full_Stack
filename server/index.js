@@ -23,7 +23,7 @@ app.use(productRoutes);
 app.use(userRoutes);
 app.use(bannerRoutes);
 app.use(categoryRoutes);
-// Set static folder
+
 mongoose.connect(MONGO_URI, () => {
   console.log("MongoDB is working");
 });

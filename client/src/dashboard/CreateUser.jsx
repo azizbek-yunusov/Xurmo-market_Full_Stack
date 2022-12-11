@@ -44,7 +44,6 @@ const CreateUser = () => {
         }
       });
   };
-  console.log(admin);
   return (
     <>
       <Layout>

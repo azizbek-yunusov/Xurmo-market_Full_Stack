@@ -23,8 +23,7 @@ router.post(
   authMiddleware,
   authAdminMiddleware,
   async (req, res) => {
-    const { _id, name, descr, price, image, createdAt, category, images } =
-      req.body;
+    const { _id, name, descr, price, createdAt, category, images } = req.body;
 
     // Create product
     const product = await ProductModel.create({
@@ -32,7 +31,6 @@ router.post(
       name,
       descr,
       price,
-      image,
       images,
       createdAt,
       category,

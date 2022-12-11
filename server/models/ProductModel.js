@@ -14,16 +14,9 @@ const productSchema = new Schema(
       type: String,
       required: true,
     },
-    image: {
-      type: String,
-      required: true,
-    },
     images: {
       type: Array,
       default: [],
-    },
-    picture: {
-      type: String,
     },
     brand: { type: String },
     Stock: {

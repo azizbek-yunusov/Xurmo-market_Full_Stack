@@ -3,8 +3,7 @@ import React from "react";
 import { BsHeart } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
-const ProductCard = ({ _id, name, image, price, ratings }) => {
-  let summa = price * 11280;
+const ProductCard = ({ _id, name, images, price, ratings }) => {
   return (
     <div className="overflow-hidden flex tranistion_normal hover:shadow-xl flex-col justify-between h-[440px] rounded-2xl p-3">
       <div className="mt-1">
@@ -12,7 +11,7 @@ const ProductCard = ({ _id, name, image, price, ratings }) => {
           to={`/product/view/${_id}`}
           className="flex justify-center items-center"
         >
-          <img className="h-44" src={image} alt="" />
+          <img className="h-44" src={images[0].url} alt="" />
         </Link>
         <div className="w-full mt-3">
           <h1 className="md:text-base">{name}</h1>
