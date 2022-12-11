@@ -18,6 +18,10 @@ const productSchema = new Schema(
       type: String,
       required: true,
     },
+    images: {
+      type: Array,
+      default: [],
+    },
     picture: {
       type: String,
     },
@@ -39,7 +43,7 @@ const productSchema = new Schema(
         user: {
           type: Schema.Types.ObjectId,
           ref: "User",
-        }, 
+        },
         name: {
           type: String,
         },

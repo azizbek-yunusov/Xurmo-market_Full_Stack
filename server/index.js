@@ -3,6 +3,8 @@ const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
+const bodyParser = require("body-parser");
+
 const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -14,13 +16,14 @@ const MONGO_URI = process.env.MONGO_URI;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use(authRoutes);
 app.use(productRoutes);
 app.use(userRoutes);
 app.use(bannerRoutes);
 app.use(categoryRoutes);
-
+// Set static folder
 mongoose.connect(MONGO_URI, () => {
   console.log("MongoDB is working");
 });

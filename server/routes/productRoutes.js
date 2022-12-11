@@ -23,10 +23,9 @@ router.post(
   authMiddleware,
   authAdminMiddleware,
   async (req, res) => {
-    const { _id, name, descr, price, image, createdAt, category } = req.body;
-    if ((!name || !descr || !price || !image, !category)) {
-      return res.status(400).json({ error: "Please add all the feilds" });
-    }
+    const { _id, name, descr, price, image, createdAt, category, images } =
+      req.body;
+
     // Create product
     const product = await ProductModel.create({
       _id,
@@ -34,6 +33,7 @@ router.post(
       descr,
       price,
       image,
+      images,
       createdAt,
       category,
       createdBy: req.user,
@@ -99,7 +99,7 @@ router.put("/review", authMiddleware, async (req, res) => {
   const isReviewed = product.reviews.find(
     (rev) => rev.user.toString() === req.user._id.toString()
   );
-    if (isReviewed) {
+  if (isReviewed) {
     product.reviews.forEach((rev) => {
       if (rev.user.toString() === req.user._id.toString())
         (rev.rating = rating), (rev.comment = comment);
@@ -121,7 +121,7 @@ router.put("/review", authMiddleware, async (req, res) => {
 
   res.status(200).json({
     success: true,
-    product
+    product,
   });
 });
 
