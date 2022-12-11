@@ -13,7 +13,7 @@ import Admins from "./dashboard/Admins";
 import BannersTable from "./dashboard/BannersTable";
 import AddCategory from "./dashboard/CategoryItems/AddCategory";
 import CategoriesTable from "./dashboard/CategoryItems/CategoriesTable";
-import CreateProduct from "./dashboard/CreateProduct";
+import CreateProduct from "./dashboard/ProductElements/CreateProduct";
 import CreateUser from "./dashboard/CreateUser";
 import HomeDashboard from "./dashboard/Home";
 import OrdersList from "./dashboard/OrdersList";

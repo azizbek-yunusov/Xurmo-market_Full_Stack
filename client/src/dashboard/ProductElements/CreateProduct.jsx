@@ -1,9 +1,10 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { imageUpload } from "../utils/imageUpload";
-import Layout from "./Layout";
+import { imageUpload } from "../../utils/imageUpload";
+import { IoMdClose } from "react-icons/io";
+import Layout from "../Layout";
 const CreateBanner = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -12,10 +13,10 @@ const CreateBanner = () => {
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState("");
   const [loading, setLoading] = useState(false);
-  
+
   const goback = useNavigate();
   const navigate = useNavigate();
-  
+
   const selectedChange = (e) => {
     setCategory(e.target.value);
   };
@@ -83,7 +84,7 @@ const CreateBanner = () => {
     <Layout>
       <section className="">
         <div className="flex min-h-screen">
-          <div className="flex w-full p-8">
+          <div className="flex w-full p-8 px-16">
             <div className="w-full">
               <h1 className="text-2xl font-semibold tracking-wider text-gray-800 capitalize">
                 Create Product
@@ -145,16 +146,16 @@ const CreateBanner = () => {
                     />
                   </div>
 
-                  {/* <div>
-                    <label className="block mb-2 text-sm">Image</label>
+                  <div>
+                    <label className="block mb-2 text-sm">Brand</label>
                     <input
-                      value={image}
-                      onChange={(e) => setImage(e.target.value)}
+                      // value={image}
+                      // onChange={(e) => setImage(e.target.value)}
                       type="text"
-                      placeholder="Image"
+                      placeholder="Apple"
                       className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                     />
-                  </div> */}
+                  </div>
 
                   <div>
                     <label className="">Description</label>
@@ -168,34 +169,64 @@ const CreateBanner = () => {
                       className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-blue-500  focus:outline-none focus:ring"
                     />
                   </div>
-
-                  <div className="show_images">
-                    {images.map((img, index) => (
-                      <div key={index} id="file_img">
-                        <img
-                          src={URL.createObjectURL(img)}
-                          alt="images"
-                          className="img-thumbnail"
-                        />
-                        <span onClick={() => deleteImages(index)}>&times;</span>
+                  <div className="flex items-center">
+                    <label htmlFor="file-upload">
+                      <label
+                        htmlFor="file-upload"
+                        className="block text-sm font-medium mb-3 text-gray-700"
+                      >
+                        Cover photo
+                      </label>
+                      <div className="mt-1 flex bg-white justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
+                        <div className="space-y-1 text-center">
+                          <svg
+                            className="mx-auto h-12 w-12 text-gray-400"
+                            stroke="currentColor"
+                            fill="none"
+                            viewBox="0 0 48 48"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                              strokeWidth={2}
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                          <div className="flex text-sm text-gray-600">
+                            <label
+                              htmlFor="file-upload"
+                              className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
+                            >
+                              <span>Upload a file</span>
+                              <input
+                                id="file-upload"
+                                name="file"
+                                type="file"
+                                className="sr-only"
+                                onChange={handleChangeImages}
+                              />
+                            </label>
+                          </div>
+                          <p className="text-xs text-gray-500">
+                            PNG, JPG up to 10MB
+                          </p>
+                        </div>
                       </div>
-                    ))}
-                  </div>
+                    </label>
 
-                  <div className="input_images">
-                    <>
-                      <div className="file_upload">
-                        <i className="fas fa-image" />
-                        <input
-                          type="file"
-                          name="file"
-                          id="file"
-                          multiple
-                          accept="image/*,video/*"
-                          onChange={handleChangeImages}
-                        />
-                      </div>
-                    </>
+                    <div className="show_images flex items-center">
+                      {images.map((img, index) => (
+                        <div key={index} className="border relative mx-1 p-1 border-gray-400 overflow-hidden rounded" id="file_img">
+                          <img
+                            src={URL.createObjectURL(img)}
+                            alt="images"
+                            className="img-thumbnail w-24"
+                          />
+                          <IoMdClose onClick={() => deleteImages(index)} className="absolute text-gray-600 top-1 right-1" /> 
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
                 <div className="w-full mt-8 flex justify-end">
@@ -237,12 +268,7 @@ const CreateBanner = () => {
                       Save
                     </button>
                   )}
-                  {/* <button
-                    type="submit"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-10 text-lg font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                  >
-                    Save
-                  </button> */}
+                 
                 </div>
               </form>
             </div>

@@ -5,7 +5,7 @@ import { Rate } from "antd";
 const Comments = ({ review }) => {
   return (
     <div className="rounded-lg my-5 shadow-md p-5 w-full">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between border-b border-gray-200 md:pb-3">
         <div className="flex items-center">
           <img
             src="https://www.ihp.ie/wp-content/uploads/profile-img.jpg"
@@ -15,7 +15,7 @@ const Comments = ({ review }) => {
           <div className="ml-1">
             <h1 className="md:text-xl mx-2">{review.user.name}</h1>
             <p className="md:text-sm text-gray-600 mx-2">
-              {review.createdAt ? review.createdAt.substring(0, 10) : ""}
+              {review.createdAt ?  moment(review.createdAt).format("L")  : ""}
             </p>
           </div>
         </div>
@@ -24,7 +24,7 @@ const Comments = ({ review }) => {
           <Rate disabled value={review.rating} />
         </div>
       </div>
-      <div className="mt-5 ml-[60px] mr-9">
+      <div className="mt-4 ml-[60px] mr-9">
         <p className="">{review.comment}</p>
       </div>
     </div>

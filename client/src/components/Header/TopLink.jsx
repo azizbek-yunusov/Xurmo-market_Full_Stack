@@ -9,7 +9,7 @@ const TopLink = () => {
     <>
       {userInfo && userInfo.admin ? null : (
         <div className="w-full primary_bg">
-          <div className="container-full py-[10px] flex items-center justify-between">
+          {/* <div className="container-full py-[10px] flex items-center justify-between">
             <div className="flex justify-between items-center">
               <Link className="bg-slate-50 mr-4 text-center rounded-xl px-2 py-1 text-red-600">
                 0% Muddatli to'lov
@@ -32,7 +32,7 @@ const TopLink = () => {
                 <Link className="text-white text-lg">Ўзб</Link>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       )}
     </>

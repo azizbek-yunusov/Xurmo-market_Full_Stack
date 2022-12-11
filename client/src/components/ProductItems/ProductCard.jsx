@@ -1,20 +1,20 @@
 import { Rate } from "antd";
 import React from "react";
-import { BsHeart } from "react-icons/bs";
+import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
 const ProductCard = ({ _id, name, images, price, ratings }) => {
   return (
-    <div className="overflow-hidden flex tranistion_normal hover:shadow-xl flex-col justify-between h-[440px] rounded-2xl p-3">
+    <div className="overflow-hidden flex tranistion_normal hover:shadow-xl flex-col justify-between h-[440px] rounded-2xl p-3 px-4">
       <div className="mt-1">
         <Link
           to={`/product/view/${_id}`}
           className="flex justify-center items-center"
         >
-          <img className="h-44" src={images[0].url} alt="" />
+          <img className="h-48" src={images[0].url} alt="" />
         </Link>
-        <div className="w-full mt-3">
-          <h1 className="md:text-base">{name}</h1>
+        <div className="w-full mt-1">
+          <h1 className="md:text-xl font-semibold">{name}</h1>
         </div>
       </div>
       <div className="w-full">
@@ -29,11 +29,11 @@ const ProductCard = ({ _id, name, images, price, ratings }) => {
           <Rate className="text-base" disabled allowHalf value={ratings} />
         </div>
       </div>
-      <div className="w-full flex justify-between items-center mb-2 px-5">
-        <button className="p-2 rounded-md border-2 mr-2 border-gray-700">
-          <BsHeart className=" text-[22px] text-gray-700" />
+      <div className="w-full flex justify-between items-center mb-2 px-3">
+        <button className="p-[6px] rounded-md border-2 mr-2 border-gray-400">
+          <BsHeartFill className=" text-[26px] text-gray-400" />
         </button>
-        <button className="border-2 py-[6px] w-full rounded-lg hover:text-red-600 bg-red-600 text-lg text-white hover:bg-white transition_normal  hover:border-red-500">
+        <button className="border-2 border-red-600 py-[6px] w-full rounded-lg hover:text-red-600 bg-red-600 text-lg text-white hover:bg-white transition_normal  hover:border-red-500">
           add to cart
         </button>
       </div>

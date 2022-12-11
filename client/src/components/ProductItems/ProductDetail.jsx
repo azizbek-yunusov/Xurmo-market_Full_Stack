@@ -81,7 +81,7 @@ const ProductDetail = () => {
   //   window.scrollTo(0, 0);
   // }, [location]);
   const signInNavigate = () => navigate("/signin");
-  console.log(product.images);
+  console.log(product);
   return (
     <>
       <Helmet>
@@ -175,16 +175,18 @@ const ProductDetail = () => {
                   height={400}
                   transitionTime={.5}
                 /> */}
-                <img
+                {product.images && product.images[0] ? <img
                   src={product.images[0].url}
                   className="transition-colors ease-in-out duration-300"
                   width={400}
                   height={400}
                   alt=""
-                />
+                /> : "" }
+                
               </div>
               <div className="flex overflow-x-scroll scrollMobile">
-                {product.images.map((item, index) => (
+              
+                 {product.images && product.images[0] ? product.images.map((item, index) => (
                   <img
                     src={item.url}
                     alt="img"
@@ -200,7 +202,7 @@ const ProductDetail = () => {
                     key={index}
                     // onClick={() => setSelectedImg(index)}
                   />
-                ))}
+                )) : null} 
               </div>
             </div>
             <div className="block px-2 text-left">

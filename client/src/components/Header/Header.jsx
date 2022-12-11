@@ -15,7 +15,7 @@ const Header = () => {
     <>
       {userInfo && userInfo.admin ? null : (
         <div className="md:my-2">
-          <div className="container-full grid grid-cols-12 md:py-4">
+          <div className="container-full grid grid-cols-12 md:py-2">
             <div className="col-span-3 flex justify-start items-center">
               <Link to="/" className="text-red-600 md:text-4xl font-bold">
                 Logo
