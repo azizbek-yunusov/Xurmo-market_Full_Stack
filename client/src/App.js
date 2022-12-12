@@ -30,6 +30,7 @@ import NotFound from "./pages/NotFound";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import { UserContext } from "./reducers/useReducer";
+import BasketList from "./components/Cart/BasketList";
 
 
 function App() {
@@ -60,8 +61,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/myprofile" element={<MyProfile />} />
-        <Route path="*" element={<NotFound />} />
         <Route path="/product/view/:id" element={<ProductDetail />} />
+        <Route path="/cart" element={<BasketList />} />
+        <Route path="*" element={<NotFound />} />
         {!state.userInfo && (
           <>
             <Route path="/signup" element={<SignUp />} />

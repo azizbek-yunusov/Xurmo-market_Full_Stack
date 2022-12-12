@@ -1,9 +1,49 @@
 import { Rate } from "antd";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ProductCard = ({ _id, name, images, price, ratings }) => {
+  const [id, setId] = useState("");
+  const [cart, setCart] = useState([]);
+  const fetchCart = async () => {
+    try {
+      const { data } = await axios.get("/mycart", {
+        headers: { Authorization: localStorage.getItem("jwt") },
+      });
+      setCart(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const addToCartHanle = async (id) => {
+    fetch(`http://localhost:5000/addcart/${id}`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("jwt"),
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        toast.success("add to cart");
+        fetchCart();
+      });
+    // try {
+    //   await axios.get(`/addcart/${id}`, {
+    //     headers: { Authorization: localStorage.getItem("jwt") },
+    //   });
+    //   fetchCart()
+    // } catch (err) {
+    //   console.log(err);
+    // }
+  };
+  useEffect(() => {
+    fetchCart();
+  }, []);
   return (
     <div className="overflow-hidden flex tranistion_normal hover:shadow-xl flex-col justify-between h-[440px] rounded-2xl p-3 px-4">
       <div className="mt-1">
@@ -33,7 +73,10 @@ const ProductCard = ({ _id, name, images, price, ratings }) => {
         <button className="p-[6px] rounded-md border-2 mr-2 border-gray-400">
           <BsHeartFill className=" text-[26px] text-gray-400" />
         </button>
-        <button className="border-2 border-red-600 py-[6px] w-full rounded-lg hover:text-red-600 bg-red-600 text-lg text-white hover:bg-white transition_normal  hover:border-red-500">
+        <button
+          onClick={() => addToCartHanle(_id)}
+          className="border-2 border-red-600 py-[6px] w-full rounded-lg hover:text-red-600 bg-red-600 text-lg text-white hover:bg-white transition_normal  hover:border-red-500"
+        >
           add to cart
         </button>
       </div>

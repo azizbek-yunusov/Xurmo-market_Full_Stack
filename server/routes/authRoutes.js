@@ -26,11 +26,12 @@ router.post("/signup", async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      admin
+      admin,
+      cart: []
     });
     const token = jwt.sign({ _id: user._id }, JWT_SECRET);
     await user.save();
-    user.password = undefined
+    user.password = undefined;
     res.status(200).json({ token, user, msg: "User added successfully" });
   } catch (err) {
     console.log(err);

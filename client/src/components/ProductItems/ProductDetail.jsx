@@ -175,34 +175,38 @@ const ProductDetail = () => {
                   height={400}
                   transitionTime={.5}
                 /> */}
-                {product.images && product.images[0] ? <img
-                  src={product.images[0].url}
-                  className="transition-colors ease-in-out duration-300"
-                  width={400}
-                  height={400}
-                  alt=""
-                /> : "" }
-                
+                {product.images && product.images[0] ? (
+                  <img
+                    src={product.images[0].url}
+                    className="transition-colors ease-in-out duration-300"
+                    width={400}
+                    height={400}
+                    alt=""
+                  />
+                ) : (
+                  ""
+                )}
               </div>
               <div className="flex overflow-x-scroll scrollMobile">
-              
-                 {product.images && product.images[0] ? product.images.map((item, index) => (
-                  <img
-                    src={item.url}
-                    alt="img"
-                    // style={{
-                    //   border:
-                    //     product.imgUrl[selectedImg] === img
-                    //       ? "2px solid #ffd500"
-                    //       : " ",
-                    // }}
-                    width={70}
-                    className="cursor-pointer m-1 p-1 border hover:scale-105 border-gray-200 transition ease-in-out duration-300 rounded"
-                    height={70}
-                    key={index}
-                    // onClick={() => setSelectedImg(index)}
-                  />
-                )) : null} 
+                {product.images && product.images[0]
+                  ? product.images.map((item, index) => (
+                      <img
+                        src={item.url}
+                        alt="img"
+                        // style={{
+                        //   border:
+                        //     product.imgUrl[selectedImg] === img
+                        //       ? "2px solid #ffd500"
+                        //       : " ",
+                        // }}
+                        width={70}
+                        className="cursor-pointer m-1 p-1 border hover:scale-105 border-gray-200 transition ease-in-out duration-300 rounded"
+                        height={70}
+                        key={index}
+                        // onClick={() => setSelectedImg(index)}
+                      />
+                    ))
+                  : null}
               </div>
             </div>
             <div className="block px-2 text-left">

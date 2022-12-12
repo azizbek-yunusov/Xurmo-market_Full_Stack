@@ -21,8 +21,6 @@ const DayProductList = ({ products }) => {
         navigation={false}
         pagination={{ clickable: true }}
         scrollbar={{ draggable: true }}
-        onSwiper={(swiper) => console.log(swiper)}
-        onSlideChange={() => console.log("slide change")}
       >
         {products.map((item, index) => (
           <SwiperSlide key={index} className="day_gradient_border">

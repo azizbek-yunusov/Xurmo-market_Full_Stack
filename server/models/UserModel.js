@@ -29,10 +29,58 @@ const userSchema = new Schema({
     required: true,
     default: false,
   },
+  cart: [
+    {
+      count: {
+        type: Number,
+        default: 1,
+      },
+      productId: {
+        type: Schema.Types.ObjectId,
+        ref: "Product",
+      },
+    },
+  ],
+
   createdAt: {
     type: Date,
     default: new Date(),
   },
 });
+
+userSchema.methods.addToCart = function (product) {
+  let cart = [...this.cart];
+  const index = cart.findIndex((s) => {
+    return s.productId.toString() === product._id.toString();
+  });
+
+  if (index >= 0) {
+    cart[index].count = cart[index].count + 1;
+  } else {
+    cart.push({
+      productId: product._id,
+      count: 1,
+    });
+  }
+
+  const newCart = cart;
+  this.cart = newCart;
+
+  return this.save();
+};
+userSchema.methods.removeFromCart = function (id) {
+  let cart = [...this.cart];
+  const index = cart.findIndex((s) => s.productId.toString() === id.toString());
+
+  if (cart[index].count === 1) {
+    cart = cart.filter((s) => s.productId.toString() !== id.toString());
+  } else {
+    cart[index].count--;
+  }
+
+  const newCart = cart;
+  this.cart = newCart;
+  return this.save();
+};
 
 module.exports = model("User", userSchema);

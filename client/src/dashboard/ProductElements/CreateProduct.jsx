@@ -177,7 +177,7 @@ const CreateBanner = () => {
                       >
                         Cover photo
                       </label>
-                      <div className="mt-1 flex bg-white justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
+                      <div className="mt-1 mr-2 flex bg-white justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
                         <div className="space-y-1 text-center">
                           <svg
                             className="mx-auto h-12 w-12 text-gray-400"
@@ -217,13 +217,21 @@ const CreateBanner = () => {
 
                     <div className="show_images flex items-center">
                       {images.map((img, index) => (
-                        <div key={index} className="border relative mx-1 p-1 border-gray-400 overflow-hidden rounded" id="file_img">
-                          <img
-                            src={URL.createObjectURL(img)}
-                            alt="images"
-                            className="img-thumbnail w-24"
-                          />
-                          <IoMdClose onClick={() => deleteImages(index)} className="absolute text-gray-600 top-1 right-1" /> 
+                        <div key={index} className="p-[6px] mx-[2px] relative">
+                          <div
+                            className="border border-gray-400 overflow-hidden rounded"
+                            id="file_img"
+                          >
+                            <img
+                              src={URL.createObjectURL(img)}
+                              alt="images"
+                              className="img-thumbnail w-24"
+                            />
+                          </div>
+                            <IoMdClose
+                              onClick={() => deleteImages(index)}
+                              className="absolute text-gray-600 top-0 p-1 border text-2xl border-gray-300 right-0 cursor-pointer rounded-full bg-white"
+                            />
                         </div>
                       ))}
                     </div>
@@ -268,7 +276,6 @@ const CreateBanner = () => {
                       Save
                     </button>
                   )}
-                 
                 </div>
               </form>
             </div>
