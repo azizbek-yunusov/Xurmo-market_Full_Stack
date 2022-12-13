@@ -1,30 +1,19 @@
 import { Badge, Space } from "antd";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import { UserContext } from "../../reducers/useReducer";
 
 const Cart = () => {
-  const [cart, setCart] = useState([]);
-  const fetchCart = async () => {
-    try {
-      const { data } = await axios.get("/mycart", {
-        headers: { Authorization: localStorage.getItem("jwt") },
-      });
-      setCart(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  useEffect(() => {
-    fetchCart();
-  }, []);
-
+  const { state } = useContext(UserContext);
+  const {
+    cart: { cartItems },
+  } = state;
   return (
     <>
       <Link to={"/cart"}>
-        <Space size="middle">
-          <Badge count={cart ? cart.length : "0"} showZero>
+        <Space size="middle" className="">
+          <Badge count={cartItems.length} showZero>
             <FiShoppingCart
               shape="square"
               className="md:text-2xl cursor-pointer"

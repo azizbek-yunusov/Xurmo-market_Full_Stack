@@ -1,7 +1,5 @@
 import { useContext, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Footer from "./components/Footer";
 import Header from "./components/Header/Header";
@@ -47,7 +45,6 @@ function App() {
   const pathname = useLocation().pathname;
   return (
     <>
-      <ToastContainer autoClose={1000} />
       <>
         {pathname === "/signup" || pathname === "/signin" ? null : (
           <>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+
 import Layout from "../Layout";
 
 const AddCategory = () => {
@@ -28,9 +28,8 @@ const AddCategory = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
-          toast.error(data.error);
+          
         } else {
-          toast.success("create");
           setLoading(true);
           navigate("/dashboard/categories");
         }

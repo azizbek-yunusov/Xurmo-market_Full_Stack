@@ -1,52 +1,25 @@
 import { Rate } from "antd";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import { UserContext } from "../../reducers/useReducer";
 
-const ProductCard = ({ _id, name, images, price, ratings }) => {
-  const [id, setId] = useState("");
-  const [cart, setCart] = useState([]);
-  const fetchCart = async () => {
-    try {
-      const { data } = await axios.get("/mycart", {
-        headers: { Authorization: localStorage.getItem("jwt") },
-      });
-      setCart(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+const ProductCard = (props) => {
+  const { _id, name, images, price, ratings } = props;
+  const { state, dispatch } = useContext(UserContext);
+  const {
+    cart: { cartItems },
+  } = state;
 
-  const addToCartHanle = async (id) => {
-    fetch(`http://localhost:5000/addcart/${id}`, {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("jwt"),
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        toast.success("add to cart");
-        fetchCart();
-      });
-    // try {
-    //   await axios.get(`/addcart/${id}`, {
-    //     headers: { Authorization: localStorage.getItem("jwt") },
-    //   });
-    //   fetchCart()
-    // } catch (err) {
-    //   console.log(err);
-    // }
+  const addToCartHandler = async (item) => {
+    const existItem = cartItems.find((x) => x._id === _id);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+    dispatch({ type: "ADD_TO_CART", payload: { ...item, quantity } });
   };
-  useEffect(() => {
-    fetchCart();
-  }, []);
   return (
     <div className="overflow-hidden flex tranistion_normal hover:shadow-xl flex-col justify-between h-[440px] rounded-2xl p-3 px-4">
-      <div className="mt-1">
+      <div className="">
         <Link
           to={`/product/view/${_id}`}
           className="flex justify-center items-center"
@@ -54,7 +27,7 @@ const ProductCard = ({ _id, name, images, price, ratings }) => {
           <img className="h-48" src={images[0].url} alt="" />
         </Link>
         <div className="w-full mt-1">
-          <h1 className="md:text-xl font-semibold">{name}</h1>
+          <h1 className="md:text-base font-semibold">{name}</h1>
         </div>
       </div>
       <div className="w-full">
@@ -69,12 +42,14 @@ const ProductCard = ({ _id, name, images, price, ratings }) => {
           <Rate className="text-base" disabled allowHalf value={ratings} />
         </div>
       </div>
-      <div className="w-full flex justify-between items-center mb-2 px-3">
+      <div className="w-full flex justify-between items-center px-3">
         <button className="p-[6px] rounded-md border-2 mr-2 border-gray-400">
           <BsHeartFill className=" text-[26px] text-gray-400" />
         </button>
         <button
-          onClick={() => addToCartHanle(_id)}
+          onClick={() =>
+            addToCartHandler({ _id, name, images, price, ratings })
+          }
           className="border-2 border-red-600 py-[6px] w-full rounded-lg hover:text-red-600 bg-red-600 text-lg text-white hover:bg-white transition_normal  hover:border-red-500"
         >
           add to cart

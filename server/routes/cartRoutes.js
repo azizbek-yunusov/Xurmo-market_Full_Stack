@@ -5,14 +5,6 @@ const ProductModel = require("../models/ProductModel");
 const UserModel = require("../models/UserModel");
 const router = Router();
 
-router.post("/addcart/:id", authMiddleware, async (req, res) => {
-  const cartProduct = await ProductModel(req.params.id);
-  const client = await UserModel(req.user);
-  const newCart = new CartModel({ client,  });
-
-    const savedCart = await newCart.save();
-    res.status(200).json(savedCart);
-});
 
 // router.get("/mycart", authMiddleware, async (req, res) => {
 //   const mycart = await UserModel.findById(req.user).populate(

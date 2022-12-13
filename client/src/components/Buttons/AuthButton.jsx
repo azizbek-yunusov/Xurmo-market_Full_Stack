@@ -2,7 +2,6 @@ import { Button, Dropdown } from "antd";
 import React, { useContext } from "react";
 import { AiOutlineUser } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { UserContext } from "../../reducers/useReducer";
 
 const AuthButton = () => {
@@ -14,7 +13,6 @@ const AuthButton = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("jwt");
     // window.location.href = "/signin";
-    toast.error("Sign out");
     navigate("/signin");
   };
   const items = [
@@ -24,7 +22,11 @@ const AuthButton = () => {
     },
     {
       key: "2",
-      label: <Button type="primary" danger onClick={signoutHandler}>Sign Out</Button>,
+      label: (
+        <Button type="primary" danger onClick={signoutHandler}>
+          Sign Out
+        </Button>
+      ),
     },
   ];
   return (
@@ -34,9 +36,17 @@ const AuthButton = () => {
       }}
       placement="bottomRight"
       arrow
+      className="flex justify-center items-center"
     >
       <div className="">
-        <AiOutlineUser className="md:text-2xl cursor-pointer" />
+        <div className="flex items-center">
+          <img
+            src="https://www.ihp.ie/wp-content/uploads/profile-img.jpg"
+            alt=""
+            className="h-7 rounded-full"
+          />
+          <p className="ml-1">{userInfo.name}</p>
+        </div>
       </div>
     </Dropdown>
   );

@@ -13,7 +13,7 @@ const DayProductList = ({ products }) => {
   return (
     <>
       <Swiper
-        className="rounded-xl mx-10"
+        className="rounded-xl mx-10 day_gradient_border"
         // install Swiper modules
         modules={[Pagination]}
         spaceBetween={40}
@@ -23,7 +23,7 @@ const DayProductList = ({ products }) => {
         scrollbar={{ draggable: true }}
       >
         {products.map((item, index) => (
-          <SwiperSlide key={index} className="day_gradient_border">
+          <SwiperSlide key={index} className="">
             <DayProductItem {...item} />
           </SwiperSlide>
         ))}

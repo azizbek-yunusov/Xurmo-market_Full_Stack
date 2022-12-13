@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineFolderAdd } from "react-icons/ai";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+
 import { FiEdit } from "react-icons/fi";
 
 const AllProductList = () => {
@@ -20,10 +20,9 @@ const AllProductList = () => {
         headers: { Authorization: localStorage.getItem("jwt") },
       });
       if (data.error) {
-        toast.error(data.err);
+        
       } else {
         fetchData();
-        toast.success("Deleted");
       }
     } catch (err) {
       console.log(err);

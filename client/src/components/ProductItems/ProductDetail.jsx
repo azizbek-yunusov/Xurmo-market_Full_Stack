@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { BiError } from "react-icons/bi";
 import axios from "axios";
 import Comments from "./Comments";
-import { toast } from "react-toastify";
+
 import { Button, Modal, Rate } from "antd";
 import { Helmet } from "react-helmet-async";
 import { UserContext } from "../../reducers/useReducer";
@@ -46,7 +46,6 @@ const ProductDetail = () => {
     //   comment,
     //   rating,
     // });
-    // toast.success("reviews");
 
     fetch("http://localhost:5000/review", {
       method: "put",
@@ -64,9 +63,8 @@ const ProductDetail = () => {
       .then((data) => {
         productDetail();
         if (data.err) {
-          toast.error(data.error);
+          
         } else {
-          toast.success("reviews");
         }
       });
   };

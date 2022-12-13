@@ -3,7 +3,6 @@ import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { AiOutlineUserAdd } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
-import { toast } from 'react-toastify'
 import Layout from '../Layout'
 
 const CategoriesTable = () => {
@@ -27,9 +26,8 @@ const CategoriesTable = () => {
         },
       }).then((data) => {
         if (data.err) {
-          toast.error(data.err);
+          
         } else {
-          toast.success("Deleted");
           fetchData();
         }
       });

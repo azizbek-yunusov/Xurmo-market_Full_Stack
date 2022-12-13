@@ -5,22 +5,13 @@ const initialState = {
   userInfo: localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : null,
-  order: null,
+  cart: {
+    cartItems: localStorage.getItem("cartItems")
+      ? JSON.parse(localStorage.getItem("cartItems"))
+      : [],
+  },
 };
 
-// const initialState = {
-//   userInfo: null,
-//   order: null,
-// };
-// const reducer = (state, action) => {
-//   if (action.type === "USER") {
-//     return { ...action.payload };
-//   }
-//   if (action.type === "CLEAR") {
-//     return null;
-//   }
-//   return state;
-// };
 function reducer(state, action) {
   switch (action.type) {
     case "USER":
@@ -29,7 +20,30 @@ function reducer(state, action) {
       return {
         ...state,
         userInfo: null,
+        cart: {
+          cartItems: [],
+        },
       };
+    case "ADD_TO_CART":
+      // add to cart
+      const newItem = action.payload;
+      const existItem = state.cart.cartItems.find(
+        (item) => item._id === newItem._id
+      );
+      const cartItems = existItem
+        ? state.cart.cartItems.map((item) =>
+            item._id === existItem._id ? newItem : item
+          )
+        : [...state.cart.cartItems, newItem];
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      return { ...state, cart: { ...state.cart, cartItems } };
+    case "CART_REMOVE_ITEM": {
+      const cartItems = state.cart.cartItems.filter(
+        (item) => item._id !== action.payload._id
+      );
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      return { ...state, cart: { ...state.cart, cartItems } };
+    }
     default:
       return state;
   }

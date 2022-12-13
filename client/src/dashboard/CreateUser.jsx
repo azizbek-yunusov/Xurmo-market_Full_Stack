@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+
 import { Select } from "antd";
 import Layout from "./Layout";
 
@@ -33,9 +33,8 @@ const CreateUser = () => {
       .then((data) => {
         if (data.error) {
           console.log(data.error);
-          toast.error(data.error);
+          
         } else {
-          toast.success("User Successfuly");
           if (admin) {
             navigate("/dashboard/admins");
           } else {

@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+
 
 export const addToCart = (e, _id) => {
   e.preventDefault();
@@ -12,9 +12,8 @@ export const addToCart = (e, _id) => {
     .then((res) => res.json())
     .then((data) => {
       if (data.error) {
-        toast.error(data.error);
+        
       } else {
-        toast.success("Add to cart");
       }
     });
 };

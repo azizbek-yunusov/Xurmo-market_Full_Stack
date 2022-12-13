@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+
 import { UserContext } from "../reducers/useReducer";
 
 const SignUp = () => {
@@ -33,7 +33,6 @@ const SignUp = () => {
           localStorage.setItem("user", JSON.stringify(data.user));
           dispatch({ type: "USER", payload: data.user });
           navigate("/");
-          toast.success("You have successfully registered");
         }
       });
   };

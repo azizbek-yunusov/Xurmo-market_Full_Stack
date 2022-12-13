@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+
 import { imageUpload } from "../../utils/imageUpload";
 import { IoMdClose } from "react-icons/io";
 import Layout from "../Layout";
@@ -60,9 +60,8 @@ const CreateBanner = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
-          toast.error(data.error);
+          
         } else {
-          toast.success("create");
           setLoading(false);
           navigate("/dashboard/products");
         }

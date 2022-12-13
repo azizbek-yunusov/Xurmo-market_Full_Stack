@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
+
 import Layout from "./Layout";
 
 const UpdateProduct = () => {
@@ -44,9 +44,8 @@ const UpdateProduct = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.err) {
-          toast.error(data.error);
+          
         } else {
-          toast.success("Updated");
           navigate("/dashboard/products");
         }
       });

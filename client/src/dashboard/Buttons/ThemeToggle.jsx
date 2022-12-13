@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { DarkModeSwitch } from "react-toggle-dark-mode";
+// import { DarkModeSwitch } from "react-toggle-dark-mode";
 import useDarkSide from "../../hooks/useDarkSide";
 
 const ThemeToggle = () => {
@@ -13,11 +13,11 @@ const ThemeToggle = () => {
   };
   return (
     <div className="mx-3">
-      <DarkModeSwitch
+      {/* <DarkModeSwitch
         checked={darkSide}
         onChange={toggleDarkMode}
         size={26}
-      />
+      /> */}
     </div>
   );
 };
