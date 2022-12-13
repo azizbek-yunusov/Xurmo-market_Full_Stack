@@ -1,5 +1,6 @@
 import { Button, Dropdown } from "antd";
 import React, { useContext } from "react";
+import toast from "react-hot-toast";
 import { AiOutlineUser } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../reducers/useReducer";
@@ -14,6 +15,7 @@ const AuthButton = () => {
     localStorage.removeItem("jwt");
     // window.location.href = "/signin";
     navigate("/signin");
+    toast.success("Successfuly!!")
   };
   const items = [
     {

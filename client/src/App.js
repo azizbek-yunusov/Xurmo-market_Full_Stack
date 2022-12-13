@@ -1,5 +1,7 @@
 import { useContext, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+
 import "./App.css";
 import Footer from "./components/Footer";
 import Header from "./components/Header/Header";
@@ -30,7 +32,6 @@ import SignUp from "./pages/SignUp";
 import { UserContext } from "./reducers/useReducer";
 import BasketList from "./components/Cart/BasketList";
 
-
 function App() {
   // useEffect(() => {
   //   window.replainSettings = { id: '0db757df-71b5-4fe7-b872-436f5f6ccd57' };
@@ -39,12 +40,12 @@ function App() {
   //     var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);
   //   })('https://widget.replain.cc/dist/client.js');
 
-  
   // }, [])
   const { state } = useContext(UserContext);
   const pathname = useLocation().pathname;
   return (
     <>
+      <Toaster position="top-right" reverseOrder={true} />
       <>
         {pathname === "/signup" || pathname === "/signin" ? null : (
           <>
@@ -89,9 +90,7 @@ function App() {
           </>
         )}
       </Routes>
-      {pathname === "/signup" || pathname === "/signin" ? null : (
-         <Footer />
-        )}
+      {pathname === "/signup" || pathname === "/signin" ? null : <Footer />}
     </>
   );
 }

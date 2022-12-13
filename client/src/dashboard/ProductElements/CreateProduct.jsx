@@ -214,7 +214,7 @@ const CreateBanner = () => {
                       </div>
                     </label>
 
-                    <div className="show_images flex items-center">
+                    <div className="show_images flex flex-wrap items-center">
                       {images.map((img, index) => (
                         <div key={index} className="p-[6px] mx-[2px] relative">
                           <div
@@ -224,7 +224,7 @@ const CreateBanner = () => {
                             <img
                               src={URL.createObjectURL(img)}
                               alt="images"
-                              className="img-thumbnail w-24"
+                              className="img-thumbnail max-w-[90px] w-full"
                             />
                           </div>
                             <IoMdClose

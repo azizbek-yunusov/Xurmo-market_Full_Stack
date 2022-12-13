@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 
 import { UserContext } from "../reducers/useReducer";
@@ -34,6 +35,7 @@ const SignIn = () => {
           } else {
             navigate("/");
           }
+          toast.success("Successfuly!!")
         }
       });
   };
@@ -112,7 +114,7 @@ const SignIn = () => {
                       id="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Your Password"
+                      placeholder="**********"
                       className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md  focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                     />
                   </div>
