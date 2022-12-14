@@ -8,6 +8,7 @@ import Comments from "./Comments";
 import { Button, Modal, Rate } from "antd";
 import { Helmet } from "react-helmet-async";
 import { UserContext } from "../../reducers/useReducer";
+import ImageThumbs from "./ImageThumbs";
 const desc = ["terrible", "bad", "normal", "good", "wonderful"];
 
 const ProductDetail = () => {
@@ -63,7 +64,6 @@ const ProductDetail = () => {
       .then((data) => {
         productDetail();
         if (data.err) {
-          
         } else {
         }
       });
@@ -79,14 +79,13 @@ const ProductDetail = () => {
   //   window.scrollTo(0, 0);
   // }, [location]);
   const signInNavigate = () => navigate("/signin");
-  console.log(product);
   return (
     <>
       <Helmet>
         <title data-rh="true">{`${product.name} | E-commerce`}</title>
       </Helmet>
-      <div className="h-full min-h-[500px] animated-show overflow-x-hidden">
-        <div className="container-full block details overflow-x-hidden">
+      <>
+        <div className="container-full">
           <div className="flex items-center my-2">
             <button
               onClick={() => goback(-1)}
@@ -161,52 +160,8 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          <div className="lg:grid grid-cols-1 lg:grid-cols-3  lg:gap-6 border-t border-r-gray-400 lg:py-5 py-4">
-            <div className="">
-              <div className="border flex items-center justify-center lg:my-2 lg:rounded-lg border-gray-200 hover:border-zinc-300 ease-in duration-200">
-                {/* <Zoom
-                  ref={imgDiv}
-                  img={product.imgUrl[selectedImg]}
-                  // src={product.imgUrl[selectedImg]}
-                  zoomScale={1.5}
-                  width={400}
-                  height={400}
-                  transitionTime={.5}
-                /> */}
-                {product.images && product.images[0] ? (
-                  <img
-                    src={product.images[0].url}
-                    className="transition-colors ease-in-out duration-300"
-                    width={400}
-                    height={400}
-                    alt=""
-                  />
-                ) : (
-                  ""
-                )}
-              </div>
-              <div className="flex overflow-x-scroll scrollMobile">
-                {product.images && product.images[0]
-                  ? product.images.map((item, index) => (
-                      <img
-                        src={item.url}
-                        alt="img"
-                        // style={{
-                        //   border:
-                        //     product.imgUrl[selectedImg] === img
-                        //       ? "2px solid #ffd500"
-                        //       : " ",
-                        // }}
-                        width={70}
-                        className="cursor-pointer m-1 p-1 border hover:scale-105 border-gray-200 transition ease-in-out duration-300 rounded"
-                        height={70}
-                        key={index}
-                        // onClick={() => setSelectedImg(index)}
-                      />
-                    ))
-                  : null}
-              </div>
-            </div>
+          <div className="md:grid grid-cols-1 md:grid-cols-3 md:gap-5 border-t border-r-gray-400 lg:py-5 py-4">
+            <ImageThumbs images={product.images} />
             <div className="block px-2 text-left">
               <p className="text-3xl lg:font-medium font-semibold mt-4 lg:mt-0">
                 {/* {numberWithCommas(product.price)} cум{" "} */}
@@ -224,7 +179,7 @@ const ProductDetail = () => {
               </div>
             </div>
             <div className="border border-zinc-300 rounded-lg lg:m-0 mt-4 p-5">
-              <Link
+              {/* <Link
                 // to={`/manufacturer/${product.brandName}`}
                 className="flex items-center flex-col align-middle"
               >
@@ -235,7 +190,7 @@ const ProductDetail = () => {
                   width={80}
                   height={80}
                 />
-              </Link>
+              </Link> */}
               <p className="text-2xl lg:m-0 mt-4 font-medium">
                 {/* {numberWithCommas(product.price)} cум */}
               </p>
@@ -363,7 +318,7 @@ const ProductDetail = () => {
                       <Button
                         type="primary"
                         size="large"
-                        className="rounded-lg w-full bg-green-600"
+                        className="rounded-lg w-full primary_bg mt-8"
                         onClick={showModal}
                       >
                         Write review
@@ -477,7 +432,7 @@ const ProductDetail = () => {
             </div>
           </div>
         </div>
-      </div>
+      </>
     </>
   );
 };

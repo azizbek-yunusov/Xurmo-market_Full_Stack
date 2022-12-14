@@ -1,0 +1,63 @@
+import "../../assets/styles/swipperThumbs.scss";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Thumbs } from "swiper";
+import { useRef, useState } from "react";
+import "swiper/css";
+import "swiper/css/thumbs";
+
+const ImageThumbs = ({ images }) => {
+  console.log(images);
+  const [activeThumb, setActiveThumb] = useState();
+  const ref = useRef(null);
+  return (
+    <main>
+      {images && images[0] && (
+        <>
+          <Swiper
+            loop={true}
+            spaceBetween={10}
+            modules={[Thumbs]}
+            grabCursor={true}
+            className="product-images-slider border-2 border-gray-300 mb-2 rounded-lg"
+            thumbs={{
+              swiper:
+                activeThumb && !activeThumb.destroyed ? activeThumb : null,
+            }}
+          >
+            {images.map((item, index) => (
+              <SwiperSlide key={index}>
+                <img
+                  src={item.url}
+                  alt="product images "
+                  className="object-cover"
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          <Swiper
+            onSwiper={setActiveThumb}
+            loop={true}
+            spaceBetween={10}
+            slidesPerView={4}
+            modules={[Navigation, Thumbs]}
+            className="product-images-slider-thumbs"
+          >
+            {images.map((item, index) => (
+              <SwiperSlide key={index} className="rounded-md overflow-hidden">
+                <div className="product-images-slider-thumbs-wrapper">
+                  <img
+                    src={item.url}
+                    alt="product images"
+                    className="object-cover "
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </>
+      )}
+    </main>
+  );
+};
+
+export default ImageThumbs;

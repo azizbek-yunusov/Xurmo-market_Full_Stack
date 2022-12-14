@@ -46,9 +46,15 @@ const BasketList = () => {
               </div>
               <div className="py-1 border-t border-t-gray-200 ">
                 <div className="grid grid-cols-12 p-1 border-b border-b-gray-300 pb-3 font-semibold text-gray-600">
-                  <div className="col-span-7 flex justify-start border-r border-r-gray-300">Product item</div>
-                  <div className="col-span-3 flex justify-center border-r border-r-gray-300">Quantity</div>
-                  <div className="col-span-2 flex justify-center">Total price</div>
+                  <div className="col-span-7 flex justify-start border-r border-r-gray-300">
+                    Product item
+                  </div>
+                  <div className="col-span-3 flex justify-center border-r border-r-gray-300">
+                    Quantity
+                  </div>
+                  <div className="col-span-2 flex justify-center">
+                    Total price
+                  </div>
                 </div>
                 {cartItems.length
                   ? cartItems.map((item, index) => (
@@ -71,19 +77,18 @@ const BasketList = () => {
                                 {"$"}
                               </p>
                               <div className="">
-
-                              <button
-                                onClick={() => removeItemHandler(item)}
-                                className="flex items-center text-lg font-semibold text-red-500"
-                              >
-                                <HiOutlineTrash className="md:text-xl" />{" "}
-                                {"remove"}
-                              </button>
+                                <button
+                                  onClick={() => removeItemHandler(item)}
+                                  className="flex items-center text-lg font-semibold text-red-500"
+                                >
+                                  <HiOutlineTrash className="md:text-xl" />{" "}
+                                  {"remove"}
+                                </button>
                               </div>
                             </div>
                           </div>
                           <div className="col-span-3 flex justify-center items-center">
-                            <div className="flex items-center w-max md:justify-center justify-between h-min rounded-md" >
+                            <div className="flex items-center w-max md:justify-center justify-between h-min rounded-md">
                               {item.quantity > 1 ? (
                                 <button
                                   onClick={() =>
@@ -118,7 +123,8 @@ const BasketList = () => {
                           </div>
                           <div className="col-span-2 flex justify-center items-center">
                             <h1 className="md:text-2xl font-semibold tracking-widest text-gray-700">
-                              {item.quantity * item.price}{"$"}
+                              {item.quantity * item.price}
+                              {"$"}
                             </h1>
                           </div>
                         </div>
@@ -129,9 +135,12 @@ const BasketList = () => {
             </div>
             <div className="col-span-4 border border-gray-200 p-5 md:rounded-2xl">
               <div className="flex justify-between md:px-3 items-center mb-5 border-b border-b-gray-300">
-                <h1 className="md:text-2xl mb-5 text-gray-600 font-bold">Total:</h1>
                 <h1 className="md:text-2xl mb-5 text-gray-600 font-bold">
-                  {cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}{"$"}
+                  Total:
+                </h1>
+                <h1 className="md:text-2xl mb-5 text-gray-600 font-bold">
+                  {cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}
+                  {"$"}
                 </h1>
               </div>
             </div>
