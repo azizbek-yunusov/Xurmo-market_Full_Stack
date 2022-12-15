@@ -1,5 +1,6 @@
 import { Rate, Tooltip } from "antd";
 import React, { useContext } from "react";
+import toast from "react-hot-toast";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsHeart } from "react-icons/bs";
 import { Link } from "react-router-dom";
@@ -16,6 +17,7 @@ const ProductCard = (props) => {
     const existItem = cartItems.find((x) => x._id === _id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     dispatch({ type: "ADD_TO_CART", payload: { ...item, quantity } });
+    toast.success("The product has been added to the cart")
   };
   const existItem = cartItems.find((x) => x._id === _id);
   const isCart = existItem === undefined ? false : true;
@@ -27,6 +29,7 @@ const ProductCard = (props) => {
   };
   const removeItemHandler = (item) => {
     dispatch({ type: "CART_REMOVE_ITEM", payload: item });
+    toast.error("The product has been removed from the shopping cart")
   };
   return (
     <div className="overflow-hidden flex tranistion_normal hover:shadow-xl flex-col justify-between h-[400px] border border-gray-300 rounded-2xl p-3 px-4">
