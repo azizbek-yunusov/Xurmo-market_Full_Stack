@@ -1,6 +1,6 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 import "./App.css";
 import Footer from "./components/Footer";
@@ -31,20 +31,15 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import { UserContext } from "./reducers/useReducer";
 import BasketList from "./components/Cart/BasketList";
+import axios from "axios";
+import { DataProvider } from "./GlobalState";
 
 function App() {
-  // useEffect(() => {
-  //   window.replainSettings = { id: '0db757df-71b5-4fe7-b872-436f5f6ccd57' };
-  //   (function (u) {
-  //     var s = document.createElement('script'); s.async = true; s.src = u;
-  //     var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);
-  //   })('https://widget.replain.cc/dist/client.js');
-
-  // }, [])
   const { state } = useContext(UserContext);
   const pathname = useLocation().pathname;
+
   return (
-    <>
+    <DataProvider>
       <Toaster position="top-right" reverseOrder={true} />
       <>
         {pathname === "/signup" || pathname === "/signin" ? null : (
@@ -91,7 +86,7 @@ function App() {
         )}
       </Routes>
       {pathname === "/signup" || pathname === "/signin" ? null : <Footer />}
-    </>
+    </DataProvider>
   );
 }
 

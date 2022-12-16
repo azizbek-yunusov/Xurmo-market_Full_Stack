@@ -1,38 +1,23 @@
 import { Rate, Tooltip } from "antd";
-import React, { useContext } from "react";
+import axios from "axios";
+import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsHeart } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { UserContext } from "../../reducers/useReducer";
+import { GlobalState } from "../../GlobalState";
 
 const ProductCard = (props) => {
   const { _id, name, images, price, ratings } = props;
-  const { state, dispatch } = useContext(UserContext);
-  const {
-    cart: { cartItems },
-  } = state;
+  const state = useContext(GlobalState)
+  const addToCartHanle = state.userAPI.addToCartHanle
+  const deleteHandler = state.userAPI.deleteHandler
+  const [cart] = state.userAPI.cart
 
-  const addToCartHandler = async (item) => {
-    const existItem = cartItems.find((x) => x._id === _id);
-    const quantity = existItem ? existItem.quantity + 1 : 1;
-    dispatch({ type: "ADD_TO_CART", payload: { ...item, quantity } });
-    toast.success("The product has been added to the cart")
-  };
-  const existItem = cartItems.find((x) => x._id === _id);
+  const existItem = cart.find((x) => x.productId._id === _id);
   const isCart = existItem === undefined ? false : true;
-  const updateCartHandler = async (item, quantity) => {
-    dispatch({
-      type: "ADD_TO_CART",
-      payload: { ...item, quantity },
-    });
-  };
-  const removeItemHandler = (item) => {
-    dispatch({ type: "CART_REMOVE_ITEM", payload: item });
-    toast.error("The product has been removed from the shopping cart")
-  };
   return (
-    <div className="overflow-hidden flex tranistion_normal hover:shadow-xl flex-col justify-between h-[400px] border border-gray-300 rounded-2xl p-3 px-4">
+    <div className="overflow-hidden flex tranistion_normal hover:shadow-xl flex-col justify-between h-[400px] border border-gray-200 hover:border-gray-50 rounded-2xl p-3 px-4">
       <div className="">
         <Link
           to={`/product/view/${_id}`}
@@ -57,20 +42,13 @@ const ProductCard = (props) => {
       <div className="w-full flex justify-between items-center px-2">
         <button className="p-1 rounded-full border-none mr-4 border-gray-400">
           {/* <BsHeartFill className=" text-[26px] text-gray-400" /> */}
-        <BsHeart className="text-[32px] text-gray-400" />
+          <BsHeart className="text-[32px] text-gray-400" />
         </button>
         {isCart ? (
           <div className="flex justify-between px-3 items-center border-2 border-[#017cf7] py-[6px] w-full rounded-3xl text-lg transition_normal hover:border-red-500">
             {existItem.quantity > 1 ? (
               <button
-                onClick={() =>
-                  updateCartHandler(
-                    existItem,
-                    existItem.quantity > 1
-                      ? existItem.quantity - 1
-                      : existItem.quantity === 1
-                  )
-                }
+                
                 className="tranistion_normal  px-4 py-1"
               >
                 <AiOutlineMinus />
@@ -78,7 +56,7 @@ const ProductCard = (props) => {
             ) : (
               <Tooltip title="remove from cart">
                 <button
-                  onClick={() => removeItemHandler(existItem)}
+                  onClick={() => deleteHandler(existItem.productId._id)}
                   className="text-gray-600 px-4 py-1"
                 >
                   <AiOutlineMinus />
@@ -89,7 +67,7 @@ const ProductCard = (props) => {
             <Tooltip title="Increase by one">
               <button
                 onClick={() =>
-                  updateCartHandler(existItem, existItem.quantity + 1)
+                  deleteHandler(existItem.productId._id)
                 }
                 className=" tranistion_normal  px-4 py-1"
               >
@@ -99,18 +77,15 @@ const ProductCard = (props) => {
           </div>
         ) : (
           <button
-            onClick={() =>
-              addToCartHandler({ _id, name, images, price, ratings })
-            }
+          onClick={() => addToCartHanle(_id)}
             className="border-2 border-indigo-600 py-[6px] w-full rounded-3xl hover:text-indigo-600 bg-indigo-600 text-lg text-white hover:bg-white transition_normal  hover:border-indigo-500"
           >
             add to cart
           </button>
         )}
+
         {/* <button
-          onClick={() =>
-            addToCartHandler({ _id, name, images, price, ratings })
-          }
+          onClick={() => addToCartHanle(_id)}
           className="border-2 border-red-600 py-[6px] w-full rounded-lg hover:text-red-600 bg-red-600 text-lg text-white hover:bg-white transition_normal  hover:border-red-500"
         >
           add to cart

@@ -23,7 +23,8 @@ function useIsScrollTop() {
 
   return isTop;
 }
-const Header = () => {
+const Header = (props) => {
+  const {cart} = props
   const { state } = useContext(UserContext);
   const { userInfo } = state;
   const isTop = useIsScrollTop();
@@ -52,7 +53,7 @@ const Header = () => {
                   <FavoritesButton />
                 </li>
                 <li className="mx-4">
-                  <Cart />
+                  <Cart cart={cart} />
                 </li>
                 <li className="mx-4 -mt-1">
                   {userInfo ? <AuthButton /> : <UserButton />}

@@ -11,6 +11,7 @@ const userRoutes = require("./routes/userRoutes");
 const bannerRoutes = require("./routes/bannerRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const orderRoutes = require("./routes/orderRoutes");
+const cartRoutes = require("./routes/cartRoutes");
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
@@ -26,6 +27,7 @@ app.use(userRoutes);
 app.use(bannerRoutes);
 app.use(categoryRoutes);
 app.use(orderRoutes);
+app.use(cartRoutes);
 
 mongoose.connect(MONGO_URI, () => {
   console.log("MongoDB is working");

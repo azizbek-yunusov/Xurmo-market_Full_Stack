@@ -1,19 +1,14 @@
+import axios from "axios";
+import toast from "react-hot-toast";
 
-
-export const addToCart = (e, _id) => {
-  e.preventDefault();
-  fetch(`http://localhost:5000/addcart/${_id}`, {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: localStorage.getItem("jwt"),
-    },
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.error) {
-        
-      } else {
-      }
+export const addCart = async (id) => {
+  console.log(id);
+  try {
+    await axios.patch(`/addcart/${id}`, {
+      headers: { Authorization: localStorage.getItem("jwt") },
     });
+    toast.success("added to cart");
+  } catch (err) {
+    console.log(err);
+  }
 };

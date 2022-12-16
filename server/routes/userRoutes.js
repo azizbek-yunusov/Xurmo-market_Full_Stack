@@ -58,12 +58,21 @@ router.put(
     }
   }
 );
-
 router.delete("/user/delete/:id", authMiddleware, async (req, res) => {
   await UserModel.findByIdAndDelete(req.params.id);
   res.status(201).json({
     msg: "DELETED USER",
   });
+});
+// my profile
+router.get("/infor", authMiddleware, async (req, res) => {
+  try {
+    const userItems = await UserModel.findById(req.user)
+      .populate("cart.productId", "_id name images price");
+    res.status(200).json(userItems.cart);
+  } catch (err) {
+    console.log();
+  }
 });
 
 module.exports = router;

@@ -9,7 +9,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 const DayProductList = ({ products }) => {
-  console.log(products);
   return (
     <>
       <Swiper

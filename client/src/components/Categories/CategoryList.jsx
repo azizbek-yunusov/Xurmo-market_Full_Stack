@@ -33,8 +33,6 @@ const CategoryList = () => {
         navigation
         pagination={{ clickable: true }}
         scrollbar={{ draggable: true }}
-        onSwiper={(swiper) => console.log(swiper)}
-        onSlideChange={() => console.log("slide change")}
       >
         {categories.map((item, index) => (
           <SwiperSlide key={index}>
