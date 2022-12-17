@@ -6,8 +6,8 @@ import ProductCard from "./ProductCard";
 const BestProductsList = () => {
   const [products, setProducts] = useState([]);
   const fetchData = async () => {
-    const { data } = await axios.get("/products");
-    setProducts(data.products);
+    const { data } = await axios.get("/best");
+    setProducts(data.bestProducts);
   };
 
   useEffect(() => {

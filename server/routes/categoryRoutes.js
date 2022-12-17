@@ -2,6 +2,7 @@ const { Router } = require("express");
 const authAdminMiddleware = require("../middleware/authAdminMiddleware");
 const authMiddleware = require("../middleware/authMiddleware");
 const CategoryModel = require("../models/CategoryModel");
+const ProductModel = require("../models/ProductModel");
 const router = Router();
 
 router.get("/categories", async (req, res) => {

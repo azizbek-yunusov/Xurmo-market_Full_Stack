@@ -47,11 +47,11 @@ const BasketList = () => {
                       <div key={index} className="p-1 my-2">
                         <div className="grid grid-cols-12 lg:py-3 py-3 px-1 ease-in-out duration-300 border-b border-b-gray-200">
                           <div className="col-span-7 flex justify-start">
-                            <div className="lg:h-32 lg:w-32 w-24 h-24 overflow-hidden border border-gray-300 rounded-xl">
+                            <div className="overflow-hidden border border-gray-300 py-1 rounded-xl">
                               <img
                                 src={item.productId.images[0].url}
                                 alt={""}
-                                className="h-full w-full object-cover object-center"
+                                className="object-cover md:h-28 md:w-28 w-24 h-24 object-center"
                               />
                             </div>
                             <div className="ml-2 flex flex-col justify-between">

@@ -18,19 +18,28 @@ function UserAPI() {
     }
   };
   const addToCartHanle = async (id) => {
-    fetch(`http://localhost:5000/addcart/${id}`, {
-      method: "put",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("jwt"),
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        toast.success("add to cart +1");
-        fetchCart();
-      });
+    try {
+      if (userInfo) {
+        fetch(`http://localhost:5000/addcart/${id}`, {
+          method: "put",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("jwt"),
+          },
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            toast.success("add to cart +1");
+            fetchCart();
+          });
+      } else {
+        toast.error("You must register");
+      }
+    } catch (error) {
+      toast.error(error);
+    }
   };
+
   const deleteHandler = async (id) => {
     try {
       const { data } = await axios.delete(`/cart/${id}`, {
@@ -46,9 +55,8 @@ function UserAPI() {
     }
   };
   useEffect(() => {
-    if(userInfo) {
+    if (userInfo) {
       fetchCart();
-
     }
   }, [userInfo]);
 

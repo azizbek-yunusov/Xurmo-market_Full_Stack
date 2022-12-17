@@ -11,6 +11,16 @@ router.get("/products", async (req, res) => {
   });
 });
 
+router.get("/best", async (req, res) => {
+  const products = await ProductModel.find().populate("createdBy", "_id name");
+  const bestProducts = products.filter((item) => {
+    return item.ratings > 3.5;
+  });
+  res.status(201).json({
+    bestProducts,
+  });
+});
+
 router.get("/product/:id", async (req, res) => {
   const product = await ProductModel.findById(req.params.id)
     .populate("createdBy", "_id name")
@@ -24,7 +34,6 @@ router.post(
   authAdminMiddleware,
   async (req, res) => {
     const { _id, name, descr, price, createdAt, category, images } = req.body;
-
     // Create product
     const product = await ProductModel.create({
       _id,

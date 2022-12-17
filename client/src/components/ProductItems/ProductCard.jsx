@@ -23,9 +23,9 @@ const ProductCard = (props) => {
           to={`/product/view/${_id}`}
           className="flex justify-center items-center"
         >
-          <img className="h-48" src={images[0].url} alt="" />
+          <img className="h-44" src={images[0].url} alt="" />
         </Link>
-        <div className="w-full">
+        <div className="w-full mt-1">
           <h1 className="md:text-base font-semibold">{name}</h1>
         </div>
       </div>
@@ -45,7 +45,7 @@ const ProductCard = (props) => {
           <BsHeart className="text-[32px] text-gray-400" />
         </button>
         {isCart ? (
-          <div className="flex justify-between px-3 items-center border-2 border-[#017cf7] py-[6px] w-full rounded-3xl text-lg transition_normal hover:border-red-500">
+          <div className="flex justify-between px-3 items-center border-2 border-[#01f736] py-[6px] w-full rounded-3xl text-lg transition_normal hover:border-blue-500">
             {existItem.quantity > 1 ? (
               <button
                 
@@ -78,7 +78,7 @@ const ProductCard = (props) => {
         ) : (
           <button
           onClick={() => addToCartHanle(_id)}
-            className="border-2 border-indigo-600 py-[6px] w-full rounded-3xl hover:text-indigo-600 bg-indigo-600 text-lg text-white hover:bg-white transition_normal  hover:border-indigo-500"
+            className="border-2 border-indigo-600 py-[6px] w-full rounded-3xl hover:text-indigo-600 bg-[#7a2dff] text-lg text-white hover:bg-white transition_normal  hover:border-indigo-500"
           >
             add to cart
           </button>

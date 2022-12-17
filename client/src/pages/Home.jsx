@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { Helmet } from "react-helmet-async";
 import { Navigate } from "react-router-dom";
 import BannerCarousel from "../components/Banner/BannerCarousel";
 import CategoryList from "../components/Categories/CategoryList";
@@ -26,6 +27,9 @@ const Home = () => {
         <Navigate to={"/dashboard"} />
       ) : (
         <>
+         <Helmet>
+        <title data-rh="true">Home page | E-commerce</title>
+      </Helmet>
           <BannerCarousel />
           <CategoryList />
           <BestProductsList />
