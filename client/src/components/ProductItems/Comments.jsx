@@ -13,7 +13,7 @@ const Comments = ({ review }) => {
             alt=""
           />
           <div className="ml-1">
-            <h1 className="md:text-xl mx-2">{review.user.name}</h1>
+            <h1 className="md:text-xl mx-2">{review.user ? review.user.name : "deleted account"}</h1>
             <p className="md:text-sm text-gray-600 mx-2">
               {review.createdAt ?  moment(review.createdAt).format("L")  : ""}
             </p>

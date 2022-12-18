@@ -6,9 +6,7 @@ import "swiper/css";
 import "swiper/css/thumbs";
 
 const ImageThumbs = ({ images }) => {
-  console.log(images);
   const [activeThumb, setActiveThumb] = useState();
-  const ref = useRef(null);
   return (
     <main>
       {images && images[0] && (

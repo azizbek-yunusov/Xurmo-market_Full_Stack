@@ -99,7 +99,7 @@ const CategoriesTable = () => {
                               alt=""
                             />
                           </div>
-                          <span className="mr-2">{item.createdBy.name}</span>
+                          <span className="mr-2">{item.createdBy ? item.createdBy.name : "deleted account"}</span>
                           <span>{moment(item.createdAt).format("lll")}</span>
                         </div>
                       </td>

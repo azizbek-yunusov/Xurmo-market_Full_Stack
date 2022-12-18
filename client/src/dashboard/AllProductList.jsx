@@ -91,7 +91,7 @@ const AllProductList = () => {
                               alt=""
                             />
                           </div>
-                          <span className="mr-2">{product.createdBy.name}</span>
+                          <span className="mr-2">{product.createdBy ? product.createdBy.name : "deleted account"}</span>
                           <span>{moment(product.createdAt).format("lll")}</span>
                           {/* <span>{product.createdAt.toDateString()}</span> */}
                         </div>
