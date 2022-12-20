@@ -19,7 +19,7 @@ const AllProductList = () => {
   };
   const deleteHandler = async (id) => {
     try {
-      const { data } = await axios.delete(`/product/delete/${id}`, {
+      const { data } = await axios.delete(`/product/${id}`, {
         headers: { Authorization: localStorage.getItem("jwt") },
       });
       if (data.error) {

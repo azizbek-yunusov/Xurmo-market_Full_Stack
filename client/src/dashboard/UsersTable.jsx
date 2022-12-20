@@ -28,7 +28,7 @@ const UsersTable = () => {
   const deleteUser = async (e) => {
     e.preventDefault();
     try {
-      fetch(`http://localhost:5000/user/delete/${id}`, {
+      fetch(`http://localhost:5000/user/${id}`, {
         method: "delete",
         headers: {
           Authorization: localStorage.getItem("jwt"),

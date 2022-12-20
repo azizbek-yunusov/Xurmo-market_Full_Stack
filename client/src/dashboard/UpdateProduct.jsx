@@ -28,7 +28,7 @@ const UpdateProduct = () => {
   };
   const updateHandler = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:5000/product/update/${id}`, {
+    fetch(`http://localhost:5000/product/${id}`, {
       method: "put",
       headers: {
         "Content-Type": "application/json",

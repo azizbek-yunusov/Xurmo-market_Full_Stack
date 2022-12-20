@@ -43,7 +43,7 @@ const CreateBanner = () => {
     let media = [];
     if (images.length > 0) media = await imageUpload(images);
     await imageUpload(images);
-    await fetch("http://localhost:5000/product/create", {
+    await fetch("http://localhost:5000/product", {
       method: "post",
       headers: {
         "Content-Type": "application/json",

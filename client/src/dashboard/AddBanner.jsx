@@ -13,7 +13,7 @@ const AddBanner = () => {
   const navigate = useNavigate();
   const createHandler = (e) => {
     e.preventDefault();
-    fetch("http://localhost:5000/banner/create", {
+    fetch("http://localhost:5000/banner", {
       method: "post",
       headers: {
         "Content-Type": "application/json",

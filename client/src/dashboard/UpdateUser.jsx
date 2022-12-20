@@ -37,7 +37,7 @@ const UpdateUser = () => {
     e.preventDefault();
     try {
       e.preventDefault();
-      fetch(`http://localhost:5000/user/update/${userId}`, {
+      fetch(`http://localhost:5000/user/${userId}`, {
         method: "put",
         headers: {
           "Content-Type": "application/json",

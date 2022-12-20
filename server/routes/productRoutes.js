@@ -1,135 +1,29 @@
 const { Router } = require("express");
+const {
+  getAllProducts,
+  getbestProducts,
+  createProduct,
+  updateProduct,
+  getProduct,
+  deleteProduct,
+  addReview,
+} = require("../controllers/productController");
 const authAdminMiddleware = require("../middleware/authAdminMiddleware");
 const authMiddleware = require("../middleware/authMiddleware");
-const ProductModel = require("../models/ProductModel");
 const router = Router();
 
-router.get("/products", async (req, res) => {
-  const products = await ProductModel.find().populate("createdBy", "_id name");
-  res.status(201).json({
-    products,
-  });
-});
-
-router.get("/best", async (req, res) => {
-  const products = await ProductModel.find().populate("createdBy", "_id name");
-  const bestProducts = products.filter((item) => {
-    return item.ratings > 3.5;
-  });
-  res.status(201).json({
-    bestProducts,
-  });
-});
-
-router.get("/product/:id", async (req, res) => {
-  const product = await ProductModel.findById(req.params.id)
-    .populate("createdBy", "_id name")
-    .populate("reviews.user", "_id name");
-  res.status(201).json({ product });
-});
-
-router.post(
-  "/product/create",
-  authMiddleware,
-  authAdminMiddleware,
-  async (req, res) => {
-    const { _id, name, descr, price, createdAt, category, images } = req.body;
-    // Create product
-    const product = await ProductModel.create({
-      _id,
-      name,
-      descr,
-      price,
-      images,
-      createdAt,
-      category,
-      createdBy: req.user,
-    });
-    try {
-      await product.save();
-      res.status(200).json({
-        product,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  }
-);
-// Update product
-router.put(
-  "/product/update/:id",
-  authMiddleware,
-  authAdminMiddleware,
-  async (req, res) => {
-    try {
-      const { name, price, descr, image } = req.body;
-      const updateProduct = await ProductModel.findByIdAndUpdate(
-        req.params.id,
-        {
-          name,
-          price,
-          image,
-          descr,
-        }
-      );
-      res.status(200).json({ updateProduct });
-    } catch (err) {
-      console.log(err);
-    }
-  }
-);
-//
+router.get("/products", getAllProducts);
+router.get("/best", getbestProducts);
+router.get("/product/:id", getProduct);
+router.post("/product", authMiddleware, authAdminMiddleware, createProduct);
+router.put("/product/:id", authMiddleware, authAdminMiddleware, updateProduct);
 router.delete(
-  "/product/delete/:id",
+  "/product/:id",
   authMiddleware,
   authAdminMiddleware,
-  async (req, res) => {
-    await ProductModel.findByIdAndDelete(req.params.id);
-    res.status(201).json({
-      msg: "DELETED",
-    });
-  }
+  deleteProduct
 );
 
-router.put("/review", authMiddleware, async (req, res) => {
-  const { rating, comment, productId } = req.body;
-
-  const review = {
-    user: req.user._id,
-    name: req.user,
-    rating: Number(rating),
-    comment,
-  };
-
-  const product = await ProductModel.findById(productId);
-
-  const isReviewed = product.reviews.find(
-    (rev) => rev.user.toString() === req.user._id.toString()
-  );
-  if (isReviewed) {
-    product.reviews.forEach((rev) => {
-      if (rev.user.toString() === req.user._id.toString())
-        (rev.rating = rating), (rev.comment = comment);
-    });
-  } else {
-    product.reviews.push(review);
-    product.numOfReviews = product.reviews.length;
-  }
-
-  let avg = 0;
-
-  product.reviews.forEach((rev) => {
-    avg += rev.rating;
-  });
-
-  product.ratings = avg / product.reviews.length;
-
-  await product.save({ validateBeforeSave: false });
-
-  res.status(200).json({
-    success: true,
-    product,
-  });
-});
+router.put("/review", authMiddleware, addReview);
 
 module.exports = router;

@@ -1,11 +1,9 @@
-const { Router } = require("express");
-const router = Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const UserModel = require("../models/UserModel");
 const JWT_SECRET = process.env.JWT_SECRET;
 
-router.post("/signup", async (req, res) => {
+const signUp = async (req, res) => {
   try {
     const { name, email, password, admin, cart } = req.body;
     if (!name || !email || !password) {
@@ -36,9 +34,9 @@ router.post("/signup", async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-});
+};
 
-router.post("/signin", async (req, res) => {
+const signIn = async (req, res) => {
   try {
     const { email, password } = req.body;
     // Check email
@@ -60,5 +58,81 @@ router.post("/signin", async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-});
-module.exports = router;
+};
+
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await UserModel.find();
+    res.status(200).json({
+      users,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const getUser = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.params.id).populate(
+      "cart.productId",
+      "_id name price images"
+    );
+    if (!user) {
+      res.status(404).json({ message: "User Not Found" });
+    } else {
+      res.status(200).json({ user });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const updateUser = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.params.id);
+    if (user) {
+      user.name = req.body.name || user.name;
+      user.email = req.body.email || user.email;
+      user.admin = req.body.admin || user.admin;
+      const updatedUser = await user.save();
+      res.json({
+        name: updatedUser.name,
+        email: updatedUser.email,
+        admin: updatedUser.admin,
+      });
+    } else {
+      res.status(404).send({ message: "User not found" });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const deleteUser = async (req, res) => {
+  await UserModel.findByIdAndDelete(req.params.id);
+  res.status(201).json({
+    msg: "DELETED USER",
+  });
+};
+
+const getUserInfo = async (req, res) => {
+  try {
+    const userItems = await UserModel.findById(req.user).populate(
+      "cart.productId",
+      "_id name images price"
+    );
+    res.status(200).json(userItems.cart);
+  } catch (err) {
+    console.log();
+  }
+};
+
+module.exports = {
+  signUp,
+  signIn,
+  getAllUsers,
+  getUser,
+  updateUser,
+  deleteUser,
+  getUserInfo,
+};

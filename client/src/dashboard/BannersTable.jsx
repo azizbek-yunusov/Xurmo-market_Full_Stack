@@ -24,7 +24,7 @@ const BannersTable = () => {
   const deleteBanner = async (e) => {
     e.preventDefault();
     try {
-      fetch(`http://localhost:5000/banner/delete/${id}`, {
+      fetch(`http://localhost:5000/banner/${id}`, {
         method: "delete",
         headers: {
           Authorization: localStorage.getItem("jwt"),

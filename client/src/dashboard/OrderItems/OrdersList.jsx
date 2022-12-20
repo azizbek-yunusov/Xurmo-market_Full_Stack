@@ -21,7 +21,7 @@ const OrdersList = () => {
   const deleteBanner = async (e) => {
     e.preventDefault();
     try {
-      fetch(`http://localhost:5000/category/delete/${id}`, {
+      fetch(`http://localhost:5000/category/${id}`, {
         method: "delete",
         headers: {
           Authorization: localStorage.getItem("jwt"),
