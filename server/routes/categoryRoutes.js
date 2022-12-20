@@ -84,5 +84,11 @@ router.delete(
     });
   }
 );
+router.get("/category/:category", async (req, res) => {
+  const {category} = req.params
+  const categoryproducts = await ProductModel.find({category});
+
+  res.status(201).json({ categoryproducts });
+});
 
 module.exports = router;

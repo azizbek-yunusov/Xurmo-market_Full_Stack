@@ -1,18 +1,17 @@
 import { Rate, Tooltip } from "antd";
-import axios from "axios";
-import React, { useContext, useState } from "react";
-import toast from "react-hot-toast";
+import React, { useContext } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsHeart } from "react-icons/bs";
+import { FiShoppingCart } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { GlobalState } from "../../GlobalState";
 
 const ProductCard = (props) => {
   const { _id, name, images, price, ratings } = props;
-  const state = useContext(GlobalState)
-  const addToCartHanle = state.userAPI.addToCartHanle
-  const deleteHandler = state.userAPI.deleteHandler
-  const [cart] = state.userAPI.cart
+  const state = useContext(GlobalState);
+  const addToCartHanle = state.userAPI.addToCartHanle;
+  const deleteHandler = state.userAPI.deleteHandler;
+  const [cart] = state.userAPI.cart;
 
   const existItem = cart.find((x) => x.productId._id === _id);
   const isCart = existItem === undefined ? false : true;
@@ -26,7 +25,7 @@ const ProductCard = (props) => {
           <img className="h-44" src={images[0].url} alt="" />
         </Link>
         <div className="w-full mt-1">
-          <h1 className="md:text-base font-semibold">{name}</h1>
+          <h1 className="md:text-base font-semibold global-font">{name}</h1>
         </div>
       </div>
       <div className="w-full">
@@ -46,29 +45,18 @@ const ProductCard = (props) => {
         </button>
         {isCart ? (
           <div className="flex justify-between px-3 items-center border-2 border-[#01f736] py-[6px] w-full rounded-3xl text-lg transition_normal hover:border-blue-500">
-            {existItem.quantity > 1 ? (
+            <Tooltip title="remove from cart">
               <button
-                
-                className="tranistion_normal  px-4 py-1"
+                onClick={() => deleteHandler(existItem.productId._id)}
+                className="text-gray-600 px-4 py-1"
               >
                 <AiOutlineMinus />
               </button>
-            ) : (
-              <Tooltip title="remove from cart">
-                <button
-                  onClick={() => deleteHandler(existItem.productId._id)}
-                  className="text-gray-600 px-4 py-1"
-                >
-                  <AiOutlineMinus />
-                </button>
-              </Tooltip>
-            )}
+            </Tooltip>
             <p className="font-mono text-lg">{existItem.quantity}</p>
             <Tooltip title="Increase by one">
               <button
-                onClick={() =>
-                  deleteHandler(existItem.productId._id)
-                }
+                onClick={() => addToCartHanle(_id)}
                 className=" tranistion_normal  px-4 py-1"
               >
                 <AiOutlinePlus />
@@ -77,10 +65,13 @@ const ProductCard = (props) => {
           </div>
         ) : (
           <button
-          onClick={() => addToCartHanle(_id)}
-            className="border-2 border-indigo-600 py-[6px] w-full rounded-3xl hover:text-indigo-600 bg-[#7a2dff] text-lg text-white hover:bg-white transition_normal  hover:border-indigo-500"
+            onClick={() => addToCartHanle(_id)}
+            className="border-2 border-[#7a2dff] py-[6px] flex items-center justify-center w-full rounded-3xl hover:text-indigo-600 bg-[#7a2dff] text-lg text-white hover:bg-white transition_normal  hover:border-indigo-500"
           >
-            add to cart
+            <FiShoppingCart
+              className="text-xl"
+            />
+            <span className="ml-2">add to cart</span>
           </button>
         )}
 

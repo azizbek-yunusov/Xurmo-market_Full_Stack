@@ -67,8 +67,10 @@ router.delete("/user/delete/:id", authMiddleware, async (req, res) => {
 // my profile
 router.get("/infor", authMiddleware, async (req, res) => {
   try {
-    const userItems = await UserModel.findById(req.user)
-      .populate("cart.productId", "_id name images price");
+    const userItems = await UserModel.findById(req.user).populate(
+      "cart.productId",
+      "_id name images price"
+    );
     res.status(200).json(userItems.cart);
   } catch (err) {
     console.log();

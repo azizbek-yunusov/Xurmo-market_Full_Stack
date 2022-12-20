@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 // import Zoom from 'react-img-zoom';
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { BiError } from "react-icons/bi";
 import axios from "axios";
 import Comments from "./Comments";
@@ -134,7 +134,7 @@ const ProductDetail = () => {
             {product.category} {product.name}
           </h1>
           <div className="lg:flex hidden py-1 items-center">
-            <div className="lg:flex items-center text-zinc-400 ">
+            {/* <div className="lg:flex items-center text-zinc-400 ">
               <h1 className="text-xl text-gray-700 mr-2">
                 {product.ratings?.toFixed(1)}
               </h1>
@@ -142,7 +142,7 @@ const ProductDetail = () => {
             </div>
             <h1 className="ml-4 font-medium text-lg text-zinc-700">
               {product.numOfReviews} reviews
-            </h1>
+            </h1> */}
             <div className="p-2 ml-5 cursor-pointer">
               {/* {!copyUrl ? (
                   <div
@@ -160,9 +160,11 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          <div className="md:grid grid-cols-1 md:grid-cols-3 md:gap-5 border-t border-r-gray-400 lg:py-5 py-4">
-            <ImageThumbs images={product.images} />
-            <div className="block px-2 text-left">
+          <div className="md:grid grid-cols-1 md:grid-cols-12 md:gap-5 border-t border-r-gray-400 lg:py-5 py-4">
+            <div className="col-span-4">
+              <ImageThumbs images={product.images} />
+            </div>
+            <div className="col-span-4 block px-2 text-left">
               <p className="text-3xl lg:font-medium font-semibold mt-4 lg:mt-0">
                 {/* {numberWithCommas(product.price)} cум{" "} */}
               </p>
@@ -177,39 +179,6 @@ const ProductDetail = () => {
                   {product.descr}
                 </h1>
               </div>
-            </div>
-            <div className="border border-zinc-300 rounded-lg lg:m-0 mt-4 p-5">
-              {/* <Link
-                // to={`/manufacturer/${product.brandName}`}
-                className="flex items-center flex-col align-middle"
-              >
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="align-middle"
-                  width={80}
-                  height={80}
-                />
-              </Link> */}
-              <p className="text-2xl lg:m-0 mt-4 font-medium">
-                {/* {numberWithCommas(product.price)} cум */}
-              </p>
-              <button
-                // onClick={() => dispatch(addToBasket(product))}
-                className="mt-5 text-2xl font-normal rounded-lg flex items-center justify-center lg:py-4 py-3 w-full bg-yellow-400 active:opacity-80 transition-opacity"
-              >
-                {/* {CartIcon} <p className="ml-3 font-semibold">в корзину</p> */}
-              </button>
-              <div className="lg:py-2 py-1 font-normal flex justify-center bg-gray-200 rounded-lg lg:my-4 text-zinc-800 my-3">
-                Рассрочка от{" "}
-                <p className="font-semibold lg:ml-[5px] ml-[2px]">
-                  {/* {numberWithCommas(Math.floor(product.price / 24))} cум / 24 */}
-                  мес.
-                </p>
-              </div>
-              <button className="text-xl font-normal rounded-lg flex items-center justify-center lg:py-4 py-3 w-full bg-zinc-700 active:opacity-80 transition-opacity text-white">
-                Купить в рассрочку
-              </button>
             </div>
           </div>
         </div>

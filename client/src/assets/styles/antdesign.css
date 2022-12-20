@@ -5,3 +5,8 @@
   background-color: #00000038;
   backdrop-filter: blur(1px);
 }
+.ant-switch-inner-checked {
+}
+.ant-switch-inner {
+  background-color: rgb(0, 255, 21) !important;
+}

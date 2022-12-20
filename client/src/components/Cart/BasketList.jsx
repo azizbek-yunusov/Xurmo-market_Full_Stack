@@ -1,16 +1,14 @@
-import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import toast from "react-hot-toast";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { HiOutlineTrash } from "react-icons/hi";
 import { GlobalState } from "../../GlobalState";
 
 const BasketList = () => {
-  const state = useContext(GlobalState)
-  const [cart] = state.userAPI.cart
-  const addToCartHanle = state.userAPI.addToCartHanle
-  const deleteHandler = state.userAPI.deleteHandler
+  const state = useContext(GlobalState);
+  const [cart] = state.userAPI.cart;
+  const addToCartHanle = state.userAPI.addToCartHanle;
+  const deleteHandler = state.userAPI.deleteHandler;
   useEffect(() => {
     window.scrollTo(0, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -64,7 +62,7 @@ const BasketList = () => {
                               </p>
                               <div className="">
                                 <button
-                                   onClick={() =>
+                                  onClick={() =>
                                     deleteHandler(item.productId._id)
                                   }
                                   className="flex items-center text-lg font-semibold text-red-500"
@@ -116,15 +114,32 @@ const BasketList = () => {
                   : null}
               </div>
             </div>
-            <div className="col-span-4 border border-gray-200 p-5 md:rounded-2xl">
-              <div className="flex justify-between md:px-3 items-center mb-5 border-b border-b-gray-300">
-                <h1 className="md:text-2xl mb-5 text-gray-600 font-bold">
-                  Total:
-                </h1>
-                <h1 className="md:text-2xl mb-5 text-gray-600 font-bold">
-                  {/* {cartItems.reduce((a, c) => a + c.price * c.quantity, 0)} */}
-                  {"$"}
-                </h1>
+            <div className="col-span-4">
+              <div className="border border-gray-200 p-5 md:rounded-2xl">
+                <div className="flex justify-between md:px-3 items-center mb-5 border-b border-b-gray-300">
+                  <h1 className="md:text-2xl mb-5 text-gray-600 font-bold">
+                    Total:
+                  </h1>
+                  <h1 className="md:text-2xl mb-5 text-gray-600 font-bold">
+                    {cart.reduce((a, c) => a + c.productId.price * c.quantity, 0)}
+                    {"$"}
+                  </h1>
+                </div>
+                <div className="border-2 border-gray-400 flex justify-between items-center overflow-hidden rounded-2xl">
+                  <input type="text" disabled className="py-3 w-full px-4 text-lg" placeholder="promo code" />
+                  <button className="bg-green-500 py-3 text-lg px-6">submit</button>
+                </div>
+                <div className=" mt-6">
+                  <ul className="flex justify-between items-center">
+                    <li className="text-lg">Stoimost delivery:</li>
+                    <li className="text-lg">0$</li>
+                  </ul>
+                </div>
+                <div className="mt-5">
+                  <button className="rounded-2xl w-full py-4 bg-indigo-600 text-white text-xl">
+                  placing an order
+                  </button>
+                </div>
               </div>
             </div>
           </div>

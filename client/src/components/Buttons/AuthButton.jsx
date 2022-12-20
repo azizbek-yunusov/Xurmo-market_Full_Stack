@@ -15,7 +15,7 @@ const AuthButton = () => {
     localStorage.removeItem("jwt");
     // window.location.href = "/signin";
     navigate("/signin");
-    toast.success("Successfuly!!")
+    toast.success("Successfuly!!");
   };
   const items = [
     {

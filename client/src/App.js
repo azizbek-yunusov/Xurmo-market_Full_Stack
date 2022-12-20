@@ -16,7 +16,6 @@ import CategoriesTable from "./dashboard/CategoryItems/CategoriesTable";
 import CreateProduct from "./dashboard/ProductElements/CreateProduct";
 import CreateUser from "./dashboard/CreateUser";
 import HomeDashboard from "./dashboard/Home";
-import OrdersList from "./dashboard/OrdersList";
 // import ProductDetail from "./dashboard/ProductDetail";
 import ProductsTable from "./dashboard/ProductsTable";
 import Profile from "./dashboard/Profile";
@@ -33,6 +32,7 @@ import { UserContext } from "./reducers/useReducer";
 import BasketList from "./components/Cart/BasketList";
 import axios from "axios";
 import { DataProvider } from "./GlobalState";
+import OrdersList from "./dashboard/OrderItems/OrdersList";
 
 function App() {
   const { state } = useContext(UserContext);

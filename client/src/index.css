@@ -10,9 +10,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@layer base {
+  html {
+    font-family: "Inter";
+  }
+}
 .container-full {
-  @apply max-w-[1440px] w-full lg:px-5 px-3 mx-auto min-w-[320px] select-none overflow-x-hidden;
+  @apply max-w-[1440px] w-full lg:px-5 px-3 mx-auto min-w-[320px] select-none overflow-x-hidden global-font;
 }
 .primary_bg {
   @apply bg-[#00abda];
@@ -20,6 +24,9 @@
 /* .primary_bg {
   @apply bg-[#c300fe]
 } */
+.global-font {
+  font-family: "Inter";
+}
 .flex_center {
   @apply flex items-center justify-center;
 }
