@@ -4,9 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { IoMdClose } from "react-icons/io";
 import Layout from "../Layout";
-import { Form, Input, Select } from "antd";
+import { Form, Input } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { AiOutlineCloudUpload } from "react-icons/ai";
+import { Option, Select } from "@material-tailwind/react";
 const CreateProduct = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -72,13 +73,9 @@ const CreateProduct = () => {
       console.log(err);
     }
   };
-  const changedOptions = categories.map((item) => {
-    return (item = { label: item.name || "", value: item.name || "" });
-  });
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(images);
   return (
     <Layout>
       <section className="relative">
@@ -102,7 +99,7 @@ const CreateProduct = () => {
             </li>
           </ol>
         </div>
-        <div className="-mt-14 rounded-2xl flex mx-4 bg-slate-50">
+        <div className="-mt-14 rounded-2xl flex mx-4 bg-white">
           <div className="flex w-full p-8 px-16">
             <div className="w-full">
               <Form
@@ -129,24 +126,18 @@ const CreateProduct = () => {
                     />
                   </Form.Item>
 
-                  <Form.Item
-                    label="Category"
-                    name="category"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your Category!",
-                      },
-                    ]}
+                  <Select
+                    value={category}
+                    onChange={selectedChange}
+                    size="lg"
+                    label="Select Version"
                   >
-                    <Select
-                      size="large"
-                      value={category}
-                      placeholder="Select category"
-                      onChange={selectedChange}
-                      options={changedOptions}
-                    />
-                  </Form.Item>
+                    {categories.map((item, index) => (
+                      <Option key={index} value={item._id}>
+                        {item.name}
+                      </Option>
+                    ))}
+                  </Select>
 
                   <Form.Item
                     label="Price"
@@ -167,7 +158,7 @@ const CreateProduct = () => {
                     />
                   </Form.Item>
 
-                  <Form.Item
+                  {/* <Form.Item
                     label="Brand"
                     name="brand"
                     rules={[
@@ -184,7 +175,7 @@ const CreateProduct = () => {
                       onChange={selectedChange}
                       options={changedOptions}
                     />
-                  </Form.Item>
+                  </Form.Item> */}
 
                   <Form.Item
                     label="Description"

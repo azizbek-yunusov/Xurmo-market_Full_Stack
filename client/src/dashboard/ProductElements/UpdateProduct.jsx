@@ -1,5 +1,8 @@
+import { Input, Option, Select } from "@material-tailwind/react";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { AiOutlineCloudUpload } from "react-icons/ai";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import Layout from "../Layout";
 
@@ -7,10 +10,16 @@ const UpdateProduct = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [descr, setDescr] = useState("");
-  const [image, setImage] = useState("");
+  const [images, setImages] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState("");
+  // const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const goback = useNavigate();
   const navigate = useNavigate();
+  const selectedChange = (value) => {
+    setCategory(value);
+  };
   const fetchData = () => {
     fetch(`http://localhost:5000/product/${id}`, {
       method: "get",
@@ -23,7 +32,8 @@ const UpdateProduct = () => {
         setName(data.product.name);
         setDescr(data.product.descr);
         setPrice(data.product.price);
-        setImage(data.product.image);
+        setImages(data.product.images);
+        setCategory(data.product.category);
       });
   };
   const updateHandler = (e) => {
@@ -38,172 +48,147 @@ const UpdateProduct = () => {
         name,
         price,
         descr,
-        image,
+        images,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.err) {
-          
         } else {
           navigate("/dashboard/products");
         }
       });
   };
-
+  const fetchCategory = async () => {
+    try {
+      const { data } = await axios.get("/categories");
+      setCategories(data.categories);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
     fetchData();
+    fetchCategory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log(category);
+  console.log(categories);
   return (
     <Layout>
-      <section className="">
-        <div className="flex min-h-screen">
-          <div className="flex w-full p-8">
+      <section className="relative">
+        <div className="bg-indigo-400 w-full h-40 pl-5 pt-4 text-gray-50">
+          <h1 className="text-white text-2xl">Update Product</h1>
+          <ol className="list-reset mt-1 flex text-grey-dark text-sm text-gray-200">
+            <li>
+              <Link to={"/dashboard"}>Dashboard</Link>
+            </li>
+            <li>
+              <span className="mx-2">/</span>
+            </li>
+            <li>
+              <Link to={"/dashboard/products"}>Create</Link>
+            </li>
+            <li>
+              <span className="mx-2">/</span>
+            </li>
+            <li>
+              <span>Update</span>
+            </li>
+          </ol>
+        </div>
+        <div className="-mt-14 rounded-2xl flex mx-4 bg-white">
+          <div className="flex w-full p-8 px-16">
             <div className="w-full">
-              <h1 className="text-2xl font-semibold tracking-wider text-gray-800 capitalize">
-                Create Product
-              </h1>
-
-              <p className="mt-4 text-gray-500 ">
-                Let’s get you all set up so you can verify your personal account
-                and begin setting up your profile.
-              </p>
-
               <form onSubmit={updateHandler}>
-                <div className="grid grid-cols-1 gap-4 mt-8 md:grid-cols-2">
-                  <div>
-                    <label className="block mb-2 text-sm text-gray-600 ">
-                      Product Name
-                    </label>
-                    <input
-                      required
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      type="text"
-                      placeholder="Acer"
-                      className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md  focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block mb-2 text-sm text-gray-600 ">
-                      Category
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Laptop"
-                      className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block mb-2 text-sm text-gray-600 ">
-                      Price
-                    </label>
-                    <input
-                      type="number"
-                      placeholder="700$"
-                      value={price}
-                      onChange={(e) => setPrice(e.target.value)}
-                      className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block mb-2 text-sm">Image</label>
-                    <input
-                      value={image}
-                      onChange={(e) => setImage(e.target.value)}
-                      type="text"
-                      placeholder="Image"
-                      className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="">Description</label>
-                    <textarea
-                      id="textarea"
-                      type="textarea"
-                      rows={5}
-                      placeholder="Description"
-                      value={descr}
-                      onChange={(e) => setDescr(e.target.value)}
-                      className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-blue-500  focus:outline-none focus:ring"
-                    />
-
-                    {/* <Select
-                    defaultValue="USER"
-                    style={{
-                      width: 120,
-                    }}
-                    // onChange={handleChange}
-                    options={[
-                      {
-                        value: true,
-                        label: "ADMIN",
-                      },
-                      {
-                        value: false,
-                        label: "USER",
-                      },
-                    ]}
-                  /> */}
-                  </div>
-
-                  <label htmlFor="file-upload">
-                    <label
-                      htmlFor="file-upload"
-                      className="block text-sm font-medium mb-3 text-gray-700"
-                    >
-                      Cover photo
-                    </label>
-                    <div className="mt-1 flex bg-white justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                      <div className="space-y-1 text-center">
-                        <svg
-                          className="mx-auto h-12 w-12 text-gray-400"
-                          stroke="currentColor"
-                          fill="none"
-                          viewBox="0 0 48 48"
-                          aria-hidden="true"
-                        >
-                          <path
-                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                        <div className="flex text-sm text-gray-600">
-                          <label
-                            htmlFor="file-upload"
-                            className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
-                          >
-                            <span>Upload a file</span>
-                            <input
-                              id="file-upload"
-                              name="file-upload"
-                              type="file"
-                              className="sr-only"
-                            />
-                          </label>
-                          <p className="pl-1">or drag and drop</p>
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <Input
+                    label="Name"
+                    size="lg"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                  <Select
+                    value="4"
+                    onChange={selectedChange}
+                    size="lg"
+                    label="Select Version"
+                  >
+                    {categories.map((item, index) => (
+                      <Option key={index} value={item.name}>
+                        {item.name}
+                      </Option>
+                    ))}
+                  </Select>
+                  <Input
+                    label="Name"
+                    size="lg"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                  />
+                  <div className="flex">
+                    <label htmlFor="file-upload">
+                      <label
+                        htmlFor="file-upload"
+                        className="block text-sm mb-2 text-gray-700"
+                      >
+                        Upload images
+                      </label>
+                      <div className="mr-2 flex bg-white justify-center items-center rounded-md border-2 border-dashed border-gray-300 p-3 py-6 cursor-pointer">
+                        <div className="flex justify-center flex-col items-center">
+                          <AiOutlineCloudUpload className="text-3xl text-gray-600" />
+                          <div className="flex text-sm text-gray-600">
+                            <label
+                              htmlFor="file-upload"
+                              className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
+                            >
+                              <span>Upload image</span>
+                              <input
+                                id="file-upload"
+                                name="file"
+                                type="file"
+                                className="sr-only"
+                                // onChange={handleImage}
+                              />
+                            </label>
+                          </div>
+                          <p className="text-xs text-gray-500">
+                            PNG, JPG up to 10MB
+                          </p>
                         </div>
-                        <p className="text-xs text-gray-500">
-                          PNG, JPG, GIF up to 10MB
-                        </p>
                       </div>
+                    </label>
+
+                    <div className="show_images flex flex-wrap items-center">
+                      {/* {images.map((img, index) => (
+                        <div key={index} className="p-[6px] mx-[2px] relative">
+                          <div
+                            className="border border-gray-400 overflow-hidden rounded"
+                            id="file_img"
+                          >
+                            <img
+                              src={img}
+                              alt="images"
+                              className="img-thumbnail max-w-[90px] w-full"
+                            />
+                          </div>
+                          <IoMdClose
+                            // onClick={() => deleteImages(index)}
+                            className="absolute text-gray-600 top-0 p-1 border text-2xl border-gray-300 right-0 cursor-pointer rounded-full bg-white"
+                          />
+                        </div>
+                      ))} */}
                     </div>
-                  </label>
+                  </div>
                 </div>
                 <div className="w-full mt-8 flex justify-end">
-                <div
+                  <div
                     onClick={() => goback(-1)}
                     className="inline-flex justify-center cursor-pointer rounded-md border-2 mr-3 border-indigo-600 py-3 px-10 text-lg font-medium text-indigo-600 shadow-sm hover:bg-indigo-700 hover:text-white tranistion_normal focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
                     Cancel
                   </div>
+
                   <button
                     type="submit"
                     className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-10 text-lg font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"

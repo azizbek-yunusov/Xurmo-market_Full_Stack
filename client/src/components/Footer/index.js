@@ -22,7 +22,7 @@ const Footer = () => {
                       to={"/"}
                       className="text-red-600 font-bold lg:text-4xl text-2xl"
                     >
-                      Logo.uz
+                      texnoroom
                     </Link>
                     <div className="block w-full">
                       <p className="text-white text-sm mt-5">

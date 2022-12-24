@@ -1,10 +1,11 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const morgan = require('morgan');
 const mongoose = require("mongoose");
 require("dotenv").config();
 const bodyParser = require("body-parser");
-const fileUpload = require("express-fileupload");
+const cookieParser = require('cookie-parser');
 
 const productRoutes = require("./routes/productRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -16,6 +17,7 @@ const cartRoutes = require("./routes/cartRoutes");
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
+app.use(morgan('dev'));
 app.use(cors());
 app.use(bodyParser.json({ limit: "100mb" }));
 app.use(
@@ -24,7 +26,7 @@ app.use(
     extended: true,
   })
 );
-app.use(fileUpload());
+app.use(cookieParser());
 
 app.use(productRoutes);
 app.use(userRoutes);

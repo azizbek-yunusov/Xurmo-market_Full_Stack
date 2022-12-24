@@ -1,8 +1,11 @@
+import { Button, Checkbox, Input } from "@material-tailwind/react";
 import React, { useContext, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
-
 import { UserContext } from "../reducers/useReducer";
+import RegisterBg from "../assets/images/register-bg.png";
+import AuthBottomBg from "../assets/images/auth-bottom-bg.png";
+import TreeBg from "../assets/images/tree-bg.png";
 
 const SignUp = () => {
   const { dispatch } = useContext(UserContext);
@@ -41,120 +44,90 @@ const SignUp = () => {
       <Helmet>
         <title>Sign Up | E-commerce</title>
       </Helmet>
-    <div className="bg-white ">
-      <div className="flex justify-center h-screen">
-        <div className="hidden bg-cover lg:block lg:w-7/12 signin_bg">
-          <div className="flex items-center h-full px-20 bg-gray-900 bg-opacity-40">
-            <div>
-              <h2 className="text-4xl font-bold text-white">Brand</h2>
-
-              <p className="max-w-xl mt-3 text-gray-300">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. In
-                autem ipsa, nulla laboriosam dolores, repellendus perferendis
-                libero suscipit nam temporibus molestiae
-              </p>
-            </div>
+      <div className="bg-white ">
+        <div className="grid grid-cols-12 min-h-screen bg-white gap-0">
+          <div className="col-span-8 relative flex justify-center items-center overflow-hidden">
+            <img
+              src={RegisterBg}
+              className="max-w-3xl w-full z-20 object-cover"
+              alt=""
+            />
+            <img className="absolute left-0 bottom-0 z-10" src={AuthBottomBg} alt="" />
+            <img className="absolute left-0 bottom-1 z-20" src={TreeBg} alt="" />
           </div>
-        </div>
+          <div className="col-span-4 border-l border-l-gray-300 flex items-center max-w-md md:px-14 w-full mx-auto">
+            <div className="flex-1">
+              <div className="">
+                <h2 className="text-2xl font-bold text-gray-700 ">
+                  Adventure starts here 🚀
+                </h2>
 
-        <div className="flex items-center w-full max-w-md mx-auto">
-          <div className="flex-1">
-            <div className="text-center">
-              <h2 className="text-4xl font-bold text-center text-gray-700 ">
-                Brand
-              </h2>
+                <p className="mt-3 text-gray-500">
+                  Make your app management easy and fun!
+                </p>
+              </div>
 
-              <p className="mt-3 text-gray-500">
-                Sign in to access your account
-              </p>
-            </div>
-
-            <div className="mt-8">
-              <form onSubmit={signUpHandler}>
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block mb-2 text-sm text-gray-600 "
-                  >
-                    Name
-                  </label>
-                  <input
-                    type="name"
-                    name="name"
-                    id="name"
+              <div className="mt-8">
+                <form onSubmit={signUpHandler}>
+                  <Input
+                    label="Name"
+                    size="lg"
+                    color="purple"
+                    autoFocus
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="John"
-                    className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md  focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                   />
-                </div>
-                <div className="mt-6">
-                  <label
-                    htmlFor="email"
-                    className="block mb-2 text-sm text-gray-600 "
-                  >
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="example@example.com"
-                    className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md  focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                  />
-                </div>
-
-                <div className="mt-6">
-                  <div className="flex justify-between mb-2">
-                    <label
-                      htmlFor="password"
-                      className="text-sm text-gray-600 "
-                    >
-                      Password
-                    </label>
-                    {/* <Link
-                      to={"/"}
-                      className="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline"
-                    >
-                      Forgot password?
-                    </Link> */}
+                  <div className="mt-6">
+                    <Input
+                      label="Email"
+                      size="lg"
+                      color="purple"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
                   </div>
+                  <div className="mt-6">
+                    <Input
+                      label="Password"
+                      size="lg"
+                      color="purple"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </div>
+                  <div className="mt-1 -ml-2 text-sm">
+                    <Checkbox
+                      className="text-sm"
+                      label="I agree to privacy policy & terms"
+                    />
+                  </div>
+                  <div className="mt-3">
+                    <Button
+                      type="submit"
+                      size="lg"
+                      className="w-full tracking-wide font-normal"
+                      variant="gradient"
+                    >
+                      Sign Up
+                    </Button>
+                  </div>
+                </form>
 
-                  <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="**********"
-                    className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md  focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                  />
-                </div>
-
-                <div className="mt-6">
-                  <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50">
-                    Sign up
-                  </button>
-                </div>
-              </form>
-
-              <p className="mt-6 text-sm text-center text-gray-400">
-                Do you have an account{" "}
-                <Link
-                  to={"/signin"}
-                  className="text-blue-500 focus:outline-none focus:underline hover:underline"
-                >
-                  Sign In
-                </Link>
-                .
-              </p>
+                <p className="mt-5 text-base text-center text-gray-400">
+                  Already have an account?{" "}
+                  <Link
+                    to={"/signin"}
+                    className="text-blue-500 focus:outline-none focus:underline hover:underline"
+                  >
+                    Sign in instead
+                  </Link>
+                  .
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </>
   );
 };

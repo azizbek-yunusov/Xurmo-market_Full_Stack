@@ -33,7 +33,7 @@ const signUp = async (req, res) => {
     user.password = undefined;
     res.status(200).json({ token, user, msg: "User added successfully" });
   } catch (err) {
-    console.log(err);
+    return res.status(500).json({ msg: err.message });
   }
 };
 

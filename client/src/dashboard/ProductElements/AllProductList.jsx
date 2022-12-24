@@ -1,9 +1,9 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { AiOutlineFolderAdd } from "react-icons/ai";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
+import toast from "react-hot-toast";
+import { Tooltip, Button, Avatar, Checkbox } from "@material-tailwind/react";
 import { FiEdit } from "react-icons/fi";
 import DataTableLoader from "../../components/SkeletonLoaders/DataTableLoader";
 
@@ -27,6 +27,7 @@ const AllProductList = () => {
       }).then((data) => {
         if (data.err) {
         } else {
+          toast.success("Deleted product");
           fetchData();
         }
       });
@@ -43,20 +44,23 @@ const AllProductList = () => {
         <DataTableLoader />
       ) : (
         <>
-          <div className="bg-white dark:bg-[#2e2d4a] shadow-md rounded my-6">
+          <div className="bg-white dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border border-gray-300">
             <Link
               to={"/product/create"}
               className="w-full flex items-center justify-end"
             >
-              <button className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 py-2 my-2 mx-2 px-10 text-lg text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                <AiOutlineFolderAdd className="text-2xl mr-2 text-white" />
-                Create
-              </button>
+              <Tooltip content="Add new product">
+                <Button variant="gradient" className="my-2 mx-2">
+                  create product
+                </Button>
+              </Tooltip>
             </Link>
-            <table className="min-w-max w-full table-auto rounded-lg">
+            <table className="min-w-max w-full table-auto rounded-lg ">
               <thead>
-                <tr className="bg-gray-300 dark:bg-[#232338] text-gray-900 dark:text-gray-200 text-sm rounded-t-lg leading-normal">
-                  <th className="py-3 px-6 text-left">Name</th>
+                <tr className="bg-gray-100 dark:bg-[#232338] text-gray-700 dark:text-gray-200 text-sm rounded-t-lg leading-normal">
+                  <th className="py-3 px-6 text-left">
+                    <Checkbox /> Name
+                  </th>
                   <th className="py-3 px-6 text-left">Price</th>
                   <th className="py-3 px-6 text-center">CreatedBy</th>
                   <th className="py-3 px-6 text-center">Actions</th>
@@ -69,8 +73,9 @@ const AllProductList = () => {
                       key={index}
                       className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 hover:dark:bg-gray-600"
                     >
-                      <td className="py-3 px-6 whitespace-nowrap">
+                      <td className="py-3 px-3 whitespace-nowrap">
                         <div className="flex justify-start items-center">
+                          <Checkbox />
                           <div className="mr-2">
                             <img
                               className="w-10 h-10 rounded"
@@ -78,7 +83,9 @@ const AllProductList = () => {
                               alt=""
                             />
                           </div>
-                          <span className="mr-2">{product.name}</span>
+                          <span className="mr-2">
+                            {product.name.slice(0, 40)}
+                          </span>
                         </div>
                       </td>
                       <td className="py-3 px-6 text-left">
@@ -88,10 +95,10 @@ const AllProductList = () => {
                       <td className="py-3 px-6 text-center">
                         <div className="flex justify-center items-center">
                           <div className="mr-2">
-                            <img
-                              className="w-6 h-6 rounded-full"
-                              src="https://randomuser.me/api/portraits/men/1.jpg"
-                              alt=""
+                            <Avatar
+                              src="https://www.material-tailwind.com/img/face-2.jpg"
+                              alt="avatar"
+                              size="sm"
                             />
                           </div>
                           <span className="mr-2">

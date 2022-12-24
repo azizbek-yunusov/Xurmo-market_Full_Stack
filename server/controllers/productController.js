@@ -6,7 +6,7 @@ const getAllProducts = async (req, res) => {
     const products = await ProductModel.find().populate(
       "createdBy",
       "_id name"
-    );
+    ).populate("category", "_id name")
     res.status(201).json({
       products,
     });
