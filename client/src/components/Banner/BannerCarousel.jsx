@@ -46,6 +46,7 @@ const BannerCarousel = () => {
           navigation={true}
           pagination={{ clickable: true }}
           scrollbar={{ draggable: true }}
+          className="bg-purple-500"
         >
           {banners.map((item, index) => (
             <SwiperSlide key={index}>

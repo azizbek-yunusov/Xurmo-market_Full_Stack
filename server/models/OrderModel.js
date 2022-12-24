@@ -1,25 +1,8 @@
 const { Schema, model } = require("mongoose");
 
 const orderSchema = new Schema({
-  shippingInfo: {
-    address: {
-      type: String,
-    },
-    city: {
-      type: String,
-    },
-    state: {
-      type: String,
-    },
-    country: {
-      type: String,
-    },
-    pinCode: {
-      type: Number,
-    },
-    phoneNo: {
-      type: Number,
-    },
+  shippingAddress: {
+    type: Object,
   },
   orderItems: [
     {
@@ -61,7 +44,6 @@ const orderSchema = new Schema({
   },
   orderStatus: {
     type: String,
-
     default: "Processing",
   },
   deliveredAt: Date,

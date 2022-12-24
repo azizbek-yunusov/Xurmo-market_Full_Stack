@@ -5,11 +5,11 @@ import React from "react";
 const BannerItem = ({ name, image, href }) => {
   return (
     <div
-      onMouseMove={() => console.log("hover")}
-      className="w-full overflow-hidden cursor-pointer flex justify-start items-center px-1"
+      // onMouseMove={() => console.log("hover")}
+      className="w-full overflow-hidden cursor-pointer bg-purple-500 flex justify-start items-center px-1"
     >
       <img
-        src={image}
+        src={image.url}
         alt={name}
         className="w-full bg-center object-center lg:h-full rounded-xl"
       />

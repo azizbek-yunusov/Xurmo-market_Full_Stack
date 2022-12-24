@@ -14,10 +14,18 @@ const productSchema = new Schema(
       type: String,
       required: true,
     },
-    images: {
-      type: Array,
-      default: [],
-    },
+    images: [
+      {
+        public_id: {
+          type: String,
+          required: true,
+        },
+        url: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
     brand: { type: String },
     Stock: {
       type: Number,

@@ -1,4 +1,5 @@
 const ProductModel = require("../models/ProductModel");
+const cloudinary = require("../utils/cloudinary");
 
 const getAllProducts = async (req, res) => {
   try {
@@ -44,18 +45,25 @@ const getProduct = async (req, res) => {
 
 const createProduct = async (req, res) => {
   const { _id, name, descr, price, createdAt, category, images } = req.body;
-  // Create product
-  const product = await ProductModel.create({
-    _id,
-    name,
-    descr,
-    price,
-    images,
-    createdAt,
-    category,
-    createdBy: req.user,
-  });
   try {
+    let images = [...req.body.images];
+    let imagesBuffer = [];
+
+    for (let i = 0; i < images.length; i++) {
+      const result = await cloudinary.v2.uploader.upload(images[i], {
+        folder: "products",
+      });
+
+      imagesBuffer.push({
+        public_id: result.public_id,
+        url: result.secure_url,
+      });
+    }
+
+    req.body.images = imagesBuffer;
+    req.body.createdBy = req.user;
+
+    const product = await ProductModel.create(req.body);
     await product.save();
     res.status(200).json({
       product,
@@ -81,16 +89,17 @@ const updateProduct = async (req, res) => {
 };
 
 const deleteProduct = async (req, res) => {
-  try {
-    async (req, res) => {
-      await ProductModel.findByIdAndDelete(req.params.id);
-      res.status(201).json({
-        msg: "DELETED",
-      });
-    };
-  } catch (err) {
-    console.log(err);
+  const product = await ProductModel.findById(req.params.id);
+  if (!product) {
+    return res.status(401).json({ msg: "Product not found" });
   }
+  for (let i = 0; i < product.images.length; i++) {
+    await cloudinary.v2.uploader.destroy(product.images[i].public_id);
+  }
+  await product.remove();
+  res.status(201).json({
+    msg: "DELETED",
+  });
 };
 
 const addReview = async (req, res) => {

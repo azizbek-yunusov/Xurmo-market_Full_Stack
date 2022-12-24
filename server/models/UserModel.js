@@ -4,9 +4,20 @@ const userSchema = new Schema({
   name: {
     type: String,
     required: true,
+    trim: true,
   },
   lastName: {
     type: String,
+  },
+  email: {
+    type: String,
+    required: true,
+    trim: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
   },
   image: {
     type: String,
@@ -15,14 +26,6 @@ const userSchema = new Schema({
   },
   phoneNumber: {
     type: String,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
   },
   cart: [
     {
@@ -37,10 +40,39 @@ const userSchema = new Schema({
       },
     },
   ],
+  addresses: [
+    {
+      country: {
+        type: String,
+      },
+      region: {
+        type: String,
+      },
+      district: {
+        type: String,
+      },
+      street: {
+        type: String,
+      },
+      house: {
+        type: String,
+      },
+      apartment: {
+        type: String,
+      },
+      isActive: {
+        type: Boolean,
+        default: false,
+      },
+      other: {
+        type: String,
+      },
+      postalCode: { type: String },
+    },
+  ],
   admin: {
     type: Boolean,
     default: false,
-    required: true,
   },
   createdAt: {
     type: Date,
@@ -79,6 +111,18 @@ userSchema.methods.removeFromCart = function (id) {
 
   const newCart = cart;
   this.cart = newCart;
+  return this.save();
+};
+userSchema.methods.cleanCart = function () {
+  this.cart = [];
+  return this.save();
+};
+userSchema.methods.removeFromAddress = function (id) {
+  let addresses = [...this.addresses];
+  addresses = addresses.filter((s) => s._id.toString() !== id.toString());
+
+  const newAddresses = addresses;
+  this.addresses = newAddresses;
   return this.save();
 };
 

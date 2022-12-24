@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import { UserContext } from "../reducers/useReducer";
-import Layout from "./Layout";
+import { UserContext } from "../../reducers/useReducer";
+import Layout from "../Layout";
 
 const Profile = () => {
   const { state } = useContext(UserContext);

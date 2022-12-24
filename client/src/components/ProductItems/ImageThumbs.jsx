@@ -27,7 +27,7 @@ const ImageThumbs = ({ images }) => {
                 <img
                   src={item.url}
                   alt="product images "
-                  className="object-cover"
+                  className="object-cover p-4"
                 />
               </SwiperSlide>
             ))}
@@ -46,7 +46,7 @@ const ImageThumbs = ({ images }) => {
                   <img
                     src={item.url}
                     alt="product images"
-                    className="object-cover "
+                    className="object-cover p-2"
                   />
                 </div>
               </SwiperSlide>

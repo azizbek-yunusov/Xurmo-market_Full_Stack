@@ -67,3 +67,15 @@
   z-index: -2;
 
 }
+:root {
+  --color-brand: #3023ae;
+  --color-brand-secondary: #c86dd7;
+}
+
+.gradient__brand-secondary {
+  stop-color: var(--color-brand-secondary);
+}
+
+.gradient__brand {
+  stop-color: var(--color-brand);
+}

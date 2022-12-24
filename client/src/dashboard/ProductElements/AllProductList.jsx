@@ -5,7 +5,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 import { FiEdit } from "react-icons/fi";
-import DataTableLoader from "../components/SkeletonLoaders/DataTableLoader";
+import DataTableLoader from "../../components/SkeletonLoaders/DataTableLoader";
 
 const AllProductList = () => {
   const [products, setProducts] = useState([]);
@@ -19,13 +19,17 @@ const AllProductList = () => {
   };
   const deleteHandler = async (id) => {
     try {
-      const { data } = await axios.delete(`/product/${id}`, {
-        headers: { Authorization: localStorage.getItem("jwt") },
+      fetch(`http://localhost:5000/product/${id}`, {
+        method: "delete",
+        headers: {
+          Authorization: localStorage.getItem("jwt"),
+        },
+      }).then((data) => {
+        if (data.err) {
+        } else {
+          fetchData();
+        }
       });
-      if (data.error) {
-      } else {
-        fetchData();
-      }
     } catch (err) {
       console.log(err);
     }
@@ -33,7 +37,6 @@ const AllProductList = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(products);
   return (
     <div className="w-full px-5">
       {loading ? (
@@ -64,13 +67,13 @@ const AllProductList = () => {
                   .map((product, index) => (
                     <tr
                       key={index}
-                      className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100"
+                      className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 hover:dark:bg-gray-600"
                     >
                       <td className="py-3 px-6 whitespace-nowrap">
                         <div className="flex justify-start items-center">
                           <div className="mr-2">
                             <img
-                              className="w-7 h-7 rounded-lg"
+                              className="w-10 h-10 rounded"
                               src={product.images[0].url}
                               alt=""
                             />
@@ -91,7 +94,11 @@ const AllProductList = () => {
                               alt=""
                             />
                           </div>
-                          <span className="mr-2">{product.createdBy ? product.createdBy.name : "deleted account"}</span>
+                          <span className="mr-2">
+                            {product.createdBy
+                              ? product.createdBy.name
+                              : "deleted account"}
+                          </span>
                           <span>{moment(product.createdAt).format("lll")}</span>
                           {/* <span>{product.createdAt.toDateString()}</span> */}
                         </div>
@@ -129,7 +136,6 @@ const AllProductList = () => {
                             </div>
                           </Link>
                           <button
-                            type="submit"
                             onClick={() => deleteHandler(product._id)}
                             className="cursor-pointer w-5 mr-3 transform hover:text-purple-500 hover:scale-110"
                           >

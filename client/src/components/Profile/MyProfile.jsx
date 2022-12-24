@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { UserContext } from "../../reducers/useReducer";
+import MyOrders from "./MyOrders";
 
 const MyProfile = () => {
   const { state } = useContext(UserContext);
@@ -61,6 +62,9 @@ const MyProfile = () => {
           <li className="text-xl">My orders</li>
           <li className="text-xl">Settings</li>
         </ul>
+        <div className="">
+          <MyOrders />
+        </div>
       </div>
     </div>
   );

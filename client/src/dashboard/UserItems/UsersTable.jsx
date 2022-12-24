@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
-import Layout from "./Layout";
+import Layout from "../Layout";
 
 const UsersTable = () => {
   const [users, setUsers] = useState([]);
@@ -35,7 +35,6 @@ const UsersTable = () => {
         },
       }).then((data) => {
         if (data.err) {
-          
         } else {
           // navigate("/");
           fetchUsers();

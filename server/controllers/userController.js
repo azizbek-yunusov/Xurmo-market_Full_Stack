@@ -5,7 +5,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 const signUp = async (req, res) => {
   try {
-    const { name, email, password, admin, cart } = req.body;
+    const { name, email, password, admin, cart, addresses } = req.body;
     if (!name || !email || !password) {
       return res.status(400).json({ error: "Please add all the feilds" });
     }
@@ -26,6 +26,7 @@ const signUp = async (req, res) => {
       password: hashedPassword,
       admin,
       cart: [],
+      addresses: [],
     });
     const token = jwt.sign({ _id: user._id }, JWT_SECRET);
     await user.save();
@@ -127,6 +128,64 @@ const getUserInfo = async (req, res) => {
   }
 };
 
+const addAdress = async (req, res) => {
+  try {
+    const {
+      country,
+      region,
+      district,
+      street,
+      house,
+      apartment,
+      isActive,
+      other,
+      postalCode,
+    } = req.body;
+    const address = {
+      country,
+      region,
+      street,
+      district,
+      house,
+      apartment,
+      isActive,
+    };
+    const user = await UserModel.findById(req.user);
+    user.addresses.push(address);
+    await user.save();
+
+    res.status(200).json({
+      user,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const getMyAdresses = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.user);
+    let { addresses } = user;
+    res.status(200).json({
+      addresses,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const deleteAddress = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.user);
+    await user.removeFromAddress(req.params.id);
+    res.status(200).json({
+      success: true,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   signUp,
   signIn,
@@ -135,4 +194,7 @@ module.exports = {
   updateUser,
   deleteUser,
   getUserInfo,
+  addAdress,
+  getMyAdresses,
+  deleteAddress,
 };

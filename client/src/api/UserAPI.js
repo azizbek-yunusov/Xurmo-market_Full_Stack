@@ -54,6 +54,25 @@ function UserAPI() {
       console.log(err);
     }
   };
+
+  const newOrder = (e) => {
+    e.preventDefault();
+    fetch("http://localhost:5000/order", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("jwt"),
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+        } else {
+          fetchCart();
+          toast.success("Your order has been accepted");
+        }
+      });
+  };
   useEffect(() => {
     if (userInfo) {
       fetchCart();
@@ -64,6 +83,7 @@ function UserAPI() {
     cart: [cart, setCart],
     addToCartHanle: addToCartHanle,
     deleteHandler: deleteHandler,
+    newOrder: newOrder,
   };
 }
 

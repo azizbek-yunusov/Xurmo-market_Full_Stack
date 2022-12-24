@@ -130,7 +130,7 @@ const ProductDetail = () => {
             </Link>
           </div>
 
-          <h1 className="md:text-3xl text-xl text-left px-2 font-normal text-zinc-700 mb-3">
+          <h1 className="md:text-4xl text-xl text-left px-2 font-semibold text-zinc-700">
             {product.category} {product.name}
           </h1>
           <div className="lg:flex hidden py-1 items-center">
@@ -169,8 +169,8 @@ const ProductDetail = () => {
                 {/* {numberWithCommas(product.price)} cум{" "} */}
               </p>
               <div className="">
-                <p className="lg:text-xl text-lg leading-6 font-semibold mt-5 text-zinc-800">
-                  Коротко о товаре:
+                <p className="lg:text-xl text-lg leading-6 font-semibold text-zinc-800">
+                  Description:
                 </p>
                 <p className="text-lg leading-6 font-normal lg:mt-4 mt-4 text-zinc-800">
                   {/* Гарантийный срок (месяц): {product.warranty} */}
@@ -216,7 +216,7 @@ const ProductDetail = () => {
                 </div>
                 <div className="">
                   <div className="flex items-center mt-4">
-                    <div className=" w-1/5 text-indigo-500 tracking-tighter">
+                    <div className="w-1/5 text-indigo-500 tracking-tighter">
                       <span>5 star</span>
                     </div>
                     <div className="w-3/5">

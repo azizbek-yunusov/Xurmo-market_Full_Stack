@@ -19,9 +19,10 @@ const newOrder = async (req, res) => {
       quantity: c.quantity,
       productId: { ...c.productId._doc },
     }));
+
     const newOrder = await OrderModel.create({
       orderItems: product,
-      shippingAddress,
+      shippingAddress: customer.addresses[0],
       itemsPrice,
       taxPrice,
       shippingPrice,
@@ -29,6 +30,7 @@ const newOrder = async (req, res) => {
       user: req.user,
     });
     const order = await newOrder.save();
+    await customer.cleanCart();
     res.status(201).json({ message: "New Order Created", order });
   } catch (err) {
     console.log(err);
@@ -37,10 +39,9 @@ const newOrder = async (req, res) => {
 
 const getAllOrders = async (req, res) => {
   try {
-    const orders = await OrderModel.find().populate(
-      "orderItems.productId",
-      "_id name price images"
-    );
+    const orders = await OrderModel.find()
+      .populate("orderItems.productId", "_id name price images")
+      .populate("user", "_id name");
     res.status(200).json({ orders });
   } catch (err) {
     return res.status(500).json({ msg: err.message });
@@ -61,8 +62,11 @@ const getOrder = async (req, res) => {
 
 const getMyOrders = async (req, res) => {
   try {
-    const orders = await OrderModel.findById(req.user).populate("user", "name");
-    res.status(200).json(orders);
+    const orders = await OrderModel.find({ user: req.user._id }).populate(
+      "user",
+      "_id name"
+    ).populate("orderItems.productId", "_id name price images")
+    res.status(200).json({orders});
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }

@@ -46,7 +46,7 @@ const OrdersList = () => {
       <Layout>
         <div className="flex items-center flex-col justify-center font-sans">
           <div className="w-full px-5">
-            <div className="bg-white shadow-md rounded my-6">
+            <div className="bg-white dark:bg-[#2e2d4a] shadow-md rounded my-6">
               <Link
                 to={"/category/add"}
                 className="w-full flex items-center justify-end"
@@ -58,7 +58,7 @@ const OrdersList = () => {
               </Link>
               <table className="min-w-max w-full table-auto global-font">
                 <thead>
-                  <tr className="bg-gray-200 text-gray-600 text-sm leading-normal">
+                  <tr className="bg-gray-200 text-gray-600 text-sm dark:bg-[#232338] dark:text-gray-200 leading-normal">
                     <th className="py-3 px-6 text-left">Order ID</th>
                     <th className="py-3 px-6 text-left">Products</th>
                     <th className="py-3 px-6 text-center">Date</th>
@@ -67,12 +67,12 @@ const OrdersList = () => {
                     <th className="py-3 px-6 text-center">Action</th>
                   </tr>
                 </thead>
-                <tbody className="text-gray-600 text-sm font-light">
+                <tbody className="text-gray-600 dark:text-gray-300 text-sm font-light">
                   {orders
                     .map((order, index) => (
                       <tr
                         key={index}
-                        className="border-b border-gray-200 hover:bg-gray-100"
+                        className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-700 tranistion_normal"
                       >
                         <td className="py-3 px-6 font-semibold">
                           <h1 className="">
@@ -82,18 +82,22 @@ const OrdersList = () => {
                         </td>
                         <td className="py-3 px-6">
                           <div className="flex">
-                            {order.orderItems.length &&
-                              order.orderItems.map((item) => (
-                                <div key={item._id} className="cursor-pointer">
-                                  <Link to={`/product/${item.productId._id}`}>
-                                    <img
-                                      src={item.productId.images[0].url}
-                                      className="w-9 h-9 mx-1"
-                                      alt=""
-                                    />
-                                  </Link>
-                                </div>
-                              ))}
+                            {order.orderItems.order
+                              ? order.orderItems.map((item) => (
+                                  <div
+                                    key={item._id}
+                                    className="cursor-pointer"
+                                  >
+                                    <Link to={`/product/${item.productId._id}`}>
+                                      <img
+                                        src={item.productId.images[0].url}
+                                        className="w-9 h-9 mx-1 rounded"
+                                        alt=""
+                                      />
+                                    </Link>
+                                  </div>
+                                ))
+                              : null}
                           </div>
                         </td>
                         <td className="text-center">
@@ -112,9 +116,7 @@ const OrdersList = () => {
                               />
                             </div>
                             <span className="mr-2">
-                              {order.createdBy
-                                ? order.createdBy.name
-                                : "deleted account"}
+                              {order.user ? order.user.name : "deleted account"}
                             </span>
                             <span>{moment(order.createdAt).format("lll")}</span>
                           </div>

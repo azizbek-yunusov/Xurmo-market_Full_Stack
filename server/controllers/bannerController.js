@@ -1,19 +1,25 @@
 const BannerModel = require("../models/BannerModel");
+const cloudinary = require("../utils/cloudinary");
 
 const createBanner = async (req, res) => {
   const { _id, name, href, image, createdAt } = req.body;
-  if (!name || !href || !image) {
-    return res.status(400).json({ error: "Please add all the feilds" });
-  }
-  const banner = await BannerModel.create({
-    _id,
-    name,
-    href,
-    image,
-    createdAt,
-    createdBy: req.user,
-  });
   try {
+    const result = await cloudinary.uploader.upload(image, {
+      folder: "Banners",
+      // width: 300,
+      // crop: "scale"
+    });
+    const banner = await BannerModel.create({
+      _id,
+      name,
+      href,
+      image: {
+        public_id: result.public_id,
+        url: result.secure_url,
+      },
+      createdAt,
+      createdBy: req.user,
+    });
     await banner.save();
     res.status(200).json({
       banner,

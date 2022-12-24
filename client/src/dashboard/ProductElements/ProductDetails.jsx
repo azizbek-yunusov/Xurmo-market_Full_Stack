@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Layout from "./Layout";
+import Layout from "../Layout";
 
-const ProductDetail = () => {
+const ProductDetails = () => {
   const goback = useNavigate();
   const { id } = useParams();
   const [product, setProduct] = useState({});
@@ -139,4 +139,4 @@ const ProductDetail = () => {
   );
 };
 
-export default ProductDetail;
+export default ProductDetails;

@@ -1,11 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-import { imageUpload } from "../../utils/imageUpload";
 import { IoMdClose } from "react-icons/io";
 import Layout from "../Layout";
-const CreateBanner = () => {
+import { Form, Input, Select } from "antd";
+import TextArea from "antd/es/input/TextArea";
+import { AiOutlineCloudUpload } from "react-icons/ai";
+const CreateProduct = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [descr, setDescr] = useState("");
@@ -17,32 +19,28 @@ const CreateBanner = () => {
   const goback = useNavigate();
   const navigate = useNavigate();
 
-  const selectedChange = (e) => {
-    setCategory(e.target.value);
+  const selectedChange = (value) => {
+    setCategory(value);
   };
-
-  // upload Image show
-  const handleChangeImages = (e) => {
-    const files = [...e.target.files];
-    let newImages = [];
+  //handlde images
+  const handleImage = (e) => {
+    const files = Array.from(e.target.files);
     files.forEach((file) => {
-      return newImages.push(file);
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setImages((oldArray) => [...oldArray, reader.result]);
+      };
     });
-
-    setImages([...images, ...newImages]);
   };
-  // Delete show Image
+
   const deleteImages = (index) => {
     const newArr = [...images];
     newArr.splice(index, 1);
     setImages(newArr);
   };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     setLoading(true);
-    let media = [];
-    if (images.length > 0) media = await imageUpload(images);
-    await imageUpload(images);
     await fetch("http://localhost:5000/product", {
       method: "post",
       headers: {
@@ -53,21 +51,19 @@ const CreateBanner = () => {
         name,
         price,
         descr,
-        images: media,
+        images,
         category,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
-          
         } else {
           setLoading(false);
           navigate("/dashboard/products");
         }
       });
   };
-
   const fetchData = async () => {
     try {
       const { data } = await axios.get("/categories");
@@ -76,134 +72,161 @@ const CreateBanner = () => {
       console.log(err);
     }
   };
+  const changedOptions = categories.map((item) => {
+    return (item = { label: item.name || "", value: item.name || "" });
+  });
   useEffect(() => {
     fetchData();
   }, []);
+  console.log(images);
   return (
     <Layout>
-      <section className="">
-        <div className="flex min-h-screen">
+      <section className="relative">
+        <div className="bg-indigo-400 w-full h-40 pl-5 pt-4 text-gray-50">
+          <h1 className="text-white text-2xl">Create Product</h1>
+          <ol className="list-reset mt-1 flex text-grey-dark text-sm text-gray-200">
+            <li>
+              <Link to={"/dashboard"}>Dashboard</Link>
+            </li>
+            <li>
+              <span className="mx-2">/</span>
+            </li>
+            <li>
+              <Link to={"/dashboard/products"}>Create</Link>
+            </li>
+            <li>
+              <span className="mx-2">/</span>
+            </li>
+            <li>
+              <span>Create</span>
+            </li>
+          </ol>
+        </div>
+        <div className="-mt-14 rounded-2xl flex mx-4 bg-slate-50">
           <div className="flex w-full p-8 px-16">
             <div className="w-full">
-              <h1 className="text-2xl font-semibold tracking-wider text-gray-800 capitalize">
-                Create Product
-              </h1>
-
-              <p className="mt-4 text-gray-500 ">
-                Let’s get you all set up so you can verify your personal account
-                and begin setting up your profile.
-              </p>
-
-              <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 gap-4 mt-8 md:grid-cols-2">
-                  <div>
-                    <label className="block mb-2 text-sm text-gray-600 ">
-                      Product Name
-                    </label>
-                    <input
-                      required
+              <Form
+                onSubmit={handleSubmit}
+                onFinish={handleSubmit}
+                layout="vertical"
+              >
+                <div className="grid grid-cols-1 gap-x-5 md:grid-cols-2">
+                  <Form.Item
+                    label="Product name"
+                    name="product"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your product!",
+                      },
+                    ]}
+                  >
+                    <Input
+                      size="large"
                       value={name}
+                      placeholder="product"
                       onChange={(e) => setName(e.target.value)}
-                      type="text"
-                      placeholder="Acer"
-                      className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md  focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                     />
-                  </div>
+                  </Form.Item>
 
-                  <div>
-                    <label
-                      htmlFor="countries"
-                      className="block mb-2 text-sm text-gray-600 "
-                    >
-                      Category
-                    </label>
-
-                    <select
+                  <Form.Item
+                    label="Category"
+                    name="category"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your Category!",
+                      },
+                    ]}
+                  >
+                    <Select
+                      size="large"
                       value={category}
+                      placeholder="Select category"
                       onChange={selectedChange}
-                      id="countries"
-                      className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md  focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                    >
-                      {categories.map((item) => (
-                        <option key={item._id} value={item.name}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                      options={changedOptions}
+                    />
+                  </Form.Item>
 
-                  <div>
-                    <label className="block mb-2 text-sm text-gray-600 ">
-                      Price
-                    </label>
-                    <input
+                  <Form.Item
+                    label="Price"
+                    name="price"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your price!",
+                      },
+                    ]}
+                  >
+                    <Input
                       type="number"
-                      placeholder="700$"
+                      size="large"
+                      placeholder="price"
                       value={price}
                       onChange={(e) => setPrice(e.target.value)}
-                      className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                     />
-                  </div>
+                  </Form.Item>
 
-                  <div>
-                    <label className="block mb-2 text-sm">Brand</label>
-                    <input
-                      // value={image}
-                      // onChange={(e) => setImage(e.target.value)}
-                      type="text"
-                      placeholder="Apple"
-                      className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                  <Form.Item
+                    label="Brand"
+                    name="brand"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your brand!",
+                      },
+                    ]}
+                  >
+                    <Select
+                      size="large"
+                      value={category}
+                      placeholder="Select Brand"
+                      onChange={selectedChange}
+                      options={changedOptions}
                     />
-                  </div>
+                  </Form.Item>
 
-                  <div>
-                    <label className="">Description</label>
-                    <textarea
-                      id="textarea"
-                      type="textarea"
+                  <Form.Item
+                    label="Description"
+                    name="de"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your product!",
+                      },
+                    ]}
+                  >
+                    <TextArea
                       rows={5}
-                      placeholder="Description"
+                      placeholder="maxLength is 6"
+                      maxLength={500}
                       value={descr}
                       onChange={(e) => setDescr(e.target.value)}
-                      className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-blue-500  focus:outline-none focus:ring"
                     />
-                  </div>
-                  <div className="flex items-center">
+                  </Form.Item>
+                  <div className="flex">
                     <label htmlFor="file-upload">
                       <label
                         htmlFor="file-upload"
-                        className="block text-sm font-medium mb-3 text-gray-700"
+                        className="block text-sm mb-2 text-gray-700"
                       >
-                        Cover photo
+                        Upload images
                       </label>
-                      <div className="mt-1 mr-2 flex bg-white justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                        <div className="space-y-1 text-center">
-                          <svg
-                            className="mx-auto h-12 w-12 text-gray-400"
-                            stroke="currentColor"
-                            fill="none"
-                            viewBox="0 0 48 48"
-                            aria-hidden="true"
-                          >
-                            <path
-                              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                              strokeWidth={2}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
+                      <div className="mr-2 flex bg-white justify-center items-center rounded-md border-2 border-dashed border-gray-300 p-3 py-6 cursor-pointer">
+                        <div className="flex justify-center flex-col items-center">
+                          <AiOutlineCloudUpload className="text-3xl text-gray-600" />
                           <div className="flex text-sm text-gray-600">
                             <label
                               htmlFor="file-upload"
                               className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
                             >
-                              <span>Upload a file</span>
+                              <span>Upload image</span>
                               <input
                                 id="file-upload"
                                 name="file"
                                 type="file"
                                 className="sr-only"
-                                onChange={handleChangeImages}
+                                onChange={handleImage}
                               />
                             </label>
                           </div>
@@ -222,15 +245,15 @@ const CreateBanner = () => {
                             id="file_img"
                           >
                             <img
-                              src={URL.createObjectURL(img)}
+                              src={img}
                               alt="images"
                               className="img-thumbnail max-w-[90px] w-full"
                             />
                           </div>
-                            <IoMdClose
-                              onClick={() => deleteImages(index)}
-                              className="absolute text-gray-600 top-0 p-1 border text-2xl border-gray-300 right-0 cursor-pointer rounded-full bg-white"
-                            />
+                          <IoMdClose
+                            onClick={() => deleteImages(index)}
+                            className="absolute text-gray-600 top-0 p-1 border text-2xl border-gray-300 right-0 cursor-pointer rounded-full bg-white"
+                          />
                         </div>
                       ))}
                     </div>
@@ -269,6 +292,7 @@ const CreateBanner = () => {
                     </button>
                   ) : (
                     <button
+                      onSubmit={handleSubmit}
                       type="submit"
                       className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-10 text-lg font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                     >
@@ -276,7 +300,7 @@ const CreateBanner = () => {
                     </button>
                   )}
                 </div>
-              </form>
+              </Form>
             </div>
           </div>
         </div>
@@ -285,4 +309,4 @@ const CreateBanner = () => {
   );
 };
 
-export default CreateBanner;
+export default CreateProduct;
