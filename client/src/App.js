@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
 import "./App.css";
@@ -35,11 +35,15 @@ import {
   UsersTable,
 } from "./dashboard/UserItems";
 import { ProductDetail } from "./components/ProductItems";
+import useAuth from "./hooks/useAuth";
 
 function App() {
   const { state } = useContext(UserContext);
   const pathname = useLocation().pathname;
+  const { auth } = useAuth();
+  const navigate = useNavigate();
 
+  console.log(auth);
   return (
     <DataProvider>
       <Toaster position="top-right" reverseOrder={true} />

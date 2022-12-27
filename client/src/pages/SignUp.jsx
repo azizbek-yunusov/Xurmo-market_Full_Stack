@@ -55,7 +55,7 @@ const SignUp = () => {
             <img className="absolute left-0 bottom-0 z-10" src={AuthBottomBg} alt="" />
             <img className="absolute left-0 bottom-1 z-20" src={TreeBg} alt="" />
           </div>
-          <div className="col-span-4 border-l border-l-gray-300 flex items-center max-w-md md:px-14 w-full mx-auto">
+          <div className="col-span-4 border-l border-l-gray-300 flex items-center md:px-16 w-full mx-auto">
             <div className="flex-1">
               <div className="">
                 <h2 className="text-2xl font-bold text-gray-700 ">

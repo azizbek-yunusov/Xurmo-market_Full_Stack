@@ -14,7 +14,7 @@ root.render(
     <HelmetProvider>
       <StoreProvider>
         <BrowserRouter>
-            <App />
+          <App />
         </BrowserRouter>
       </StoreProvider>
     </HelmetProvider>

@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
-// import { DarkModeSwitch } from "react-toggle-dark-mode";
+import "./theme-switch.css";
 import useDarkSide from "../../hooks/useDarkSide";
-import { Switch } from "antd";
 
 const ThemeToggle = () => {
   const [colorTheme, setTheme] = useDarkSide();
@@ -14,16 +13,22 @@ const ThemeToggle = () => {
   };
 
   return (
-    <div className="mx-3">
+    <div className="mx-3 flex justify-center">
       {/* <DarkModeSwitch
         checked={darkSide}
         onChange={toggleDarkMode}
         size={26}
       /> */}
-      <Switch checked={darkSide}  defaultChecked onChange={toggleDarkMode}>
-        
-      </Switch>
-      
+      {/* <Switch checked={darkSide}  defaultChecked onChange={toggleDarkMode}/> */}
+      <div className="wrapper mt-2">
+        <input
+          type="checkbox"
+          name="checkbox"
+          // checked={darkSide}
+          onChange={toggleDarkMode}
+          className="switch"
+        />
+      </div>
     </div>
   );
 };

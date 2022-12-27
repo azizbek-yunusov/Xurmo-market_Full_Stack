@@ -5,8 +5,22 @@ import { UserContext } from "../reducers/useReducer";
 
 function UserAPI() {
   const { state } = useContext(UserContext);
+  const [isLogged, setIsLogged] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const { userInfo } = state;
   const [cart, setCart] = useState([]);
+  const getUser = async () => {
+    try {
+      const {data} = await axios.get("/infor", {
+        headers: { Authorization: localStorage.getItem("jwt") },
+      });
+      setIsLogged(true);
+      console.log(data.userItems);
+      data.userItems.admin === true ? setIsAdmin(true) : setIsAdmin(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const fetchCart = async () => {
     try {
       const { data } = await axios.get("/mycart", {
@@ -76,14 +90,18 @@ function UserAPI() {
   useEffect(() => {
     if (userInfo) {
       fetchCart();
+      getUser();
     }
   }, [userInfo]);
-
+  console.log(isAdmin);
+  console.log(isLogged);
   return {
+    isLogged: [isLogged, setIsLogged],
+    isAdmin: [isAdmin, setIsAdmin],
     cart: [cart, setCart],
-    addToCartHanle: addToCartHanle,
-    deleteHandler: deleteHandler,
-    newOrder: newOrder,
+    addToCartHanle,
+    deleteHandler,
+    newOrder
   };
 }
 
