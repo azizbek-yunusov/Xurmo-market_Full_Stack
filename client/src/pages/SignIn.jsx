@@ -1,42 +1,29 @@
 import { Button, Checkbox, Input } from "@material-tailwind/react";
 import React, { useContext, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import toast from "react-hot-toast";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { GoogleLogin } from "react-google-login";
 import LoginBg from "../assets/images/loginBg.png";
-import { UserContext } from "../reducers/useReducer";
 import AuthBottomBg from "../assets/images/auth-bottom-bg.png";
 import TreeBg from "../assets/images/tree-bg.png";
+import { signIn } from "../redux/actions/authAction";
 
 const SignIn = () => {
-  const { dispatch } = useContext(UserContext);
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const signIn = async (e) => {
+  const signInSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("/signin", {
-        email,
-        password,
-      });
-      localStorage.setItem("jwt", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-      dispatch({ type: "USER", payload: data.user });
-      if (data.user.admin) {
-        navigate("/dashboard");
-      } else {
-        navigate("/");
-      }
-      toast.success("Successfuly!!");
+      setLoading(true);
+      dispatch(signIn(email, password));
+      navigate("/");
+      setLoading(false);
     } catch (err) {
       console.log(err);
     }
-  };
-  const responseGoogle = () => {
-    console.log("google auth");
   };
   return (
     <>
@@ -45,7 +32,7 @@ const SignIn = () => {
       </Helmet>
       <div className="bg-white ">
         <div className="grid grid-cols-12 min-h-screen bg-white gap-0">
-          <div className="col-span-8 relative flex justify-center items-center overflow-hidden">
+          <div className="md:col-span-8 relative md:flex hidden justify-center items-center overflow-hidden">
             <img
               src={LoginBg}
               className="max-w-3xl w-full z-20 object-cover"
@@ -62,8 +49,8 @@ const SignIn = () => {
               alt=""
             />
           </div>
-          <div className="col-span-4 border-l border-l-gray-300 flex items-center md:px-16 w-full mx-auto">
-            <div className="flex-1">
+          <div className="md:col-span-4 col-span-12 border-l border-l-gray-300 flex items-center justify-center xl:px-16 md:px-10 w-full mx-auto">
+            <div className="">
               <div className="">
                 <h2 className="text-2xl font-bold text-gray-700 ">
                   Welcome to TexnoRoom! 👋🏻
@@ -75,7 +62,7 @@ const SignIn = () => {
               </div>
 
               <div className="mt-8">
-                <form onSubmit={signIn}>
+                <form onSubmit={signInSubmit}>
                   <div className="mt-6">
                     <Input
                       label="Email"
@@ -108,7 +95,33 @@ const SignIn = () => {
                       className="w-full tracking-wide font-normal"
                       variant="gradient"
                     >
-                      Sign In
+                      {loading ? (
+                        <div className="flex items-center justify-center">
+                          <svg
+                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            />
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            />
+                          </svg>
+                          {"Loading... "}
+                        </div>
+                      ) : (
+                        "Sig In"
+                      )}
                     </Button>
                   </div>
                 </form>
@@ -163,12 +176,6 @@ const SignIn = () => {
                     </svg>
                     <span>Sign up with Google</span>
                   </a>{" "} */}
-                  <GoogleLogin
-                    clientId="1062466711644-deqnqctf7j4scdkfrv29ltmbvgno66g6.apps.googleusercontent.com"
-                    buttonText="Login with google"
-                    onSuccess={responseGoogle}
-                    cookiePolicy={"single_host_origin"}
-                  ></GoogleLogin>
                 </div>
               </div>
             </div>

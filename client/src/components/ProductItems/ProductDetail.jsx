@@ -7,15 +7,14 @@ import Comments from "./Comments";
 
 import { Button, Modal, Rate } from "antd";
 import { Helmet } from "react-helmet-async";
-import { UserContext } from "../../reducers/useReducer";
 import ImageThumbs from "./ImageThumbs";
+import { useSelector } from "react-redux";
 const desc = ["terrible", "bad", "normal", "good", "wonderful"];
 
 const ProductDetail = () => {
+  const { auth } = useSelector((state) => state);
   const goback = useNavigate();
   const navigate = useNavigate();
-  const { state } = useContext(UserContext);
-  const { userInfo } = state;
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [rating, setRating] = useState(0);
@@ -52,7 +51,7 @@ const ProductDetail = () => {
       method: "put",
       headers: {
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("jwt"),
+        Authorization: auth.access_token,
       },
       body: JSON.stringify({
         productId: product._id,
@@ -78,7 +77,13 @@ const ProductDetail = () => {
   // useEffect(() => {
   //   window.scrollTo(0, 0);
   // }, [location]);
+
   const signInNavigate = () => navigate("/signin");
+  const beshh = product?.reviews?.filter((item) => item.rating === 5);
+  const foiz =
+    (product?.numOfReviews * 100) /
+    (beshh?.length * product?.numOfReviews);
+    console.log(foiz);
   return (
     <>
       <Helmet>
@@ -134,30 +139,7 @@ const ProductDetail = () => {
             {product.category} {product.name}
           </h1>
           <div className="lg:flex hidden py-1 items-center">
-            {/* <div className="lg:flex items-center text-zinc-400 ">
-              <h1 className="text-xl text-gray-700 mr-2">
-                {product.ratings?.toFixed(1)}
-              </h1>
-              <Rate disabled allowHalf value={product.ratings} />
-            </div>
-            <h1 className="ml-4 font-medium text-lg text-zinc-700">
-              {product.numOfReviews} reviews
-            </h1> */}
-            <div className="p-2 ml-5 cursor-pointer">
-              {/* {!copyUrl ? (
-                  <div
-                    onClick={copy}
-                    className="flex text-blue-600 font-medium text-lg items-center py-1"
-                  >
-                    {ShareIcon} <p className="ml-1">Скопировать ссылку</p>{" "}
-                  </div>
-                ) : (
-                  <div className="text-green-500 flex text-lg py-1">
-                    {" "}
-                    {CheckIcon} <p className="ml-1">Ссылка скопирована</p>
-                  </div>
-                )} */}
-            </div>
+            <div className="p-2 ml-5 cursor-pointer"></div>
           </div>
 
           <div className="md:grid grid-cols-1 md:grid-cols-12 md:gap-5 border-t border-r-gray-400 lg:py-5 py-4">
@@ -215,74 +197,19 @@ const ProductDetail = () => {
                   </div>
                 </div>
                 <div className="">
-                  <div className="flex items-center mt-4">
-                    <div className="w-1/5 text-indigo-500 tracking-tighter">
-                      <span>5 star</span>
+                  <div className="flex items-center justify-between w-full bg-red-600 mt-4">
+                    <p className="mr-3">5star</p>
+                    <div className="w-full h-4 bg-pink-300">
+                      <div
+                        style={{ width: `${foiz}%` }}
+                        className="bg-cyan-400 h-full"
+                      ></div>
                     </div>
-                    <div className="w-3/5">
-                      <div className="bg-gray-300 w-full rounded-lg h-2">
-                        <div className=" w-7/12 bg-indigo-600 rounded-lg h-2"></div>
-                      </div>
-                    </div>
-                    <div className="w-1/5 text-gray-700 pl-3">
-                      <span className="text-sm">51%</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center mt-4">
-                    <div className="w-1/5 text-indigo-500 tracking-tighter">
-                      <span>4 star</span>
-                    </div>
-                    <div className="w-3/5">
-                      <div className="bg-gray-300 w-full rounded-lg h-2">
-                        <div className="w-1/5 bg-indigo-600 rounded-lg h-2"></div>
-                      </div>
-                    </div>
-                    <div className="w-1/5 text-gray-700 pl-3">
-                      <span className="text-sm">17%</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center mt-4">
-                    <div className="w-1/5 text-indigo-500 tracking-tighter">
-                      <span>3 star</span>
-                    </div>
-                    <div className="w-3/5">
-                      <div className="bg-gray-300 w-full rounded-lg h-2">
-                        <div className=" w-3/12 bg-indigo-600 rounded-lg h-2"></div>
-                      </div>
-                    </div>
-                    <div className="w-1/5 text-gray-700 pl-3">
-                      <span className="text-sm">19%</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center mt-4">
-                    <div className=" w-1/5 text-indigo-500 tracking-tighter">
-                      <span>2 star</span>
-                    </div>
-                    <div className="w-3/5">
-                      <div className="bg-gray-300 w-full rounded-lg h-2">
-                        <div className=" w-1/5 bg-indigo-600 rounded-lg h-2"></div>
-                      </div>
-                    </div>
-                    <div className="w-1/5 text-gray-700 pl-3">
-                      <span className="text-sm">8%</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center mt-4">
-                    <div className="w-1/5 text-indigo-500 tracking-tighter">
-                      <span>1 star</span>
-                    </div>
-                    <div className="w-3/5">
-                      <div className="bg-gray-300 w-full rounded-lg h-2">
-                        <div className=" w-2/12 bg-indigo-600 rounded-lg h-2"></div>
-                      </div>
-                    </div>
-                    <div className="w-1/5 text-gray-700 pl-3">
-                      <span className="text-sm">5%</span>
-                    </div>
+                    <p className="">{foiz}%</p>
                   </div>
                 </div>
                 <div className="w-full">
-                  {userInfo ? (
+                  {auth.isLogged ? (
                     <>
                       <Button
                         type="primary"

@@ -37,7 +37,7 @@ const createCategory = async (req, res) => {
     slug,
     image,
     createdAt,
-    createdBy: req.user,
+    createdBy: req.user.id,
   });
   try {
     await category.save();

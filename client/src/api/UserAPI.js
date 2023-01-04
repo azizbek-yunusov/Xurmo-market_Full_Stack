@@ -1,30 +1,13 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { UserContext } from "../reducers/useReducer";
 
-function UserAPI() {
-  const { state } = useContext(UserContext);
-  const [isLogged, setIsLogged] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const { userInfo } = state;
+function UserAPI(token) {
   const [cart, setCart] = useState([]);
-  const getUser = async () => {
-    try {
-      const {data} = await axios.get("/infor", {
-        headers: { Authorization: localStorage.getItem("jwt") },
-      });
-      setIsLogged(true);
-      console.log(data.userItems);
-      data.userItems.admin === true ? setIsAdmin(true) : setIsAdmin(false);
-    } catch (err) {
-      console.log(err);
-    }
-  };
   const fetchCart = async () => {
     try {
       const { data } = await axios.get("/mycart", {
-        headers: { Authorization: localStorage.getItem("jwt") },
+        headers: { Authorization: token },
       });
       setCart(data);
     } catch (err) {
@@ -33,12 +16,12 @@ function UserAPI() {
   };
   const addToCartHanle = async (id) => {
     try {
-      if (userInfo) {
+      if (token) {
         fetch(`http://localhost:5000/addcart/${id}`, {
           method: "put",
           headers: {
             "Content-Type": "application/json",
-            Authorization: localStorage.getItem("jwt"),
+            Authorization: token,
           },
         })
           .then((res) => res.json())
@@ -57,7 +40,7 @@ function UserAPI() {
   const deleteHandler = async (id) => {
     try {
       const { data } = await axios.delete(`/cart/${id}`, {
-        headers: { Authorization: localStorage.getItem("jwt") },
+        headers: { Authorization: token },
       });
       if (data.error) {
         toast.error(data.error);
@@ -75,7 +58,7 @@ function UserAPI() {
       method: "post",
       headers: {
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("jwt"),
+        Authorization: token,
       },
     })
       .then((res) => res.json())
@@ -88,20 +71,15 @@ function UserAPI() {
       });
   };
   useEffect(() => {
-    if (userInfo) {
+    if (token) {
       fetchCart();
-      getUser();
     }
-  }, [userInfo]);
-  console.log(isAdmin);
-  console.log(isLogged);
+  }, []);
   return {
-    isLogged: [isLogged, setIsLogged],
-    isAdmin: [isAdmin, setIsAdmin],
     cart: [cart, setCart],
     addToCartHanle,
     deleteHandler,
-    newOrder
+    newOrder,
   };
 }
 

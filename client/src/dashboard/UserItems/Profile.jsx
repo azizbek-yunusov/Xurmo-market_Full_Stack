@@ -1,10 +1,7 @@
 import React, { useContext } from "react";
-import { UserContext } from "../../reducers/useReducer";
 import Layout from "../Layout";
 
 const Profile = () => {
-  const { state } = useContext(UserContext);
-  const { userInfo} = state
   return (
     <Layout>
       <div className="grid grid-cols-12 gap-5 mx-5 min-h-screen my-5">
@@ -12,10 +9,8 @@ const Profile = () => {
           <div className="flex flex-col items-center mt-10">
             <img src="https://demos.themeselection.com/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/4.png" className="w-28 h-28 rounded-xl" alt="" />
             <h1 className="text-2xl mt-3 text-zinc-600 dark:text-zinc-100 font-medium">
-              {userInfo.name}
             </h1>
             <p className="bg-pink-200 dark:bg-green-200 text-center text-red-500 dark:text-green-500 px-4 pb-1 mt-3 rounded-xl">
-              {userInfo.admin && "admin"}
             </p>
           </div>
           <div className="mt-8">
@@ -25,11 +20,9 @@ const Profile = () => {
             <ul className="border-t border-t-gray-300">
               <li className="text-zinc-500 dark:text-zinc-400 my-2">
                 <span className="text-zinc-600 dark:text-zinc-100 mr-2">Full name:</span>
-                 {userInfo.name}
               </li>
               <li className="text-zinc-500 dark:text-zinc-400 my-2">
                 <span className="text-zinc-600 dark:text-zinc-100 mr-2">Email:</span>
-                 {userInfo.email}
               </li>
               <li className="text-zinc-500 dark:text-green-400 my-2">
                 <span className="text-zinc-600 dark:text-zinc-100 mr-2">Status:</span>
@@ -37,7 +30,6 @@ const Profile = () => {
               </li>
               <li className="text-zinc-500 dark:text-zinc-400 my-2">
                 <span className="text-zinc-600 dark:text-zinc-100 mr-2">Role:</span>
-                 {userInfo.admin && "admin"}
               </li>
               <li className="text-zinc-500 dark:text-zinc-400 my-2">
                 <span className="text-zinc-600 dark:text-zinc-100 mr-2">Contact:</span>

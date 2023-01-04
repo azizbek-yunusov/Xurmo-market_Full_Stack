@@ -3,10 +3,10 @@ const cloudinary = require("../utils/cloudinary");
 
 const getAllProducts = async (req, res) => {
   try {
-    const products = await ProductModel.find().populate(
-      "createdBy",
-      "_id name"
-    ).populate("category", "_id name")
+    const products = await ProductModel.find()
+      .populate("createdBy", "_id name")
+      .populate("category", "_id name");
+
     res.status(201).json({
       products,
     });
@@ -44,7 +44,6 @@ const getProduct = async (req, res) => {
 };
 
 const createProduct = async (req, res) => {
-  const { _id, name, descr, price, createdAt, category, images } = req.body;
   try {
     let images = [...req.body.images];
     let imagesBuffer = [];
@@ -61,7 +60,7 @@ const createProduct = async (req, res) => {
     }
 
     req.body.images = imagesBuffer;
-    req.body.createdBy = req.user;
+    req.body.createdBy = req.user.id;
 
     const product = await ProductModel.create(req.body);
     await product.save();
@@ -75,12 +74,14 @@ const createProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    const { name, price, descr, image } = req.body;
+    const { name, price, descr, image, category, inStock } = req.body;
     const updateProduct = await ProductModel.findByIdAndUpdate(req.params.id, {
       name,
       price,
       image,
       descr,
+      category,
+      inStock,
     });
     res.status(200).json({ updateProduct });
   } catch (err) {
@@ -106,8 +107,8 @@ const addReview = async (req, res) => {
   try {
     const { rating, comment, productId } = req.body;
     const review = {
-      user: req.user._id,
-      name: req.user,
+      user: req.user.id,
+      name: req.user.id,
       rating: Number(rating),
       comment,
     };
@@ -115,11 +116,11 @@ const addReview = async (req, res) => {
     const product = await ProductModel.findById(productId);
 
     const isReviewed = product.reviews.find(
-      (rev) => rev.user.toString() === req.user._id.toString()
+      (rev) => rev.user.id.toString() === req.user.id.toString()
     );
     if (isReviewed) {
       product.reviews.forEach((rev) => {
-        if (rev.user.toString() === req.user._id.toString())
+        if (rev.user.id.toString() === req.user.id.toString())
           (rev.rating = rating), (rev.comment = comment);
       });
     } else {

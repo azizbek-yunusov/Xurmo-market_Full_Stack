@@ -1,7 +1,5 @@
-import { useContext, useEffect } from "react";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-
 import "./App.css";
 import Footer from "./components/Footer";
 import Header from "./components/Header/Header";
@@ -15,11 +13,8 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import { UserContext } from "./reducers/useReducer";
 import BasketList from "./components/Cart/BasketList";
-import { DataProvider } from "./GlobalState";
 import OrdersList from "./dashboard/OrderItems/OrdersList";
-import GoogleMapPage from "./pages/GoogleMapPage";
 import { AddBanner, BannersTable } from "./dashboard/BannerItems";
 import {
   CreateProduct,
@@ -35,41 +30,58 @@ import {
   UsersTable,
 } from "./dashboard/UserItems";
 import { ProductDetail } from "./components/ProductItems";
-import useAuth from "./hooks/useAuth";
+import ActivationEmail from "./pages/ActivationEmail";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getUser, refreshToken } from "./redux/actions/authAction";
 
 function App() {
-  const { state } = useContext(UserContext);
   const pathname = useLocation().pathname;
-  const { auth } = useAuth();
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { auth } = useSelector((state) => state);
 
-  console.log(auth);
+  useEffect(() => {
+    dispatch(refreshToken());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (auth.access_token) {
+      dispatch(getUser(auth.access_token));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
   return (
-    <DataProvider>
+    <>
       <Toaster position="top-right" reverseOrder={true} />
       <>
-        {pathname === "/signup" || pathname === "/signin" ? null : (
+        {pathname === "/signup" ||
+        pathname === "/signin" ||
+        pathname === "/user/activate/:activationtoken" ? null : (
           <>
             <TopLink />
             <Header />
           </>
         )}
-
       </>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/myprofile" element={<MyProfile />} />
         <Route path="/product/view/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<BasketList />} />
-        <Route path="/map" element={<GoogleMapPage />} />
+        <Route
+          path="/user/activate/:activationtoken"
+          element={<ActivationEmail />}
+        />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signin" element={<SignIn />} />
         <Route path="*" element={<NotFound />} />
-        {!state.userInfo && (
+        {!auth.isLogged && (
           <>
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
           </>
         )}
-        {state.userInfo && state.userInfo.admin && (
+        {auth && auth.isAdmin && (
           <>
             <Route path="/dashboard" element={<HomeDashboard />} />,
             <Route path="/product/update/:id" element={<UpdateProduct />} />
@@ -90,8 +102,9 @@ function App() {
           </>
         )}
       </Routes>
+
       {pathname === "/signup" || pathname === "/signin" ? null : <Footer />}
-    </DataProvider>
+    </>
   );
 }
 

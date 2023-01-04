@@ -18,7 +18,7 @@ const createBanner = async (req, res) => {
         url: result.secure_url,
       },
       createdAt,
-      createdBy: req.user,
+      createdBy: req.user.id,
     });
     await banner.save();
     res.status(200).json({

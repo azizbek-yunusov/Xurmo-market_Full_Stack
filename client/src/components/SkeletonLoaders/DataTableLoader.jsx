@@ -1,83 +1,74 @@
-import React from 'react'
-import ContentLoader from 'react-content-loader'
+import React from "react";
 
-const DataTableLoader = props => (
-  <ContentLoader
-    width={1200}
-    height={400}
-    viewBox="0 0 1500 400"
-    backgroundColor="#f3f3f3"
-    foregroundColor="#ecebeb"
-    {...props}
-  >
-    <rect x="27" y="139" rx="4" ry="4" width="20" height="20" />
-    <rect x="67" y="140" rx="10" ry="10" width="85" height="19" />
-    <rect x="188" y="141" rx="10" ry="10" width="169" height="19" />
-    <rect x="402" y="140" rx="10" ry="10" width="85" height="19" />
-    <rect x="523" y="141" rx="10" ry="10" width="169" height="19" />
-    <rect x="731" y="139" rx="10" ry="10" width="85" height="19" />
-    <rect x="852" y="138" rx="10" ry="10" width="85" height="19" />
-    <rect x="1424" y="137" rx="10" ry="10" width="68" height="19" />
-    <rect x="26" y="196" rx="4" ry="4" width="20" height="20" />
-    <rect x="66" y="197" rx="10" ry="10" width="85" height="19" />
-    <rect x="187" y="198" rx="10" ry="10" width="169" height="19" />
-    <rect x="401" y="197" rx="10" ry="10" width="85" height="19" />
-    <rect x="522" y="198" rx="10" ry="10" width="169" height="19" />
-    <rect x="730" y="196" rx="10" ry="10" width="85" height="19" />
-    <rect x="851" y="195" rx="10" ry="10" width="85" height="19" />
-    <circle cx="1456" cy="203" r="12" />
-    <rect x="26" y="258" rx="4" ry="4" width="20" height="20" />
-    <rect x="66" y="259" rx="10" ry="10" width="85" height="19" />
-    <rect x="187" y="260" rx="10" ry="10" width="169" height="19" />
-    <rect x="401" y="259" rx="10" ry="10" width="85" height="19" />
-    <rect x="522" y="260" rx="10" ry="10" width="169" height="19" />
-    <rect x="730" y="258" rx="10" ry="10" width="85" height="19" />
-    <rect x="851" y="257" rx="10" ry="10" width="85" height="19" />
-    <circle cx="1456" cy="265" r="12" />
-    <rect x="26" y="316" rx="4" ry="4" width="20" height="20" />
-    <rect x="66" y="317" rx="10" ry="10" width="85" height="19" />
-    <rect x="187" y="318" rx="10" ry="10" width="169" height="19" />
-    <rect x="401" y="317" rx="10" ry="10" width="85" height="19" />
-    <rect x="522" y="318" rx="10" ry="10" width="169" height="19" />
-    <rect x="730" y="316" rx="10" ry="10" width="85" height="19" />
-    <rect x="851" y="315" rx="10" ry="10" width="85" height="19" />
-    <circle cx="1456" cy="323" r="12" />
-    <rect x="26" y="379" rx="4" ry="4" width="20" height="20" />
-    <rect x="66" y="380" rx="10" ry="10" width="85" height="19" />
-    <rect x="187" y="381" rx="10" ry="10" width="169" height="19" />
-    <rect x="401" y="380" rx="10" ry="10" width="85" height="19" />
-    <rect x="522" y="381" rx="10" ry="10" width="169" height="19" />
-    <rect x="730" y="379" rx="10" ry="10" width="85" height="19" />
-    <rect x="851" y="378" rx="10" ry="10" width="85" height="19" />
-    <circle cx="1456" cy="386" r="12" />
-    <rect x="978" y="138" rx="10" ry="10" width="169" height="19" />
-    <rect x="977" y="195" rx="10" ry="10" width="169" height="19" />
-    <rect x="977" y="257" rx="10" ry="10" width="169" height="19" />
-    <rect x="977" y="315" rx="10" ry="10" width="169" height="19" />
-    <rect x="977" y="378" rx="10" ry="10" width="169" height="19" />
-    <rect x="1183" y="139" rx="10" ry="10" width="85" height="19" />
-    <rect x="1182" y="196" rx="10" ry="10" width="85" height="19" />
-    <rect x="1182" y="258" rx="10" ry="10" width="85" height="19" />
-    <rect x="1182" y="316" rx="10" ry="10" width="85" height="19" />
-    <rect x="1182" y="379" rx="10" ry="10" width="85" height="19" />
-    <rect x="1305" y="137" rx="10" ry="10" width="85" height="19" />
-    <rect x="1304" y="194" rx="10" ry="10" width="85" height="19" />
-    <rect x="1304" y="256" rx="10" ry="10" width="85" height="19" />
-    <rect x="1304" y="314" rx="10" ry="10" width="85" height="19" />
-    <rect x="1304" y="377" rx="10" ry="10" width="85" height="19" />
-    <circle cx="37" cy="97" r="11" />
-    <rect x="26" y="23" rx="5" ry="5" width="153" height="30" />
-    <circle cx="1316" cy="88" r="11" />
-    <rect x="1337" y="94" rx="0" ry="0" width="134" height="3" />
-    <circle cx="77" cy="96" r="11" />
-  </ContentLoader>
-)
+const DataTableLoader = () => {
+  return (
+    <>
+      <div className="bg-white dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border border-gray-300">
+       
+        <table className="min-w-max w-full table-auto rounded-lg ">
+          <thead>
+            <tr className="bg-gray-100 dark:bg-[#232338] text-gray-700 dark:text-gray-200 text-sm rounded-t-lg leading-normal global-font">
+              <th className="py-2 px-6 text-left"></th>
+              <th className="py-3 px-6 text-left"></th>
+              <th className="py-3 px-6 text-center"></th>
+              <th className="py-3 px-6 text-center"></th>
+              <th className="py-3 px-6 text-center"></th>
+            </tr>
+          </thead>
+          <tbody className="text-gray-600 dark:text-gray-300 text-sm font-light">
+            <tr className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 hover:dark:bg-gray-600">
+              <td className="py-6 px-3 whitespace-nowrap"></td>
+              <td className="py-6 px-6 text-left"></td>
+              <td className="py-6 px-6 text-center"></td>
+              <td className="py-6 px-6 text-center"></td>
 
-DataTableLoader.metadata = {
-  name: 'Mohd Arif Un',
-  github: 'arif-un',
-  description: 'Data Table skeleton',
-  filename: 'DataTableLoader',
-}
+              <td className="py-6 px-6 text-center"></td>
+            </tr>
+            <tr className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 hover:dark:bg-gray-600">
+              <td className="py-6 px-3 whitespace-nowrap"></td>
+              <td className="py-6 px-6 text-left"></td>
+              <td className="py-6 px-6 text-center"></td>
+              <td className="py-6 px-6 text-center"></td>
 
-export default DataTableLoader
+              <td className="py-6 px-6 text-center"></td>
+            </tr>
+            <tr className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 hover:dark:bg-gray-600">
+              <td className="py-6 px-3 whitespace-nowrap"></td>
+              <td className="py-6 px-6 text-left"></td>
+              <td className="py-6 px-6 text-center"></td>
+              <td className="py-6 px-6 text-center"></td>
+
+              <td className="py-6 px-6 text-center"></td>
+            </tr>
+            <tr className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 hover:dark:bg-gray-600">
+              <td className="py-6 px-3 whitespace-nowrap"></td>
+              <td className="py-6 px-6 text-left"></td>
+              <td className="py-6 px-6 text-center"></td>
+              <td className="py-6 px-6 text-center"></td>
+
+              <td className="py-6 px-6 text-center"></td>
+            </tr>
+            <tr className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 hover:dark:bg-gray-600">
+              <td className="py-6 px-3 whitespace-nowrap"></td>
+              <td className="py-6 px-6 text-left"></td>
+              <td className="py-6 px-6 text-center"></td>
+              <td className="py-6 px-6 text-center"></td>
+
+              <td className="py-6 px-6 text-center"></td>
+            </tr>
+            <tr className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 hover:dark:bg-gray-600">
+              <td className="py-6 px-3 whitespace-nowrap"></td>
+              <td className="py-6 px-6 text-left"></td>
+              <td className="py-6 px-6 text-center"></td>
+              <td className="py-6 px-6 text-center"></td>
+
+              <td className="py-6 px-6 text-center"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+};
+
+export default DataTableLoader;

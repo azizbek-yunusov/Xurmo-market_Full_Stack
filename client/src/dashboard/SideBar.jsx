@@ -7,11 +7,11 @@ const SideBar = () => {
   return (
     <div className="min-h-screen fixed top-0 left-0 flex flex-col w-14 hover:w-64 md:w-64 h-full text-white transition-all duration-300 border-none z-10 sidebar">
       <div className="flex flex-col justify-between flex-grow">
-        <ul className="flex flex-col py-4 space-y-1">
+        <ul className="flex flex-col py-4 space-y-1 overflow-hidden">
           <li className="my-4 px-4 text-xl font-bold global-font">
             <Link to={"/dashboard"}>texnoroom</Link>
           </li>
-          <li className="px-5 hidden md:block">
+          <li className="px-5 hidden md:block overflow-hidden">
             <div className="flex flex-row items-center h-8">
               <div className="text-sm font-light tracking-wide text-gray-400 uppercase">
                 Main

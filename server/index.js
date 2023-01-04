@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
 app.use(cookieParser());
-app.use(morgan("tiny"));
+// app.use(morgan("tiny"));
 app.use(cors());
 app.use(bodyParser.json({ limit: "100mb" }));
 app.use(

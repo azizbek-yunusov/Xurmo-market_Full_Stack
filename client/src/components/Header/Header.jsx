@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { UserContext } from "../../reducers/useReducer";
-import Cart from "../Cart/Cart";
-import UserButton from "../Buttons/UserButton";
 import FavoritesButton from "../Buttons/FavoritesButton";
 import SearchBox from "../Search/SearchBox";
 import AuthButton from "../Buttons/AuthButton";
+import { useSelector } from "react-redux";
+import Cart from "../Cart/Cart";
+import UserButton from "../Buttons/UserButton";
 
 function useIsScrollTop() {
   const [isTop, setIsTop] = useState(true);
@@ -23,14 +23,13 @@ function useIsScrollTop() {
 
   return isTop;
 }
-const Header = (props) => {
-  const {cart} = props
-  const { state } = useContext(UserContext);
-  const { userInfo } = state;
+const Header = () => {
+  const { isLogged, isAdmin, user } = useSelector((state) => state.auth);
   const isTop = useIsScrollTop();
+
   return (
     <>
-      {userInfo && userInfo.admin ? null : (
+      {isLogged && isAdmin ? null : (
         <div
           className={`bg-white w-full tranistion_normal ${
             isTop
@@ -40,7 +39,10 @@ const Header = (props) => {
         >
           <div className="container-full grid grid-cols-12 md:py-4">
             <div className="col-span-3 flex justify-start items-center">
-              <Link to="/" className="text-red-600 md:text-3xl font-bold global-font">
+              <Link
+                to="/"
+                className="text-red-600 md:text-3xl font-bold global-font"
+              >
                 texnoroom
               </Link>
             </div>
@@ -53,13 +55,12 @@ const Header = (props) => {
                   <FavoritesButton />
                 </li>
                 <li className="mx-4">
-                  <Cart cart={cart} />
+                  <Cart cart={user.cart} />
                 </li>
                 <li className="mx-4 -mt-1">
-                  {userInfo ? <AuthButton /> : <UserButton />}
+                  {isLogged ? <AuthButton /> : <UserButton />}
                 </li>
               </ul>
-              {/* {userNavigation()} */}
             </div>
           </div>
         </div>

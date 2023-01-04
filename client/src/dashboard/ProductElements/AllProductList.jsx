@@ -38,6 +38,10 @@ const AllProductList = () => {
   useEffect(() => {
     fetchData();
   }, []);
+  const [checked, setChecked] = useState(false);
+  const checkToggle = (checked) => {
+    setChecked(!checked);
+  };
   return (
     <div className="w-full px-5">
       {loading ? (
@@ -57,12 +61,14 @@ const AllProductList = () => {
             </Link>
             <table className="min-w-max w-full table-auto rounded-lg ">
               <thead>
-                <tr className="bg-gray-100 dark:bg-[#232338] text-gray-700 dark:text-gray-200 text-sm rounded-t-lg leading-normal">
-                  <th className="py-3 px-6 text-left">
-                    <Checkbox /> Name
+                <tr className="bg-gray-300 dark:bg-[#232338] text-gray-700 dark:text-gray-200 text-sm rounded-t-lg leading-normal global-font">
+                  <th className="py-3">
+                    <Checkbox onChange={checkToggle} />
                   </th>
+                  <th className="py-3 px-6 text-left">Name</th>
                   <th className="py-3 px-6 text-left">Price</th>
                   <th className="py-3 px-6 text-center">CreatedBy</th>
+                  <th className="py-3 px-6 text-center">CreatedAt</th>
                   <th className="py-3 px-6 text-center">Actions</th>
                 </tr>
               </thead>
@@ -73,9 +79,11 @@ const AllProductList = () => {
                       key={index}
                       className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 hover:dark:bg-gray-600"
                     >
+                      <td className="py-3 flex_center">
+                        <Checkbox />
+                      </td>
                       <td className="py-3 px-3 whitespace-nowrap">
                         <div className="flex justify-start items-center">
-                          <Checkbox />
                           <div className="mr-2">
                             <img
                               className="w-10 h-10 rounded"
@@ -106,8 +114,11 @@ const AllProductList = () => {
                               ? product.createdBy.name
                               : "deleted account"}
                           </span>
+                        </div>
+                      </td>
+                      <td className="py-3 px-6 text-center">
+                        <div className="flex justify-center items-center">
                           <span>{moment(product.createdAt).format("lll")}</span>
-                          {/* <span>{product.createdAt.toDateString()}</span> */}
                         </div>
                       </td>
 

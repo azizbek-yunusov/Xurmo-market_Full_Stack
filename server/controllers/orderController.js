@@ -11,7 +11,7 @@ const newOrder = async (req, res) => {
       shippingPrice,
       totalPrice,
     } = req.body;
-    const customer = await UserModel.findById(req.user).populate(
+    const customer = await UserModel.findById(req.user.id).populate(
       "cart.productId",
       "_id name price images"
     );
@@ -27,7 +27,7 @@ const newOrder = async (req, res) => {
       taxPrice,
       shippingPrice,
       totalPrice,
-      user: req.user,
+      user: req.user.id,
     });
     const order = await newOrder.save();
     await customer.cleanCart();

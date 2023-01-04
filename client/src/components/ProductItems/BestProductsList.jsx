@@ -22,17 +22,6 @@ const BestProductsList = () => {
         </Link>
       </div>
       <div className="grid grid-cols-12 gap-5">
-        {/* <div className="col-span- overflow-hidden">
-          <img
-            className="rounded-xl w-full h-full"
-            src="https://olcha.uz/image/original/homePage/pYZEByQS20XopP4Ac74Ctt8AsN9tIGDCH1KEy2nB5Zzeb0dHJP8mLSodLsej."
-            alt=""
-          />
-          <div className="rounded-xl w-full h-full bg-pink-500 flex justify-center items-center">
-            <h1 className="md:text-2xl">Popular</h1>
-            <h1 className="">products</h1>
-          </div>
-        </div> */}
         <div className="col-span-12 grid grid-cols-5 gap-4 relative">
           {products.slice(0, 8).map((item) => (
             <ProductCard key={item._id} {...item} />

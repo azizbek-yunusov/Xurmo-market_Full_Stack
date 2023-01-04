@@ -27,7 +27,7 @@ const productSchema = new Schema(
       },
     ],
     brand: { type: String },
-    Stock: {
+    inStock: {
       type: Number,
       default: 1,
     },
@@ -61,8 +61,7 @@ const productSchema = new Schema(
       },
     ],
     category: {
-      type: Schema.Types.ObjectId,
-      ref: "Category",
+      type: String,
     },
     createdAt: {
       type: Date,

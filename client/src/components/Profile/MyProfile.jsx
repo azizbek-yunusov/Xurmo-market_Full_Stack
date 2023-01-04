@@ -1,10 +1,7 @@
 import React, { useContext } from "react";
-import { UserContext } from "../../reducers/useReducer";
 import MyOrders from "./MyOrders";
 
 const MyProfile = () => {
-  const { state } = useContext(UserContext);
-  const { userInfo } = state;
   return (
     <div className="grid grid-cols-12 gap-5 mx-5 min-h-screen my-5">
       <div className="col-span-4 border p-5 bg-white dark:bg-[#2e2d4a] border-gray-300 dark:border-gray-700 rounded-xl  flex flex-col">
@@ -15,10 +12,8 @@ const MyProfile = () => {
             alt=""
           />
           <h1 className="text-2xl mt-3 text-zinc-600 font-medium">
-            {userInfo.name}
           </h1>
           <p className="bg-pink-200 text-center text-red-500 px-4 pb-1 mt-3 rounded-xl">
-            {userInfo.admin ? "admin" : "user"}
           </p>
         </div>
         <div className="mt-8">
@@ -26,11 +21,9 @@ const MyProfile = () => {
           <ul className="border-t border-t-gray-300">
             <li className="text-zinc-500 my-2">
               <span className="text-zinc-600 mr-2">Full name:</span>
-              {userInfo.name}
             </li>
             <li className="text-zinc-500 my-2">
               <span className="text-zinc-600 mr-2">Email:</span>
-              {userInfo.email}
             </li>
             <li className="text-zinc-500 my-2">
               <span className="text-zinc-600 mr-2">Status:</span>
@@ -38,7 +31,6 @@ const MyProfile = () => {
             </li>
             <li className="text-zinc-500 my-2">
               <span className="text-zinc-600 mr-2">Role:</span>
-              {userInfo.admin && "admin"}
             </li>
             <li className="text-zinc-500 my-2">
               <span className="text-zinc-600 mr-2">Contact:</span>

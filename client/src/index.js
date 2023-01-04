@@ -6,17 +6,17 @@ import "./index.css";
 import App from "./App";
 import "./assets/styles/swipper.css";
 import "./assets/styles/antdesign.css";
-import { StoreProvider } from "./reducers/useReducer";
+import UserProvider from "./redux/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <HelmetProvider>
-      <StoreProvider>
+      <UserProvider>
         <BrowserRouter>
           <App />
         </BrowserRouter>
-      </StoreProvider>
+      </UserProvider>
     </HelmetProvider>
   </React.StrictMode>
 );

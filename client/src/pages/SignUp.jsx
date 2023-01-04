@@ -1,22 +1,20 @@
 import { Button, Checkbox, Input } from "@material-tailwind/react";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from "../reducers/useReducer";
+import { Link } from "react-router-dom";
 import RegisterBg from "../assets/images/register-bg.png";
 import AuthBottomBg from "../assets/images/auth-bottom-bg.png";
 import TreeBg from "../assets/images/tree-bg.png";
+import toast from "react-hot-toast";
 
 const SignUp = () => {
-  const { dispatch } = useContext(UserContext);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   const signUpHandler = async (e) => {
     e.preventDefault();
-    fetch("http://localhost:5000/signup", {
+    await fetch("http://localhost:5000/signup", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -30,12 +28,9 @@ const SignUp = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
-          console.log(data.error);
+          toast.error(data.error);
         } else {
-          localStorage.setItem("jwt", data.token);
-          localStorage.setItem("user", JSON.stringify(data.user));
-          dispatch({ type: "USER", payload: data.user });
-          navigate("/");
+          toast.success(data.msg);
         }
       });
   };
@@ -46,17 +41,25 @@ const SignUp = () => {
       </Helmet>
       <div className="bg-white ">
         <div className="grid grid-cols-12 min-h-screen bg-white gap-0">
-          <div className="col-span-8 relative flex justify-center items-center overflow-hidden">
+          <div className="md:col-span-8 relative md:flex hidden justify-center items-center overflow-hidden">
             <img
               src={RegisterBg}
               className="max-w-3xl w-full z-20 object-cover"
               alt=""
             />
-            <img className="absolute left-0 bottom-0 z-10" src={AuthBottomBg} alt="" />
-            <img className="absolute left-0 bottom-1 z-20" src={TreeBg} alt="" />
+            <img
+              className="absolute left-0 bottom-0 z-10"
+              src={AuthBottomBg}
+              alt=""
+            />
+            <img
+              className="absolute left-0 bottom-1 z-20"
+              src={TreeBg}
+              alt=""
+            />
           </div>
-          <div className="col-span-4 border-l border-l-gray-300 flex items-center md:px-16 w-full mx-auto">
-            <div className="flex-1">
+          <div className="md:col-span-4 col-span-12 border-l border-l-gray-300 flex items-center justify-center xl:px-16 md:px-10 w-full mx-auto">
+            <div className="">
               <div className="">
                 <h2 className="text-2xl font-bold text-gray-700 ">
                   Adventure starts here 🚀
@@ -113,7 +116,7 @@ const SignUp = () => {
                   </div>
                 </form>
 
-                <p className="mt-5 text-base text-center text-gray-400">
+                <p className="md:mt-5 mt-3 md:text-base text-sm text-center text-gray-400">
                   Already have an account?{" "}
                   <Link
                     to={"/signin"}

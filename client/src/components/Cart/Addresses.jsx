@@ -75,11 +75,10 @@ const Addresses = () => {
   useEffect(() => {
     fetchAdresses();
   }, []);
-  console.log(allAddresses);
   return (
     <div className="">
       <div className="grid grid-cols-2 gap-5">
-        {allAddresses.map((item) => (
+        {allAddresses ? allAddresses.map((item) => (
           <div
             key={item._id}
             className="border-2 border-purple-600 rounded-xl w-full p-5"
@@ -108,7 +107,7 @@ const Addresses = () => {
               
             </div>
           </div>
-        ))}
+        )) : null}
       </div>
 
       <div className="cursor-pointer border-2 my-3 border-gray-300 rounded-2xl w-full p-8 flex justify-center">

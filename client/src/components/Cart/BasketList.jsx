@@ -3,16 +3,12 @@ import { Helmet } from "react-helmet-async";
 import toast from "react-hot-toast";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { HiOutlineTrash } from "react-icons/hi";
-import { GlobalState } from "../../GlobalState";
-import Addresses from "./Addresses";
+import { useDispatch, useSelector } from "react-redux";
+import useAddCart from "../../hooks/useAddCart";
 
 const BasketList = () => {
-  const state = useContext(GlobalState);
-  const [cart] = state.userAPI.cart;
-  const addToCartHanle = state.userAPI.addToCartHanle;
-  const deleteHandler = state.userAPI.deleteHandler;
-  const newOrder = state.userAPI.newOrder;
-
+  const { access_token } = useSelector((state) => state.auth);
+  const { addToCartHandle, cart, deleteHandle } = useAddCart(access_token);
   useEffect(() => {
     window.scrollTo(0, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -22,6 +18,7 @@ const BasketList = () => {
       <Helmet>
         <title data-rh="true">Shopping Cart | E-commerce</title>
       </Helmet>
+
       <div className="md:my-5">
         {cart.length ? (
           <div className="container-full grid grid-cols-12 gap-5 min-h-screen">
@@ -68,7 +65,7 @@ const BasketList = () => {
                                 <div className="">
                                   <button
                                     onClick={() =>
-                                      deleteHandler(item.productId._id)
+                                      deleteHandle(item.productId._id)
                                     }
                                     className="flex items-center text-lg font-semibold text-red-500"
                                   >
@@ -83,7 +80,7 @@ const BasketList = () => {
                                 {item.quantity > 1 ? (
                                   <button
                                     onClick={() =>
-                                      deleteHandler(item.productId._id)
+                                      deleteHandle(item.productId._id)
                                     }
                                     className="h-8 text-[#00e8a6] border-2 border-[#00e8a6] tranistion_normal hover:bg-[#00e8a6] hover:text-white rounded-lg p-1 px-2"
                                   >
@@ -98,9 +95,9 @@ const BasketList = () => {
                                   {item.quantity}
                                 </p>
                                 <button
-                                  onClick={() =>
-                                    addToCartHanle(item.productId._id)
-                                  }
+                                  onClick={() => {
+                                    addToCartHandle(item.productId._id);
+                                  }}
                                   className="h-8 text-[#00e8a6] border-2 border-[#00e8a6] tranistion_normal hover:bg-[#00e8a6] hover:text-white rounded-lg p-1 px-2"
                                 >
                                   <AiOutlinePlus />
@@ -120,7 +117,7 @@ const BasketList = () => {
                 </div>
               </div>
               <div className="border border-gray-200 p-5 md:rounded-2xl my-5">
-                <Addresses />
+                {/* <Addresses /> */}
               </div>
             </div>
             <div className="col-span-4">
@@ -155,14 +152,14 @@ const BasketList = () => {
                   </ul>
                 </div>
                 <div className="mt-5">
-                  <form onSubmit={newOrder}>
+                  {/* <form onSubmit={newOrder}>
                     <button
                       type="submit"
                       className="rounded-2xl w-full py-4 bg-indigo-600 text-white text-xl"
                     >
                       placing an order
                     </button>
-                  </form>
+                  </form> */}
                 </div>
               </div>
             </div>

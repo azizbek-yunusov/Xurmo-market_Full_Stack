@@ -2,7 +2,7 @@ const UserModel = require("../models/UserModel");
 
 module.exports = async (req, res, next) => {
   try {
-    const user = await UserModel.findOne({ _id: req.user });
+    const user = await UserModel.findOne({ _id: req.user.id });
     if (!user.admin) {
       return res.status(400).json({ msg: "Admin resources access denied" });
     }

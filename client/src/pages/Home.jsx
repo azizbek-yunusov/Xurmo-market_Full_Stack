@@ -1,15 +1,13 @@
 import React, { useContext } from "react";
 import { Helmet } from "react-helmet-async";
+import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import BannerCarousel from "../components/Banner/BannerCarousel";
 import CategoryList from "../components/Categories/CategoryList";
 import BestProductsList from "../components/ProductItems/BestProductsList";
-import { UserContext } from "../reducers/useReducer";
 
 const Home = () => {
-  const { state } = useContext(UserContext);
   // const navigate = useNavigate();
-  const { userInfo } = state;
   // const [products, setProducts] = useState([]);
   // const fetchData = () => {
   //   fetch("http://localhost:5000/products", {
@@ -20,21 +18,22 @@ const Home = () => {
   // useEffect(() => {
   //   fetchData();
   // }, []);
+  const { auth } = useSelector((state) => state);
 
   return (
     <>
-      {userInfo && userInfo.admin ? (
+      {auth.isAdmin ? (
         <Navigate to={"/dashboard"} />
       ) : (
         <>
-         <Helmet>
-        <title data-rh="true">Home page | E-commerce</title>
-      </Helmet>
-          <BannerCarousel />
-          <CategoryList />
-          <BestProductsList />
+          <Helmet>
+            <title data-rh="true">Home page | E-commerce</title>
+          </Helmet>
         </>
       )}
+      <BannerCarousel />
+      <CategoryList />
+      <BestProductsList />
     </>
   );
 };

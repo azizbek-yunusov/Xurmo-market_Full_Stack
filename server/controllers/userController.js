@@ -11,11 +11,10 @@ const { CLIENT_URL } = process.env;
 
 const signUp = async (req, res) => {
   try {
-    const { name, email, password, admin, cart, addresses } = req.body;
+    const { name, email, password } = req.body;
     if (!name || !email || !password) {
       return res.status(400).json({ error: "Please add all the feilds" });
     }
-    // Check email
     const userExists = await UserModel.findOne({ email });
     if (userExists) {
       return res.status(400).json({ error: "This email already exists" });
@@ -28,20 +27,23 @@ const signUp = async (req, res) => {
       email,
       password: hashedPassword,
     };
-    const activation_token = createActivationToken(newUser);
+    const activationtoken = createActivationToken(newUser);
 
-    const url = `${CLIENT_URL}/user/activate/${activation_token}`;
+    const url = `${CLIENT_URL}/user/activate/${activationtoken}`;
     sendMail(email, url, "Verify your email address");
 
-    res.json({ msg: "Register Success! Please activate your email to start." });
+    res
+      .status(200)
+      .json({ msg: "Register Success! Please activate your email to start." });
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }
 };
+
 const activateEmail = async (req, res) => {
   try {
-    const { activation_token } = req.body;
-    const user = jwt.verify(activation_token, JWT_SECRET);
+    const { activationtoken } = req.body;
+    const user = jwt.verify(activationtoken, JWT_SECRET);
 
     const { name, email, password } = user;
     const userExists = await UserModel.findOne({ email });
@@ -51,7 +53,6 @@ const activateEmail = async (req, res) => {
       name,
       email,
       password,
-      admin,
       cart: [],
       addresses: [],
     });
@@ -63,43 +64,66 @@ const activateEmail = async (req, res) => {
     console.log(err);
   }
 };
+
 const signIn = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const savedUser = await UserModel.findOne({ email });
+    if (!email || !password) {
+      return res.status(400).json({ err: "All fields are required" });
+    }
+    const savedUser = await UserModel.findOne({ email }).populate(
+      "cart.productId",
+      "_id name images price"
+    );
     if (!savedUser) {
-      return res.status(400).json({ error: "Your email is incorrect" });
+      return res.status(400).json({ err: "Your email is incorrect" });
     }
     const isPasswordValid = await bcrypt.compare(password, savedUser.password);
     if (!isPasswordValid)
-      return res.status(400).json({ msg: "Password is incorrect." });
+      return res.status(400).json({ err: "Password is incorrect." });
 
-    const refresh_token = createRefreshToken({ id: savedUser._id });
-
-    res.cookie("refreshtoken", refresh_token, {
+    const refreshtoken = createRefreshToken({ id: savedUser._id });
+    const access_token = createAccessToken({ id: savedUser._id });
+    res.cookie("refreshtoken", refreshtoken, {
       httpOnly: true,
-      path: "/user/refresh_token",
+      path: "/",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-    res.json({ msg: "Login success!", refresh_token });
+    res.json({
+      msg: "Login success!",
+      access_token,
+      user: {
+        ...savedUser._doc,
+      },
+    });
   } catch (err) {
+    // return res.status(500).json({ msg: err.message });
     console.log(err);
   }
 };
 const getAccessToken = async (req, res) => {
   try {
-    const rf_token = req.cookies.refreshtoken;
-    if (!rf_token) return res.status(400).json({ msg: "Please login now!" });
+    const refreshToken = req.cookies.refreshtoken;
+    if (!refreshToken)
+      return res.status(400).json({ msg: "Please login now!" });
 
-    jwt.verify(rf_token, JWT_SECRET, (err, user) => {
-      if (err) return res.status(400).json({ msg: "Please login now!" });
+    jwt.verify(refreshToken, JWT_SECRET, async (err, client) => {
+      if (err) return res.status(400).json({ msg: "Please login now." });
 
-      const access_token = createAccessToken({ id: user.id });
-      res.json({ access_token });
+      const user = await UserModel.findById(client.id)
+        .select("-password")
+        .populate("cart.productId", "_id name images price");
+      if (!user) return res.status(400).json({ msg: "This does not exist." });
+      const access_token = createAccessToken({ id: client.id });
+
+      res.json({
+        access_token,
+        user,
+      });
     });
   } catch (err) {
-    console.log(err);
+    return res.status(500).json({ msg: err.message });
   }
 };
 
@@ -141,32 +165,11 @@ const resetPassword = async (req, res) => {
 
 const logout = async (req, res) => {
   try {
-    res.clearCookie("refreshtoken", { path: "/user/refresh_token" });
-    return res.json({ msg: "Logged out." });
+    res.clearCookie("refreshtoken", { path: "/" });
+    return res.json({ msg: "Logged out" });
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }
-};
-
-const isLoggedIn = async (req, res) => {
-  const token = req.cookies.access_token;
-  if (!token) {
-    return res.json(false);
-  }
-  jwt.verify(token, JWT_SECRET, (err, user) => {
-    if (err) return res.status(400).json({ msg: "Please Login or Register" });
-
-    const accesstoken = createAccessToken({ id: user.id });
-
-    res.json({ accesstoken });
-  });
-
-  // return jwt.verify(token, JWT_SECRET, (err) => {
-  //   if (err) {
-  //     return res.json(false);
-  //   }
-  //   return res.json(true);
-  // });
 };
 const getAllUsers = async (req, res) => {
   try {
@@ -197,15 +200,16 @@ const getUser = async (req, res) => {
 
 const getUserInfo = async (req, res) => {
   try {
-    const userItems = await UserModel.findById(req.user).populate(
+    const userItems = await UserModel.findById(req.user.id).populate(
       "cart.productId",
       "_id name images price"
     );
-    res.status(200).json({ userItems });
+    res.status(200).json(userItems);
   } catch (err) {
-    console.log();
+    return res.status(500).json({ msg: err.message });
   }
 };
+
 const updateUser = async (req, res) => {
   try {
     const user = await UserModel.findById(req.params.id);
@@ -233,6 +237,7 @@ const deleteUser = async (req, res) => {
     msg: "DELETED USER",
   });
 };
+
 const addAdress = async (req, res) => {
   try {
     const {
@@ -255,7 +260,7 @@ const addAdress = async (req, res) => {
       apartment,
       isActive,
     };
-    const user = await UserModel.findById(req.user);
+    const user = await UserModel.findById(req.user.id);
     user.addresses.push(address);
     await user.save();
 
@@ -269,7 +274,7 @@ const addAdress = async (req, res) => {
 
 const getMyAdresses = async (req, res) => {
   try {
-    const user = await UserModel.findById(req.user);
+    const user = await UserModel.findById(req.user.id);
     let { addresses } = user;
     res.status(200).json({
       addresses,
@@ -281,7 +286,7 @@ const getMyAdresses = async (req, res) => {
 
 const deleteAddress = async (req, res) => {
   try {
-    const user = await UserModel.findById(req.user);
+    const user = await UserModel.findById(req.user.id);
     await user.removeFromAddress(req.params.id);
     res.status(200).json({
       success: true,
@@ -304,7 +309,7 @@ const createActivationToken = (payload) => {
 };
 
 const createAccessToken = (payload) => {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: "15m" });
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: "1d" });
 };
 
 const createRefreshToken = (payload) => {
@@ -313,7 +318,6 @@ const createRefreshToken = (payload) => {
 module.exports = {
   signUp,
   signIn,
-  isLoggedIn,
   logout,
   getAllUsers,
   getUser,
