@@ -1,22 +1,45 @@
+/* eslint-disable no-unused-vars */
 import { Button, Checkbox, Input } from "@material-tailwind/react";
-import React, { useContext, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import LoginBg from "../assets/images/loginBg.png";
 import AuthBottomBg from "../assets/images/auth-bottom-bg.png";
 import TreeBg from "../assets/images/tree-bg.png";
 import { signIn } from "../redux/actions/authAction";
+import toast from "react-hot-toast";
 
 const SignIn = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const passwordEl = useRef();
+  const emailEl = useRef();
   const navigate = useNavigate();
+  const emailFocus = () => {
+    emailEl.current.focus();
+  };
+  const passwordFocus = () => {
+    passwordEl.current.focus();
+  };
   const signInSubmit = async (e) => {
     e.preventDefault();
     try {
+      if (email === "") {
+        toast.error("Enter your email!");
+        setEmailError(true);
+        return;
+      }
+      if (password === "") {
+        toast.error("Enter your password!");
+        setPasswordError(true);
+        return;
+      }
+
       setLoading(true);
       dispatch(signIn(email, password));
       navigate("/");
@@ -68,7 +91,8 @@ const SignIn = () => {
                       label="Email"
                       size="lg"
                       color="purple"
-                      autoFocus
+                      type="email"
+                      autoFocus={emailError}
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
@@ -78,6 +102,8 @@ const SignIn = () => {
                       label="Password"
                       size="lg"
                       color="purple"
+                      type="password"
+                      autoFocus={passwordError}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />

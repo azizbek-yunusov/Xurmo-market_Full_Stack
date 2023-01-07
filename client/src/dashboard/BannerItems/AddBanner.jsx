@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
 import Layout from "../Layout";
 
 const AddBanner = () => {
+  const { access_token } = useSelector((state) => state.auth);
   const [name, setName] = useState("");
   const [href, setHref] = useState("");
   const [image, setImage] = useState([]);
@@ -28,7 +29,7 @@ const AddBanner = () => {
       method: "post",
       headers: {
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("jwt"),
+        Authorization: access_token,
       },
       body: JSON.stringify({
         name,

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import FavoritesButton from "../Buttons/FavoritesButton";
+import FavoritesButton from "../Wish/FavoritesButton";
 import SearchBox from "../Search/SearchBox";
 import AuthButton from "../Buttons/AuthButton";
 import { useSelector } from "react-redux";

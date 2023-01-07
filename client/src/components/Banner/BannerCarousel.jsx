@@ -34,7 +34,7 @@ const BannerCarousel = () => {
   }, []);
   return (
     <div className="container-full grid grid-cols-12 overflow-hidden">
-      <div className="col-span-9 rounded-xl overflow-hidden">
+      <div className="col-span-12 rounded-xl overflow-hidden">
         <Swiper
           // install Swiper modules
           style={{
@@ -46,7 +46,6 @@ const BannerCarousel = () => {
           navigation={true}
           pagination={{ clickable: true }}
           scrollbar={{ draggable: true }}
-          className="bg-purple-500"
         >
           {banners.map((item, index) => (
             <SwiperSlide key={index}>
@@ -55,9 +54,9 @@ const BannerCarousel = () => {
           ))}
         </Swiper>
       </div>
-      <div className="col-span-3 ml-10 flex items-center justify-center">
+      {/* <div className="col-span-3 ml-10 flex items-center justify-center">
         <DayProductList products={products} />
-      </div>
+      </div> */}
     </div>
   );
 };

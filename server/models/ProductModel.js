@@ -27,6 +27,10 @@ const productSchema = new Schema(
       },
     ],
     brand: { type: String },
+    discount: {
+      type: Number,
+      default: 0,
+    },
     inStock: {
       type: Number,
       default: 1,
@@ -53,6 +57,16 @@ const productSchema = new Schema(
         },
         comment: {
           type: String,
+        },
+        image: {
+          public_id: {
+            type: String,
+            required: true,
+          },
+          url: {
+            type: String,
+            required: true,
+          },
         },
         createdAt: {
           type: Date,

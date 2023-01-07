@@ -4,7 +4,6 @@ import "./App.css";
 import Footer from "./components/Footer";
 import Header from "./components/Header/Header";
 import TopLink from "./components/Header/TopLink";
-import MyProfile from "./components/Profile/MyProfile";
 import Admins from "./dashboard/UserItems/Admins";
 import AddCategory from "./dashboard/CategoryItems/AddCategory";
 import CategoriesTable from "./dashboard/CategoryItems/CategoriesTable";
@@ -34,11 +33,16 @@ import ActivationEmail from "./pages/ActivationEmail";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getUser, refreshToken } from "./redux/actions/authAction";
+import { WishList } from "./components/Wish";
+import CheckOut from "./components/CheckOut";
+import { MyInfor } from "./components/Profile";
+import useNetworkStatus from "./hooks/useNetworkStatus";
 
 function App() {
   const pathname = useLocation().pathname;
   const dispatch = useDispatch();
   const { auth } = useSelector((state) => state);
+  const status = useNetworkStatus();
 
   useEffect(() => {
     dispatch(refreshToken());
@@ -56,7 +60,8 @@ function App() {
       <>
         {pathname === "/signup" ||
         pathname === "/signin" ||
-        pathname === "/user/activate/:activationtoken" ? null : (
+        pathname === "/user/activate/:activationtoken" ||
+        pathname === "/checkout" ? null : (
           <>
             <TopLink />
             <Header />
@@ -65,9 +70,11 @@ function App() {
       </>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/myprofile" element={<MyProfile />} />
+        <Route path="/myprofile" element={<MyInfor />} />
         <Route path="/product/view/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<BasketList />} />
+        <Route path="/wishlist" element={<WishList />} />
+        <Route path="/checkout" element={<CheckOut />} />
         <Route
           path="/user/activate/:activationtoken"
           element={<ActivationEmail />}

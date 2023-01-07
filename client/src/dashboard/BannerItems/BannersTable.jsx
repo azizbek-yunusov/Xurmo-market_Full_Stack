@@ -1,18 +1,20 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { AiOutlineUserAdd } from "react-icons/ai";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import Layout from "../Layout";
 
 const BannersTable = () => {
+  const { access_token } = useSelector((state) => state.auth);
   const [banners, setBanners] = useState([]);
   const [id, setId] = useState("");
   const fetchData = async () => {
     try {
       fetch("http://localhost:5000/banners", {
         headers: {
-          Authorization: localStorage.getItem("jwt"),
+          Authorization: access_token,
         },
       })
         .then((res) => res.json())
@@ -31,7 +33,6 @@ const BannersTable = () => {
         },
       }).then((data) => {
         if (data.err) {
-          
         } else {
           fetchData();
         }
@@ -94,7 +95,11 @@ const BannersTable = () => {
                               alt=""
                             />
                           </div>
-                          <span className="mr-2">{item.createdBy ? item.createdBy.name : "deleted account"}</span>
+                          <span className="mr-2">
+                            {item.createdBy
+                              ? item.createdBy.name
+                              : "deleted account"}
+                          </span>
                           <span>{moment(item.createdAt).format("lll")}</span>
                         </div>
                       </td>

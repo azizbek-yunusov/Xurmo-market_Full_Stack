@@ -3,6 +3,7 @@ const { Schema, model } = require("mongoose");
 const orderSchema = new Schema({
   shippingAddress: {
     type: Object,
+    required: true,
   },
   orderItems: [
     {

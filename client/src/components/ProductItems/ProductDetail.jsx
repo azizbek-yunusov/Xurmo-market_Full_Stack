@@ -9,6 +9,7 @@ import { Button, Modal, Rate } from "antd";
 import { Helmet } from "react-helmet-async";
 import ImageThumbs from "./ImageThumbs";
 import { useSelector } from "react-redux";
+import { Progress } from "@material-tailwind/react";
 const desc = ["terrible", "bad", "normal", "good", "wonderful"];
 
 const ProductDetail = () => {
@@ -40,13 +41,6 @@ const ProductDetail = () => {
   };
   const reviewsHandler = async (e) => {
     e.preventDefault();
-    // await axios.put("/review", {
-    //   headers: headers,
-    //   productId,
-    //   comment,
-    //   rating,
-    // });
-
     fetch("http://localhost:5000/review", {
       method: "put",
       headers: {
@@ -72,18 +66,12 @@ const ProductDetail = () => {
     window.scrollTo(0, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // scroll to top
-  // const location = useLocation();
-  // useEffect(() => {
-  //   window.scrollTo(0, 0);
-  // }, [location]);
 
   const signInNavigate = () => navigate("/signin");
   const beshh = product?.reviews?.filter((item) => item.rating === 5);
   const foiz =
-    (product?.numOfReviews * 100) /
-    (beshh?.length * product?.numOfReviews);
-    console.log(foiz);
+    (product?.numOfReviews * 100) / (beshh?.length * product?.numOfReviews);
+  console.log(foiz);
   return (
     <>
       <Helmet>
@@ -197,7 +185,7 @@ const ProductDetail = () => {
                   </div>
                 </div>
                 <div className="">
-                  <div className="flex items-center justify-between w-full bg-red-600 mt-4">
+                  {/* <div className="flex items-center justify-between w-full bg-red-600 mt-4">
                     <p className="mr-3">5star</p>
                     <div className="w-full h-4 bg-pink-300">
                       <div
@@ -206,6 +194,21 @@ const ProductDetail = () => {
                       ></div>
                     </div>
                     <p className="">{foiz}%</p>
+                  </div> */}
+                  <div className="md:my-5">
+                    <Progress value={foiz} label="Completed" />
+                  </div>
+                  <div className="md:my-5">
+                    <Progress value={foiz} label="Completed" />
+                  </div>
+                  <div className="md:my-5">
+                    <Progress value={foiz} label="Completed" />
+                  </div>
+                  <div className="md:my-5">
+                    <Progress value={foiz} label="Completed" />
+                  </div>
+                  <div className="md:my-5">
+                    <Progress value={foiz} label="Completed" />
                   </div>
                 </div>
                 <div className="w-full">

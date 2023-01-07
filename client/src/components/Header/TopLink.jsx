@@ -1,15 +1,16 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const TopLink = () => {
+  const { auth } = useSelector((state) => state);
+
   return (
     <>
-      {/* {auth && auth.isAdmin ? null : (
+      {auth && auth.isAdmin ? null : (
         <div className="w-full primary_bg">
-          <div className="container-full py-[10px] flex items-center justify-between">
+          <div className="container-full py-1 flex items-center justify-between">
             <div className="flex justify-between items-center">
-              ]
               <Link className="border-2 mr-6 text-center border-white rounded-xl px-2 py-1 text-white">
                 Chegirmalar
               </Link>
@@ -30,7 +31,7 @@ const TopLink = () => {
             </div>
           </div>
         </div>
-      )} */}
+      )}
     </>
   );
 };

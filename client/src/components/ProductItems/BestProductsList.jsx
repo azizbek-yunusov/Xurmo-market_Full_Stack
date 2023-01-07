@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ProductCard from "./ProductCard";
+import Banner from "../../assets/images/best_banner.png";
 
 const BestProductsList = () => {
   const [products, setProducts] = useState([]);
@@ -22,7 +23,14 @@ const BestProductsList = () => {
         </Link>
       </div>
       <div className="grid grid-cols-12 gap-5">
-        <div className="col-span-12 grid grid-cols-5 gap-4 relative">
+        <div className="col-span-2 rounded-xl overflow-hidden">
+          <img
+            src={Banner}
+            className="w-full h-full"
+            alt="Best Product Banner uz"
+          />
+        </div>
+        <div className="col-span-10 grid grid-cols-4 gap-4 relative">
           {products.slice(0, 8).map((item) => (
             <ProductCard key={item._id} {...item} />
           ))}

@@ -16,10 +16,10 @@
   }
 }
 .container-full {
-  @apply max-w-[1440px] w-full lg:px-5 px-3 mx-auto min-w-[320px] select-none overflow-x-hidden global-font;
+  @apply max-w-[1440px] w-full lg:px-5 px-3 mx-auto min-w-[320px] select-none global-font;
 }
 .primary_bg {
-  @apply bg-[#00abda];
+  @apply bg-[#c003ff];
 }
 /* .primary_bg {
   @apply bg-[#c300fe]

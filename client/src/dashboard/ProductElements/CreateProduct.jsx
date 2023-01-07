@@ -18,9 +18,11 @@ const CreateProduct = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [descr, setDescr] = useState("");
+  const [inStock, setInStock] = useState("");
   const [images, setImages] = useState([]);
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState("");
+  const [discount, setDiscount] = useState("");
   const [loading, setLoading] = useState(false);
 
   const goback = useNavigate();
@@ -61,6 +63,8 @@ const CreateProduct = () => {
         descr,
         images,
         category,
+        discount,
+        inStock,
       }),
     })
       .then((res) => res.json())
@@ -89,7 +93,7 @@ const CreateProduct = () => {
       <section className="relative">
         <div className="bg-indigo-400 w-full h-40 pl-5 pt-4 text-gray-50">
           <h1 className="text-white text-2xl">Create Product</h1>
-          <ol className="list-reset mt-1 flex text-grey-dark text-sm text-gray-200">
+          {/* <ol className="list-reset mt-1 flex text-grey-dark text-sm text-gray-200">
             <li>
               <Link to={"/dashboard"}>Dashboard</Link>
             </li>
@@ -105,9 +109,9 @@ const CreateProduct = () => {
             <li>
               <span>Create</span>
             </li>
-          </ol>
+          </ol> */}
         </div>
-        <div className="-mt-14 rounded-2xl flex mx-4 bg-white shadow-lg">
+        <div className="-mt-24 rounded-2xl flex mx-4 bg-white shadow-lg">
           <div className="flex w-full p-8 px-16">
             <div className="w-full">
               <form onSubmit={handleSubmit}>
@@ -129,7 +133,7 @@ const CreateProduct = () => {
                       </Option>
                     ))}
                   </Select>
-                  <div className="grid grid-cols-2 gap-5">
+                  <div className="grid grid-cols-1 gap-0">
                     <Input
                       label="Price"
                       size="lg"
@@ -137,14 +141,14 @@ const CreateProduct = () => {
                       value={price}
                       onChange={(e) => setPrice(e.target.value)}
                     />
-                    <Input
-                      label="In Stock"
-                      size="lg"
-                      type="number"
-                      value={price}
-                      onChange={(e) => setPrice(e.target.value)}
-                    />
                   </div>
+                  <Input
+                    label="In Stock"
+                    size="lg"
+                    type="number"
+                    value={inStock}
+                    onChange={(e) => setInStock(e.target.value)}
+                  />
                   <Select
                     onChange={selectedChange}
                     size="lg"
@@ -156,64 +160,71 @@ const CreateProduct = () => {
                       </Option>
                     ))}
                   </Select>
+                  <Input
+                    label="Discount"
+                    size="lg"
+                    type="number"
+                    value={discount}
+                    onChange={(e) => setDiscount(e.target.value)}
+                  />
                   <Textarea
                     value={descr}
                     onChange={(e) => setDescr(e.target.value)}
                     label="Description"
                   />
-                  <div className="flex">
-                    <label htmlFor="file-upload">
-                      <label
-                        htmlFor="file-upload"
-                        className="block text-sm mb-2 text-gray-700"
-                      >
-                        Upload images
-                      </label>
-                      <div className="mr-2 flex bg-white justify-center items-center rounded-md border-2 border-dashed border-gray-300 p-3 py-6 cursor-pointer">
-                        <div className="flex justify-center flex-col items-center">
-                          <AiOutlineCloudUpload className="text-3xl text-gray-600" />
-                          <div className="flex text-sm text-gray-600">
-                            <label
-                              htmlFor="file-upload"
-                              className="relative cursor-pointer rounded-md bg-white font-medium"
-                            >
-                              <span>Upload image</span>
-                              <input
-                                id="file-upload"
-                                name="file"
-                                type="file"
-                                className="sr-only"
-                                onChange={handleImage}
-                              />
-                            </label>
-                          </div>
-                          <p className="text-xs text-gray-500">
-                            PNG, JPG up to 10MB
-                          </p>
-                        </div>
-                      </div>
+                </div>
+                <div className="flex">
+                  <label htmlFor="file-upload">
+                    <label
+                      htmlFor="file-upload"
+                      className="block text-sm mb-2 text-gray-700"
+                    >
+                      Upload images
                     </label>
-
-                    <div className="show_images flex flex-wrap items-center">
-                      {images.map((img, index) => (
-                        <div key={index} className="p-[6px] mx-[2px] relative">
-                          <div
-                            className="border border-gray-400 overflow-hidden rounded"
-                            id="file_img"
+                    <div className="mr-2 flex bg-white justify-center items-center rounded-md border-2 border-dashed border-gray-300 p-3 py-6 cursor-pointer">
+                      <div className="flex justify-center flex-col items-center">
+                        <AiOutlineCloudUpload className="text-3xl text-gray-600" />
+                        <div className="flex text-sm text-gray-600">
+                          <label
+                            htmlFor="file-upload"
+                            className="relative cursor-pointer rounded-md bg-white font-medium"
                           >
-                            <img
-                              src={img}
-                              alt="images"
-                              className="img-thumbnail max-w-[90px] w-full"
+                            <span>Upload image</span>
+                            <input
+                              id="file-upload"
+                              name="file"
+                              type="file"
+                              className="sr-only"
+                              onChange={handleImage}
                             />
-                          </div>
-                          <IoMdClose
-                            onClick={() => deleteImages(index)}
-                            className="absolute text-gray-600 top-0 p-1 border text-2xl border-gray-300 right-0 cursor-pointer rounded-full bg-white"
+                          </label>
+                        </div>
+                        <p className="text-xs text-gray-500">
+                          PNG, JPG up to 10MB
+                        </p>
+                      </div>
+                    </div>
+                  </label>
+
+                  <div className="show_images flex flex-wrap items-center">
+                    {images.map((img, index) => (
+                      <div key={index} className="p-[6px] mx-[2px] relative">
+                        <div
+                          className="border border-gray-400 overflow-hidden rounded"
+                          id="file_img"
+                        >
+                          <img
+                            src={img}
+                            alt="images"
+                            className="img-thumbnail max-w-[90px] w-full"
                           />
                         </div>
-                      ))}
-                    </div>
+                        <IoMdClose
+                          onClick={() => deleteImages(index)}
+                          className="absolute text-gray-600 top-0 p-1 border text-2xl border-gray-300 right-0 cursor-pointer rounded-full bg-white"
+                        />
+                      </div>
+                    ))}
                   </div>
                 </div>
                 <div className="w-full mt-10 flex justify-end">
