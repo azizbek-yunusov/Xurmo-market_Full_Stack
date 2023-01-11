@@ -5,7 +5,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const UserButton = () => {
-  
   const items = [
     {
       key: "1",
@@ -13,9 +12,7 @@ const UserButton = () => {
     },
     {
       key: "2",
-      label: (
-        <Link to={"/signup"}>Sign Up</Link>
-      )
+      label: <Link to={"/signup"}>Sign Up</Link>,
     },
   ];
   return (
@@ -25,6 +22,8 @@ const UserButton = () => {
       }}
       placement="bottomRight"
       arrow
+      trigger={["click"]}
+      className="flex_center cursor-pointer"
     >
       <div className="">
         <AiOutlineUser className="md:text-2xl cursor-pointer" />

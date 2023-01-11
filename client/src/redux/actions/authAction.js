@@ -34,6 +34,10 @@ export const refreshToken = () => async (dispatch) => {
           isAdmin: data.user.admin ? true : false,
         },
       });
+      dispatch({
+        type: "GET_ADDRESS",
+        payload: data.user.addresses,
+      });
     } catch (err) {
       console.log(err);
     }

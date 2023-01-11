@@ -6,10 +6,11 @@ import { HiOutlineTrash } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import useGlobalApi from "../../hooks/useGlobalApi";
+import ShoppingBag from "../../assets/images/shopping-basket.png";
 
 const BasketList = () => {
   const { access_token } = useSelector((state) => state.auth);
-  const { addToCartHandle, decrementQtyItem, deleteHandle, newOrder } =
+  const { addToCartHandle, decrementQtyItem, deleteHandle } =
     useGlobalApi(access_token);
   const { cart } = useSelector((state) => state);
   const navigate = useNavigate();
@@ -135,7 +136,12 @@ const BasketList = () => {
                     className="w-full px-4 text-base"
                     placeholder="promo code"
                   />
-                  <Button size="lg" type="submit" variant="gradient" className="my-[2px] lowercase flex px-10 mx-[2px]">
+                  <Button
+                    size="lg"
+                    type="submit"
+                    variant="gradient"
+                    className="my-[2px] lowercase flex px-10 mx-[2px]"
+                  >
                     apply
                   </Button>
                 </div>
@@ -162,17 +168,21 @@ const BasketList = () => {
             </div>
           </div>
         ) : (
-          <div className="min-h-[630px] flex justify-center items-center">
-            <div className="flex justify-center flex-col">
-              <h1 className="text-4xl font-semibold">
+          <div className="min-h-[630px] flex justify-center items-start">
+            <div className="flex justify-start items-center relative flex-col">
+              <img src={ShoppingBag} alt="Shopping bag" className="h-96" />
+              <h1 className="text-3xl md:mb-5 text-gray-600 font-semibold">
                 The shopping cart is empty
               </h1>
-              <button
+              <Button
                 onClick={() => navigate("/")}
-                className="px-5 py-4 mt-8 text-2xl bg-purple-500 text-white rounded-2xl "
+                size="lg"
+                variant="gradient"
+                fullWidth
+                className="tracking-wide"
               >
                 continue shopping
-              </button>
+              </Button>
             </div>
           </div>
         )}

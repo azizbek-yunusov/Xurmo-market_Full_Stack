@@ -5,6 +5,7 @@ import { BiCategory } from "react-icons/bi";
 import { GrLocation } from "react-icons/gr";
 import { MdFavoriteBorder } from "react-icons/md";
 
+
 export const sidebar = [
   {
     id: 1,
@@ -71,7 +72,7 @@ export const sidebarProfile = [
   },
   {
     id: 4,
-    path: "/myprofile/wishlist",
+    path: "/myprofile/favorites",
     name: "Favorites",
     icon: <MdFavoriteBorder className="md:text-2xl ml-4" />,
   },

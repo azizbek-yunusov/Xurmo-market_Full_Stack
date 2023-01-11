@@ -1,3 +1,4 @@
+import { Button } from "@material-tailwind/react";
 import { Rate, Tooltip } from "antd";
 import React from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
@@ -10,13 +11,18 @@ import useGlobalApi from "../../hooks/useGlobalApi";
 const ProductCard = (props) => {
   const { _id, name, images, price, ratings, discount } = props;
   const { cart, favorite, auth } = useSelector((state) => state);
-  const { addToCartHandle, decrementQtyItem, addToFavorite, deleteFavoriteItem } = useGlobalApi(auth.access_token);
+  const {
+    addToCartHandle,
+    decrementQtyItem,
+    addToFavorite,
+    deleteFavoriteItem,
+  } = useGlobalApi(auth.access_token);
 
   const existItem = cart?.find((x) => x.productId._id === _id);
   const isCart = existItem === undefined ? false : true;
   const existItemWish = favorite?.find((x) => x.productId._id === _id);
   const isFavorite = existItemWish === undefined ? false : true;
-  
+
   return (
     <>
       <div className="overflow-hidden relative flex tranistion_normal hover:shadow-xl flex-col justify-between h-[400px] border border-gray-200 hover:border-gray-50 rounded-2xl p-3 px-4">
@@ -63,7 +69,7 @@ const ProductCard = (props) => {
               <BsHeart className="text-[32px] text-gray-400" />
             </button>
           )}
-          {isCart ? (
+          {/* {isCart ? (
             <div className="flex justify-between px-3 items-center border-2 border-[#01f736] py-[6px] w-full rounded-3xl text-lg transition_normal hover:border-blue-500">
               <Tooltip title="remove from cart">
                 <button
@@ -91,7 +97,13 @@ const ProductCard = (props) => {
               <FiShoppingCart className="md:text-xl" />
               <span className="ml-2 text-base">add to cart</span>
             </button>
-          )}
+          )} */}
+          <Button size="md" variant="gradient" fullWidth>
+            <div className="flex_center">
+              <FiShoppingCart className="md:text-lg" />
+              <span className="ml-2">add to cart</span>
+            </div>
+          </Button>
         </div>
       </div>
     </>

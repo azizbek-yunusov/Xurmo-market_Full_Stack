@@ -1,8 +1,8 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const UserModel = require("../models/UserModel");
-const sendMail = require("./sendMailController");
 const { google } = require("googleapis");
+const { sendEmail } = require("./sendMailController");
 const { OAuth2 } = google.auth;
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -30,7 +30,7 @@ const signUp = async (req, res) => {
     const activationtoken = createActivationToken(newUser);
 
     const url = `${CLIENT_URL}/user/activate/${activationtoken}`;
-    sendMail(email, url, "Verify your email address");
+    sendEmail(email, url, "Verify your email address");
 
     res
       .status(200)

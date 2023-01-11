@@ -1,16 +1,14 @@
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import useGlobalApi from "../../hooks/useGlobalApi";
+import { Link, useNavigate } from "react-router-dom";
 import WishProductItem from "./WishProductItem";
+import Wish from "../../assets/images/wish.png";
+import { Button } from "@material-tailwind/react";
 
 const WishList = () => {
-  const { access_token } = useSelector((state) => state.auth);
-  const { addToCartHandle, decrementQtyItem, deleteHandle } =
-    useGlobalApi(access_token);
   const { favorite } = useSelector((state) => state);
-  console.log(favorite);
+  const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -22,7 +20,7 @@ const WishList = () => {
       </Helmet>
 
       <div className="">
-        <div className="container-full">
+        <div className="container-full min-h-[600px]">
           {favorite.length ? (
             <div>
               <div className="flex md:mt-5">
@@ -41,8 +39,19 @@ const WishList = () => {
               </div>
             </div>
           ) : (
-            <div className="container-full h-96 flex justify-center items-center">
-              <h1 className="md:text-2xl">Empty</h1>
+            <div className="flex justify-center items-center flex-col">
+              <img src={Wish} className="h-96" alt="" />
+              <h1 className="text-3xl text-gray-700 font-semibold md:mb-5">
+                Favorites list is empty
+              </h1>
+              <Button
+                onClick={() => navigate("/")}
+                size="lg"
+                variant="gradient"
+                className="tracking-wide"
+              >
+                continue shopping
+              </Button>
             </div>
           )}
         </div>

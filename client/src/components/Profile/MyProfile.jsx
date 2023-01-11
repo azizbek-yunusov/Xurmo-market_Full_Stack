@@ -11,10 +11,8 @@ const MyProfile = () => {
             className="w-28 h-28 rounded-xl"
             alt=""
           />
-          <h1 className="text-2xl mt-3 text-zinc-600 font-medium">
-          </h1>
-          <p className="bg-pink-200 text-center text-red-500 px-4 pb-1 mt-3 rounded-xl">
-          </p>
+          <h1 className="text-2xl mt-3 text-zinc-600 font-medium"></h1>
+          <p className="bg-pink-200 text-center text-red-500 px-4 pb-1 mt-3 rounded-xl"></p>
         </div>
         <div className="mt-8">
           <h1 className="text-2xl my-3 text-zinc-600">Details</h1>

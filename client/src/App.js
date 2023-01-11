@@ -35,7 +35,7 @@ import { useEffect } from "react";
 import { getUser, refreshToken } from "./redux/actions/authAction";
 import { WishList } from "./components/Wish";
 import CheckOut from "./components/CheckOut";
-import { MyInfor } from "./components/Profile";
+import { Addresses, Favorites, MyInfor, MyOrders } from "./components/Profile";
 import useNetworkStatus from "./hooks/useNetworkStatus";
 
 function App() {
@@ -56,7 +56,7 @@ function App() {
   }, [dispatch]);
   return (
     <>
-      <Toaster position="top-right" reverseOrder={true} />
+      <Toaster position="bottom-left" reverseOrder={true} />
       <>
         {pathname === "/signup" ||
         pathname === "/signin" ||
@@ -71,6 +71,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/myprofile" element={<MyInfor />} />
+        <Route path="/myprofile/orders" element={<MyOrders />} />
+        <Route path="/myprofile/addresses" element={<Addresses />} />
+        <Route path="/myprofile/favorites" element={<Favorites />} />
         <Route path="/product/view/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<BasketList />} />
         <Route path="/wishlist" element={<WishList />} />

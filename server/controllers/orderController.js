@@ -1,16 +1,9 @@
 const OrderModel = require("../models/OrderModel");
 const UserModel = require("../models/UserModel");
+const { sendOrder } = require("./sendMailController");
 
 const newOrder = async (req, res) => {
   try {
-    const {
-      shippingAddress,
-      orderItems,
-      itemsPrice,
-      taxPrice,
-      shippingPrice,
-      totalPrice,
-    } = req.body;
     const customer = await UserModel.findById(req.user.id).populate(
       "cart.productId",
       "_id name price images"
@@ -19,18 +12,16 @@ const newOrder = async (req, res) => {
       quantity: c.quantity,
       productId: { ...c.productId._doc },
     }));
+    req.body.orderItems = product;
+    req.body.user = req.user.id;
 
-    const newOrder = await OrderModel.create({
-      orderItems: product,
-      shippingAddress: customer.addresses[0],
-      itemsPrice,
-      taxPrice,
-      shippingPrice,
-      totalPrice,
-      user: req.user.id,
-    });
+    const newOrder = await OrderModel.create(req.body);
+    
     const order = await newOrder.save();
     await customer.cleanCart();
+    // await sendOrder({
+    //   email: customer.email,
+    // });
     res.status(201).json({ message: "New Order Created", order });
   } catch (err) {
     console.log(err);
@@ -62,11 +53,10 @@ const getOrder = async (req, res) => {
 
 const getMyOrders = async (req, res) => {
   try {
-    const orders = await OrderModel.find({ user: req.user._id }).populate(
-      "user",
-      "_id name"
-    ).populate("orderItems.productId", "_id name price images")
-    res.status(200).json({orders});
+    const orders = await OrderModel.find({ user: req.user.id })
+      .populate("user", "_id name")
+      .populate("orderItems.productId", "_id name price images");
+    res.status(200).json({ orders });
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }

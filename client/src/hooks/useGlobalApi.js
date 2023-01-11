@@ -66,21 +66,6 @@ function useGlobalApi(access_token) {
       console.log(err);
     }
   };
-  const newOrder = (e) => {
-    e.preventDefault();
-    fetch("http://localhost:5000/order", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: access_token,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        fetchCart();
-        toast.success("Your order has been accepted");
-      });
-  };
 
   // Wish
   const fetchFavorites = async () => {
@@ -129,6 +114,7 @@ function useGlobalApi(access_token) {
       console.log(err);
     }
   };
+  
   useEffect(() => {
     if (access_token) {
       fetchCart();
@@ -140,7 +126,6 @@ function useGlobalApi(access_token) {
     addToCartHandle,
     decrementQtyItem,
     deleteHandle,
-    newOrder,
     addToFavorite,
     deleteFavoriteItem,
   };

@@ -34,8 +34,8 @@ const AuthButton = () => {
         items,
       }}
       placement="bottomRight"
-      arrow
-      className="flex justify-center items-center"
+      trigger={["click"]}
+      className="flex_center cursor-pointer"
     >
       <div className="">
         <div className="flex items-center">

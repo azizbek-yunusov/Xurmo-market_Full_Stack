@@ -57,9 +57,37 @@ const sendEmail = (to, url, txt) => {
   };
 
   smtpTransport.sendMail(mailOptions, (err, infor) => {
-    if (err) return err;
+    if (err) return console.log(err);
     return infor;
   });
 };
 
-module.exports = sendEmail;
+const sendOrder = async (options) => {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: SENDER_EMAIL_ADDRESS,
+      
+    },
+  });
+
+  const mailOptions = {
+    from: SENDER_EMAIL_ADDRESS,
+    to: options.email,
+    subject: "Texnoroom",
+    html: `
+             <div style="max-width: 700px; margin:auto; border: 10px solid #ddd; padding: 50px 20px; font-size: 110%;">
+             <h2 style="text-align: center; text-transform: uppercase;color: teal;">Assalomu alaykum</h2>
+             <p>
+             Sizning buyutmangiz tasqidlandi
+             </p>
+             <p>Bizdan xarid qilganingiz uchun rahmat</p>
+
+             </div>
+         `,
+  };
+
+  await transporter.sendMail(mailOptions);
+};
+
+module.exports = { sendEmail, sendOrder };

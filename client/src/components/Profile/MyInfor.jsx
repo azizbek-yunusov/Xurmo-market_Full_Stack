@@ -1,12 +1,18 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import LayoutP from "./LayoutP";
+import ProfileBg from "../../assets/images/profilebg.png";
 
 const MyInfor = () => {
   const { user } = useSelector((state) => state.auth);
   return (
     <LayoutP>
       <div className="">
+        <div className="">
+          <img src={ProfileBg} className="h-[235px] rounded-3xl" alt="" />
+        </div>
+      </div>
+      {/* <div className="">
         <h1 className="md:text-3xl font-semibold">Personal data</h1>
         <div className="">
           <ul className="border-t border-t-gray-300 text-gray-700 mt-5">
@@ -37,7 +43,7 @@ const MyInfor = () => {
             </li>
           </ul>
         </div>
-      </div>
+      </div> */}
     </LayoutP>
   );
 };

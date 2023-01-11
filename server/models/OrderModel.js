@@ -1,9 +1,35 @@
 const { Schema, model } = require("mongoose");
 
 const orderSchema = new Schema({
+  name: {
+    type: String,
+  },
+  lastName: {
+    type: String,
+  },
+  contact: {
+    type: String,
+  },
+  email: {
+    type: String,
+  },
   shippingAddress: {
-    type: Object,
-    required: true,
+    region: {
+      type: String,
+    },
+    district: {
+      type: String,
+    },
+    street: {
+      type: String,
+    },
+    house: {
+      type: String,
+    },
+    other: {
+      type: String,
+    },
+    postalCode: { type: String },
   },
   orderItems: [
     {
@@ -17,37 +43,25 @@ const orderSchema = new Schema({
       },
     },
   ],
+  totalPrice: {
+    type: Number,
+  },
+  shippingPrice: {
+    type: Number,
+  },
+  isPaid: { type: Boolean, default: false },
+  paymentMethod: {
+    type: String,
+  },
+  deliveryType: {
+    type: String,
+  },
+  isDelivered: { type: Boolean, default: false },
+  deliveredAt: { type: Date },
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  paidAt: {
-    type: Date,
-  },
-  itemsPrice: {
-    type: Number,
-    default: 0,
-  },
-  taxPrice: {
-    type: Number,
-
-    default: 0,
-  },
-  shippingPrice: {
-    type: Number,
-
-    default: 0,
-  },
-  totalPrice: {
-    type: Number,
-
-    default: 0,
-  },
-  orderStatus: {
-    type: String,
-    default: "Processing",
-  },
-  deliveredAt: Date,
   createdAt: {
     type: Date,
     default: Date.now,
