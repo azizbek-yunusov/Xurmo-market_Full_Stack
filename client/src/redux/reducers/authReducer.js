@@ -1,7 +1,4 @@
 const initialState = {
-  // isLogin: localStorage.getItem("firstLogin")
-  //   ? JSON.parse(localStorage.getItem("firstLogin"))
-  //   : false,
   user: [],
   access_token: "",
   isLogged: false,
@@ -18,17 +15,6 @@ const authReducer = (state = initialState, action) => {
         user: action.payload.user,
         isAdmin: action.payload.isAdmin,
       };
-    case "GET_USER":
-      return {
-        ...state,
-        user: action.payload,
-        isAdmin: action.payload.isAdmin,
-      };
-    case "ADD_CART": {
-      return {
-        ...state,
-      };
-    }
     case "SIGN_OUT": {
       return {
         ...state,

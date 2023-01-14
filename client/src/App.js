@@ -28,15 +28,16 @@ import {
   UserProfile,
   UsersTable,
 } from "./dashboard/UserItems";
-import { ProductDetail } from "./components/ProductItems";
+import { ProductDetail, ProductsList } from "./components/ProductItems";
 import ActivationEmail from "./pages/ActivationEmail";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getUser, refreshToken } from "./redux/actions/authAction";
+import { refreshToken } from "./redux/actions/authAction";
 import { WishList } from "./components/Wish";
 import CheckOut from "./components/CheckOut";
 import { Addresses, Favorites, MyInfor, MyOrders } from "./components/Profile";
 import useNetworkStatus from "./hooks/useNetworkStatus";
+import { SearchPage } from "./pages";
 
 function App() {
   const pathname = useLocation().pathname;
@@ -46,17 +47,11 @@ function App() {
 
   useEffect(() => {
     dispatch(refreshToken());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (auth.access_token) {
-      dispatch(getUser(auth.access_token));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  }, [dispatch]); 
+  
   return (
     <>
-      <Toaster position="bottom-left" reverseOrder={true} />
+      <Toaster position="top-left" reverseOrder={true} />
       <>
         {pathname === "/signup" ||
         pathname === "/signin" ||
@@ -75,7 +70,9 @@ function App() {
         <Route path="/myprofile/addresses" element={<Addresses />} />
         <Route path="/myprofile/favorites" element={<Favorites />} />
         <Route path="/product/view/:id" element={<ProductDetail />} />
+        <Route path="/products" element={<ProductsList />} />
         <Route path="/cart" element={<BasketList />} />
+        <Route path="/search" element={<SearchPage />} />
         <Route path="/wishlist" element={<WishList />} />
         <Route path="/checkout" element={<CheckOut />} />
         <Route

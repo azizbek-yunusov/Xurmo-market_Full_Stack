@@ -1,15 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 // import Zoom from 'react-img-zoom';
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { BiError } from "react-icons/bi";
 import axios from "axios";
 import Comments from "./Comments";
 
-import { Button, Modal, Rate } from "antd";
+import { Modal, Rate } from "antd";
 import { Helmet } from "react-helmet-async";
 import ImageThumbs from "./ImageThumbs";
 import { useSelector } from "react-redux";
-import { Progress } from "@material-tailwind/react";
+import { Button, Card, Progress } from "@material-tailwind/react";
+import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 const desc = ["terrible", "bad", "normal", "good", "wonderful"];
 
 const ProductDetail = () => {
@@ -57,6 +58,7 @@ const ProductDetail = () => {
       .then((data) => {
         productDetail();
         if (data.err) {
+          console.log(data.err);
         } else {
         }
       });
@@ -68,10 +70,12 @@ const ProductDetail = () => {
   }, []);
 
   const signInNavigate = () => navigate("/signin");
-  const beshh = product?.reviews?.filter((item) => item.rating === 5);
-  const foiz =
-    (product?.numOfReviews * 100) / (beshh?.length * product?.numOfReviews);
-  console.log(foiz);
+  const findFive = product?.reviews?.filter((item) => item.rating === 5);
+  const fivePercentage =
+    findFive?.length > 0 ? (findFive?.length * 100) / product?.numOfReviews : 0;
+  const findFour = product?.reviews?.filter((item) => item.rating === 4);
+  const fourPercentage =
+    findFour?.length > 0 ? (findFour?.length * 100) / product?.numOfReviews : 0;
   return (
     <>
       <Helmet>
@@ -130,11 +134,11 @@ const ProductDetail = () => {
             <div className="p-2 ml-5 cursor-pointer"></div>
           </div>
 
-          <div className="md:grid grid-cols-1 md:grid-cols-12 md:gap-5 border-t border-r-gray-400 lg:py-5 py-4">
-            <div className="col-span-4">
+          <div className="md:grid grid-cols-1 md:grid-cols-3 md:gap-5 border-t border-r-gray-400 lg:py-5 py-4">
+            <div className="">
               <ImageThumbs images={product.images} />
             </div>
-            <div className="col-span-4 block px-2 text-left">
+            <div className="block px-2 text-left">
               <p className="text-3xl lg:font-medium font-semibold mt-4 lg:mt-0">
                 {/* {numberWithCommas(product.price)} cум{" "} */}
               </p>
@@ -148,6 +152,21 @@ const ProductDetail = () => {
                 <h1 className="text-lg leading-6 lg:mt-4 mt-4 text-zinc-600">
                   {product.descr}
                 </h1>
+              </div>
+            </div>
+            <div className="flex justify-end">
+              <div className="">
+                <Card className="flex flex-col md:p-5 justify-between w-[350px]">
+                  <h1 className="md:text-3xl font-semibold text-gray-800 md:mb-4">
+                    {product.price}
+                  </h1>
+                  <button className="py-3 bg-purple-600 text-lg text-white rounded-lg md:mb-5">
+                    add to cart
+                  </button>
+                  <button className="py-3 border-2 border-purple-600 text-lg text-gray-800 rounded-lg">
+                    buy nov
+                  </button>
+                </Card>
               </div>
             </div>
           </div>
@@ -195,29 +214,73 @@ const ProductDetail = () => {
                     </div>
                     <p className="">{foiz}%</p>
                   </div> */}
-                  <div className="md:my-5">
-                    <Progress value={foiz} label="Completed" />
+                  <div className="md:my-5 flex justify-between items-center">
+                    <div className="flex">
+                      <AiFillStar className="text-yellow-800" />
+                      <AiFillStar className="text-yellow-800" />
+                      <AiFillStar className="text-yellow-800" />
+                      <AiFillStar className="text-yellow-800" />
+                      <AiFillStar className="text-yellow-800" />
+                    </div>
+                    <Progress
+                      color="orange"
+                      value={fivePercentage}
+                      className="mx-1"
+                    />
+                    <span className="">5</span>
                   </div>
-                  <div className="md:my-5">
-                    <Progress value={foiz} label="Completed" />
+                  <div className="md:my-5 flex justify-between items-center">
+                    <div className="flex">
+                      <AiFillStar className="text-yellow-800" />
+                      <AiFillStar className="text-yellow-800" />
+                      <AiFillStar className="text-yellow-800" />
+                      <AiFillStar className="text-yellow-800" />
+                      <AiOutlineStar className="text-gray-500" />
+                    </div>
+                    <Progress value={fourPercentage} className="mx-1" />
+                    <span className="">4</span>
                   </div>
-                  <div className="md:my-5">
-                    <Progress value={foiz} label="Completed" />
+                  <div className="md:my-5 flex justify-between items-center">
+                    <div className="flex">
+                      <AiFillStar className="text-yellow-800" />
+                      <AiFillStar className="text-yellow-800" />
+                      <AiFillStar className="text-yellow-800" />
+                      <AiOutlineStar className="text-gray-500" />
+                      <AiOutlineStar className="text-gray-500" />
+                    </div>
+                    <Progress value={0} className="mx-1" />
+                    <span className="">3</span>
                   </div>
-                  <div className="md:my-5">
-                    <Progress value={foiz} label="Completed" />
+                  <div className="md:my-5 flex justify-between items-center">
+                    <div className="flex">
+                      <AiFillStar className="text-yellow-800" />
+                      <AiFillStar className="text-yellow-800" />
+                      <AiOutlineStar className="text-gray-500" />
+                      <AiOutlineStar className="text-gray-500" />
+                      <AiOutlineStar className="text-gray-500" />
+                    </div>
+                    <Progress value={0} className="mx-1" />
+                    <span className="">2</span>
                   </div>
-                  <div className="md:my-5">
-                    <Progress value={foiz} label="Completed" />
+                  <div className="md:my-5 flex justify-between items-center">
+                    <div className="flex">
+                      <AiFillStar className="text-yellow-800" />
+                      <AiOutlineStar className="text-gray-500" />
+                      <AiOutlineStar className="text-gray-500" />
+                      <AiOutlineStar className="text-gray-500" />
+                      <AiOutlineStar className="text-gray-500" />
+                    </div>
+                    <Progress value={0} className="mx-1" />
+                    <span className="">1</span>
                   </div>
                 </div>
                 <div className="w-full">
                   {auth.isLogged ? (
                     <>
                       <Button
-                        type="primary"
-                        size="large"
-                        className="rounded-lg w-full primary_bg mt-8"
+                        size="md"
+                        className=""
+                        fullWidth
                         onClick={showModal}
                       >
                         Write review
@@ -286,12 +349,7 @@ const ProductDetail = () => {
                     </>
                   ) : (
                     <>
-                      <Button
-                        type="primary"
-                        size="large"
-                        className="rounded-lg w-full bg-green-600"
-                        onClick={showModal}
-                      >
+                      <Button size="md" onClick={showModal}>
                         Write review
                       </Button>
                       <Modal

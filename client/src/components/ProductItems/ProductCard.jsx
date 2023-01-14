@@ -1,4 +1,3 @@
-import { Button } from "@material-tailwind/react";
 import { Rate, Tooltip } from "antd";
 import React from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
@@ -18,18 +17,22 @@ const ProductCard = (props) => {
     deleteFavoriteItem,
   } = useGlobalApi(auth.access_token);
 
-  const existItem = cart?.find((x) => x.productId._id === _id);
+  const existItem = cart?.find((x) => x.productId?._id === _id);
   const isCart = existItem === undefined ? false : true;
   const existItemWish = favorite?.find((x) => x.productId._id === _id);
   const isFavorite = existItemWish === undefined ? false : true;
-
+  console.log(cart);
+  console.log(auth);
   return (
     <>
       <div className="overflow-hidden relative flex tranistion_normal hover:shadow-xl flex-col justify-between h-[400px] border border-gray-200 hover:border-gray-50 rounded-2xl p-3 px-4">
-        <div className="md:px-2 md:py-1 absolute top-2 left-2 md:text-sm font-semibold rounded-lg bg-red-600 text-white">
-          {discount}
-          {"%"}
-        </div>
+        {discount > 0 && (
+          <div className="md:px-2 md:py-1 absolute top-2 left-2 md:text-sm font-semibold rounded-lg bg-red-600 text-white">
+            {discount}
+            {"%"}
+          </div>
+        )}
+
         <div className="">
           <Link
             to={`/product/view/${_id}`}
@@ -57,7 +60,6 @@ const ProductCard = (props) => {
               onClick={() => deleteFavoriteItem(_id)}
               className="p-1 rounded-full border-none mr-4 border-gray-400"
             >
-              {/* <BsHeartFill className=" text-[26px] text-gray-400" /> */}
               <BsFillHeartFill className="text-[32px] text-red-500" />
             </button>
           ) : (
@@ -65,12 +67,11 @@ const ProductCard = (props) => {
               onClick={() => addToFavorite(_id)}
               className="p-1 rounded-full border-none mr-4 border-gray-400"
             >
-              {/* <BsHeartFill className=" text-[26px] text-gray-400" /> */}
               <BsHeart className="text-[32px] text-gray-400" />
             </button>
           )}
-          {/* {isCart ? (
-            <div className="flex justify-between px-3 items-center border-2 border-[#01f736] py-[6px] w-full rounded-3xl text-lg transition_normal hover:border-blue-500">
+          {isCart ? (
+            <div className="flex justify-between px-3 items-center border-2 border-[#01f736] py-[6px] w-full rounded-xl text-lg transition_normal hover:border-blue-500">
               <Tooltip title="remove from cart">
                 <button
                   onClick={() => decrementQtyItem(existItem.productId._id)}
@@ -92,18 +93,12 @@ const ProductCard = (props) => {
           ) : (
             <button
               onClick={() => addToCartHandle(_id)}
-              className="border-2 border-[#7a2dff] py-2 flex items-center justify-center w-full rounded-3xl hover:text-indigo-600 bg-[#7a2dff] text-lg text-white hover:bg-white transition_normal  hover:border-indigo-500"
+              className="border-2 border-[#7a2dff] py-2 flex items-center justify-center w-full rounded-xl hover:text-indigo-600 bg-[#7a2dff] text-lg text-white hover:bg-white transition_normal  hover:border-indigo-500"
             >
               <FiShoppingCart className="md:text-xl" />
               <span className="ml-2 text-base">add to cart</span>
             </button>
-          )} */}
-          <Button size="md" variant="gradient" fullWidth>
-            <div className="flex_center">
-              <FiShoppingCart className="md:text-lg" />
-              <span className="ml-2">add to cart</span>
-            </div>
-          </Button>
+          )}
         </div>
       </div>
     </>

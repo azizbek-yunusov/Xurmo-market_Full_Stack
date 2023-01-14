@@ -7,56 +7,49 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import BannerItem from "./BannerItem";
-import DayProductList from "./DayProductList";
+import { BannerLoader } from "../SkeletonLoaders";
 
 const BannerCarousel = () => {
   const [banners, setBanners] = useState([]);
-  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const fetchBanners = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.get("/banners");
       setBanners(data.banners);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const fetchProducts = async () => {
-    try {
-      const { data } = await axios.get("/products");
-      setProducts(data.products);
+      setLoading(false);
     } catch (err) {
       console.log(err);
     }
   };
   useEffect(() => {
     fetchBanners();
-    fetchProducts();
   }, []);
   return (
     <div className="container-full grid grid-cols-12 overflow-hidden">
       <div className="col-span-12 rounded-xl overflow-hidden">
-        <Swiper
-          // install Swiper modules
-          style={{
-            "--swiper-navigation-size": "18px",
-          }}
-          modules={[Pagination, Navigation]}
-          spaceBetween={40}
-          slidesPerView={1}
-          navigation={true}
-          pagination={{ clickable: true }}
-          scrollbar={{ draggable: true }}
-        >
-          {banners.map((item, index) => (
-            <SwiperSlide key={index}>
-              <BannerItem {...item} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        {loading ? (
+          <BannerLoader />
+        ) : (
+          <Swiper
+            style={{
+              "--swiper-navigation-size": "18px",
+            }}
+            modules={[Pagination, Navigation]}
+            spaceBetween={40}
+            slidesPerView={1}
+            navigation={true}
+            pagination={{ clickable: true }}
+            scrollbar={{ draggable: true }}
+          >
+            {banners.map((item, index) => (
+              <SwiperSlide key={index}>
+                <BannerItem {...item} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
       </div>
-      {/* <div className="col-span-3 ml-10 flex items-center justify-center">
-        <DayProductList products={products} />
-      </div> */}
     </div>
   );
 };

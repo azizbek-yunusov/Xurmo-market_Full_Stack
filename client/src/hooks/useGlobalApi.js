@@ -31,7 +31,10 @@ function useGlobalApi(access_token) {
             toast.success("Add to cart this product");
             fetchCart();
           });
-      } else {
+      }
+      if (access_token === undefined) {
+        window.location.reload();
+      } else if (access_token === "") {
         toast.error("You must register");
       }
     } catch (error) {
@@ -114,7 +117,7 @@ function useGlobalApi(access_token) {
       console.log(err);
     }
   };
-  
+
   useEffect(() => {
     if (access_token) {
       fetchCart();

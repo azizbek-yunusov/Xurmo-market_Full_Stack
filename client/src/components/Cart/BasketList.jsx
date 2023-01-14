@@ -7,10 +7,11 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import useGlobalApi from "../../hooks/useGlobalApi";
 import ShoppingBag from "../../assets/images/shopping-basket.png";
+import { BsHeart } from "react-icons/bs";
 
 const BasketList = () => {
   const { access_token } = useSelector((state) => state.auth);
-  const { addToCartHandle, decrementQtyItem, deleteHandle } =
+  const { addToCartHandle, decrementQtyItem, deleteHandle, deleteFavoriteItem } =
     useGlobalApi(access_token);
   const { cart } = useSelector((state) => state);
   const navigate = useNavigate();
@@ -57,16 +58,27 @@ const BasketList = () => {
                                   {item.productId.price}
                                   {"$"}
                                 </p>
-                                <div className="">
+                                <div className="flex">
                                   <button
                                     onClick={() =>
                                       deleteHandle(item.productId._id)
                                     }
-                                    className="flex items-center text-base font-semibold text-red-500"
+                                    className="flex items-center text-base text-red-500"
                                   >
                                     <HiOutlineTrash className="md:text-xl" />
                                     {"  "}
                                     {"remove"}
+                                  </button>
+                                  <span className="text-gray-600 md:mx-2">|</span>
+                                  <button
+                                    onClick={() =>
+                                      deleteFavoriteItem(item.productId._id)
+                                    }
+                                    className="flex items-center text-base text-blue-500"
+                                  >
+                                    <BsHeart className="md:text-lg mr-1" />
+                                    {"  "}
+                                    {"add favorites"}
                                   </button>
                                 </div>
                               </div>
@@ -117,7 +129,7 @@ const BasketList = () => {
               </div> */}
             </div>
             <div className="col-span-4">
-              <div className="border border-gray-200 p-5 md:rounded-2xl">
+              <div className="sticky top-28 border border-gray-200 p-5 md:rounded-2xl">
                 <div className="flex justify-between md:px-3 items-center mb-5 border-b-2 border-b-gray-300">
                   <h1 className="md:text-2xl mb-5 text-gray-600 font-bold">
                     Total:

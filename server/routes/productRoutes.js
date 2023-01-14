@@ -7,6 +7,7 @@ const {
   getProduct,
   deleteProduct,
   addReview,
+  getSearch
 } = require("../controllers/productController");
 const authAdminMiddleware = require("../middleware/authAdminMiddleware");
 const authMiddleware = require("../middleware/authMiddleware");
@@ -23,6 +24,7 @@ router.delete(
   authAdminMiddleware,
   deleteProduct
 );
+router.get("/search", getSearch)
 
 router.put("/review", authMiddleware, addReview);
 
