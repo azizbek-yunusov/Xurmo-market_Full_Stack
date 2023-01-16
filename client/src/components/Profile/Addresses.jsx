@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Checkbox, Modal } from "antd";
+import { Modal } from "antd";
 import axios from "axios";
 import { BiEdit, BiTrash } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
@@ -91,9 +91,8 @@ const Addresses = () => {
   }, [access_token]);
   return (
     <LayoutP>
-      <div className="flex justify-between items-center md:mb-5">
-        <h1 className="md:text-3xl font-semibold">Addresses</h1>
-        {/* <div className="flex justify-center items-center md:text-lg text-gray-50 p-2 px-4 bg-indigo-400 rounded-xl">Addresses</div> */}
+      <div className="flex justify-between items-center md:mb-4">
+        <h1 className="md:text-2xl font-semibold">Addresses</h1>
         <Button size="md" onClick={showModal}>
           Add address
         </Button>
@@ -153,70 +152,72 @@ const Addresses = () => {
         </Modal>
       </div>
       <div className="grid grid-cols-2 gap-5">
-        {allAddresses.length
-          ? allAddresses.map((item) => (
-              <Card key={item._id} className="p-7 border border-purple-300">
-                <div className="flex justify-between md:mb-2">
-                  <div className="grid grid-cols-2 gap-5">
-                    <div className="">
-                      <ul className="">
-                        <li className="md:my-1 text-gray-700">
-                          {t("region")}
-                          {":"}
-                        </li>
-                        <li className="md:my-1 text-gray-700">
-                          {t("district")}
-                          {":"}
-                        </li>
-                        <li className="md:my-1 text-gray-700">
-                          {t("street")}
-                          {":"}
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="">
-                      <ul className="">
-                        <li className="md:my-1">{item.region}</li>
-                        <li className="md:my-1">{item.district}</li>
-                        <li className="md:my-1">{item.street}</li>
-                      </ul>
-                    </div>
+        {allAddresses.length ? (
+          allAddresses.map((item) => (
+            <Card key={item._id} className="p-7 border border-gray-100">
+              <div className="flex justify-between md:mb-2">
+                <div className="grid grid-cols-2 gap-5">
+                  <div className="">
+                    <ul className="">
+                      <li className="md:my-1 text-gray-700">
+                        {t("region")}
+                        {":"}
+                      </li>
+                      <li className="md:my-1 text-gray-700">
+                        {t("district")}
+                        {":"}
+                      </li>
+                      <li className="md:my-1 text-gray-700">
+                        {t("street")}
+                        {":"}
+                      </li>
+                    </ul>
                   </div>
-                  <BiEdit className="cursor-pointer text-3xl text-gray-600" />
+                  <div className="">
+                    <ul className="">
+                      <li className="md:my-1">{item.region}</li>
+                      <li className="md:my-1">{item.district}</li>
+                      <li className="md:my-1">{item.street}</li>
+                    </ul>
+                  </div>
                 </div>
-                <div className="flex justify-end items-center mt-5">
+                <BiEdit className="cursor-pointer text-3xl text-gray-600" />
+              </div>
+              <div className="flex justify-end items-center mt-5">
+                <Button
+                  size="md"
+                  color="red"
+                  onClick={() => deleteAddress(item._id)}
+                  className="mr-3"
+                >
+                  <div className="flex_center">
+                    <BiTrash className="mr- md:text-lg" />
+                    delete
+                  </div>
+                </Button>
+                {item.isActive ? (
                   <Button
                     size="md"
-                    color="red"
-                    onClick={() => deleteAddress(item._id)}
-                    className="mr-3"
+                    color="green"
+                    variant="gradient"
+                    className="mr-2"
                   >
                     <div className="flex_center">
-                      <BiTrash className="mr- md:text-lg" />
-                      delete
+                      <BsCheckCircle className="mr-1 md:text-lg" />
+                      {"Default"}
                     </div>
                   </Button>
-                  {item.isActive ? (
-                    <Button
-                      size="md"
-                      color="green"
-                      variant="gradient"
-                      className="mr-2"
-                    >
-                      <div className="flex_center">
-                        <BsCheckCircle className="mr-1 md:text-lg" />
-                        {"Default"}
-                      </div>
-                    </Button>
-                  ) : (
-                    <Button variant="outlined" size="md" className="mr-2">
-                      <div className="flex_center">{"Default"}</div>
-                    </Button>
-                  )}
-                </div>
-              </Card>
-            ))
-          : <Spinner />}
+                ) : (
+                  <Button variant="outlined" size="md" className="mr-2">
+                    <div className="flex_center">{"Default"}</div>
+                  </Button>
+                )}
+              </div>
+            </Card>
+          ))
+        ) : (
+          <Spinner />
+        )}
       </div>
     </LayoutP>
   );

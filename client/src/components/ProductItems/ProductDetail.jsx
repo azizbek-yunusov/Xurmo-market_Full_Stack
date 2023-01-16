@@ -14,7 +14,7 @@ import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 const desc = ["terrible", "bad", "normal", "good", "wonderful"];
 
 const ProductDetail = () => {
-  const { auth } = useSelector((state) => state);
+  const { auth, cart, address } = useSelector((state) => state);
   const goback = useNavigate();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -68,7 +68,6 @@ const ProductDetail = () => {
     window.scrollTo(0, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   const signInNavigate = () => navigate("/signin");
   const findFive = product?.reviews?.filter((item) => item.rating === 5);
   const fivePercentage =

@@ -7,7 +7,7 @@ import Wish from "../../assets/images/wish.png";
 import { Button } from "@material-tailwind/react";
 
 const WishList = () => {
-  const { favorite } = useSelector((state) => state);
+  const { favorites } = useSelector((state) => state);
   const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -21,7 +21,7 @@ const WishList = () => {
 
       <div className="">
         <div className="container-full min-h-[600px]">
-          {favorite.length ? (
+          { favorites.length ? (
             <div>
               <div className="flex md:mt-5">
                 <Link to="/">Bosh Sahifa</Link>
@@ -33,8 +33,8 @@ const WishList = () => {
                 <div className="font-semibold">Barchasini o'chirish</div>
               </div>
               <div className="grid md:grid-cols-5 gap-3 md:mt-5">
-                {favorite.map((item, index) => (
-                  <WishProductItem key={index} {...item.productId} />
+                {favorites.map((item, index) => (
+                  <WishProductItem key={index} {...item} />
                 ))}
               </div>
             </div>

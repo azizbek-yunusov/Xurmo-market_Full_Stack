@@ -9,7 +9,7 @@ import useGlobalApi from "../../hooks/useGlobalApi";
 
 const ProductCard = (props) => {
   const { _id, name, images, price, ratings, discount } = props;
-  const { cart, favorite, auth } = useSelector((state) => state);
+  const { cart, favorites, auth } = useSelector((state) => state);
   const {
     addToCartHandle,
     decrementQtyItem,
@@ -19,13 +19,11 @@ const ProductCard = (props) => {
 
   const existItem = cart?.find((x) => x.productId?._id === _id);
   const isCart = existItem === undefined ? false : true;
-  const existItemWish = favorite?.find((x) => x.productId._id === _id);
+  const existItemWish = favorites?.find((x) => x.productId._id === _id);
   const isFavorite = existItemWish === undefined ? false : true;
-  console.log(cart);
-  console.log(auth);
   return (
     <>
-      <div className="overflow-hidden relative flex tranistion_normal hover:shadow-xl flex-col justify-between h-[400px] border border-gray-200 hover:border-gray-50 rounded-2xl p-3 px-4">
+      <div className="overflow-hidden relative flex tranistion_normal hover:shadow-xl flex-col justify-between h-[400px] border border-gray-200 hover:border-gray-50 rounded-xl p-3 px-4">
         {discount > 0 && (
           <div className="md:px-2 md:py-1 absolute top-2 left-2 md:text-sm font-semibold rounded-lg bg-red-600 text-white">
             {discount}

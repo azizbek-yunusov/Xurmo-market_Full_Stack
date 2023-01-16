@@ -102,6 +102,7 @@ const signIn = async (req, res) => {
     console.log(err);
   }
 };
+
 const getAccessToken = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshtoken;
@@ -210,17 +211,29 @@ const getUserInfo = async (req, res) => {
   }
 };
 
+const editMyInfo = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.user.id)
+    if (!user) {
+      return res.status(404).json({error: "User not found"})
+    }
+    user.name = req.body.name || user.name
+    user.lastName = req.body.lastName || user.lastName
+    user.phoneNumber = req.body.phoneNumber || user.phoneNumber
+  } catch (err) {
+    console.log();
+  }
+}
+
 const updateUser = async (req, res) => {
   try {
     const user = await UserModel.findById(req.params.id);
     if (user) {
       user.name = req.body.name || user.name;
-      user.email = req.body.email || user.email;
       user.admin = req.body.admin || user.admin;
       const updatedUser = await user.save();
       res.json({
         name: updatedUser.name,
-        email: updatedUser.email,
         admin: updatedUser.admin,
       });
     } else {
@@ -322,6 +335,7 @@ module.exports = {
   getAllUsers,
   getUser,
   updateUser,
+  editMyInfo,
   deleteUser,
   getUserInfo,
   addAdress,

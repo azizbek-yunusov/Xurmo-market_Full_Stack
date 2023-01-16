@@ -25,7 +25,6 @@ const SearchBox = () => {
       setQuery(voiceText + transcript);
     };
   };
-  console.log(voiceText);
   return (
     <form onSubmit={SearchHandler} className="flex items-center w-full">
       <label htmlFor="voice-search" className="sr-only">

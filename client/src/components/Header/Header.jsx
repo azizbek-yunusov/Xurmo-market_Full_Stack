@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import FavoritesButton from "../Wish/FavoritesButton";
 import SearchBox from "../Search/SearchBox";
@@ -43,7 +43,7 @@ const Header = () => {
                 to="/"
                 className="text-red-600 md:text-3xl font-bold global-font"
               >
-                texnoroom
+                logoipsum
               </Link>
             </div>
             <div className="col-span-6 flex justify-center items-center">

@@ -28,21 +28,21 @@ const MyOrders = () => {
   }, [access_token]);
   return (
     <LayoutP>
-      <div className="">
-        <div className="flex justify-between items-center">
-          <h1 className="md:text-3xl font-semibold">{t("myorders")}</h1>
-          <h1 className="text-xl">all orders</h1>
+      <div className="md:mx-8">
+        <div className="flex justify-between items-center ">
+          {/* <h1 className="md:text-3xl font-semibold">{t("myorders")}</h1>
+          <h1 className="text-xl">all orders</h1> */}
         </div>
         <div className="">
           {myOrders.length ? (
             myOrders.map((item, index) => (
               <div
                 key={index}
-                className="border border-gray-300 rounded-xl p-5 my-4"
+                className="border border-gray-300 rounded-xl p-4 my-4"
               >
-                <div className="flex justify-between items-center border-b border-b-gray-300 pb-5">
+                <div className="flex justify-between items-center border-b border-b-gray-300 pb-4">
                   <div className="">
-                    <p className="text-xl font-bold text-gray-800">
+                    <p className="text-lg font-bold text-gray-800">
                       {t("order")}
                       {"-"}
                       <span className="">

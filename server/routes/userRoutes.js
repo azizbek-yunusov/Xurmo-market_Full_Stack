@@ -15,6 +15,7 @@ const {
   deleteAddress,
   googleLogin,
   logout,
+  editMyInfo,
   activateEmail,
   forgotPassword,
   getAccessToken,
@@ -28,6 +29,7 @@ router.post("/refreshtoken", getAccessToken);
 router.post("/forgot", forgotPassword);
 router.post("/reset", authMiddleware, resetPassword);
 router.get("/logout", logout);
+router.put("/update", authMiddleware, editMyInfo);
 router.get("/users", authMiddleware, authAdminMiddleware, getAllUsers);
 router.get("/user/:id", authMiddleware, authAdminMiddleware, getUser);
 router.put("/user/:id", authMiddleware, authAdminMiddleware, updateUser);
