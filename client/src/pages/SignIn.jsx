@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import { Button, Checkbox, Input } from "@material-tailwind/react";
 import React, { useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useDispatch } from "react-redux";
@@ -9,6 +8,7 @@ import AuthBottomBg from "../assets/images/auth-bottom-bg.png";
 import TreeBg from "../assets/images/tree-bg.png";
 import { signIn } from "../redux/actions/authAction";
 import toast from "react-hot-toast";
+import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -87,39 +87,47 @@ const SignIn = () => {
               <div className="mt-8">
                 <form onSubmit={signInSubmit}>
                   <div className="mt-6">
-                    <Input
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
                       label="Email"
-                      size="lg"
-                      color="purple"
                       type="email"
-                      autoFocus={emailError}
                       value={email}
+                      className="rounded-xl"
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                   <div className="mt-6">
-                    <Input
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
                       label="Password"
-                      size="lg"
-                      color="purple"
                       type="password"
-                      autoFocus={passwordError}
+                      sx={{borderRadius: "10px"}}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
-                  <div className="mt-1 flex justify-between items-center -ml-2 text-sm">
-                    <Checkbox className="text-sm" label="Remember Me" />
-                    <Link className="text-purple-500" to={"/signin"}>
+                  <div className="mt-1 flex justify-between items-center text-sm">
+                    <FormControlLabel
+                      label="Remember Me"
+                      className="text-gray-500"
+                      control={<Checkbox />}
+                    />
+                    <Link className="text-purple-400" to={"/signin"}>
                       Forgot Password?
                     </Link>
                   </div>
                   <div className="mt-3">
                     <Button
                       type="submit"
-                      size="lg"
                       className="w-full tracking-wide font-normal"
-                      variant="gradient"
+                      variant="contained"
+                      color="secondary"
+                      size="large"
+                      sx={{background: "rgb(145, 85, 253)", borderRadius: "6px"}}
                     >
                       {loading ? (
                         <div className="flex items-center justify-center">

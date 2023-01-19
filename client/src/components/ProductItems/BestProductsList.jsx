@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ProductCard from "./ProductCard";
-// import Banner from "../../assets/images/best_banner.png";
 import { ProductList } from "../SkeletonLoaders";
 
 const BestProductsList = () => {

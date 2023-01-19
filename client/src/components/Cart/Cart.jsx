@@ -1,4 +1,4 @@
-import { Badge, Space } from "antd";
+import { Badge } from "@mui/material";
 import React from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { useSelector } from "react-redux";
@@ -9,14 +9,9 @@ const Cart = () => {
   return (
     <>
       <Link to={"/cart"}>
-        <Space size="middle" className="">
-          <Badge count={cart ? cart.length : 0} showZero>
-            <FiShoppingCart
-              shape="square"
-              className="md:text-2xl cursor-pointer"
-            />
-          </Badge>
-        </Space>
+        <Badge showZero badgeContent={cart ? cart.length : 0} color="secondary">
+          <FiShoppingCart className="md:text-[26px]  cursor-pointer text-gray-700" />
+        </Badge>
       </Link>
     </>
   );

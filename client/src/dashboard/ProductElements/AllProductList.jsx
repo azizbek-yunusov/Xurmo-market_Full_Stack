@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
-import { Tooltip, Button, Avatar, Checkbox } from "@material-tailwind/react";
 import { FiEdit } from "react-icons/fi";
 import DataTableLoader from "../../components/SkeletonLoaders/DataTableLoader";
+import { Avatar, Button, Checkbox, Tooltip } from "@mui/material";
 
 const AllProductList = () => {
   const [products, setProducts] = useState([]);
@@ -48,13 +48,13 @@ const AllProductList = () => {
         <DataTableLoader />
       ) : (
         <>
-          <div className="bg-white dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border border-gray-300">
+          <div className="bg-white dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border border-gray-300 dark:border-gray-700">
             <Link
               to={"/product/create"}
               className="w-full flex items-center justify-end"
             >
               <Tooltip content="Add new product">
-                <Button variant="gradient" className="my-2 mx-2">
+                <Button variant="contained" size="large" sx={{marginY: "8px"}}>
                   create product
                 </Button>
               </Tooltip>

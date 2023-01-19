@@ -1,5 +1,4 @@
-import { Switch } from "@material-tailwind/react";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import "./theme-switch.css";
 // import useDarkSide from "../../hooks/useDarkSide";
 
@@ -10,7 +9,7 @@ const ThemeToggle = () => {
   // );
   // const toggleDarkMode = (checked) => {
   //   setTheme(colorTheme);
-  //   setDarkSide(checked);
+  //   setDarkSide(!checked);
   // };
 
   return (
@@ -20,12 +19,12 @@ const ThemeToggle = () => {
         onChange={toggleDarkMode}
         size={26}
       />
-      <Switch checked={darkSide}  defaultChecked onChange={toggleDarkMode}/>
-      <div className="wrapper mt-2">
+      <Switch checked={darkSide}  defaultChecked onChange={toggleDarkMode}/> */}
+      {/* <div className="wrapper mt-2">
         <input
           type="checkbox"
           name="checkbox"
-          checked={darkSide}
+          checked={!darkSide}
           onChange={toggleDarkMode}
           className="switch"
         />

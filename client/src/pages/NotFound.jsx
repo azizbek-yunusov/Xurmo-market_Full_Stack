@@ -1,26 +1,34 @@
+import { Button } from "@mui/material";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import NotFoundSvg from "../assets/svg/illustration_404.svg";
 
 const NotFound = () => {
+  const navigate = useNavigate();
   return (
     <section className="overflow-hidden">
-      <div className="container-full  min-h-[600px] flex items-center flex-col justify-center">
-        <h2 className="mb-6 text-9xl text-indigo-600 font-bold leading-none">
-          404
-        </h2>
-        <h3 className="mb-4 text-3xl font-bold">Something is wrong!</h3>
-        <p className="text-lg text-gray-600 font-medium mb-5">
-          The page you are looking for is not found! Try something else or go
-          back to homepage.
+      <div className="container-full pt-7  min-h-[600px] flex items-center flex-col justify-start">
+        <h1 className="md:text-gray-800 my-4 font-semibold text-3xl ">
+          Sorry, page not found!
+        </h1>
+        <p className="text-gray-400 text-base md:my-3 md:px-[450px] text-center">
+          Sorry, we couldn’t find the page you’re looking for. Perhaps you’ve
+          mistyped the URL? Be sure to check your spelling.
         </p>
-        <div>
-          <Link
-            to={"/"}
-            className="inline-flex items-center text-center font-semibold py-2 px-5 rounded-xl bg-indigo-500 text-gray-100 hover:text-gray-50 leading-normal"
-          >
-            <span>Go Back to Homepage</span>
-          </Link>
-        </div>
+        <img src={NotFoundSvg} className="h-72" alt="" />
+        <Button
+          onClick={() => navigate("/")}
+          variant="contained"
+          className="w-44"
+          size="large"
+          sx={{
+            background: "rgb(145, 85, 253)",
+            borderRadius: "6px",
+            marginY: "20px",
+          }}
+        >
+          Go To Home
+        </Button>
       </div>
     </section>
   );

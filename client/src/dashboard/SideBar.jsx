@@ -5,7 +5,7 @@ import { sidebar } from "../data/sidebar";
 const SideBar = () => {
   const pathname = useLocation().pathname;
   return (
-    <div className="min-h-screen fixed top-0 left-0 flex flex-col w-14 hover:w-64 md:w-64 h-full text-white transition-all duration-300 border-none z-10 sidebar">
+    <div className="min-h-screen fixed top-0 left-0 flex flex-col w-14 hover:w-64 md:w-64 h-full text-white transition-all duration-300 border-none z-10 sidebar px-3">
       <div className="flex flex-col justify-between flex-grow">
         <ul className="flex flex-col py-4 space-y-1 overflow-hidden">
           <li className="my-4 px-4 text-xl font-bold global-font">

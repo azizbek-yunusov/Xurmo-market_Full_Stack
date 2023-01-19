@@ -1,4 +1,3 @@
-import { Button, Checkbox, Input } from "@material-tailwind/react";
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
@@ -6,6 +5,7 @@ import RegisterBg from "../assets/images/register-bg.png";
 import AuthBottomBg from "../assets/images/auth-bottom-bg.png";
 import TreeBg from "../assets/images/tree-bg.png";
 import toast from "react-hot-toast";
+import { Button, Checkbox, TextField } from "@mui/material";
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -58,7 +58,7 @@ const SignUp = () => {
               alt=""
             />
           </div>
-          <div className="md:col-span-4 col-span-12 border-l border-l-gray-300 flex items-center justify-center xl:px-16 md:px-10 w-full mx-auto">
+          <div className="md:col-span-4 col-span-12 border-l border-l-gray-300 flex items-center justify-center w-full mx-auto">
             <div className="">
               <div className="">
                 <h2 className="text-2xl font-bold text-gray-700 ">
@@ -72,44 +72,48 @@ const SignUp = () => {
 
               <div className="mt-8">
                 <form onSubmit={signUpHandler}>
-                  <Input
+                  <TextField
+                    id="outlined-basic"
+                    fullWidth
+                    variant="outlined"
                     label="Name"
-                    size="lg"
-                    color="purple"
-                    autoFocus
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
                   <div className="mt-6">
-                    <Input
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
                       label="Email"
-                      size="lg"
-                      color="purple"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                   <div className="mt-6">
-                    <Input
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
                       label="Password"
-                      size="lg"
-                      color="purple"
                       value={password}
+                      className="rounded-2xl"
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
                   <div className="mt-1 -ml-2 text-sm">
                     <Checkbox
                       className="text-sm"
-                      label="I agree to privacy policy & terms"
+                      label="s"
                     />
                   </div>
                   <div className="mt-3">
                     <Button
                       type="submit"
-                      size="lg"
-                      className="w-full tracking-wide font-normal"
-                      variant="gradient"
+                      className="w-full primary_bg bg-purple-600"
+                      variant="contained"
+                      color="secondary"
+                      size="large"
                     >
                       Sign Up
                     </Button>

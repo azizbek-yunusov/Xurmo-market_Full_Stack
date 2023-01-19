@@ -1,17 +1,28 @@
-import { Button } from "@material-tailwind/react";
+import { Button } from "@mui/material";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { sidebarProfile } from "../../data/sidebar";
+import {
+  sidebarProfileEn,
+  sidebarProfileRu,
+  sidebarProfileUz,
+} from "../../data/sidebar";
 
 const Tabs = () => {
+  let pathUz =
+    localStorage.getItem("i18nextLng") === "uz" ? sidebarProfileUz : false;
+  let pathEn =
+    localStorage.getItem("i18nextLng") === "en" ? sidebarProfileEn : false;
+  let pathRu =
+    localStorage.getItem("i18nextLng") === "ru" ? sidebarProfileRu : false;
   const pathname = useLocation().pathname;
   return (
     <div className="w-full flex justify-evenly items-center md:my-1 pb-4 border-b border-b-gray-300">
-      {sidebarProfile.map((item, index) => (
+      {(pathUz || pathEn || pathRu).map((item, index) => (
         <Link key={index} to={`${item.path}`}>
           <Button
-            variant={pathname === item.path ? "gradient" : "text"}
-            className="flex_center w-52"
+            variant={pathname === item.path ? "contained" : "text"}
+            className="flex_center w-44"
+            size="large"
           >
             <div
               className={`flex items-center ${

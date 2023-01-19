@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Modal } from "antd";
 import axios from "axios";
 import { BiEdit, BiTrash } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { BsCheckCircle } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import LayoutP from "./LayoutP";
-import { Button, Card, Input } from "@material-tailwind/react";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import Spinner from "../SkeletonLoaders/Spinner";
+import { Button } from "@mui/material";
 
 const Addresses = () => {
   let { t } = useTranslation(["shop"]);
@@ -93,10 +92,10 @@ const Addresses = () => {
     <LayoutP>
       <div className="flex justify-between items-center md:mb-4">
         <h1 className="md:text-2xl font-semibold">Addresses</h1>
-        <Button size="md" onClick={showModal}>
+        {/* <Button size="large" variant="contained" onClick={showModal}>
           Add address
-        </Button>
-        <Modal
+        </Button> */}
+        {/* <Modal
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
@@ -149,12 +148,12 @@ const Addresses = () => {
               </Button>
             </div>
           </form>
-        </Modal>
+        </Modal> */}
       </div>
       <div className="grid grid-cols-2 gap-5">
         {allAddresses.length ? (
           allAddresses.map((item) => (
-            <Card key={item._id} className="p-7 border border-gray-100">
+            <div key={item._id} className="p-7 border shadow-lg rounded-lg border-gray-100">
               <div className="flex justify-between md:mb-2">
                 <div className="grid grid-cols-2 gap-5">
                   <div className="">
@@ -185,35 +184,32 @@ const Addresses = () => {
               </div>
               <div className="flex justify-end items-center mt-5">
                 <Button
-                  size="md"
-                  color="red"
+                  size="medium"
+                  variant="contained"
+                  color="error"
+                  sx={{borderRadius: "6px", marginRight: "8px"}}
                   onClick={() => deleteAddress(item._id)}
                   className="mr-3"
                 >
                   <div className="flex_center">
-                    <BiTrash className="mr- md:text-lg" />
+                    <BiTrash className="mr-1 md:text-lg" />
                     delete
                   </div>
                 </Button>
                 {item.isActive ? (
-                  <Button
-                    size="md"
-                    color="green"
-                    variant="gradient"
-                    className="mr-2"
-                  >
+                  <Button size="medium" variant="contained" sx={{borderRadius: "6px"}} className="ml-2">
                     <div className="flex_center">
                       <BsCheckCircle className="mr-1 md:text-lg" />
                       {"Default"}
                     </div>
                   </Button>
                 ) : (
-                  <Button variant="outlined" size="md" className="mr-2">
+                  <Button variant="contained" sx={{borderRadius: "6px"}} size="medium" className="ml-2">
                     <div className="flex_center">{"Default"}</div>
                   </Button>
                 )}
               </div>
-            </Card>
+            </div>
           ))
         ) : (
           <Spinner />

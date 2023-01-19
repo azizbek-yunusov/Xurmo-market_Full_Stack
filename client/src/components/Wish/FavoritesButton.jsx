@@ -1,4 +1,4 @@
-import { Badge, Space } from "antd";
+import { Badge } from "@mui/material";
 import React from "react";
 import { GrFavorite } from "react-icons/gr";
 import { useSelector } from "react-redux";
@@ -9,11 +9,14 @@ const FavoritesButton = () => {
   return (
     <>
       <Link to={"/wishlist"}>
-        <Space size="middle">
-          <Badge count={favorites ? favorites.length : 0} showZero>
-            <GrFavorite shape="square" className="md:text-2xl cursor-pointer" />
-          </Badge>
-        </Space>
+        <Badge
+          showZero
+          badgeContent={favorites ? favorites.length : 0}
+          color="secondary"
+          
+        >
+          <GrFavorite className="md:text-[26px] cursor-pointer text-red-600" />
+        </Badge>
       </Link>
     </>
   );

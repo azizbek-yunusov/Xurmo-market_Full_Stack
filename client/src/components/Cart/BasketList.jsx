@@ -1,4 +1,3 @@
-import { Button } from "@material-tailwind/react";
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
@@ -8,11 +7,16 @@ import { Link, useNavigate } from "react-router-dom";
 import useGlobalApi from "../../hooks/useGlobalApi";
 import ShoppingBag from "../../assets/images/shopping-basket.png";
 import { BsHeart } from "react-icons/bs";
+import { Button } from "@mui/material";
 
 const BasketList = () => {
   const { access_token } = useSelector((state) => state.auth);
-  const { addToCartHandle, decrementQtyItem, deleteHandle, deleteFavoriteItem } =
-    useGlobalApi(access_token);
+  const {
+    addToCartHandle,
+    decrementQtyItem,
+    deleteHandle,
+    deleteFavoriteItem,
+  } = useGlobalApi(access_token);
   const { cart } = useSelector((state) => state);
   const navigate = useNavigate();
   useEffect(() => {
@@ -69,7 +73,9 @@ const BasketList = () => {
                                     {"  "}
                                     {"remove"}
                                   </button>
-                                  <span className="text-gray-600 md:mx-2">|</span>
+                                  <span className="text-gray-600 md:mx-2">
+                                    |
+                                  </span>
                                   <button
                                     onClick={() =>
                                       deleteFavoriteItem(item.productId._id)
@@ -142,20 +148,17 @@ const BasketList = () => {
                     {"$"}
                   </h1>
                 </div>
-                <div className="border-2 border-blue-400 flex justify-between items-center overflow-hidden rounded-xl">
+                <div className="border-2 border-purple-400 flex justify-between items-center overflow-hidden rounded-xl">
                   <input
                     type="text"
-                    className="w-full px-4 text-base"
+                    className="w-full px-4 text-base py-3"
                     placeholder="promo code"
                   />
-                  <Button
-                    size="lg"
-                    type="submit"
-                    variant="gradient"
-                    className="my-[2px] lowercase flex px-10 mx-[2px]"
+                  <button
+                    className="my-[2px] lowercase flex px-10 h-full py-3 rounded-lg mx-[2px] bg-purple-600 text-white"
                   >
                     apply
-                  </Button>
+                  </button>
                 </div>
                 <div className=" mt-6">
                   <ul className="flex justify-between items-center text-gray-700">
@@ -166,11 +169,14 @@ const BasketList = () => {
                 <div className="mt-5">
                   <Link to={"/checkout"}>
                     <Button
-                      size="lg"
-                      type="submit"
-                      fullWidth
-                      variant="gradient"
-                      className="tracking-wide"
+                      className="w-full tracking-wide font-normal"
+                      variant="contained"
+                      color="secondary"
+                      size="large"
+                      sx={{
+                        background: "rgb(145, 85, 253)",
+                        borderRadius: "6px",
+                      }}
                     >
                       check out
                     </Button>

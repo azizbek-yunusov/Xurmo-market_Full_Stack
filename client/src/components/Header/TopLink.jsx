@@ -10,7 +10,7 @@ const TopLink = () => {
   return (
     <>
       {auth && auth.isAdmin ? null : (
-        <div className="w-full primary_bg">
+        <div className="tranistion_normal w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-400">
           <div className="container-full py-[6px] flex items-center justify-between">
             <div className="flex justify-between items-center"></div>
             <div className="flex justify-between items-center">

@@ -1,4 +1,4 @@
-import { Rate, Tooltip } from "antd";
+import { Rating, Tooltip } from "@mui/material";
 import React from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsFillHeartFill, BsHeart } from "react-icons/bs";
@@ -42,14 +42,23 @@ const ProductCard = (props) => {
             <h1 className="md:text-base font-semibold global-font">{name}</h1>
           </div>
         </div>
-        <div className="w-full">
-          <p className="md:text-lg font-semibold">{price}$</p>
+        <div className="w-full text-gray-800">
+          {discount > 0 ? (
+            <div className="flex items-center">
+              <p className="md:text-lg font-semibold">
+                {price - (price * discount) / 100}$
+              </p>
+              <p className="md:text-lg font-semibold line-through text-gray-500 md:ml-3">{price}$</p>
+            </div>
+          ) : (
+            <p className="md:text-lg font-semibold">{price}$</p>
+          )}
 
           <div className="flex mt-2">
             <h1 className="text-base text-gray-700 mr-2">
               {ratings?.toFixed(1)}
             </h1>
-            <Rate className="text-base" disabled allowHalf value={ratings} />
+            <Rating defaultValue={ratings} readOnly />
           </div>
         </div>
         <div className="w-full flex justify-between items-center px-2">
@@ -91,7 +100,7 @@ const ProductCard = (props) => {
           ) : (
             <button
               onClick={() => addToCartHandle(_id)}
-              className="border-2 border-[#7a2dff] py-2 flex items-center justify-center w-full rounded-xl hover:text-indigo-600 bg-[#7a2dff] text-lg text-white hover:bg-white transition_normal  hover:border-indigo-500"
+              className="border-2 border-[#ff8800] py-2 flex items-center justify-center w-full rounded-xl hover:text-indigo-600 bg-[#ff8800] text-lg text-white hover:bg-white transition_normal  hover:border-indigo-500"
             >
               <FiShoppingCart className="md:text-xl" />
               <span className="ml-2 text-base">add to cart</span>

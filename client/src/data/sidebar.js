@@ -51,7 +51,7 @@ export const sidebar = [
   },
 ];
 
-export const sidebarProfile = [
+export const sidebarProfileEn = [
   {
     id: 2,
     path: "/myprofile/orders",
@@ -74,6 +74,58 @@ export const sidebarProfile = [
     id: 1,
     path: "/myprofile/settings",
     name: "Settings",
+    icon: <AiOutlineSetting className="md:text-xl" />,
+  },
+];
+export const sidebarProfileUz = [
+  {
+    id: 2,
+    path: "/myprofile/orders",
+    name: "Buyurtmalarim",
+    icon: <RiShoppingBag3Line className="md:text-xl" />,
+  },
+  {
+    id: 3,
+    path: "/myprofile/addresses",
+    name: "Manzillar",
+    icon: <HiLocationMarker className="md:text-xl" />,
+  },
+  {
+    id: 4,
+    path: "/myprofile/favorites",
+    name: "Sevimlilar",
+    icon: <MdFavoriteBorder className="md:text-xl" />,
+  },
+  {
+    id: 1,
+    path: "/myprofile/settings",
+    name: "Sozlamalar",
+    icon: <AiOutlineSetting className="md:text-xl" />,
+  },
+];
+export const sidebarProfileRu = [
+  {
+    id: 2,
+    path: "/myprofile/orders",
+    name: "Mening Buyurtmalarim",
+    icon: <RiShoppingBag3Line className="md:text-xl" />,
+  },
+  {
+    id: 3,
+    path: "/myprofile/addresses",
+    name: "Manzillar",
+    icon: <HiLocationMarker className="md:text-xl" />,
+  },
+  {
+    id: 4,
+    path: "/myprofile/favorites",
+    name: "Sevimlilar",
+    icon: <MdFavoriteBorder className="md:text-xl" />,
+  },
+  {
+    id: 1,
+    path: "/myprofile/settings",
+    name: "Sozlamalar",
     icon: <AiOutlineSetting className="md:text-xl" />,
   },
 ];

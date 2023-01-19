@@ -1,9 +1,7 @@
-import { Button, Checkbox, Tooltip } from "@material-tailwind/react";
-import { Avatar } from "antd";
+import { Avatar, Checkbox } from "@mui/material";
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { AiOutlineUserAdd } from "react-icons/ai";
 import { FiEdit } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";

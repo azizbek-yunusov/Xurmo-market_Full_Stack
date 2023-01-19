@@ -1,4 +1,4 @@
-import { Breadcrumbs, Button, Input, Radio } from "@material-tailwind/react";
+import { Breadcrumbs, Button, Radio, TextField } from "@mui/material";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
@@ -39,9 +39,8 @@ const CheckOut = () => {
   const totalPrice =
     cart.length &&
     cart?.reduce((a, c) => a + c.productId.price * c.quantity, 0);
-    const totalQuantity =
-    cart.length &&
-    cart?.reduce((a, c) => a + c.quantity, 0);
+  const totalQuantity =
+    cart.length && cart?.reduce((a, c) => a + c.quantity, 0);
   const newOrder = (e) => {
     try {
       e.preventDefault();
@@ -93,14 +92,14 @@ const CheckOut = () => {
         </div>
         <div className="container-full block md:my-5 ">
           <div className="flex items-center md:mb-5">
-            <Breadcrumbs fullWidth>
+            {/* <Breadcrumbs fullWidth>
               <Link to={"/"} className="">
                 Home
               </Link>
               <Link to={"/"} className="">
                 Back
               </Link>
-            </Breadcrumbs>
+            </Breadcrumbs> */}
           </div>
           <h1 className="md:text-2xl font-semibold text-gray-800 border-b border-b-gray-300 md: pb-5">
             {t("shop:checkout")}
@@ -116,29 +115,47 @@ const CheckOut = () => {
                     <h1 className="text-xl ml-3"> {t("shop:enteraddress")}</h1>
                   </div>
                   <div className="md:my-6 grid grid-cols-2 gap-5">
-                    <Input
-                      value={email}
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
                       label={t("shop:email")}
-                      size="lg"
+                      type="email"
+                      value={email}
+                      className="rounded-xl"
                       onChange={(e) => setEmail(e.target.value)}
                     />
-                    <Input
+
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
+                      type="number"
+                      className="rounded-xl"
                       value={contact}
                       onChange={(e) => setContact(e.target.value)}
                       label={t("shop:number")}
-                      size="lg"
                     />
-                    <Input
+
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
+                      type="text"
+                      className="rounded-xl"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       label={t("shop:name")}
-                      size="lg"
                     />
-                    <Input
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
+                      type="text"
+                      className="rounded-xl"
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
                       label={t("shop:lastname")}
-                      size="lg"
                     />
                   </div>
                 </div>
@@ -162,13 +179,7 @@ const CheckOut = () => {
                               : "border-gray-300"
                           }`}
                         >
-                          <Radio
-                            defaultChecked
-                            value="plastik"
-                            id="card"
-                            name="type"
-                            color="amber"
-                          />
+                          <Radio value="plastik" id="card" name="type" />
                           <p className="grow text-gray-800 mx-2">
                             {t("shop:plasticcard")}
                           </p>
@@ -183,12 +194,7 @@ const CheckOut = () => {
                               : "border-gray-300"
                           }`}
                         >
-                          <Radio
-                            value="card"
-                            id="money"
-                            name="type"
-                            color="amber"
-                          />
+                          <Radio value="card" id="money" name="type" />
                           <p className="grow text-gray-800 mx-2">
                             {t("shop:bycash")}
                           </p>
@@ -220,13 +226,7 @@ const CheckOut = () => {
                               : "border-gray-300"
                           }`}
                         >
-                          <Radio
-                            defaultChecked
-                            value="home"
-                            id="addresses"
-                            name="address"
-                            color="amber"
-                          />
+                          <Radio value="home" id="addresses" name="address" />
                           <p className="grow text-gray-800 mx-2">
                             {t("shop:deliveryaddress")}
                           </p>
@@ -241,12 +241,7 @@ const CheckOut = () => {
                               : "border-gray-300"
                           }`}
                         >
-                          <Radio
-                            value="store"
-                            id="store"
-                            name="address"
-                            color="amber"
-                          />
+                          <Radio value="store" id="store" name="address" />
                           <p className="grow text-gray-800 mx-2">
                             {t("shop:shoppingstore")}
                           </p>
@@ -257,38 +252,55 @@ const CheckOut = () => {
                   </div>
                   <h1 className="md:text-base">{t("shop:enteraddress")}</h1>
                   <div className="md:my-6 grid grid-cols-2 gap-5">
-                    <Input
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
+                      type="text"
+                      className="rounded-xl"
                       value={region}
                       onChange={(e) => setRegion(e.target.value)}
                       label={t("shop:region")}
-                      size="lg"
                     />
-                    <Input
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
+                      type="text"
+                      className="rounded-xl"
                       value={district}
                       onChange={(e) => setDistrict(e.target.value)}
                       label={t("shop:district")}
-                      size="lg"
                     />
-                    <Input
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
+                      type="text"
+                      className="rounded-xl"
                       value={street}
                       onChange={(e) => setStreet(e.target.value)}
                       label={t("shop:street")}
-                      size="lg"
                     />
-                    <Input
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
+                      type="text"
+                      className="rounded-xl"
                       value={house}
                       onChange={(e) => setHouse(e.target.value)}
                       label={t("shop:housenumber")}
-                      size="lg"
                     />
                   </div>
                 </div>
+
                 <Button
-                  size="lg"
-                  fullWidth
                   type="submit"
-                  variant="gradient"
-                  className=""
+                  className="w-full primary_bg bg-purple-600"
+                  variant="contained"
+                  color="secondary"
+                  size="large"
                 >
                   {t("shop:checkout")}
                 </Button>
@@ -340,7 +352,9 @@ const CheckOut = () => {
                       {t("shop:ordertxt")}
                     </p>
                     <div className="flex justify-between items-center text-sm my-2">
-                      <p className="">{totalQuantity}{" "}{t("shop:priceorders")}</p>
+                      <p className="">
+                        {totalQuantity} {t("shop:priceorders")}
+                      </p>
                       <p className="">{totalPrice}</p>
                     </div>
                     <div className="flex justify-between items-center text-sm my-5 md:pb-5 border-b border-b-gray-300">

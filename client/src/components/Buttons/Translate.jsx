@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import i18next from "i18next";
 import { useTranslation } from "react-i18next";
-import { Option, Select } from "@material-tailwind/react";
 
 const Translate = () => {
   const { i18n } = useTranslation();
@@ -25,26 +24,6 @@ const Translate = () => {
         <option value={"ru"}>Russian</option>
         <option value={"uz"}>Uzbekcha</option>
       </select>
-      {/* <Select
-        style={{
-          width: 100,
-        }}
-        onChange={handleChange}
-        options={[
-          {
-            value: "en",
-            label: "English",
-          },
-          {
-            value: "uz",
-            label: "Uzbek",
-          },
-          {
-            value: "ru",
-            label: "Rus",
-          },
-        ]}
-      /> */}
     </div>
   );
 };

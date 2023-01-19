@@ -1,7 +1,6 @@
+import { Select } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import { Select } from "antd";
 import Layout from "../Layout";
 
 const CreateUser = () => {

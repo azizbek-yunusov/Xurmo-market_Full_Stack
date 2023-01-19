@@ -1,7 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useSelector } from "react-redux";
 import SearchInput from "./SearchInput";
 import FullScreen from "./Buttons/FullScreen";
 import ThemeToggle from "./Buttons/ThemeToggle";

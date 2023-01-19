@@ -5,7 +5,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ProductCard from "../components/ProductItems/ProductCard";
 import HelmetTitle from "../utils/HelmetTitle";
 import SearchIcon from "../assets/images/search.png";
-import { Slider } from "antd";
 
 const SearchPage = () => {
   let { t } = useTranslation(["product"]);
@@ -62,12 +61,12 @@ const SearchPage = () => {
         <div className="grid grid-cols-12 min-h-[550px] md:gap-x-5">
           <div className="col-span-3 md:px-5">
             <div className="">
-              <Slider
+              {/* <Slider
                 range={{
                   draggableTrack: true,
                 }}
                 defaultValue={[0, 500]}
-              />
+              /> */}
             </div>
           </div>
           <div className="col-span-9">

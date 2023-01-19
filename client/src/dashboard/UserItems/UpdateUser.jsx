@@ -1,4 +1,3 @@
-import { Radio } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -164,10 +163,10 @@ const UpdateUser = () => {
                       },
                     ]}
                   /> */}
-                  <Radio.Group onChange={onChanged} value={admin}>
+                  {/* <Radio.Group onChange={onChanged} value={admin}>
                     <Radio value={true}>ADMIN</Radio>
                     <Radio value={false}>USER</Radio>
-                  </Radio.Group>
+                  </Radio.Group> */}
                 </div>
 
                 <div>

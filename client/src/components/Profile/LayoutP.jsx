@@ -1,7 +1,4 @@
-import { Breadcrumbs } from "@material-tailwind/react";
 import React, { useEffect } from "react";
-import { BiHome } from "react-icons/bi";
-import { Link } from "react-router-dom";
 import HelmetTitle from "../../utils/HelmetTitle";
 import SideBarPf from "./SideBarPf";
 import ProfileBg from "../../assets/images/profilebg.png";
@@ -16,7 +13,7 @@ const LayoutP = ({ children }) => {
     <>
       <HelmetTitle title={"My profile"} />
 
-      <div className="container-full min-h-[560px] md:my-3 flex flex-col bg-slate-200 text-black">
+      <div className="container-full min-h-[560px] md:my-3 flex flex-col text-gray-800">
         <div className="">
           <img
             src={ProfileBg}

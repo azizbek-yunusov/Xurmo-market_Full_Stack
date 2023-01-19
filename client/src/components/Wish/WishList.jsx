@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import WishProductItem from "./WishProductItem";
 import Wish from "../../assets/images/wish.png";
-import { Button } from "@material-tailwind/react";
+import { Button } from "@mui/material";
 
 const WishList = () => {
   const { favorites } = useSelector((state) => state);

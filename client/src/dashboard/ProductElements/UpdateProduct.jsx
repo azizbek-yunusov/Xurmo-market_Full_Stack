@@ -1,4 +1,4 @@
-import { Input, Option, Select, Textarea } from "@material-tailwind/react";
+import { Input, Select, TextareaAutosize } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
@@ -127,11 +127,11 @@ const UpdateProduct = () => {
                       onChange={selectedChange}
                       label="Select an option"
                     >
-                      {categories.map((item) => (
+                      {/* {categories.map((item) => (
                         <Option key={item._id} value={item.name}>
                           {item.name}
                         </Option>
-                      ))}
+                      ))} */}
                     </Select>
                     {/* <select
                       value={category}
@@ -172,7 +172,7 @@ const UpdateProduct = () => {
                         </Option>
                       ))}
                     </Select> */}
-                    <Textarea
+                    <TextareaAutosize
                       value={descr}
                       onChange={(e) => setDescr(e.target.value)}
                       label="Description"

@@ -1,175 +1,123 @@
 import React, { useEffect, useState } from "react";
-// import Zoom from 'react-img-zoom';
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { BiError } from "react-icons/bi";
 import axios from "axios";
 import Comments from "./Comments";
 
-import { Modal, Rate } from "antd";
 import { Helmet } from "react-helmet-async";
 import ImageThumbs from "./ImageThumbs";
 import { useSelector } from "react-redux";
-import { Button, Card, Progress } from "@material-tailwind/react";
-import { AiFillStar, AiOutlineStar } from "react-icons/ai";
-const desc = ["terrible", "bad", "normal", "good", "wonderful"];
+import { ReviewsBox } from "./ReviewsBox";
+import { Breadcrumbs, Button, Typography } from "@mui/material";
+import { ProductDetailLoader } from "../SkeletonLoaders";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { FiShoppingCart } from "react-icons/fi";
 
 const ProductDetail = () => {
   const { auth, cart, address } = useSelector((state) => state);
   const goback = useNavigate();
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+
   const { id } = useParams();
   const [product, setProduct] = useState({});
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
   const productDetail = async () => {
     try {
       const { data } = await axios.get(`/product/${id}`);
       setProduct(data.product);
+      setLoading(false);
     } catch (err) {
       console.log(err);
     }
-  };
-  const reviewsHandler = async (e) => {
-    e.preventDefault();
-    fetch("http://localhost:5000/review", {
-      method: "put",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: auth.access_token,
-      },
-      body: JSON.stringify({
-        productId: product._id,
-        rating,
-        comment,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        productDetail();
-        if (data.err) {
-          console.log(data.err);
-        } else {
-        }
-      });
   };
   useEffect(() => {
     productDetail();
     window.scrollTo(0, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const signInNavigate = () => navigate("/signin");
-  const findFive = product?.reviews?.filter((item) => item.rating === 5);
-  const fivePercentage =
-    findFive?.length > 0 ? (findFive?.length * 100) / product?.numOfReviews : 0;
-  const findFour = product?.reviews?.filter((item) => item.rating === 4);
-  const fourPercentage =
-    findFour?.length > 0 ? (findFour?.length * 100) / product?.numOfReviews : 0;
   return (
     <>
       <Helmet>
         <title data-rh="true">{`${product.name} | E-commerce`}</title>
       </Helmet>
       <>
-        <div className="container-full">
-          <div className="flex items-center my-2">
-            <button
-              onClick={() => goback(-1)}
-              className="lg:px-4 px-2 text-md  rounded-full mr-4 py-2 flex font-medium border border-gray-300"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-              <p className="hidden lg:block">Назад</p>
-            </button>{" "}
-            {"/"}
-            <Link
-              to={"/"}
-              className="lg:px-4 px-2 lg:text-lg text-base capitalize text-red-500"
-            >
-              Home
-            </Link>{" "}
-            {"/"}
-            <Link
-              to={`/category/${product.category}`}
-              className="capitalize lg:px-4 px-2 lg:text-lg text-base text-red-500"
-            >
-              {product.category}
-            </Link>{" "}
-            {"/"}
-            <Link
-              to={`/manufacturer/${product.brandName}`}
-              className="lg:px-4 capitalize px-[5px] lg:text-lg text-base text-red-500"
-            >
-              {product.name}
-            </Link>
-          </div>
-
-          <h1 className="md:text-4xl text-xl text-left px-2 font-semibold text-zinc-700">
-            {product.category} {product.name}
-          </h1>
-          <div className="lg:flex hidden py-1 items-center">
-            <div className="p-2 ml-5 cursor-pointer"></div>
-          </div>
-
-          <div className="md:grid grid-cols-1 md:grid-cols-3 md:gap-5 border-t border-r-gray-400 lg:py-5 py-4">
-            <div className="">
-              <ImageThumbs images={product.images} />
-            </div>
-            <div className="block px-2 text-left">
-              <p className="text-3xl lg:font-medium font-semibold mt-4 lg:mt-0">
-                {/* {numberWithCommas(product.price)} cум{" "} */}
-              </p>
+        {!loading ? (
+          <div className="container-full md:px-10 min-h-screen">
+            <Breadcrumbs aria-label="breadcrumb" sx={{ marginY: "8px" }}>
+              <Link to={"/"}>Home</Link>
+              <Link to={"/category"}>Category</Link>
+              <Typography color="text.primary">{product.name}</Typography>
+            </Breadcrumbs>
+            <div className="md:grid grid-cols-1 md:grid-cols-3 md:gap-5 border-t  border-r-gray-400 lg:py-5 py-4">
               <div className="">
-                <p className="lg:text-xl text-lg leading-6 font-semibold text-zinc-800">
-                  Description:
-                </p>
-                <p className="text-lg leading-6 font-normal lg:mt-4 mt-4 text-zinc-800">
-                  {/* Гарантийный срок (месяц): {product.warranty} */}
-                </p>
-                <h1 className="text-lg leading-6 lg:mt-4 mt-4 text-zinc-600">
-                  {product.descr}
+                <ImageThumbs images={product.images} />
+              </div>
+              <div className="block">
+                <h1 className="md:text-3xl text-xl  font-semibold text-zinc-700">
+                  {product.category} {product.name}
                 </h1>
-              </div>
-            </div>
-            <div className="flex justify-end">
-              <div className="">
-                <Card className="flex flex-col md:p-5 justify-between w-[350px]">
-                  <h1 className="md:text-3xl font-semibold text-gray-800 md:mb-4">
-                    {product.price}
+                <div className="">
+                  <h1 className="text-lg leading-6 lg:mt-4 mt-4 text-zinc-600">
+                    {product.descr}
                   </h1>
-                  <button className="py-3 bg-purple-600 text-lg text-white rounded-lg md:mb-5">
-                    add to cart
-                  </button>
-                  <button className="py-3 border-2 border-purple-600 text-lg text-gray-800 rounded-lg">
-                    buy nov
-                  </button>
-                </Card>
+                </div>
+              </div>
+              <div className="flex justify-center col-span-1">
+                <div>
+                  <div className="sticky top-28 border border-gray-300 md:rounded-xl">
+                    <div className="flex flex-col md:p-5 justify-between w-[350px]">
+                      <div className="border flex_betwen overflow-hidden border-gray-300 text-lg text-white rounded-lg md:mb-5">
+                        <button className="bg-gray-400 px-6 py-[14px] text-xl">
+                          <AiOutlineMinus />
+                        </button>
+                        <p className="text-xl text-gray-800 font-semibold">
+                          15
+                        </p>
+                        <button className="bg-orange-500 px-6 py-[14px] text-xl">
+                          <AiOutlinePlus />
+                        </button>
+                      </div>
+                      <div className="flex_betwen md:mt-4 border-b border-gray-300 pb-4">
+                        <p className="md:text-lg text-gray-600">Price</p>
+                        <p className="md:text-xl text-gray-800 font-semibold">
+                          {product.price}
+                        </p>
+                      </div>
+                      <div className="flex_betwen md:my-4">
+                        <p className="md:text-lg text-gray-600">Shipping</p>
+                        <p className="md:text-xl text-gray-800 font-semibold">
+                          free
+                        </p>
+                      </div>
+                      <Button
+                        variant="contained"
+                        size="large"
+                        aria-label="add"
+                        color="warning"
+                        sx={{
+                          background: "#ff8400",
+                          borderRadius: "8px",
+                          marginY: "20px",
+                          paddingY: "15px",
+                          textTransform: "none",
+                        }}
+                      >
+                        <div className="flex_center text-lg">
+                          <FiShoppingCart className="md:mr-2" />
+                          <p className="">add to cart</p>
+                        </div>
+                      </Button>
+                      <button className="py-3 border-2 border-orange-300 text-lg text-orange-600 font-semibold rounded-lg">
+                        Buy Now
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <ProductDetailLoader />
+        )}
+
         <div className="container-full md:my-5">
           <h1 className="text-4xl font-semibold md:mb-5">Product reviews</h1>
           <div className="grid grid-cols-12 gap-9">
@@ -188,203 +136,7 @@ const ProductDetail = () => {
               )}
             </div>
             <div className="w-full col-span-6 flex justify-end">
-              <div className="max-w-[400px] max-h-[440px] p-6 px-8 rounded-lg flex justify-between flex-col w-full border border-gray-300">
-                <div className="flex md:mt-1 items-center justify-between">
-                  <div className="">
-                    <h1 className="text-5xl font-semibold">
-                      {product.ratings?.toFixed(1)}
-                    </h1>
-                    <p className="text-base text-gray-400 mt-4">
-                      Based on {product.numOfReviews} reviews
-                    </p>
-                  </div>
-                  <div className="">
-                    <Rate disabled allowHalf value={product.ratings} />
-                  </div>
-                </div>
-                <div className="">
-                  {/* <div className="flex items-center justify-between w-full bg-red-600 mt-4">
-                    <p className="mr-3">5star</p>
-                    <div className="w-full h-4 bg-pink-300">
-                      <div
-                        style={{ width: `${foiz}%` }}
-                        className="bg-cyan-400 h-full"
-                      ></div>
-                    </div>
-                    <p className="">{foiz}%</p>
-                  </div> */}
-                  <div className="md:my-5 flex justify-between items-center">
-                    <div className="flex">
-                      <AiFillStar className="text-yellow-800" />
-                      <AiFillStar className="text-yellow-800" />
-                      <AiFillStar className="text-yellow-800" />
-                      <AiFillStar className="text-yellow-800" />
-                      <AiFillStar className="text-yellow-800" />
-                    </div>
-                    <Progress
-                      color="orange"
-                      value={fivePercentage}
-                      className="mx-1"
-                    />
-                    <span className="">5</span>
-                  </div>
-                  <div className="md:my-5 flex justify-between items-center">
-                    <div className="flex">
-                      <AiFillStar className="text-yellow-800" />
-                      <AiFillStar className="text-yellow-800" />
-                      <AiFillStar className="text-yellow-800" />
-                      <AiFillStar className="text-yellow-800" />
-                      <AiOutlineStar className="text-gray-500" />
-                    </div>
-                    <Progress value={fourPercentage} className="mx-1" />
-                    <span className="">4</span>
-                  </div>
-                  <div className="md:my-5 flex justify-between items-center">
-                    <div className="flex">
-                      <AiFillStar className="text-yellow-800" />
-                      <AiFillStar className="text-yellow-800" />
-                      <AiFillStar className="text-yellow-800" />
-                      <AiOutlineStar className="text-gray-500" />
-                      <AiOutlineStar className="text-gray-500" />
-                    </div>
-                    <Progress value={0} className="mx-1" />
-                    <span className="">3</span>
-                  </div>
-                  <div className="md:my-5 flex justify-between items-center">
-                    <div className="flex">
-                      <AiFillStar className="text-yellow-800" />
-                      <AiFillStar className="text-yellow-800" />
-                      <AiOutlineStar className="text-gray-500" />
-                      <AiOutlineStar className="text-gray-500" />
-                      <AiOutlineStar className="text-gray-500" />
-                    </div>
-                    <Progress value={0} className="mx-1" />
-                    <span className="">2</span>
-                  </div>
-                  <div className="md:my-5 flex justify-between items-center">
-                    <div className="flex">
-                      <AiFillStar className="text-yellow-800" />
-                      <AiOutlineStar className="text-gray-500" />
-                      <AiOutlineStar className="text-gray-500" />
-                      <AiOutlineStar className="text-gray-500" />
-                      <AiOutlineStar className="text-gray-500" />
-                    </div>
-                    <Progress value={0} className="mx-1" />
-                    <span className="">1</span>
-                  </div>
-                </div>
-                <div className="w-full">
-                  {auth.isLogged ? (
-                    <>
-                      <Button
-                        size="md"
-                        className=""
-                        fullWidth
-                        onClick={showModal}
-                      >
-                        Write review
-                      </Button>
-                      <Modal
-                        open={isModalOpen}
-                        onOk={handleOk}
-                        onCancel={handleCancel}
-                        okText={null}
-                      >
-                        <h1 className="w-full text-2xl font-semibold mb-4 text-center">
-                          My review
-                        </h1>
-                        <form onSubmit={reviewsHandler}>
-                          <div className="">
-                            <label className="text-lg font-semibold text-gray-800">
-                              Rate it
-                            </label>
-
-                            <div className="mb-5">
-                              <Rate
-                                tooltips={desc}
-                                onChange={setRating}
-                                value={rating}
-                              />
-                              {rating ? (
-                                <span className="ant-rate-text font-semibold">
-                                  {desc[rating - 1]}
-                                </span>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          </div>
-                          <div>
-                            <label className="text-lg font-semibold text-gray-800">
-                              Description
-                            </label>
-                            <textarea
-                              id="textarea"
-                              type="textarea"
-                              rows={5}
-                              placeholder="Description"
-                              value={comment}
-                              onChange={(e) => setComment(e.target.value)}
-                              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-blue-500  focus:outline-none focus:ring"
-                            />
-                          </div>
-                          <div className="flex justify-end items-center mt-3">
-                            <p
-                              className="py-2 cursor-pointer text-white px-6 text-[16px] tracking-wide font-semibold mx-3 bg-red-600 rounded-lg"
-                              onClick={handleCancel}
-                            >
-                              cancel
-                            </p>
-                            <button
-                              type="submit"
-                              className="py-2 text-white px-6 text-[16px] tracking-wide font-semibold bg-indigo-600 rounded-lg"
-                              onClick={handleOk}
-                            >
-                              submit
-                            </button>
-                          </div>
-                        </form>
-                      </Modal>
-                    </>
-                  ) : (
-                    <>
-                      <Button size="md" onClick={showModal}>
-                        Write review
-                      </Button>
-                      <Modal
-                        open={isModalOpen}
-                        onOk={handleOk}
-                        onCancel={handleCancel}
-                        okText={null}
-                      >
-                        <div className="">
-                          <div className="flex p-3 rounded max-w-max pb-5 mb-8 items-center bg-gray-200">
-                            <BiError className="text-2xl text-red-600" />
-                            <p className="text-lg font-semibold">
-                              You must be registered to post a comment
-                            </p>
-                          </div>
-                          <div className="flex justify-end items-center mt-3">
-                            <p
-                              className="py-2 cursor-pointer text-white px-6 text-[16px] tracking-wide font-semibold mx-3 bg-red-600 rounded-lg"
-                              onClick={handleCancel}
-                            >
-                              cancel
-                            </p>
-                            <button
-                              type="submit"
-                              className="py-2 text-white px-6 text-[16px] tracking-wide font-semibold bg-indigo-600 rounded-lg"
-                              onClick={signInNavigate}
-                            >
-                              login
-                            </button>
-                          </div>
-                        </div>
-                      </Modal>
-                    </>
-                  )}
-                </div>
-              </div>
+              <ReviewsBox product={product} productDetail={productDetail} />
             </div>
           </div>
         </div>

@@ -1,10 +1,8 @@
-import { Button, Checkbox, Tooltip } from "@material-tailwind/react";
-import { Avatar } from "antd";
+import { Avatar, Button, Checkbox, Tooltip } from "@mui/material";
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { AiOutlineUserAdd } from "react-icons/ai";
 import { FiEdit } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import HelmetTitle from "../../utils/HelmetTitle";

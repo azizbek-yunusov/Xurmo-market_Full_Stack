@@ -1,20 +1,11 @@
-import React from "react";
-import ContentLoader from "react-content-loader";
+import React from 'react'
 
-const BannerLoader = (props) => {
+const BannerLoader = () => {
   return (
-    <ContentLoader
-      speed={3}
-      width={1200}
-      height={400}
-      viewBox="0 0 1200 400"
-      backgroundColor="#f3f3f3"
-      foregroundColor="#ecebeb"
-      {...props}
-    >
-      <rect x="0" y="16" rx="12" ry="12" width="1130" height="346" />
-    </ContentLoader>
-  );
-};
+    <div className="container-full bg-[#dadada] rounded-2xl animate-pulse h-[450px] ">
 
-export default BannerLoader;
+    </div>
+  )
+}
+
+export default BannerLoader

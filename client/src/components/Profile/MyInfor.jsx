@@ -1,13 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import LayoutP from "./LayoutP";
-import ProfileBg from "../../assets/images/profilebg.png";
-import { MdLocationOn, MdModeEditOutline } from "react-icons/md";
-import { Button } from "@material-tailwind/react";
 
 const MyInfor = () => {
   const { auth, address } = useSelector((state) => state);
-  console.log(address);
   return (
     <LayoutP>
       {/* <div className="">

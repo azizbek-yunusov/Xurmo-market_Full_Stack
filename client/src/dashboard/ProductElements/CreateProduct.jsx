@@ -5,14 +5,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 import Layout from "../Layout";
 import { AiOutlineCloudUpload } from "react-icons/ai";
+import { useSelector } from "react-redux";
 import {
   Button,
-  Input,
-  Option,
+  FormControl,
+  InputLabel,
+  MenuItem,
   Select,
-  Textarea,
-} from "@material-tailwind/react";
-import { useSelector } from "react-redux";
+  TextareaAutosize,
+  TextField,
+} from "@mui/material";
 const CreateProduct = () => {
   const { access_token } = useSelector((state) => state.auth);
   const [name, setName] = useState("");
@@ -28,8 +30,9 @@ const CreateProduct = () => {
   const goback = useNavigate();
   const navigate = useNavigate();
 
-  const selectedChange = (value) => {
-    setCategory(value);
+  const selectedChange = (e) => {
+    // setCategory(value);
+    setCategory(e.target.value)
   };
   //handlde images
   const handleImage = (e) => {
@@ -116,36 +119,52 @@ const CreateProduct = () => {
             <div className="w-full">
               <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 gap-6 gap-x-14 md:grid-cols-2">
-                  <Input
+                  <TextField
+                    id="outlined-basic"
+                    fullWidth
+                    variant="outlined"
                     label="Name"
-                    size="lg"
+                    type="text"
+                    className="rounded-xl"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
-                  <Select
-                    onChange={selectedChange}
-                    size="lg"
-                    label="Select Category"
-                  >
-                    {categories.map((item, index) => (
-                      <Option key={index} value={item.name}>
-                        {item.name}
-                      </Option>
-                    ))}
-                  </Select>
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Select category</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      onChange={selectedChange}
+                      value={category}
+                      label="Select category"
+                    >
+                      {categories.map((item) => (
+                        <MenuItem key={item._id} value={item.name}>
+                          {item.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+
                   <div className="grid grid-cols-1 gap-0">
-                    <Input
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
                       label="Price"
-                      size="lg"
                       type="number"
+                      className="rounded-xl"
                       value={price}
                       onChange={(e) => setPrice(e.target.value)}
                     />
                   </div>
-                  <Input
+                  <TextField
+                    id="outlined-basic"
+                    fullWidth
+                    variant="outlined"
                     label="In Stock"
-                    size="lg"
                     type="number"
+                    className="rounded-xl"
                     value={inStock}
                     onChange={(e) => setInStock(e.target.value)}
                   />
@@ -154,23 +173,30 @@ const CreateProduct = () => {
                     size="lg"
                     label="Select Brand"
                   >
-                    {categories.map((item, index) => (
+                    {/* {categories.map((item, index) => (
                       <Option key={index} value={item._id}>
                         {item.name}
                       </Option>
-                    ))}
+                    ))} */}
                   </Select>
-                  <Input
+                  <TextField
+                    id="outlined-basic"
+                    fullWidth
+                    variant="outlined"
                     label="Discount"
-                    size="lg"
                     type="number"
+                    className="rounded-xl"
                     value={discount}
                     onChange={(e) => setDiscount(e.target.value)}
                   />
-                  <Textarea
+                  <TextareaAutosize
                     value={descr}
                     onChange={(e) => setDescr(e.target.value)}
                     label="Description"
+                    aria-label="minimum height"
+                    minRows={3}
+                    placeholder="Minimum 3 rows"
+                    style={{ width: 200 }}
                   />
                 </div>
                 <div className="flex">
@@ -271,14 +297,6 @@ const CreateProduct = () => {
                       "Save"
                     )}
                   </Button>
-                  {/* <Button
-                    type="submit"
-                    className="w-40"
-                    size="lg"
-                    variant="gradient"
-                  >
-                    Save
-                  </Button> */}
                 </div>
               </form>
             </div>

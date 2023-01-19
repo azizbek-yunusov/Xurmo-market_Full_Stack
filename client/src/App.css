@@ -8,11 +8,9 @@
 }
 .profile_img {
   background-image: url("https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=2710&amp;q=80");
-
 }
 .signin_bg {
   background-image: url("https://images.unsplash.com/photo-1616763355603-9755a640a287?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80");
-
 }
 /* Custom style */
 /* .header-right {
@@ -65,17 +63,16 @@
   bottom: 0;
   background: linear-gradient(45deg, #ffd800, #ff5520, #750cf2, #0cbcf2);
   z-index: -2;
-
 }
-:root {
-  --color-brand: #3023ae;
-  --color-brand-secondary: #c86dd7;
+.css-sghohy-MuiButtonBase-root-MuiButton-root {
+  background-color: #9155fd !important;
+  border-radius: 8px !important;
 }
-
-.gradient__brand-secondary {
-  stop-color: var(--color-brand-secondary);
+.css-jh47zj-MuiButtonBase-root-MuiButton-root {
+  background-color: #9155fd !important;
+  border-radius: 8px !important;
 }
-
-.gradient__brand {
-  stop-color: var(--color-brand);
+.css-kpm0tx-MuiButtonBase-root-MuiButton-root {
+  color: rgba(58, 53, 65, 0.6) !important;
+  font-weight: 500 !important;
 }

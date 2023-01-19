@@ -1,6 +1,5 @@
 import React from "react";
 import moment from "moment";
-import { Rate } from "antd";
 
 const Comments = ({ review }) => {
   return (
@@ -21,7 +20,7 @@ const Comments = ({ review }) => {
         </div>
         <div className="flex items-center">
           <p className="md:text-xl mx-2">{review.rating}</p>
-          <Rate disabled value={review.rating} />
+          {/* <Rate disabled value={review.rating} /> */}
         </div>
       </div>
       <div className="mt-4 ml-[60px] mr-9">
