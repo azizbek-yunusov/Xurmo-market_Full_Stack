@@ -6,15 +6,8 @@ import { IoMdClose } from "react-icons/io";
 import Layout from "../Layout";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextareaAutosize,
-  TextField,
-} from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+
 const CreateProduct = () => {
   const { access_token } = useSelector((state) => state.auth);
   const [name, setName] = useState("");
@@ -32,7 +25,7 @@ const CreateProduct = () => {
 
   const selectedChange = (e) => {
     // setCategory(value);
-    setCategory(e.target.value)
+    setCategory(e.target.value);
   };
   //handlde images
   const handleImage = (e) => {
@@ -129,23 +122,27 @@ const CreateProduct = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
+
                   <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Select category</InputLabel>
+                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      onChange={selectedChange}
                       value={category}
-                      label="Select category"
+                      label="Age"
+                      onChange={(e) => setCategory(e.target.value)}
                     >
-                      {categories.map((item) => (
+                      {/* {categories.map((item) => (
                         <MenuItem key={item._id} value={item.name}>
                           {item.name}
                         </MenuItem>
-                      ))}
+                      ))} */}
+                      <MenuItem value={10}>Ten</MenuItem>
+                      <MenuItem value={20}>Twenty</MenuItem>
+                      <MenuItem value={30}>Thirty</MenuItem>
+                      <MenuItem value={20}>aziz</MenuItem>
                     </Select>
                   </FormControl>
-
                   <div className="grid grid-cols-1 gap-0">
                     <TextField
                       id="outlined-basic"
@@ -189,7 +186,7 @@ const CreateProduct = () => {
                     value={discount}
                     onChange={(e) => setDiscount(e.target.value)}
                   />
-                  <TextareaAutosize
+                  {/* <TextareaAutosize
                     value={descr}
                     onChange={(e) => setDescr(e.target.value)}
                     label="Description"
@@ -197,7 +194,7 @@ const CreateProduct = () => {
                     minRows={3}
                     placeholder="Minimum 3 rows"
                     style={{ width: 200 }}
-                  />
+                  /> */}
                 </div>
                 <div className="flex">
                   <label htmlFor="file-upload">

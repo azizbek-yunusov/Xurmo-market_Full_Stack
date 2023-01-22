@@ -7,6 +7,7 @@ import { MdEmail, MdLocationOn } from "react-icons/md";
 import { Backdrop, Box, Button, Fade, Modal, TextField } from "@mui/material";
 import { BsFillCalendarFill } from "react-icons/bs";
 import moment from "moment";
+import { updateProfile } from "../../redux/actions/userAction";
 
 const style = {
   position: "absolute",
@@ -21,59 +22,113 @@ const style = {
 const SideBarPf = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { auth, address } = useSelector((state) => state);
-  let { user } = auth;
-  const [name, setName] = useState(auth.user.name || "");
-  const [lastName, setLastName] = useState(auth.user.lastName || "");
-  const [contact, setContact] = useState(auth.user.phoneNumber || "");
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const { auth, address, user } = useSelector((state) => state);
+  const [name, setName] = useState(user.name || "");
+  const [lastName, setLastName] = useState(user.lastName || "");
+  const [contact, setContact] = useState(user.phoneNumber || "");
+  const [avatar, setAvatar] = useState("");
+  const [avatarPreview, setAvatarPreview] = useState("/images/profile.png");
 
   const signOutHandle = () => {
     dispatch(signOut());
     navigate("/signin");
     toast.success("Sign out ");
   };
-
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const editUserInfo = (e) => {
+    e.preventDefault();
+    try {
+      fetch("http://localhost:5000/me/update", {
+        method: "put",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: auth.access_token,
+        },
+        body: JSON.stringify({
+          name,
+          lastName,
+          phoneNumber: contact,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.error) {
+            console.log(data.error);
+          } else {
+            handleClose();
+            dispatch({
+              type: "GET_USER",
+              payload: data.updatedUser,
+            });
+          }
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const updateProfileSubmit = (e) => {
+    e.preventDefault();
+
+    const myForm = new FormData();
+
+    myForm.set("name", name);
+    myForm.set("lastName", lastName);
+    myForm.set("avatar", avatar);
+    dispatch(updateProfile(myForm, auth.access_token));
+  };
+
+  const updateProfileDataChange = (e) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setAvatarPreview(reader.result);
+        setAvatar(reader.result);
+      }
+    };
+
+    reader.readAsDataURL(e.target.files[0]);
+  };
+
   return (
     <div className="flex flex-col justify-between sticky top-56">
-      <div className="relative flex items-center flex-col w-[350px] h-[450px] bg-white -mt-28 ml-5 md:py-5 shadow-lg rounded-2xl">
-        <div className="absolute top-3 right-3">
-          <button onClick={handleOpen}>edit</button>
-        </div>
-        <div className="z-10 overflow-hidden rounded-full max-w-max bg-white">
-          <img
-            className="h-40 md:rounded-full p-[6px]"
-            src="https://demos.themeselection.com/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/1.png"
-            alt=""
-          />
-        </div>
-        <h1 className="md:my-3 md:text-2xl text-gray-900 font-semibold my-3 ">
-          {user.name}
-        </h1>
-        {address.length ? (
-          <div className="flex items-center bg-light-green-100 rounded-md p-1 px-2">
-            <MdLocationOn className="text-lg text-gray-600" />
-            <p className="text-sm font-semibold text-gray-600">
-              {address[0].region}
-              {", "}
-              {address[0].district}
-              {", "}
-              {address[0].street}
-            </p>
+      <div className="relative flex items-center flex-col justify-between w-[350px] h-[450px] bg-white -mt-28 ml-5 md:py-5 shadow-lg rounded-2xl">
+        <div className="flex flex-col items-center">
+          <div className="z-10 overflow-hidden rounded-full max-w-max bg-white">
+            <img
+              className="h-40 md:rounded-full p-[6px]"
+              src="https://demos.themeselection.com/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/1.png"
+              alt=""
+            />
           </div>
-        ) : null}
+          <h1 className="md:my-3 md:text-2xl text-gray-900 font-semibold my-3 ">
+            {user.name} {user.lastName ? user.lastName : ""}
+          </h1>
+          {address.length ? (
+            <div className="flex items-center bg-light-green-100 rounded-md p-1 px-2">
+              <MdLocationOn className="text-lg text-gray-600" />
+              <p className="text-sm font-semibold text-gray-600">
+                {address[0].region}
+                {", "}
+                {address[0].district}
+                {", "}
+                {address[0].street}
+              </p>
+            </div>
+          ) : null}
 
-        <div className="flex items-center text-base font-semibold text-gray-600 my-2">
-          <MdEmail className="text-base mx-1" />
-          <span>{user.email}</span>
-        </div>
-        <div className="flex items-center text-base font-semibold text-gray-600 my-1">
-          <BsFillCalendarFill className="text-sm mx-1" />
-          <span>{moment(user.createdAt).format("LL")}</span>
+          <div className="flex items-center text-base font-semibold text-gray-600 my-2">
+            <MdEmail className="text-base mx-1" />
+            <span>{user.email}</span>
+          </div>
+          <div className="flex items-center text-base font-semibold text-gray-600 my-1">
+            <BsFillCalendarFill className="text-sm mx-1" />
+            <span>{moment(user.createdAt).format("LL")}</span>
+          </div>
         </div>
         <div className="flex md:my-2">
           <Button
@@ -113,15 +168,28 @@ const SideBarPf = () => {
             <p className="text-gray-500 font-semibold text-base mb-8">
               Updating user details will receive a privacy audit.
             </p>
-            <form>
+            <form encType="multipart/form-data" onSubmit={updateProfileSubmit}>
               <div className="flex_betwen">
-                <div className="w-[50%]">
-                  <img
-                    className="h-44 md:rounded-full p-[6px]"
-                    src="https://demos.themeselection.com/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/1.png"
-                    alt=""
-                  />
-                </div>
+                <label
+                  htmlFor="avatar-upload"
+                  className="relative cursor-pointer w-[50%]"
+                >
+                  <div id="updateProfileImage" className="">
+                    <img
+                      className="h-44 md:rounded-full p-[6px]"
+                      src={avatarPreview}
+                      alt="Profile"
+                    />
+                    <input
+                      id="avatar-upload"
+                      type="file"
+                      name="avatar"
+                      accept="image/*"
+                      className="sr-only"
+                      onChange={updateProfileDataChange}
+                    />
+                  </div>
+                </label>
                 <div className="flex flex-col w-full">
                   <div className="mb-5">
                     <TextField
@@ -129,7 +197,7 @@ const SideBarPf = () => {
                       id="outlined-basic"
                       variant="outlined"
                       label="Name"
-                      type="email"
+                      type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                     />
@@ -140,7 +208,7 @@ const SideBarPf = () => {
                       id="outlined-basic"
                       variant="outlined"
                       label="Last name"
-                      type="email"
+                      type="text"
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
                     />
@@ -152,7 +220,7 @@ const SideBarPf = () => {
                       id="outlined-basic"
                       variant="outlined"
                       label="Contact"
-                      type="email"
+                      type="text"
                       value={contact}
                       onChange={(e) => setContact(e.target.value)}
                     />
@@ -170,12 +238,12 @@ const SideBarPf = () => {
                   close
                 </Button>
                 <Button
-                  onClick={handleClose}
+                  // onClick={handleClose}
                   variant="contained"
                   size="large"
                   type="submit"
                 >
-                  add review
+                  update
                 </Button>
               </div>
             </form>

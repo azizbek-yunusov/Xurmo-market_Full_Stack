@@ -24,7 +24,7 @@ function useIsScrollTop() {
   return isTop;
 }
 const Header = () => {
-  const { isLogged, isAdmin, user } = useSelector((state) => state.auth);
+  const { isLogged, isAdmin } = useSelector((state) => state.auth);
   const isTop = useIsScrollTop();
 
   return (
@@ -55,7 +55,7 @@ const Header = () => {
                   <FavoritesButton />
                 </li>
                 <li className="mx-4">
-                  <Cart cart={user.cart} />
+                  <Cart />
                 </li>
                 <li className="mx-4 -mt-1">
                   {isLogged ? <AuthButton /> : <UserButton />}

@@ -84,8 +84,8 @@ const MyOrders = () => {
                   </div>
                   <div className="border-l mt-3 border-l-gray-300">
                     <div className="grid grid-cols-2">
-                      <div className="">
-                        <ul className="text-gray-700 md:ml-12">
+                      <div className="col-span-1">
+                        <ul className="text-gray-500 md:ml-6">
                           <li className="my-3">
                             {t("ordertype")}
                             {":"}
@@ -108,8 +108,8 @@ const MyOrders = () => {
                           </li>
                         </ul>
                       </div>
-                      <div className="">
-                        <ul className="">
+                      <div className="col-span-1">
+                        <ul className="font-semibold text-zinc-700">
                           <li className="my-3">{item.paymentMethod}</li>
                           <li className="my-3">
                             {moment(item.createdAt).format("lll")}

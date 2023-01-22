@@ -13,7 +13,7 @@ const LayoutP = ({ children }) => {
     <>
       <HelmetTitle title={"My profile"} />
 
-      <div className="container-full min-h-[560px] md:my-3 flex flex-col text-gray-800">
+      <div className="container-full min-h-[560px] md:mb-3 flex flex-col text-gray-800">
         <div className="">
           <img
             src={ProfileBg}
@@ -27,8 +27,7 @@ const LayoutP = ({ children }) => {
           </div>
           <div className="col-span-9 block ">
             <Tabs />
-            <div className="md:mx-10">
-
+            <div className="md:mx-10 md:my-2">
             {children}
             </div>
           </div>

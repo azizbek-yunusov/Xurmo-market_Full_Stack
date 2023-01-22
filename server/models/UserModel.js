@@ -19,10 +19,15 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  image: {
-    type: String,
-    default:
-      "https://res.cloudinary.com/dtabxocmw/image/upload/v1635099407/78-785827_user-profile-avatar-login-account-male-user-icon_kmmxgw.jpg",
+  avatar: {
+    public_id: {
+      type: String,
+      required: true,
+    },
+    url: {
+      type: String,
+      required: true,
+    },
   },
   phoneNumber: {
     type: String,

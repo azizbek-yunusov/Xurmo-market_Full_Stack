@@ -34,6 +34,7 @@ export const refreshToken = () => async (dispatch) => {
           isAdmin: data.user.admin ? true : false,
         },
       });
+      dispatch({ type: "GET_USER", payload: data.user });
       dispatch({ type: "GET_CART", payload: data.user.cart });
       dispatch({ type: "GET_FAVORITES", payload: data.user.favorites });
       dispatch({

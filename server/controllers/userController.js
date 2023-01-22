@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const UserModel = require("../models/UserModel");
 const { google } = require("googleapis");
+const cloudinary = require("../utils/cloudinary");
 const { sendEmail } = require("./sendMailController");
 const { OAuth2 } = google.auth;
 
@@ -211,20 +212,81 @@ const getUserInfo = async (req, res) => {
   }
 };
 
-const editMyInfo = async (req, res) => {
+const updateProfile = async (req, res) => {
   try {
-    const user = await UserModel.findById(req.user.id)
-    if (!user) {
-      return res.status(404).json({error: "User not found"})
+    const newUserData = {
+      name: req.body.name,
+      lastName: req.body.lastName,
+      // phoneNumber: req.body.phoneNumber,
+    };
+    if (req.body.avatar !== "") {
+      const user = await UserModel.findById(req.user.id);
+
+      const imageId = user.avatar.public_id;
+
+      await cloudinary.v2.uploader.destroy(imageId);
+
+      const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+        folder: "avatars",
+        crop: "scale",
+      });
+
+      newUserData.avatar = {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      };
+    } else {
+      const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+        folder: "avatars",
+        crop: "scale",
+      });
+
+      newUserData.avatar = {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      };
     }
-    user.name = req.body.name || user.name
-    user.lastName = req.body.lastName || user.lastName
-    user.phoneNumber = req.body.phoneNumber || user.phoneNumber
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      req.user.id,
+      newUserData,
+      {
+        new: true,
+      }
+    );
+    res.status(200).json({
+      updatedUser,
+    });
   } catch (err) {
-    console.log();
+    return res.status(500).json({ err });
+  }
+};
+
+const uploadAvatar = async (req, res) => {
+  try {
+  const { avatar } = req.body;
+    const result = await cloudinary.v2.uploader.upload(avatar, {
+      folder: "Avatars",
+      // width: 300,
+      // crop: "scale"
+    });
+    newUserData.avatar = {
+      public_id: result.public_id,
+      url: result.secure_url,
+    };
+    const updatedAvatar = await UserModel.findByIdAndUpdate(
+      req.user.id,
+      newUserData,
+      {
+        new: true,
+      }
+    );
+    res.status(200).json({
+      updatedAvatar,
+    });
+  } catch (err) {
+    console.log(err);
   }
 }
-
 const updateUser = async (req, res) => {
   try {
     const user = await UserModel.findById(req.params.id);
@@ -335,7 +397,8 @@ module.exports = {
   getAllUsers,
   getUser,
   updateUser,
-  editMyInfo,
+  updateProfile,
+  uploadAvatar,
   deleteUser,
   getUserInfo,
   addAdress,

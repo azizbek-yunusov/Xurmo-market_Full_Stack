@@ -8,7 +8,14 @@ import LayoutP from "./LayoutP";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import Spinner from "../SkeletonLoaders/Spinner";
-import { Button } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 
 const Addresses = () => {
   let { t } = useTranslation(["shop"]);
@@ -88,6 +95,8 @@ const Addresses = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [access_token]);
+  const [age, setAge] = useState("");
+  console.log(age);
   return (
     <LayoutP>
       <div className="flex justify-between items-center md:mb-4">
@@ -153,7 +162,10 @@ const Addresses = () => {
       <div className="grid grid-cols-2 gap-5">
         {allAddresses.length ? (
           allAddresses.map((item) => (
-            <div key={item._id} className="p-7 border shadow-lg rounded-lg border-gray-100">
+            <div
+              key={item._id}
+              className="p-7 border shadow-lg rounded-lg border-gray-100"
+            >
               <div className="flex justify-between md:mb-2">
                 <div className="grid grid-cols-2 gap-5">
                   <div className="">
@@ -187,7 +199,7 @@ const Addresses = () => {
                   size="medium"
                   variant="contained"
                   color="error"
-                  sx={{borderRadius: "6px", marginRight: "8px"}}
+                  sx={{ borderRadius: "6px", marginRight: "8px" }}
                   onClick={() => deleteAddress(item._id)}
                   className="mr-3"
                 >
@@ -197,14 +209,24 @@ const Addresses = () => {
                   </div>
                 </Button>
                 {item.isActive ? (
-                  <Button size="medium" variant="contained" sx={{borderRadius: "6px"}} className="ml-2">
+                  <Button
+                    size="medium"
+                    variant="contained"
+                    sx={{ borderRadius: "6px" }}
+                    className="ml-2"
+                  >
                     <div className="flex_center">
                       <BsCheckCircle className="mr-1 md:text-lg" />
                       {"Default"}
                     </div>
                   </Button>
                 ) : (
-                  <Button variant="contained" sx={{borderRadius: "6px"}} size="medium" className="ml-2">
+                  <Button
+                    variant="contained"
+                    sx={{ borderRadius: "6px" }}
+                    size="medium"
+                    className="ml-2"
+                  >
                     <div className="flex_center">{"Default"}</div>
                   </Button>
                 )}
@@ -215,6 +237,22 @@ const Addresses = () => {
           <Spinner />
         )}
       </div>
+      <Box sx={{ minWidth: 120 }}>
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Age</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={age}
+            label="Age"
+            onChange={(e) => setAge(e.target.value)}
+          >
+            <MenuItem value={10}>Ten</MenuItem>
+            <MenuItem value={20}>Twenty</MenuItem>
+            <MenuItem value={30}>Thirty</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
     </LayoutP>
   );
 };

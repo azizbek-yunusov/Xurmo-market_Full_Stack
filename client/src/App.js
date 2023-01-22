@@ -38,6 +38,7 @@ import CheckOut from "./components/CheckOut";
 import { Addresses, Favorites, MyInfor, MyOrders } from "./components/Profile";
 import useNetworkStatus from "./hooks/useNetworkStatus";
 import { SearchPage } from "./pages";
+import Settings from "./components/Settings";
 
 function App() {
   const pathname = useLocation().pathname;
@@ -68,6 +69,7 @@ function App() {
         <Route path="/myprofile" element={<MyInfor />} />
         <Route path="/myprofile/orders" element={<MyOrders />} />
         <Route path="/myprofile/addresses" element={<Addresses />} />
+        <Route path="/myprofile/settings" element={<Settings />} />
         <Route path="/myprofile/favorites" element={<Favorites />} />
         <Route path="/product/view/:id" element={<ProductDetail />} />
         <Route path="/products" element={<ProductsList />} />
