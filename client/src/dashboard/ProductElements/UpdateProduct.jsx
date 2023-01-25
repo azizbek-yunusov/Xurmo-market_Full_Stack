@@ -1,22 +1,38 @@
-import { Input, Select, TextareaAutosize } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  Input,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextareaAutosize,
+  TextField,
+} from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import toast from "react-hot-toast";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import HelmetTitle from "../../utils/HelmetTitle";
 
 import Layout from "../Layout";
 
 const UpdateProduct = () => {
+  const { access_token } = useSelector((state) => state.auth);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [descr, setDescr] = useState("");
-  const [images, setImages] = useState("");
+  const [inStock, setInStock] = useState("");
+  const [images, setImages] = useState([]);
+  const [oldImages, setOldImages] = useState([]);
+  const [imagesPreview, setImagesPreview] = useState([]);
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState("");
-  const { access_token } = useSelector((state) => state.auth);
+  const [discount, setDiscount] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // const [loading, setLoading] = useState(false);
   const { id } = useParams();
@@ -35,40 +51,83 @@ const UpdateProduct = () => {
         setName(data.product.name);
         setDescr(data.product.descr);
         setPrice(data.product.price);
-        setImages(data.product.images);
+        setOldImages(data.product.images);
         setCategory(data.product.category);
+        setInStock(data.product.inStock);
+        setDiscount(data.product.discount);
       });
   };
-  let findCategory = categories.findIndex((item) => {
-    return item.name === category;
-  });
-  const selectedChange = (value) => {
-    setCategory(value);
+  const updateProductHandler = async (e) => {
+    try {
+      e.preventDefault();
+      const myForm = new FormData();
+
+      myForm.set("name", name);
+      myForm.set("price", price);
+      myForm.set("descr", descr);
+      myForm.set("category", category);
+      myForm.set("inStock", inStock);
+      myForm.set("discount", discount);
+
+      images.forEach((image) => {
+        myForm.append("images", image);
+      });
+      await fetch(`http://localhost:5000/product/${id}`, {
+        method: "put",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: access_token,
+        },
+        body: JSON.stringify({
+          myForm,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.err) {
+          } else {
+            navigate("/dashboard/products");
+          }
+        });
+      // const { data } = await axios.put({
+      //   url: `/product/${id}`,
+      //   data: myForm,
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //     Authorization: access_token,
+      //   },
+      // });
+      // if (data.msg) {
+      //   toast.success(data.msg);
+      //   navigate("/dashboard/products");
+      // }
+    } catch (err) {
+      console.log(err);
+    }
+    
   };
-  const updateHandler = (e) => {
-    e.preventDefault();
-    fetch(`http://localhost:5000/product/${id}`, {
-      method: "put",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: access_token,
-      },
-      body: JSON.stringify({
-        name,
-        price,
-        descr,
-        images,
-        category,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.err) {
-        } else {
-          navigate("/dashboard/products");
+
+  const updateProductImagesChange = (e) => {
+    const files = Array.from(e.target.files);
+
+    // setImages([]);
+    // setImagesPreview([]);
+    // setOldImages([]);
+
+    files.forEach((file) => {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setImagesPreview((old) => [...old, reader.result]);
+          setImages((old) => [...old, reader.result]);
         }
-      });
+      };
+
+      reader.readAsDataURL(file);
+    });
   };
+
   const fetchCategory = async () => {
     try {
       const { data } = await axios.get("/categories");
@@ -82,124 +141,155 @@ const UpdateProduct = () => {
     fetchCategory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  console.log(category);
+  console.log(access_token);
   return (
     <>
-      <Helmet>
-        <title data-rh="true">Update product | Dashboard</title>
-      </Helmet>
+      <HelmetTitle title={"Update Product"} />
+
       <Layout>
         <section className="relative">
           <div className="bg-indigo-400 w-full h-40 pl-5 pt-4 text-gray-50">
             <h1 className="text-white text-2xl">Update Product</h1>
-            <ol className="list-reset mt-1 flex text-grey-dark text-sm text-gray-200">
-              <li>
-                <Link to={"/dashboard"}>Dashboard</Link>
-              </li>
-              <li>
-                <span className="mx-2">/</span>
-              </li>
-              <li>
-                <Link to={"/dashboard/products"}>Create</Link>
-              </li>
-              <li>
-                <span className="mx-2">/</span>
-              </li>
-              <li>
-                <span>Update</span>
-              </li>
-            </ol>
+            {/* <ol className="list-reset mt-1 flex text-grey-dark text-sm text-gray-200">
+            <li>
+              <Link to={"/dashboard"}>Dashboard</Link>
+            </li>
+            <li>
+              <span className="mx-2">/</span>
+            </li>
+            <li>
+              <Link to={"/dashboard/products"}>Create</Link>
+            </li>
+            <li>
+              <span className="mx-2">/</span>
+            </li>
+            <li>
+              <span>Create</span>
+            </li>
+          </ol> */}
           </div>
-          <div className="-mt-14 rounded-2xl flex mx-4 bg-white">
+          <div className="-mt-24 rounded-2xl flex mx-4 bg-white shadow-lg">
             <div className="flex w-full p-8 px-16">
               <div className="w-full">
-                <form onSubmit={updateHandler}>
-                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                    <Input
+                <form onSubmit={updateProductHandler}>
+                  <div className="grid grid-cols-1 gap-6 gap-x-14 md:grid-cols-2">
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
                       label="Name"
-                      size="lg"
+                      type="text"
+                      className="rounded-xl"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                     />
-                    <Select
-                      size="lg"
-                      onChange={selectedChange}
-                      label="Select an option"
-                    >
-                      {/* {categories.map((item) => (
-                        <Option key={item._id} value={item.name}>
-                          {item.name}
-                        </Option>
-                      ))} */}
-                    </Select>
-                    {/* <select
-                      value={category}
-                      onChange={selectedChange}
-                      id="countries"
-                      className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md  focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                    >
-                      {categories.map((item) => (
-                        <option key={item._id} value={item.name}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select> */}
-                    <div className="grid grid-cols-2 gap-5">
-                      <Input
+
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label">
+                        Select category
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={category}
+                        label="Select category"
+                        onChange={(e) => setCategory(e.target.value)}
+                      >
+                        {categories?.map((item, index) => (
+                          <MenuItem key={index} value={item.name}>
+                            {item.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    <div className="grid grid-cols-1 gap-0">
+                      <TextField
+                        id="outlined-basic"
+                        fullWidth
+                        variant="outlined"
                         label="Price"
-                        size="lg"
                         type="number"
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
-                      />
-                      <Input
-                        label="In Stock"
-                        size="lg"
+                        className="rounded-xl"
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
                       />
                     </div>
-                    {/* <Select
-                      value={findCategory.name}
-                      onChange={selectedChange}
-                      size="lg"
-                      label="Select Brand"
-                    >
-                      {categories.map((item, index) => (
-                        <Option key={index} value={item._id}>
-                          {item.name}
-                        </Option>
-                      ))}
-                    </Select> */}
-                    <TextareaAutosize
-                      value={descr}
-                      onChange={(e) => setDescr(e.target.value)}
-                      label="Description"
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
+                      label="In Stock"
+                      type="number"
+                      className="rounded-xl"
+                      value={inStock}
+                      onChange={(e) => setInStock(e.target.value)}
                     />
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label">
+                        Select brand
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={category}
+                        label="Select brand"
+                        onChange={(e) => setCategory(e.target.value)}
+                      >
+                        {categories?.map((item, index) => (
+                          <MenuItem key={index} value={item.name}>
+                            {item.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
+                      label="Discount"
+                      type="number"
+                      className="rounded-xl"
+                      value={discount}
+                      onChange={(e) => setDiscount(e.target.value)}
+                    />
+                    <div className="">
+                      <label
+                        htmlFor="description"
+                        className="block mb-1 text-base text-gray-700"
+                      >
+                        Desciption
+                      </label>
+                      <textarea
+                        value={descr}
+                        onChange={(e) => setDescr(e.target.value)}
+                        id="description"
+                        rows="5"
+                        className="block p-2.5 w-full text-base text-gray-800 bg-white rounded-md border-2 border-gray-300 focus:ring-blue-500 focus:border-blue-500 ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Description.."
+                      />
+                    </div>
                     <div className="flex">
-                      <label htmlFor="file-upload">
-                        <label
-                          htmlFor="file-upload"
-                          className="block text-sm mb-2 text-gray-700"
-                        >
+                      <label htmlFor="createProductFormFile">
+                        <p className="block text-base mb-1 text-gray-700">
                           Upload images
-                        </label>
+                        </p>
                         <div className="mr-2 flex bg-white justify-center items-center rounded-md border-2 border-dashed border-gray-300 p-3 py-6 cursor-pointer">
                           <div className="flex justify-center flex-col items-center">
                             <AiOutlineCloudUpload className="text-3xl text-gray-600" />
                             <div className="flex text-sm text-gray-600">
                               <label
-                                htmlFor="file-upload"
-                                className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
+                                htmlFor="createProductFormFile"
+                                className="relative cursor-pointer rounded-md bg-white font-medium"
                               >
                                 <span>Upload image</span>
                                 <input
-                                  id="file-upload"
+                                  id="createProductFormFile"
                                   name="file"
                                   type="file"
                                   className="sr-only"
-                                  // onChange={handleImage}
+                                  accept="image/png, image/jpeg"
+                                  multiple
+                                  onChange={updateProductImagesChange}
                                 />
                               </label>
                             </div>
@@ -209,17 +299,18 @@ const UpdateProduct = () => {
                           </div>
                         </div>
                       </label>
-
-                      <div className="show_images flex flex-wrap items-center">
-                        {images &&
-                          images[0] &&
-                          images.map((img, index) => (
+                      {/* <div
+                        id="createProductFormImage"
+                        className="show_images flex flex-wrap items-center"
+                      >
+                        {oldImages &&
+                          oldImages.map((img, index) => (
                             <div
                               key={index}
                               className="p-[6px] mx-[2px] relative"
                             >
                               <div
-                                className="border border-gray-400 overflow-hidden rounded"
+                                className="border border-gray-200 overflow-hidden rounded"
                                 id="file_img"
                               >
                                 <img
@@ -228,29 +319,87 @@ const UpdateProduct = () => {
                                   className="img-thumbnail max-w-[90px] w-full"
                                 />
                               </div>
-                              <IoMdClose
-                                // onClick={() => deleteImages(index)}
-                                className="absolute text-gray-600 top-0 p-1 border text-2xl border-gray-300 right-0 cursor-pointer rounded-full bg-white"
-                              />
+                              <IoMdClose className="absolute text-gray-600 top-0 p-1 border text-2xl border-gray-300 right-0 cursor-pointer rounded-full bg-white" />
                             </div>
                           ))}
                       </div>
+                      <div
+                        id="createProductFormImage"
+                        className="show_images flex flex-wrap items-center"
+                      >
+                        {imagesPreview.map((img, index) => (
+                          <div
+                            key={index}
+                            className="p-[6px] mx-[2px] relative"
+                          >
+                            <div
+                              className="border border-gray-400 overflow-hidden rounded"
+                              id="file_img"
+                            >
+                              <img
+                                src={img}
+                                alt="images"
+                                className="img-thumbnail max-w-[90px] w-full"
+                              />
+                            </div>
+                            <IoMdClose className="absolute text-gray-600 top-0 p-1 border text-2xl border-gray-300 right-0 cursor-pointer rounded-full bg-white" />
+                          </div>
+                        ))}
+                      </div> */}
                     </div>
                   </div>
-                  <div className="w-full mt-8 flex justify-end">
-                    <div
+                  <div className="w-full mt-10 flex justify-end">
+                    <Button
                       onClick={() => goback(-1)}
-                      className="inline-flex justify-center cursor-pointer rounded-md border-2 mr-3 border-indigo-600 py-3 px-10 text-lg font-medium text-indigo-600 shadow-sm hover:bg-indigo-700 hover:text-white tranistion_normal focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      variant="contained"
+                      size="large"
+                      sx={{
+                        width: "150px",
+                        borderRadius: "6px",
+                        marginRight: "15px",
+                      }}
                     >
                       Cancel
-                    </div>
+                    </Button>
 
-                    <button
+                    <Button
                       type="submit"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-10 text-lg font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      variant="contained"
+                      size="large"
+                      sx={{
+                        width: "150px",
+                        background: "#AB47BC",
+                        borderRadius: "6px",
+                      }}
                     >
-                      Save
-                    </button>
+                      {loading ? (
+                        <div className="flex items-center justify-center">
+                          <svg
+                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            />
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            />
+                          </svg>
+                          {"Loading... "}
+                        </div>
+                      ) : (
+                        "Save"
+                      )}
+                    </Button>
                   </div>
                 </form>
               </div>

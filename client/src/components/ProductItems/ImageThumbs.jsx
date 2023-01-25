@@ -32,26 +32,28 @@ const ImageThumbs = ({ images }) => {
               </SwiperSlide>
             ))}
           </Swiper>
-          <Swiper
-            onSwiper={setActiveThumb}
-            loop={true}
-            spaceBetween={10}
-            slidesPerView={4}
-            modules={[Navigation, Thumbs]}
-            className="product-images-slider-thumbs"
-          >
-            {images.map((item, index) => (
-              <SwiperSlide key={index} className="rounded-md overflow-hidden">
-                <div className="product-images-slider-thumbs-wrapper">
-                  <img
-                    src={item.url}
-                    alt="product images"
-                    className="object-cover p-2"
-                  />
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+          {images.length > 1 ? (
+            <Swiper
+              onSwiper={setActiveThumb}
+              loop={true}
+              spaceBetween={10}
+              slidesPerView={4}
+              modules={[Navigation, Thumbs]}
+              className="product-images-slider-thumbs"
+            >
+              {images.map((item, index) => (
+                <SwiperSlide key={index} className="rounded-md overflow-hidden">
+                  <div className="product-images-slider-thumbs-wrapper">
+                    <img
+                      src={item.url}
+                      alt="product images"
+                      className="object-cover p-2"
+                    />
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          ) : null}
         </>
       )}
     </main>

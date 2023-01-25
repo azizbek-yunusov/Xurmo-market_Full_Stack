@@ -5,10 +5,9 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Review } from "./Review";
 
-export const ReviewsBox = ({ product, productDetail }) => {
-  const { isLogged, access_token } = useSelector((state) => state.auth);
+export const ReviewsBox = () => {
+  const { auth, product } = useSelector((state) => state);
   const navigate = useNavigate();
-
 
   const signInNavigate = () => navigate("/signin");
   const findFive = product?.reviews?.filter((item) => item.rating === 5);
@@ -126,7 +125,7 @@ export const ReviewsBox = ({ product, productDetail }) => {
           </div>
         </div>
         <div className="w-full">
-          {isLogged ? (
+          {auth.isLogged ? (
             <>
               <Review product={product} />
             </>

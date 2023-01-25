@@ -1,6 +1,7 @@
 import { Backdrop, Box, Button, Fade, Modal, Rating } from "@mui/material";
+import axios from "axios";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const style = {
   position: "absolute",
@@ -12,35 +13,34 @@ const style = {
   p: 4,
 };
 
-export const Review = ({ productDetail, product }) => {
+export const Review = ({ product }) => {
   const { access_token } = useSelector((state) => state.auth);
-
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const reviewsHandle = async (e) => {
-    e.preventDefault();
-    fetch("http://localhost:5000/review", {
-      method: "put",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: access_token,
-      },
-      body: JSON.stringify({
-        productId: product._id,
-        rating,
-        comment,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.err) {
-          console.log(data.err);
-        } else {
+    try {
+      e.preventDefault();
+      const { data } = await axios.put(
+        "/review",
+        {
+          productId: product._id,
+          rating,
+          comment,
+        },
+        {
+          headers: {
+            Authorization: access_token,
+          },
         }
-      });
+      );
+      dispatch({ type: "GET_PRODUCT", payload: data.product });
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <>
@@ -74,7 +74,7 @@ export const Review = ({ productDetail, product }) => {
                 onChange={(event, newValue) => {
                   setRating(newValue);
                 }}
-                sx={{marginY: "6px"}}
+                sx={{ marginY: "6px" }}
               />
               <textarea
                 value={comment}
@@ -90,7 +90,7 @@ export const Review = ({ productDetail, product }) => {
                   variant="contained"
                   size="large"
                   color="info"
-                  sx={{borderRadius: "6px", marginRight: "15px"}}
+                  sx={{ borderRadius: "6px", marginRight: "15px" }}
                 >
                   close
                 </Button>

@@ -6,37 +6,36 @@ import toast from "react-hot-toast";
 import { FiEdit } from "react-icons/fi";
 import DataTableLoader from "../../components/SkeletonLoaders/DataTableLoader";
 import { Avatar, Button, Checkbox, Tooltip } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const AllProductList = () => {
+  const { access_token } = useSelector((state) => state.auth);
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const fetchData = async () => {
     const { data } = await axios.get("/products", {
-      headers: { Authorization: localStorage.getItem("jwt") },
+      headers: { Authorization: access_token },
     });
     setProducts(data.products);
     setLoading(false);
   };
   const deleteHandler = async (id) => {
     try {
-      fetch(`http://localhost:5000/product/${id}`, {
-        method: "delete",
+      await axios.delete(`/product/${id}`, {
         headers: {
-          Authorization: localStorage.getItem("jwt"),
+          Authorization: access_token,
         },
-      }).then((data) => {
-        if (data.err) {
-        } else {
-          toast.success("Deleted product");
-          fetchData();
-        }
       });
+      fetchData();
+      toast.success("Deleted product");
     } catch (err) {
       console.log(err);
     }
   };
   useEffect(() => {
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const [checked, setChecked] = useState(false);
   const checkToggle = (checked) => {
@@ -54,7 +53,16 @@ const AllProductList = () => {
               className="w-full flex items-center justify-end"
             >
               <Tooltip content="Add new product">
-                <Button variant="contained" size="large" sx={{marginY: "8px"}}>
+                <Button
+                  variant="contained"
+                  size="large"
+                  sx={{
+                    marginY: "8px",
+                    marginRight: "8px",
+                    background: "rgb(145, 85, 253)",
+                    borderRadius: "10px",
+                  }}
+                >
                   create product
                 </Button>
               </Tooltip>
@@ -77,17 +85,17 @@ const AllProductList = () => {
                   .map((product, index) => (
                     <tr
                       key={index}
-                      className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 hover:dark:bg-gray-600"
+                      className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 font-semibold hover:dark:bg-gray-600"
                     >
                       <td className="py-3 flex_center">
-                        <Checkbox />
+                        <Checkbox sx={{ borderRadius: 5 }} />
                       </td>
                       <td className="py-3 px-3 whitespace-nowrap">
                         <div className="flex justify-start items-center">
                           <div className="mr-2">
                             <img
                               className="w-10 h-10 rounded"
-                              src={product.images[0].url}
+                              src={product.images[0]?.url}
                               alt=""
                             />
                           </div>

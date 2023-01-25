@@ -4,6 +4,7 @@ import cart from "./cartReducer";
 import favorites from "./favoriteReducer";
 import address from "./addressReducer";
 import user from "./userReducer";
+import product from "./productReducer";
 
 export default combineReducers({
   auth,
@@ -11,4 +12,5 @@ export default combineReducers({
   favorites,
   address,
   user,
+  product,
 });

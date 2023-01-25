@@ -39,6 +39,7 @@ import { Addresses, Favorites, MyInfor, MyOrders } from "./components/Profile";
 import useNetworkStatus from "./hooks/useNetworkStatus";
 import { SearchPage } from "./pages";
 import Settings from "./components/Settings";
+import { BrandsList, CreateBrand, UpdateBrand } from "./dashboard/Brand";
 
 function App() {
   const pathname = useLocation().pathname;
@@ -48,8 +49,8 @@ function App() {
 
   useEffect(() => {
     dispatch(refreshToken());
-  }, [dispatch]); 
-  
+  }, [dispatch]);
+
   return (
     <>
       <Toaster position="top-left" reverseOrder={true} />
@@ -99,6 +100,9 @@ function App() {
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/dashboard/banners" element={<BannersTable />} />
             <Route path="/banner/add" element={<AddBanner />} />
+            <Route path="/dashboard/brands" element={<BrandsList />} />
+            <Route path="/brand/create" element={<CreateBrand />} />
+            <Route path="/brand/:id" element={<UpdateBrand />} />
             <Route path="/dashboard/categories" element={<CategoriesTable />} />
             <Route path="/category/add" element={<AddCategory />} />
             <Route path="/dashboard/users" element={<UsersTable />} />

@@ -1,7 +1,7 @@
 import { AiOutlineHome, AiOutlineInbox, AiOutlineSetting, AiOutlineUser } from "react-icons/ai";
 import { BsCardImage, BsCart2 } from "react-icons/bs";
 import { RiAdminLine, RiShoppingBag3Line } from "react-icons/ri";
-import { BiCategory } from "react-icons/bi";
+import { BiBuildingHouse, BiCategory } from "react-icons/bi";
 import { HiLocationMarker } from "react-icons/hi";
 import { MdFavoriteBorder } from "react-icons/md";
 
@@ -30,6 +30,12 @@ export const sidebar = [
     path: "/dashboard/categories",
     name: "Categories",
     icon: <BiCategory className="md:text-lg ml-4" />,
+  },
+  {
+    id: 2,
+    path: "/dashboard/brands",
+    name: "Brands",
+    icon: <BiBuildingHouse className="md:text-lg ml-4" />,
   },
   {
     id: 1,

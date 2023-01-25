@@ -8,10 +8,10 @@ function useGlobalApi(access_token) {
 
   const fetchCart = async () => {
     try {
-      const res = await axios.get("/mycart", {
+      const { data } = await axios.get("/mycart", {
         headers: { Authorization: access_token },
       });
-      dispatch({ type: "GET_CART", payload: res.data });
+      dispatch({ type: "GET_CART", payload: data });
     } catch (err) {
       console.log(err);
     }
@@ -19,18 +19,26 @@ function useGlobalApi(access_token) {
   const addToCartHandle = async (id) => {
     try {
       if (access_token) {
-        fetch(`http://localhost:5000/addcart/${id}`, {
-          method: "put",
+        const { data } = await axios.put(`/addcart/${id}`, {
           headers: {
-            "Content-Type": "application/json",
             Authorization: access_token,
           },
-        })
-          .then((res) => res.json())
-          .then((res) => {
-            toast.success("Add to cart this product");
-            fetchCart();
-          });
+        });
+        // dispatch({ type: "GET_CART", payload: data });
+        toast.success("Add to cart this product");
+        fetchCart();
+        // fetch(`http://localhost:5000/addcart/${id}`, {
+        //   method: "put",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     Authorization: access_token,
+        //   },
+        // })
+        //   .then((res) => res.json())
+        //   .then((res) => {
+        //     toast.success("Add to cart this product");
+        //     fetchCart();
+        //   });
       }
       if (access_token === undefined) {
         window.location.reload();

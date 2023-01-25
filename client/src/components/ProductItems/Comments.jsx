@@ -1,5 +1,6 @@
 import React from "react";
 import moment from "moment";
+import { Rating } from "@mui/material";
 
 const Comments = ({ review }) => {
   return (
@@ -12,15 +13,17 @@ const Comments = ({ review }) => {
             alt=""
           />
           <div className="ml-1">
-            <h1 className="md:text-xl mx-2">{review.user ? review.user.name : "deleted account"}</h1>
+            <h1 className="md:text-xl mx-2">
+              {review.user ? review.user.name : "deleted account"}
+            </h1>
             <p className="md:text-sm text-gray-600 mx-2">
-              {review.createdAt ?  moment(review.createdAt).format("L")  : ""}
+              {review.createdAt ? moment(review.createdAt).startOf().fromNow() : ""}
             </p>
           </div>
         </div>
         <div className="flex items-center">
+          <Rating value={review.rating} />
           <p className="md:text-xl mx-2">{review.rating}</p>
-          {/* <Rate disabled value={review.rating} /> */}
         </div>
       </div>
       <div className="mt-4 ml-[60px] mr-9">

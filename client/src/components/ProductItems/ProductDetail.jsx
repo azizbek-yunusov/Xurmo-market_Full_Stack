@@ -5,7 +5,7 @@ import Comments from "./Comments";
 
 import { Helmet } from "react-helmet-async";
 import ImageThumbs from "./ImageThumbs";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ReviewsBox } from "./ReviewsBox";
 import { Breadcrumbs, Button, Typography } from "@mui/material";
 import { ProductDetailLoader } from "../SkeletonLoaders";
@@ -13,16 +13,17 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { FiShoppingCart } from "react-icons/fi";
 
 const ProductDetail = () => {
-  const { auth, cart, address } = useSelector((state) => state);
+  const { isLogged, product } = useSelector((state) => state);
+
   const goback = useNavigate();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 
   const { id } = useParams();
-  const [product, setProduct] = useState({});
   const productDetail = async () => {
     try {
       const { data } = await axios.get(`/product/${id}`);
-      setProduct(data.product);
+      dispatch({ type: "GET_PRODUCT", payload: data.product });
       setLoading(false);
     } catch (err) {
       console.log(err);
@@ -33,13 +34,14 @@ const ProductDetail = () => {
     window.scrollTo(0, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log(product);
   return (
     <>
       <Helmet>
         <title data-rh="true">{`${product.name} | E-commerce`}</title>
       </Helmet>
       <>
-        {!loading ? (
+        {(!loading) ? (
           <div className="container-full md:px-10 min-h-screen">
             <Breadcrumbs aria-label="breadcrumb" sx={{ marginY: "8px" }}>
               <Link to={"/"}>Home</Link>
@@ -136,7 +138,7 @@ const ProductDetail = () => {
               )}
             </div>
             <div className="w-full col-span-6 flex justify-end">
-              <ReviewsBox product={product} productDetail={productDetail} />
+              <ReviewsBox product={product} />
             </div>
           </div>
         </div>

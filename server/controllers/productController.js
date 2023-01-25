@@ -74,16 +74,42 @@ const createProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    const { name, price, descr, image, category, inStock } = req.body;
-    const updateProduct = await ProductModel.findByIdAndUpdate(req.params.id, {
-      name,
-      price,
-      image,
-      descr,
-      category,
-      inStock,
+    let product = await ProductModel.findById(req.params.id);
+
+    if (req.body.images !== undefined) {
+      // Deleting Images From Cloudinary
+      for (let i = 0; i < product.images.length; i++) {
+        await cloudinary.v2.uploader.destroy(product.images[i].public_id);
+      }
+
+      const imagesLinks = [];
+
+      for (let i = 0; i < images.length; i++) {
+        const result = await cloudinary.v2.uploader.upload(images[i], {
+          folder: "Products",
+        });
+
+        imagesLinks.push({
+          public_id: result.public_id,
+          url: result.secure_url,
+        });
+      }
+
+      req.body.images = imagesLinks;
+    }
+    if (typeof req.body.images === "string") {
+      images.push(req.body.images);
+    } else {
+      images = req.body.images;
+    }
+    product = await ProductModel.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
     });
-    res.status(200).json({ updateProduct });
+
+    res.status(200).json({
+      success: true,
+      product,
+    });
   } catch (err) {
     console.log(err);
   }
@@ -113,14 +139,17 @@ const addReview = async (req, res) => {
       comment,
     };
 
-    const product = await ProductModel.findById(productId);
+    const product = await ProductModel.findById(productId).populate(
+      "reviews.user",
+      "_id name"
+    );
 
     const isReviewed = product.reviews.find(
-      (rev) => rev.user.toString() === req.user.id.toString()
+      (rev) => rev.name.toString() === req.user.id.toString()
     );
     if (isReviewed) {
       product.reviews.forEach((rev) => {
-        if (rev.user.toString() === req.user.id.toString())
+        if (rev.name.toString() === req.user.id.toString())
           (rev.rating = rating), (rev.comment = comment);
       });
     } else {
