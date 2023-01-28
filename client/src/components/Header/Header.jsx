@@ -34,7 +34,7 @@ const Header = () => {
           className={`bg-white w-full tranistion_normal ${
             isTop
               ? ""
-              : "fixed top-0 right-0 w-full z-50 border-b shadow-xl border-b-gray-300"
+              : "sticky top-0 right-0 w-full z-50 border-b shadow-xl border-b-gray-300"
           }`}
         >
           <div className="container-full grid grid-cols-12 md:py-4">

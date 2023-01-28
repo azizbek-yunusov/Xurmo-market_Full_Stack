@@ -40,10 +40,10 @@
   @apply transition duration-200 ease-linear;
 }
 .sidebar-link {
-  @apply relative flex rounded-lg mx-1 flex-row items-center h-11 tranistion_normal focus:outline-none hover:bg-blue-400 text-gray-100 dark:text-gray-300 font-semibold hover:text-gray-800;
+  @apply relative flex rounded-lg flex-row items-center h-11 tranistion_normal focus:outline-none hover:bg-fuchsia-400 text-gray-100 dark:text-gray-300 font-semibold hover:text-gray-800;
 }
 .sidebar_link-active {
-  @apply relative flex rounded-lg mx-1 flex-row items-center h-11 focus:outline-none dark:bg-[#424069] bg-gray-50 text-gray-800  dark:text-gray-100 font-semibold hover:text-gray-800;
+  @apply relative flex rounded-lg mx-0 flex-row items-center h-11 focus:outline-none dark:bg-[#424069] bg-gradient-to-r from-white text-gray-800  dark:text-gray-100 font-semibold hover:text-gray-800;
 }
 
 .profile-link {
@@ -51,4 +51,7 @@
 }
 .profile-active {
   @apply text-gray-700 bg-teal-600;
+}
+.dd{
+  color: #b81fff;
 }

@@ -1,4 +1,4 @@
-import { Avatar, Button, Checkbox, Tooltip } from "@mui/material";
+import { Avatar, AvatarGroup, Button, Checkbox, Tooltip } from "@mui/material";
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -71,6 +71,7 @@ const BrandsList = () => {
                 </th>
                 <th className="py-3 px-6 text-left">Name</th>
                 <th className="py-3 px-6 text-center">CreatedBy</th>
+                <th className="py-3 px-6 text-center">Products</th>
                 <th className="py-3 px-6 text-center">CreatedAt</th>
                 <th className="py-3 px-6 text-center">Actions</th>
               </tr>
@@ -87,14 +88,14 @@ const BrandsList = () => {
                     </td>
                     <td className="py-3 px-3 whitespace-nowrap">
                       <div className="flex justify-start items-center">
-                        <div className="mr-2">
+                        <div className="mr-4">
                           <img
                             className="w-10 h-10 rounded"
                             src={brand.image.url}
                             alt={brand.name}
                           />
                         </div>
-                        <span className="mr-2">{brand.name}</span>
+                        <span className="mr-2 uppercase">{brand.name}</span>
                       </div>
                     </td>
                     <td className="py-3 px-6 text-center">
@@ -112,6 +113,28 @@ const BrandsList = () => {
                             ? brand.createdBy.name
                             : "deleted account"}
                         </span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-6 text-center">
+                      <div className="flex justify-center items-center">
+                        <AvatarGroup total={24}>
+                          <Avatar
+                            sx={{ borderRadius: "12px" }}
+                            alt="Travis Howard"
+                            src="https://www.material-tailwind.com/img/face-2.jpg"
+                          />
+                          <Avatar
+                            sx={{ borderRadius: "12px" }}
+                            alt="Agnes Walker"
+                            src="https://www.material-tailwind.com/img/face-2.jpg"
+                          />
+                          <Avatar
+                            sx={{ borderRadius: "12px" }}
+                            alt="Trevor Henderson"
+                            src="https://www.material-tailwind.com/img/face-2.jpg"
+                          />
+                        </AvatarGroup>
+                        <span className="mr-2">15 pct</span>
                       </div>
                     </td>
                     <td className="py-3 px-6 text-center">

@@ -2,6 +2,7 @@ import { Button, TextField } from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
 import { AiOutlineCloudUpload } from "react-icons/ai";
+import { IoMdClose } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import HelmetTitle from "../../utils/HelmetTitle";
@@ -100,18 +101,15 @@ const CreateBrand = () => {
                         className="rounded-xl"
                         value={slug}
                         onChange={(e) => setSlug(e.target.value)}
-                        sx={{marginTop: "40px"}}
+                        sx={{ marginTop: "40px" }}
                       />
                     </div>
 
                     <div className="flex">
                       <label htmlFor="file-upload">
-                        <label
-                          htmlFor="file-upload"
-                          className="block text-base mb-1 text-gray-700"
-                        >
+                        <p className="block text-base mb-1 text-gray-700">
                           Upload image
-                        </label>
+                        </p>
                         <div className="mr-2 flex bg-white justify-center items-center rounded-md border-2 border-dashed border-gray-300 p-3 py-6 cursor-pointer">
                           <div className="flex justify-center flex-col items-center">
                             <AiOutlineCloudUpload className="text-3xl text-gray-600" />
@@ -136,8 +134,24 @@ const CreateBrand = () => {
                           </div>
                         </div>
                       </label>
-
-                      <img className="img-fluid h-28" src={image} alt="" />
+                      {image.length ? (
+                        <div className="p-[6px] mx-[2px] relative  md:mt-3">
+                          <div
+                            className="border border-gray-300 overflow-hidden rounded"
+                            id="file_img"
+                          >
+                            <img
+                              src={image}
+                              alt="images"
+                              className="img-thumbnail h-32 p-2 w-full"
+                            />
+                          </div>
+                          <IoMdClose
+                            // onClick={() => deleteImages(index)}
+                            className="absolute text-gray-600 top-0 p-1 border text-2xl border-gray-300 right-0 cursor-pointer rounded-full bg-white"
+                          />
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                   <div className="w-full mt-10 flex justify-end">

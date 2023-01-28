@@ -1,16 +1,20 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import HelmetTitle from "../../utils/HelmetTitle";
 import Layout from "../Layout";
 
 const UserProfile = () => {
+  const { access_token } = useSelector((state) => state.auth);
+
   const params = useParams();
   const { id: userId } = params;
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState(null);
   const fetchUser = async () => {
     try {
       const { data } = await axios.get(`/user/${userId}`, {
-        headers: { Authorization: localStorage.getItem("jwt") },
+        headers: { Authorization: access_token },
       });
       setUser(data.user);
     } catch (err) {
@@ -19,68 +23,80 @@ const UserProfile = () => {
   };
   useEffect(() => {
     fetchUser();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   console.log(user);
 
   return (
-    <Layout>
-      {user ? (
-        <section className="text-gray-400 body-font">
-          <div className="container px-5 py-10 mx-auto flex flex-col">
-            <div className=" mx-auto">
-              <div className="flex flex-col sm:flex-row mt-10">
-                <div className="sm:w-1/3 text-center sm:pr-8 sm:py-8">
-                  <div className="w-20 h-20 rounded-full bg-red-600 inline-flex items-center justify-center  text-gray-600">
-                    <img src={user.image} alt="" />
-                  </div>
-                  <div className="flex flex-col items-center text-center justify-center">
-                    <h2 className="font-medium title-font mt-4 text-gray-700 text-lg">
-                      {user.name}
-                    </h2>
-                    <div className="w-12 h-1 bg-indigo-500 rounded mt-2 mb-4"></div>
-                    <p className="text-base text-gray-400">
-                      Raclette knausgaard hella meggs normcore williamsburg
-                      enamel pin sartorial venmo tbh hot chicken gentrify
-                      portland.
-                    </p>
-                  </div>
-                </div>
-                <div className="sm:w-2/3 sm:pl-8 sm:py-8 sm:border-l border-gray-800 sm:border-t-0 border-t mt-4 pt-4 sm:mt-0 text-center sm:text-left">
-                  <div className="col-span-2">
-                    <h1 className="text-2xl font-semibold text-gray-800">
-                      Personal Info
-                    </h1>
-                    <ul className="mt-2 text-gray-700">
-                      <li className="flex border-y py-2">
-                        <span className="font-bold w-24">Full name:</span>
-                        <span className="text-gray-700">{user.name}</span>
-                      </li>
-                      <li className="flex border-b py-2">
-                        <span className="font-bold w-24">Joined:</span>
-                        <span className="text-gray-700">
-                          10 Jan 2022 (25 days ago)
-                        </span>
-                      </li>
-                      <li className="flex border-b py-2">
-                        <span className="font-bold w-24">Mobile:</span>
-                        <span className="text-gray-700">(123) 123-1234</span>
-                      </li>
-                      <li className="flex border-b py-2">
-                        <span className="font-bold w-24">Email:</span>
-                        <span className="text-gray-700">{user.email}</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
+    <>
+      <HelmetTitle title={"User Profile"} />
+      <Layout>
+         <div className="grid grid-cols-12 gap-5 mx-5 my-5">
+          <div className="col-span-4 border p-5 bg-white dark:bg-[#2e2d4a] border-gray-300 dark:border-gray-700 rounded-xl  flex flex-col">
+            <div className="flex flex-col items-center mt-10">
+              <img
+                src="https://demos.themeselection.com/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/4.png"
+                className="w-28 h-28 rounded-xl"
+                alt=""
+              />
+              <h1 className="text-2xl mt-3 text-zinc-600 dark:text-zinc-100 font-medium">
+                Azizbek
+              </h1>
+              <p className="bg-pink-200 dark:bg-green-200 text-center text-red-500 dark:text-green-500 px-4 pb-1 mt-3 rounded-xl"></p>
+            </div>
+            <div className="mt-8">
+              <h1 className="text-2xl my-3 text-zinc-600 dark:text-zinc-100">
+                Details
+              </h1>
+              <ul className="border-t border-t-gray-300">
+                <li className="text-zinc-500 dark:text-zinc-400 my-2">
+                  <span className="text-zinc-600 dark:text-zinc-100 mr-2">
+                    Full name:
+                  </span>
+                </li>
+                <li className="text-zinc-500 dark:text-zinc-400 my-2">
+                  <span className="text-zinc-600 dark:text-zinc-100 mr-2">
+                    Email:
+                  </span>
+                </li>
+                <li className="text-zinc-500 dark:text-green-400 my-2">
+                  <span className="text-zinc-600 dark:text-zinc-100 mr-2">
+                    Status:
+                  </span>
+                  {"active"}
+                </li>
+                <li className="text-zinc-500 dark:text-zinc-400 my-2">
+                  <span className="text-zinc-600 dark:text-zinc-100 mr-2">
+                    Role:
+                  </span>
+                </li>
+                <li className="text-zinc-500 dark:text-zinc-400 my-2">
+                  <span className="text-zinc-600 dark:text-zinc-100 mr-2">
+                    Contact:
+                  </span>
+                  {"+1 (479) 232-9151"}
+                </li>
+                <li className="text-zinc-500 dark:text-zinc-400 my-2">
+                  <span className="text-zinc-600 dark:text-zinc-100 mr-2">
+                    Language:
+                  </span>
+                  {"English"}
+                </li>
+                <li className="text-zinc-500 dark:text-zinc-400 my-2">
+                  <span className="text-zinc-600 dark:text-zinc-100 mr-2">
+                    Country:
+                  </span>
+                  {"Uzbekistan"}
+                </li>
+              </ul>
             </div>
           </div>
-        </section>
-      ) : (
-        "not found"
-      )}
-    </Layout>
+          <div className="col-span-8 border p-5 bg-white dark:bg-[#2e2d4a] border-gray-300 rounded-xl dark:border-gray-700 flex flex-col">
+            s
+          </div>
+        </div>
+      </Layout>
+    </>
   );
 };
 

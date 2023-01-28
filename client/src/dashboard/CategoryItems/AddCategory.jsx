@@ -1,23 +1,40 @@
+import { Button, TextField } from "@mui/material";
 import React, { useState } from "react";
+import { AiOutlineCloudUpload } from "react-icons/ai";
+import { IoMdClose } from "react-icons/io";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import HelmetTitle from "../../utils/HelmetTitle";
 
 import Layout from "../Layout";
 
 const AddCategory = () => {
+  const { access_token } = useSelector((state) => state.auth);
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
-  const [descr, setDescr] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState([]);
   const [loading, setLoading] = useState(false);
   const goback = useNavigate();
   const navigate = useNavigate();
-  const createHandler = (e) => {
+  const handleImage = (e) => {
+    const setFileToBase = (file) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setImage(reader.result);
+      };
+    };
+    const file = e.target.files[0];
+    setFileToBase(file);
+  };
+  const createCategoryHandler = async (e) => {
+    setLoading(true);
     e.preventDefault();
-    fetch("http://localhost:5000/category/create", {
+    fetch("http://localhost:5000/category", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("jwt"),
+        Authorization: access_token,
       },
       body: JSON.stringify({
         name,
@@ -28,203 +45,167 @@ const AddCategory = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
-          
         } else {
-          setLoading(true);
-          navigate("/dashboard/categories");
+          setLoading(false);
+          navigate("/dashboard/categoies");
         }
       });
   };
   return (
     <>
+      <HelmetTitle title={"Create category"} />
       <Layout>
-        <section className="">
-          <div className="flex min-h-screen">
-            <div className="flex w-full p-8">
+        <section className="relative">
+          <div className="bg-indigo-400 w-full h-40 pl-5 pt-4 text-gray-50">
+            <h1 className="text-white text-2xl">Create category</h1>
+            {/* <ol className="list-reset mt-1 flex text-grey-dark text-sm text-gray-200">
+          <li>
+            <Link to={"/dashboard"}>Dashboard</Link>
+          </li>
+          <li>
+            <span className="mx-2">/</span>
+          </li>
+          <li>
+            <Link to={"/dashboard/products"}>Create</Link>
+          </li>
+          <li>
+            <span className="mx-2">/</span>
+          </li>
+          <li>
+            <span>Create</span>
+          </li>
+        </ol> */}
+          </div>
+          <div className="-mt-24 rounded-2xl flex mx-4 bg-white shadow-lg">
+            <div className="flex w-full p-8 px-16">
               <div className="w-full">
-                <h1 className="text-2xl font-semibold tracking-wider text-gray-800 capitalize">
-                  Create Category
-                </h1>
-
-                <p className="mt-4 text-gray-500 ">
-                  Let’s get you all set up so you can verify your personal
-                  account and begin setting up your profile.
-                </p>
-
-                <form onSubmit={createHandler}>
-                  <div className="grid grid-cols-1 gap-4 mt-8 md:grid-cols-2">
-                    <div>
-                      <label className="block mb-2 text-sm text-gray-600 ">
-                        Banner Name
-                      </label>
-                      <input
+                <form onSubmit={createCategoryHandler}>
+                  <div className="grid grid-cols-1 gap-6 gap-x-14 md:grid-cols-2">
+                    <div className="col-span-1">
+                      <TextField
+                        id="outlined-basic"
+                        fullWidth
+                        variant="outlined"
+                        label="Name"
+                        type="text"
+                        className="rounded-xl"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        type="text"
-                        placeholder="Acer"
-                        className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md  focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                       />
-                    </div>
-
-                    <div>
-                      <label className="block mb-2 text-sm text-gray-600 ">
-                        Category
-                      </label>
-                      <input
+                      <TextField
+                        id="outlined-basic"
+                        fullWidth
+                        variant="outlined"
+                        label="Slug"
                         type="text"
-                        placeholder="Laptop"
-                        className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block mb-2 text-sm text-gray-600 ">
-                        slug
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="slug"
+                        className="rounded-xl"
                         value={slug}
                         onChange={(e) => setSlug(e.target.value)}
-                        className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                        sx={{ marginTop: "40px" }}
                       />
                     </div>
 
-                    <div>
-                      <label className="block mb-2 text-sm">Image</label>
-                      <input
-                        value={image}
-                        onChange={(e) => setImage(e.target.value)}
-                        type="text"
-                        placeholder="Image"
-                        className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="">Description</label>
-                      <textarea
-                        id="textarea"
-                        type="textarea"
-                        rows={5}
-                        placeholder="Description"
-                        value={descr}
-                        onChange={(e) => setDescr(e.target.value)}
-                        className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-blue-500  focus:outline-none focus:ring"
-                      />
-
-                      {/* <Select
-                  defaultValue="USER"
-                  style={{
-                    width: 120,
-                  }}
-                  // onChange={handleChange}
-                  options={[
-                    {
-                      value: true,
-                      label: "ADMIN",
-                    },
-                    {
-                      value: false,
-                      label: "USER",
-                    },
-                  ]}
-                /> */}
-                    </div>
-
-                    <label htmlFor="file-upload">
-                      <label
-                        htmlFor="file-upload"
-                        className="block text-sm font-medium mb-3 text-gray-700"
-                      >
-                        Cover photo
-                      </label>
-                      <div className="mt-1 flex justify-center rounded-md border-2 border-dashed bg-white border-gray-300 px-6 pt-5 pb-6">
-                        <div className="space-y-1 text-center">
-                          <svg
-                            className="mx-auto h-12 w-12 text-gray-400"
-                            stroke="currentColor"
-                            fill="none"
-                            viewBox="0 0 48 48"
-                            aria-hidden="true"
-                          >
-                            <path
-                              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                              strokeWidth={2}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                          <div className="flex text-sm text-gray-600">
-                            <label
-                              htmlFor="file-upload"
-                              className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
-                            >
-                              <span>Upload a file</span>
-                              <input
-                                id="file-upload"
-                                name="file-upload"
-                                type="file"
-                                className="sr-only"
-                              />
-                            </label>
-                            <p className="pl-1">or drag and drop</p>
+                    <div className="flex">
+                      <label htmlFor="file-upload">
+                        <p className="block text-base mb-1 text-gray-700">
+                          Upload image
+                        </p>
+                        <div className="mr-2 flex bg-white justify-center items-center rounded-md border-2 border-dashed border-gray-300 p-3 py-6 cursor-pointer">
+                          <div className="flex justify-center flex-col items-center">
+                            <AiOutlineCloudUpload className="text-3xl text-gray-600" />
+                            <div className="flex text-sm text-gray-600">
+                              <label
+                                htmlFor="file-upload"
+                                className="relative cursor-pointer rounded-md bg-white font-medium"
+                              >
+                                <span>Upload image</span>
+                                <input
+                                  id="file-upload"
+                                  name="file"
+                                  type="file"
+                                  className="sr-only"
+                                  onChange={handleImage}
+                                />
+                              </label>
+                            </div>
+                            <p className="text-xs text-gray-500">
+                              PNG, JPG up to 10MB
+                            </p>
                           </div>
-                          <p className="text-xs text-gray-500">
-                            PNG, JPG, GIF up to 10MB
-                          </p>
                         </div>
-                      </div>
-                    </label>
+                      </label>
+                      {image.length ? (
+                        <div className="p-[6px] mx-[2px] relative  md:mt-3">
+                          <div
+                            className="border border-gray-300 overflow-hidden rounded"
+                            id="file_img"
+                          >
+                            <img
+                              src={image}
+                              alt="images"
+                              className="img-thumbnail h-32 p-2 w-full"
+                            />
+                          </div>
+                          <IoMdClose
+                            // onClick={() => deleteImages(index)}
+                            className="absolute text-gray-600 top-0 p-1 border text-2xl border-gray-300 right-0 cursor-pointer rounded-full bg-white"
+                          />
+                        </div>
+                      ) : null}
+                    </div>
                   </div>
-                  <div className="w-full mt-8 flex justify-end">
-                    <div
+                  <div className="w-full mt-10 flex justify-end">
+                    <Button
                       onClick={() => goback(-1)}
-                      className="inline-flex justify-center cursor-pointer rounded-md border-2 mr-3 border-indigo-600 py-3 px-10 text-lg font-medium text-indigo-600 shadow-sm hover:bg-indigo-700 hover:text-white tranistion_normal focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      variant="contained"
+                      size="large"
+                      sx={{
+                        width: "150px",
+                        borderRadius: "6px",
+                        marginRight: "15px",
+                      }}
                     >
                       Cancel
-                    </div>
-                    {loading ? (
-                      <button
-                        type="submit"
-                        className="inline-flex justify-center items-center rounded-md border border-transparent bg-indigo-600 py-3 px-10 text-lg font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                      >
-                        <svg
-                          className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          />
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                          />
-                        </svg>
-                        Loading...
-                      </button>
-                    ) : (
-                      <button
-                        type="submit"
-                        className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-10 text-lg font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                      >
-                        Save
-                      </button>
-                    )}
-                    {/* <button
-                  type="submit"
-                  className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-10 text-lg font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                  Save
-                </button> */}
+                    </Button>
+
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      size="large"
+                      sx={{
+                        width: "150px",
+                        background: "#AB47BC",
+                        borderRadius: "6px",
+                      }}
+                    >
+                      {loading ? (
+                        <div className="flex items-center justify-center">
+                          <svg
+                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            />
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            />
+                          </svg>
+                          {"Loading... "}
+                        </div>
+                      ) : (
+                        "Save"
+                      )}
+                    </Button>
                   </div>
                 </form>
               </div>

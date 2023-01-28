@@ -1,25 +1,38 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { AiOutlineShopping, AiOutlineUser } from "react-icons/ai";
 import { BsFolder } from "react-icons/bs";
+import { useSelector } from "react-redux";
 
 const TopData = () => {
+  const { access_token } = useSelector((state) => state.auth);
   const [products, setProducts] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [users, setUsers] = useState([]);
 
-  const fetchData = async () => {
-    try {
-      fetch("http://localhost:5000/products", {
-        headers: {
-          Authorization: localStorage.getItem("jwt"),
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => setProducts(data.products));
-    } catch (err) {
-      console.log(err);
-    }
+  const fetchProducts = async () => {
+    const { data } = await axios.get("/products", {
+      headers: { Authorization: access_token },
+    });
+    setProducts(data.products);
+  };
+  const fetchOrders = async () => {
+    const { data } = await axios.get("/orders", {
+      headers: { Authorization: access_token },
+    });
+    setOrders(data.orders);
+  };
+  const fetchUsers = async () => {
+    const { data } = await axios.get("/users", {
+      headers: { Authorization: access_token },
+    });
+    setUsers(data.users);
   };
   useEffect(() => {
-    fetchData();
+    fetchProducts();
+    fetchOrders()
+    fetchUsers()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="w-full px-5 grid grid-cols-4 gap-4 md:my-4">
@@ -41,9 +54,9 @@ const TopData = () => {
         </div>
         <div className="">
           <p className="text-2xl font-semibold font-mono text-right mr-2 text-gray-800 dark:text-gray-200">
-            {products.length}
+            {orders.length}
           </p>
-          <p className="text-base text-gray-600 dark:text-gray-200">Total products</p>
+          <p className="text-base text-gray-600 dark:text-gray-200">Total Orders</p>
         </div>
       </div>
       <div className="flex justify-between items-center px-5 border border-gray-300 dark:border-gray-700 shadow-xl rounded-xl bg-slate-50 dark:bg-[#2e2d4a] ">
@@ -52,9 +65,9 @@ const TopData = () => {
         </div>
         <div className="">
           <p className="text-2xl font-semibold font-mono text-right mr-2 text-gray-800 dark:text-gray-200">
-            {products.length}
+            {users.length}
           </p>
-          <p className="text-base text-gray-600 dark:text-gray-200">Total products</p>
+          <p className="text-base text-gray-600 dark:text-gray-200">Total Customers</p>
         </div>
       </div>
       <div className="flex justify-between items-center px-5 border border-gray-300 dark:border-gray-700 shadow-xl rounded-xl bg-slate-50 dark:bg-[#2e2d4a] ">

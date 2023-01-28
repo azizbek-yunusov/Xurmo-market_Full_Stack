@@ -1,16 +1,28 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import RegisterBg from "../assets/images/register-bg.png";
 import AuthBottomBg from "../assets/images/auth-bottom-bg.png";
 import TreeBg from "../assets/images/tree-bg.png";
 import toast from "react-hot-toast";
-import { Button, Checkbox, TextField } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
+  TextField,
+} from "@mui/material";
 
 const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [values, setValues] = useState({
+    password: "",
+    showPassword: false,
+  });
 
   const signUpHandler = async (e) => {
     e.preventDefault();
@@ -33,6 +45,17 @@ const SignUp = () => {
           toast.success(data.msg);
         }
       });
+  };
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
   };
   return (
     <>
@@ -91,7 +114,7 @@ const SignUp = () => {
                     />
                   </div>
                   <div className="mt-6">
-                    <TextField
+                    {/* <TextField
                       id="outlined-basic"
                       fullWidth
                       variant="outlined"
@@ -99,13 +122,35 @@ const SignUp = () => {
                       value={password}
                       className="rounded-2xl"
                       onChange={(e) => setPassword(e.target.value)}
-                    />
+                    /> */}
+                  <OutlinedInput
+                    fullWidth
+                    label='Password'
+                    value={values.password}
+                    id="auth-login-password"
+                    onChange={handleChange("password")}
+                    type={values.showPassword ? "text" : "password"}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          edge="end"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          aria-label="toggle password visibility"
+                        >
+                          {values.showPassword ? (
+                            <AiOutlineEye />
+                          ) : (
+                            <AiOutlineEyeInvisible />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
                   </div>
+
                   <div className="mt-1 -ml-2 text-sm">
-                    <Checkbox
-                      className="text-sm"
-                      label="s"
-                    />
+                    <Checkbox className="text-sm" label="s" />
                   </div>
                   <div className="mt-3">
                     <Button

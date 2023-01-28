@@ -1,16 +1,20 @@
-import { Avatar, Button, Checkbox, Tooltip } from "@mui/material";
+import { Avatar, AvatarGroup, Button, Checkbox, Tooltip } from "@mui/material";
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
+import toast from "react-hot-toast";
 import { FiEdit } from "react-icons/fi";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import HelmetTitle from "../../utils/HelmetTitle";
 import Layout from "../Layout";
 
 const CategoriesTable = () => {
   const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
+  const { access_token } = useSelector((state) => state.auth);
   const [id, setId] = useState("");
+
   const fetchData = async () => {
     try {
       const { data } = await axios.get("/categories");
@@ -19,40 +23,61 @@ const CategoriesTable = () => {
       console.log(err);
     }
   };
+  const fetchProducts = async () => {
+    try {
+      const { data } = await axios.get("/products");
+      setProducts(data.products);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const deleteBanner = async (e) => {
     e.preventDefault();
     try {
-      fetch(`http://localhost:5000/category/${id}`, {
-        method: "delete",
+      await axios.delete(`/category/${id}`, {
         headers: {
-          Authorization: localStorage.getItem("jwt"),
+          Authorization: access_token,
         },
-      }).then((data) => {
-        if (data.err) {
-        } else {
-          fetchData();
-        }
       });
+      fetchData();
+      toast.success("Deleted category");
     } catch (err) {
       console.log(err);
     }
   };
 
+  // let hisProducts = products?.filter(pro => {
+  //   return pro.category === category
+  // });
   useEffect(() => {
+    fetchProducts();
     fetchData();
   }, []);
+  const [checked, setChecked] = useState(false);
+  const checkToggle = (checked) => {
+    setChecked(!checked);
+  };
   return (
     <>
+      <HelmetTitle title={"All Brands"} />
       <Layout>
-      <HelmetTitle title="All categories" />
         <div className="bg-white mx-5 dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border border-gray-300">
           <Link
-            to={"/product/create"}
+            to={"/brand/create"}
             className="w-full flex items-center justify-end"
           >
-            <Tooltip content="Add new category">
-              <Button variant="gradient" className="my-2 mx-2">
-                create category
+            <Tooltip content="Add new brand">
+              <Button
+                variant="contained"
+                size="large"
+                sx={{
+                  marginY: "8px",
+                  marginRight: "8px",
+                  background: "rgb(145, 85, 253)",
+                  borderRadius: "10px",
+                }}
+              >
+                create brand
               </Button>
             </Tooltip>
           </Link>
@@ -60,40 +85,37 @@ const CategoriesTable = () => {
             <thead>
               <tr className="bg-gray-300 dark:bg-[#232338] text-gray-700 dark:text-gray-200 text-sm rounded-t-lg leading-normal global-font">
                 <th className="py-3">
-                  <Checkbox />
+                  <Checkbox onChange={checkToggle} />
                 </th>
                 <th className="py-3 px-6 text-left">Name</th>
-                <th className="py-3 px-6 text-left">Slug</th>
                 <th className="py-3 px-6 text-center">CreatedBy</th>
+                <th className="py-3 px-6 text-center">Products</th>
                 <th className="py-3 px-6 text-center">CreatedAt</th>
                 <th className="py-3 px-6 text-center">Actions</th>
               </tr>
             </thead>
             <tbody className="text-gray-600 dark:text-gray-300 text-sm font-light">
               {categories
-                .map((category, index) => (
+                .map((brand, index) => (
                   <tr
                     key={index}
-                    className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 hover:dark:bg-gray-600"
+                    className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 font-semibold hover:dark:bg-gray-600"
                   >
                     <td className="py-3 flex_center">
-                      <Checkbox />
+                      <Checkbox sx={{ borderRadius: 5 }} />
                     </td>
                     <td className="py-3 px-3 whitespace-nowrap">
                       <div className="flex justify-start items-center">
-                        <div className="mr-2">
+                        <div className="mr-4">
                           <img
                             className="w-10 h-10 rounded"
-                            src={category.image}
-                            alt=""
+                            src={brand.image}
+                            alt={brand.name}
                           />
                         </div>
-                        <span className="mr-2">
-                          {category.name.slice(0, 40)}
-                        </span>
+                        <span className="mr-2 uppercase">{brand.name}</span>
                       </div>
                     </td>
-                    <td className="py-3 px-6 text-left">{category.slug}</td>
                     <td className="py-3 px-6 text-center">
                       <div className="flex justify-center items-center">
                         <div className="mr-2">
@@ -103,23 +125,46 @@ const CategoriesTable = () => {
                             size="sm"
                           />
                         </div>
+                        <div className="block"></div>
                         <span className="mr-2">
-                          {category.createdBy
-                            ? category.createdBy.name
+                          {brand.createdBy
+                            ? brand.createdBy.name
                             : "deleted account"}
                         </span>
                       </div>
                     </td>
                     <td className="py-3 px-6 text-center">
                       <div className="flex justify-center items-center">
-                        <span>{moment(category.createdAt).format("lll")}</span>
+                        <AvatarGroup total={24}>
+                          <Avatar
+                            sx={{ borderRadius: "12px" }}
+                            alt="Travis Howard"
+                            src="https://www.material-tailwind.com/img/face-2.jpg"
+                          />
+                          <Avatar
+                            sx={{ borderRadius: "12px" }}
+                            alt="Agnes Walker"
+                            src="https://www.material-tailwind.com/img/face-2.jpg"
+                          />
+                          <Avatar
+                            sx={{ borderRadius: "12px" }}
+                            alt="Trevor Henderson"
+                            src="https://www.material-tailwind.com/img/face-2.jpg"
+                          />
+                        </AvatarGroup>
+                        <span className="mr-2">15 pct</span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-6 text-center">
+                      <div className="flex justify-center items-center">
+                        <span>{moment(brand.createdAt).format("lll")}</span>
                       </div>
                     </td>
 
                     <td className="py-3 px-6 text-center">
                       <div className="flex item-center justify-center">
                         <Link
-                          to={`/category/${category._id}`}
+                          to={`/brand/${brand._id}`}
                           className="cursor-pointer w-5 mr-3 transform hover:text-purple-500 hover:scale-110"
                         >
                           <svg
@@ -142,13 +187,13 @@ const CategoriesTable = () => {
                             />
                           </svg>
                         </Link>
-                        <Link to={`/category/update/${category._id}`}>
+                        <Link to={`/brand/${brand._id}`}>
                           <div className="cursor-pointer w-5 mr-3 transform hover:text-purple-500 hover:scale-110">
                             <FiEdit className="text-lg" />
                           </div>
                         </Link>
                         <button
-                          onClick={() => deleteBanner(category._id)}
+                          onClick={() => deleteBanner(brand._id)}
                           className="cursor-pointer w-5 mr-3 transform hover:text-purple-500 hover:scale-110"
                         >
                           <svg

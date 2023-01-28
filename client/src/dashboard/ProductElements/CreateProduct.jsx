@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import {
   Button,
   FormControl,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -21,10 +22,12 @@ const CreateProduct = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [descr, setDescr] = useState("");
-  const [inStock, setInStock] = useState("");
+  const [inStock, setInStock] = useState(1);
   const [images, setImages] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
   const [category, setCategory] = useState("");
+  const [brand, setBrand] = useState("");
   const [discount, setDiscount] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -75,7 +78,7 @@ const CreateProduct = () => {
         }
       });
   };
-  const fetchData = async () => {
+  const getCategories = async () => {
     try {
       const { data } = await axios.get("/categories");
       setCategories(data.categories);
@@ -83,10 +86,18 @@ const CreateProduct = () => {
       console.log(err);
     }
   };
+  const getBrands = async () => {
+    try {
+      const { data } = await axios.get("/brands");
+      setBrands(data.brands);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
-    fetchData();
+    getBrands();
+    getCategories();
   }, []);
-  console.log(category);
 
   return (
     <>
@@ -159,16 +170,6 @@ const CreateProduct = () => {
                         onChange={(e) => setPrice(e.target.value)}
                       />
                     </div>
-                    <TextField
-                      id="outlined-basic"
-                      fullWidth
-                      variant="outlined"
-                      label="In Stock"
-                      type="number"
-                      className="rounded-xl"
-                      value={inStock}
-                      onChange={(e) => setInStock(e.target.value)}
-                    />
                     <FormControl fullWidth>
                       <InputLabel id="demo-simple-select-label">
                         Select brand
@@ -176,11 +177,11 @@ const CreateProduct = () => {
                       <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={category}
+                        value={brand}
                         label="Select brand"
-                        onChange={(e) => setCategory(e.target.value)}
+                        onChange={(e) => setBrand(e.target.value)}
                       >
-                        {categories?.map((item, index) => (
+                        {brands?.map((item, index) => (
                           <MenuItem key={index} value={item.name}>
                             {item.name}
                           </MenuItem>
@@ -191,14 +192,24 @@ const CreateProduct = () => {
                       id="outlined-basic"
                       fullWidth
                       variant="outlined"
+                      label="In Stock"
+                      type="number"
+                      className="rounded-xl"
+                      value={inStock}
+                      onChange={(e) => setInStock(e.target.value)}
+                    />
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
                       label="Discount"
                       type="number"
                       className="rounded-xl"
                       value={discount}
                       onChange={(e) => setDiscount(e.target.value)}
                     />
-                    <div className="">
-                      <label
+                    <div className="mt-4">
+                      {/* <label
                         htmlFor="description"
                         className="block mb-1 text-base text-gray-700"
                       >
@@ -211,6 +222,27 @@ const CreateProduct = () => {
                         rows="5"
                         className="block p-2.5 w-full text-base text-gray-800 bg-white rounded-md border-2 border-gray-300 focus:ring-blue-500 focus:border-blue-500 ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Description.."
+                      /> */}
+                      <TextField
+                        fullWidth
+                        multiline
+                        minRows={5}
+                        label="Description"
+                        placeholder="Bio..."
+                        value={descr}
+                        onChange={(e) => setDescr(e.target.value)}
+                        sx={{
+                          "& .MuiOutlinedInput-root": {
+                            alignItems: "baseline",
+                          },
+                        }}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              {/* <MessageOutline /> */}
+                            </InputAdornment>
+                          ),
+                        }}
                       />
                     </div>
                     <div className="flex">
@@ -221,7 +253,7 @@ const CreateProduct = () => {
                         >
                           Upload images
                         </label>
-                        <div className="mr-2 flex bg-white justify-center items-center rounded-md border-2 border-dashed border-gray-300 p-3 py-6 cursor-pointer">
+                        <div className="mr-2 flex bg-white justify-center items-center rounded-md border-2 border-dashed border-gray-300 p-3 py-6 cursor-pointer h-36">
                           <div className="flex justify-center flex-col items-center">
                             <AiOutlineCloudUpload className="text-3xl text-gray-600" />
                             <div className="flex text-sm text-gray-600">
