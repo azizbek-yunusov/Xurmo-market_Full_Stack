@@ -19,26 +19,24 @@ function useGlobalApi(access_token) {
   const addToCartHandle = async (id) => {
     try {
       if (access_token) {
-        const { data } = await axios.put(`/addcart/${id}`, {
+        // const { data } = await axios.put(`/addcart/${id}`, {
+        //   headers: { Authorization: access_token },
+        // });
+        // // dispatch({ type: "GET_CART", payload: data.client.cart });
+        // toast.success("Add to cart this product");
+        // fetchCart();
+        fetch(`http://localhost:5000/addcart/${id}`, {
+          method: "put",
           headers: {
+            "Content-Type": "application/json",
             Authorization: access_token,
           },
-        });
-        // dispatch({ type: "GET_CART", payload: data });
-        toast.success("Add to cart this product");
-        fetchCart();
-        // fetch(`http://localhost:5000/addcart/${id}`, {
-        //   method: "put",
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //     Authorization: access_token,
-        //   },
-        // })
-        //   .then((res) => res.json())
-        //   .then((res) => {
-        //     toast.success("Add to cart this product");
-        //     fetchCart();
-        //   });
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            toast.success("Add to cart this product");
+            fetchCart();
+          });
       }
       if (access_token === undefined) {
         window.location.reload();

@@ -35,10 +35,9 @@ import { useEffect } from "react";
 import { refreshToken } from "./redux/actions/authAction";
 import { WishList } from "./components/Wish";
 import CheckOut from "./components/CheckOut";
-import { Addresses, Favorites, MyInfor, MyOrders } from "./components/Profile";
+import { Addresses, EditMyProfile, Favorites, MyInfor, MyOrders, Settings } from "./components/Profile";
 import useNetworkStatus from "./hooks/useNetworkStatus";
 import { SearchPage } from "./pages";
-import Settings from "./components/Settings";
 import { BrandsList, CreateBrand, UpdateBrand } from "./dashboard/Brand";
 
 function App() {
@@ -71,6 +70,7 @@ function App() {
         <Route path="/myprofile/orders" element={<MyOrders />} />
         <Route path="/myprofile/addresses" element={<Addresses />} />
         <Route path="/myprofile/settings" element={<Settings />} />
+        <Route path="/myprofile/update" element={<EditMyProfile />} />
         <Route path="/myprofile/favorites" element={<Favorites />} />
         <Route path="/product/view/:id" element={<ProductDetail />} />
         <Route path="/products" element={<ProductsList />} />

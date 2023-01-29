@@ -22,11 +22,13 @@ const userSchema = new Schema({
   avatar: {
     public_id: {
       type: String,
-      // required: true,
+      required: true,
+      default: '/Avatars/lpsik4m2oowrlowbyq3l'
     },
     url: {
       type: String,
-      // required: true,
+      default: 'https://res.cloudinary.com/dztvgxnaj/image/upload/v1674919995/Avatars/lpsik4m2oowrlowbyq3l.png',
+      required: true,
     },
   },
   phoneNumber: {

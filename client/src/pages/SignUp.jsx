@@ -114,7 +114,7 @@ const SignUp = () => {
                     />
                   </div>
                   <div className="mt-6">
-                    {/* <TextField
+                    <TextField
                       id="outlined-basic"
                       fullWidth
                       variant="outlined"
@@ -122,8 +122,8 @@ const SignUp = () => {
                       value={password}
                       className="rounded-2xl"
                       onChange={(e) => setPassword(e.target.value)}
-                    /> */}
-                  <OutlinedInput
+                    />
+                  {/* <OutlinedInput
                     fullWidth
                     label='Password'
                     value={values.password}
@@ -146,7 +146,7 @@ const SignUp = () => {
                         </IconButton>
                       </InputAdornment>
                     }
-                  />
+                  /> */}
                   </div>
 
                   <div className="mt-1 -ml-2 text-sm">

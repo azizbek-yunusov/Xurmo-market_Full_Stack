@@ -70,17 +70,26 @@ const SideBarPf = () => {
     }
   };
 
-  const updateProfileSubmit = (e) => {
+  const updateProfileSubmit = async (e) => {
     e.preventDefault();
-
-    const myForm = new FormData();
-
-    myForm.set("name", name);
-    myForm.set("lastName", lastName);
-    myForm.set("avatar", avatar);
-    dispatch(updateProfile(myForm, auth.access_token));
+    await fetch("http://localhost:5000/product", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: auth.access_token,
+      },
+      body: JSON.stringify({
+        avatar,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+        } else {
+          navigate("/dashboard/products");
+        }
+      });
   };
-
   const updateProfileDataChange = (e) => {
     const reader = new FileReader();
 
@@ -93,15 +102,15 @@ const SideBarPf = () => {
 
     reader.readAsDataURL(e.target.files[0]);
   };
-
+console.log(user);
   return (
     <div className="flex flex-col justify-between sticky top-56">
       <div className="relative flex items-center flex-col justify-between w-[350px] h-[450px] bg-white -mt-28 ml-5 md:py-5 shadow-lg rounded-2xl">
         <div className="flex flex-col items-center">
-          <div className="z-10 overflow-hidden rounded-full max-w-max bg-white">
+          <div className="z-10  overflow-hidden rounded-full max-w-max bg-white">
             <img
-              className="h-40 md:rounded-full p-[6px]"
-              src="https://demos.themeselection.com/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/1.png"
+              className="md:rounded-full h-40 w-40 object-cover"
+              src={user.avatar?.url}
               alt=""
             />
           </div>

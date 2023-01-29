@@ -4,15 +4,19 @@ import {
   Button,
   Checkbox,
   FormControl,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
+  SvgIcon,
+  TextField,
   Tooltip,
 } from "@mui/material";
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { BiSearch } from "react-icons/bi";
 import { FiEdit } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -24,9 +28,63 @@ const UsersTable = () => {
   const { access_token } = useSelector((state) => state.auth);
   const [users, setUsers] = useState([]);
   const [checked, setChecked] = useState(false);
+  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(0);
   const checkToggle = (checked) => {
     setChecked(!checked);
   };
+
+  // new
+  const handleSelectAll = (event) => {
+    let newSelectedCustomerIds;
+
+    if (event.target.checked) {
+      newSelectedCustomerIds = users.map((customer) => customer._id);
+    } else {
+      newSelectedCustomerIds = [];
+    }
+
+    setSelectedCustomerIds(newSelectedCustomerIds);
+  };
+
+  const handleSelectOne = (event, _id) => {
+    const selectedIndex = selectedCustomerIds.indexOf(_id);
+    let newSelectedCustomerIds = [];
+
+    if (selectedIndex === -1) {
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(
+        selectedCustomerIds,
+        _id
+      );
+    } else if (selectedIndex === 0) {
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(
+        selectedCustomerIds.slice(1)
+      );
+    } else if (selectedIndex === selectedCustomerIds.length - 1) {
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(
+        selectedCustomerIds.slice(0, -1)
+      );
+    } else if (selectedIndex > 0) {
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(
+        selectedCustomerIds.slice(0, selectedIndex),
+        selectedCustomerIds.slice(selectedIndex + 1)
+      );
+    }
+
+    setSelectedCustomerIds(newSelectedCustomerIds);
+  };
+
+  const handleLimitChange = (event) => {
+    setLimit(event.target.value);
+  };
+
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  // end
+
   const fetchUsers = async () => {
     try {
       fetch("http://localhost:5000/users", {
@@ -46,10 +104,10 @@ const UsersTable = () => {
       console.log(err);
     }
   };
-  const deleteUser = async (id, e) => {
+  const deleteUser = async (_id, e) => {
     e.preventDefault();
     try {
-      await axios.delete(`/user/${id}`, {
+      await axios.delete(`/user/${_id}`, {
         headers: {
           Authorization: access_token,
         },
@@ -63,19 +121,34 @@ const UsersTable = () => {
   useEffect(() => {
     fetchUsers();
   }, []);
-  console.log(users);
+
   return (
     <>
       <HelmetTitle title={"All Admins"} />
       <Layout>
         <div className="bg-white mx-5 dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border border-gray-300">
-          <div className="flex w-full bg-white items-center justify-end py-3 px-4">
-            <div className="">
+          <div className="flex w-full bg-white items-center justify-between py-3 px-4">
+            <FormControl sx={{ minWidth: 500 }}>
+              <TextField
+                size="small"
+                fullWidth
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <BiSearch className="text-xl" />
+                    </InputAdornment>
+                  ),
+                }}
+                placeholder="Search customer"
+                variant="outlined"
+              />
+            </FormControl>
+            <div className="flex items-center">
               <FormControl size="small" sx={{ minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-label">Sorting</InputLabel>
+                <InputLabel _id="demo-simple-select-label">Sorting</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  _id="demo-simple-select"
                   value={"all"}
                   // onChange={(e) => setCategory(e.target.value)}
                   label="Sorting"
@@ -85,7 +158,6 @@ const UsersTable = () => {
                   <MenuItem value={"admin"}>Admins</MenuItem>
                 </Select>
               </FormControl>
-            </div>
             <Link to={"/user/create"}>
               <Tooltip content="Add new user">
                 <Button
@@ -94,24 +166,34 @@ const UsersTable = () => {
                   sx={{
                     marginLeft: "25px",
                     background: "rgb(145, 85, 253)",
-                    borderRadius: "10px",
+                    borderRadius: "6px",
                   }}
                 >
                   create user
                 </Button>
               </Tooltip>
             </Link>
+            </div>
           </div>
           <table className="min-w-max w-full table-auto rounded-lg ">
             <thead>
               <tr className="bg-gray-300 dark:bg-[#232338] text-gray-700 dark:text-gray-200 text-sm rounded-t-lg leading-normal global-font">
                 <th className="py-3">
-                  <Checkbox onChange={checkToggle} />
+                  {/* <Checkbox onChange={checkToggle} /> */}
+                  <Checkbox
+                    checked={selectedCustomerIds.length === users.length}
+                    color="primary"
+                    indeterminate={
+                      selectedCustomerIds.length > 0 &&
+                      selectedCustomerIds.length < users.length
+                    }
+                    onChange={handleSelectAll}
+                  />
                 </th>
                 <th className="py-3 px-6 text-left">Info</th>
                 <th className="py-3 px-6 text-center">Role</th>
                 <th className="py-3 px-6 text-center">Orders</th>
-                <th className="py-3 px-6 text-center">CreatedBy</th>
+                {/* <th className="py-3 px-6 text-center">CreatedBy</th> */}
                 <th className="py-3 px-6 text-center">CreatedAt</th>
                 <th className="py-3 px-6 text-center">Actions</th>
               </tr>
@@ -125,7 +207,16 @@ const UsersTable = () => {
                         className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 font-semibold hover:dark:bg-gray-600"
                       >
                         <td className="py-3 flex_center">
-                          <Checkbox sx={{ borderRadius: 5 }} />
+                          {/* <Checkbox sx={{ borderRadius: 5 }} /> */}
+                          <Checkbox
+                            checked={
+                              selectedCustomerIds.indexOf(user._id) !== -1
+                            }
+                            onChange={(event) =>
+                              handleSelectOne(event, user._id)
+                            }
+                            value="true"
+                          />
                         </td>
                         <td className="py-3 px-3 whitespace-nowrap">
                           <div className="flex justify-start items-center">
@@ -138,7 +229,9 @@ const UsersTable = () => {
                             </div>
                             <div className="flex flex-col mr-2">
                               <span className="">{user.name}</span>
-                              <span className="text-gray-500 text-sm">{user.email}</span>
+                              <span className="text-gray-500 text-sm">
+                                {user.email}
+                              </span>
                             </div>
                           </div>
                         </td>
@@ -167,7 +260,7 @@ const UsersTable = () => {
                             <span className="mr-2">15 pct</span>
                           </div>
                         </td>
-                        <td className="py-3 px-6 text-center">
+                        {/* <td className="py-3 px-6 text-center">
                           <div className="flex justify-center items-center">
                             <div className="mr-2">
                               <Avatar
@@ -183,7 +276,7 @@ const UsersTable = () => {
                                 : "deleted account"}
                             </span>
                           </div>
-                        </td>
+                        </td> */}
                         <td className="py-3 px-6 text-center">
                           <div className="flex justify-center items-center">
                             <span>{moment(user.createdAt).format("lll")}</span>

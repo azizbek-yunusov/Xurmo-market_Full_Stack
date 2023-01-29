@@ -263,30 +263,37 @@ const updateProfile = async (req, res) => {
 
 const uploadAvatar = async (req, res) => {
   try {
-  const { avatar } = req.body;
-    const result = await cloudinary.v2.uploader.upload(avatar, {
-      folder: "Avatars",
-      // width: 300,
-      // crop: "scale"
-    });
-    newUserData.avatar = {
-      public_id: result.public_id,
-      url: result.secure_url,
-    };
-    const updatedAvatar = await UserModel.findByIdAndUpdate(
-      req.user.id,
-      newUserData,
-      {
-        new: true,
+    let newUserAvatar = {};
+    if (req.body.avatar !== "") {
+      const currentAvatar = await UserModel.findById(req.user.id);
+
+      const ImgId = currentAvatar.avatar.public_id;
+
+      if (ImgId) {
+        await cloudinary.uploader.destroy(ImgId);
       }
-    );
+
+      const newAvatar = await cloudinary.uploader.upload(req.body.avatar, {
+        folder: "Avatars",
+      });
+
+      newUserAvatar.avatar = {
+        public_id: newAvatar.public_id,
+        url: newAvatar.secure_url,
+      };
+    }
+    const updatedAvatar = await UserModel.findByIdAndUpdate(req.user.id, newUserAvatar, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    });
     res.status(200).json({
       updatedAvatar,
     });
   } catch (err) {
     console.log(err);
   }
-}
+};
 const updateUser = async (req, res) => {
   try {
     const user = await UserModel.findById(req.params.id);

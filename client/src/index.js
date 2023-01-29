@@ -8,6 +8,8 @@ import App from "./App";
 import "./assets/styles/swipper.css";
 import "./assets/styles/antdesign.css";
 import UserProvider from "./redux/store";
+import { theme } from "./theme";
+import { ThemeProvider } from "@emotion/react";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -15,7 +17,9 @@ root.render(
     <HelmetProvider>
       <UserProvider>
         <BrowserRouter>
-          <App />
+          <ThemeProvider theme={theme}>
+            <App />
+          </ThemeProvider>
         </BrowserRouter>
       </UserProvider>
     </HelmetProvider>
