@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import toast from "react-hot-toast";
-import { FiPlus } from "react-icons/fi";
 import {
+  Avatar,
+  AvatarGroup,
   Button,
   Checkbox,
   CircularProgress,
   FormControl,
+  IconButton,
   InputAdornment,
   InputLabel,
   MenuItem,
@@ -15,92 +13,104 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { useSelector } from "react-redux";
+import axios from "axios";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { AiOutlineUserAdd } from "react-icons/ai";
+import { BiExport, BiSearch, BiTable } from "react-icons/bi";
+import { BsGrid } from "react-icons/bs";
+import { FiEdit, FiPlus } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
-import { BiExport, BiSearch } from "react-icons/bi";
-import TableBody from "./TableBody";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import HelmetTitle from "../../utils/HelmetTitle";
-import Layout from "../Layout";
 
-const AllProductList = () => {
+import Layout from "../Layout";
+import GridList from "./GridList";
+import TableBody from "./TableBody";
+
+const BannersList = () => {
   const { access_token } = useSelector((state) => state.auth);
+  const [banners, setBanners] = useState([]);
   const [term, setTerm] = useState("");
-  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedProductIds, setSelectedProductIds] = useState([]);
+  const [isTable, setIsTable] = useState(false);
+  const [id, setId] = useState("");
+
+  const [selectedBannerIds, setSelectedBannerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
-  const filteredProducts = products.filter((frontMatter) => {
+  const filteredBanners = banners.filter((frontMatter) => {
     const searchContent = frontMatter.name;
     return searchContent.toLowerCase().includes(term.toLowerCase());
   });
 
   const handleSelectAll = (event) => {
-    let newSelectedCustomerIds;
+    let newSelectedBannersIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = products.map((customer) => customer._id);
+      newSelectedBannersIds = banners.map((banner) => banner._id);
     } else {
-      newSelectedCustomerIds = [];
+      newSelectedBannersIds = [];
     }
 
-    setSelectedProductIds(newSelectedCustomerIds);
+    setSelectedBannerIds(newSelectedBannersIds);
   };
 
   const handleSelectOne = (event, _id) => {
-    const selectedIndex = selectedProductIds.indexOf(_id);
-    let newSelectedCustomerIds = [];
+    const selectedIndex = selectedBannerIds.indexOf(_id);
+    let newSelectedBannersIds = [];
 
     if (selectedIndex === -1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedProductIds,
+      newSelectedBannersIds = newSelectedBannersIds.concat(
+        selectedBannerIds,
         _id
       );
     } else if (selectedIndex === 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedProductIds.slice(1)
+      newSelectedBannersIds = newSelectedBannersIds.concat(
+        selectedBannerIds.slice(1)
       );
-    } else if (selectedIndex === selectedProductIds.length - 1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedProductIds.slice(0, -1)
+    } else if (selectedIndex === selectedBannerIds.length - 1) {
+      newSelectedBannersIds = newSelectedBannersIds.concat(
+        selectedBannerIds.slice(0, -1)
       );
     } else if (selectedIndex > 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedProductIds.slice(0, selectedIndex),
-        selectedProductIds.slice(selectedIndex + 1)
+      newSelectedBannersIds = newSelectedBannersIds.concat(
+        selectedBannerIds.slice(0, selectedIndex),
+        selectedBannerIds.slice(selectedIndex + 1)
       );
     }
 
-    setSelectedProductIds(newSelectedCustomerIds);
+    setSelectedBannerIds(newSelectedBannersIds);
   };
+
   const fetchData = async () => {
-    const { data } = await axios.get("/products", {
+    const { data } = await axios.get("/banners", {
       headers: { Authorization: access_token },
     });
-    setProducts(data.products);
+    setBanners(data.banners);
     setLoading(false);
   };
-  const deleteProduct = async (id) => {
+  const deleteBanner = async (id) => {
     try {
-      await axios.delete(`/product/${id}`, {
+      await axios.delete(`/banner/${id}`, {
         headers: {
           Authorization: access_token,
         },
       });
       fetchData();
-      toast.success("Deleted product");
     } catch (err) {
       console.log(err);
     }
   };
+
   useEffect(() => {
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
-      <HelmetTitle title="All products" />
+      <HelmetTitle title="All banners" />
       <Layout>
         {loading ? (
           <CircularProgress />
@@ -123,7 +133,7 @@ const AllProductList = () => {
                     label="Select Category"
                   >
                     <MenuItem value={"all"}>All</MenuItem>
-                    <MenuItem value={"user"}>products</MenuItem>
+                    <MenuItem value={"user"}>banners</MenuItem>
                     <MenuItem value={"admin"}>Admins</MenuItem>
                   </Select>
                 </FormControl>
@@ -155,14 +165,14 @@ const AllProductList = () => {
                     label="Select Rating"
                   >
                     <MenuItem value={"all"}>All</MenuItem>
-                    <MenuItem value={"user"}>products</MenuItem>
+                    <MenuItem value={"user"}>banners</MenuItem>
                     <MenuItem value={"admin"}>Admins</MenuItem>
                   </Select>
                 </FormControl>
               </div>
-              {selectedProductIds.length ? (
+              {selectedBannerIds.length ? (
                 <div className="flex w-ful items-center justify-between py-[12.5px] px-4">
-                  <h1 className="font-semibold text-gray-700">{`${selectedProductIds.length} Selected`}</h1>
+                  <h1 className="font-semibold text-gray-700">{`${selectedBannerIds.length} Selected`}</h1>
                   <Button
                     variant="contained"
                     color="error"
@@ -210,6 +220,20 @@ const AllProductList = () => {
                     />
                   </FormControl>
                   <div className="flex items-center">
+                    <IconButton
+                      onClick={() => setIsTable(false)}
+                      aria-label="Table"
+                      color={!isTable ? "secondary" : "default"}
+                    >
+                      <BiTable />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => setIsTable(true)}
+                      aria-label="Table"
+                      color={isTable ? "secondary" : "default"}
+                    >
+                      <BsGrid />
+                    </IconButton>
                     <Button
                       disabled
                       variant="outlined"
@@ -222,7 +246,7 @@ const AllProductList = () => {
                     >
                       EXPORT
                     </Button>
-                    <Link to={"/product/create"}>
+                    <Link to={"/banner/add"}>
                       <Tooltip title="Add new user">
                         <Button
                           variant="contained"
@@ -234,7 +258,7 @@ const AllProductList = () => {
                           }}
                           startIcon={<FiPlus />}
                         >
-                          ADD NEW PRODUCT
+                          ADD NEW BANNER
                         </Button>
                       </Tooltip>
                     </Link>
@@ -242,36 +266,25 @@ const AllProductList = () => {
                 </div>
               )}
 
-              <table className="min-w-max w-full table-auto rounded-lg ">
-                <thead>
-                  <tr className="bg-gray-100 text-left dark:bg-[#232338] text-gray-500 dark:text-gray-200 text-sm font-light rounded-t-lg uppercase">
-                    <th className="py-2 text-center">
-                      <Checkbox
-                        checked={selectedProductIds.length === products.length}
-                        color="primary"
-                        indeterminate={
-                          selectedProductIds.length > 0 &&
-                          selectedProductIds.length < products.length
-                        }
-                        onChange={handleSelectAll}
-                      />
-                    </th>
-                    <th className="px-3">Product</th>
-                    <th className="px-3">Price</th>
-                    <th className="px-3">Category</th>
-                    <th className="px-3">Rating</th>
-                    <th className="px-3">CreatedBy</th>
-                    <th className="px-3">CreatedAt</th>
-                    <th className="px-3">Actions</th>
-                  </tr>
-                </thead>
+              {isTable ? (
                 <TableBody
-                  selectedProductIds={selectedProductIds}
-                  filteredProducts={filteredProducts}
+                  banners={banners}
+                  handleSelectAll={handleSelectAll}
+                  selectedBannerIds={selectedBannerIds}
+                  filteredBanners={filteredBanners}
                   handleSelectOne={handleSelectOne}
-                  deleteProduct={deleteProduct}
+                  deleteBanner={deleteBanner}
                 />
-              </table>
+              ) : (
+                <GridList
+                  banners={banners}
+                  handleSelectAll={handleSelectAll}
+                  selectedBannerIds={selectedBannerIds}
+                  filteredBanners={filteredBanners}
+                  handleSelectOne={handleSelectOne}
+                  deleteBanner={deleteBanner}
+                />
+              )}
             </div>
           </>
         )}
@@ -280,4 +293,4 @@ const AllProductList = () => {
   );
 };
 
-export default AllProductList;
+export default BannersList;

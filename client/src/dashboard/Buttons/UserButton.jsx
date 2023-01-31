@@ -78,7 +78,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 const UserButton = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const signOutHandle = () => {
@@ -113,10 +113,13 @@ const UserButton = () => {
           >
             <Avatar
               alt="Remy Sharp"
-              src="https://www.ihp.ie/wp-content/uploads/profile-img.jpg"
+              src={
+                user.avatar.url ||
+                "https://www.ihp.ie/wp-content/uploads/profile-img.jpg"
+              }
             />
           </StyledBadge>
-          <p className="normal-case ml-2">Azizbek</p>
+          {/* <p className="normal-case ml-2">Azizbek</p> */}
         </div>
       </Button>
       <StyledMenu
@@ -128,7 +131,7 @@ const UserButton = () => {
         open={open}
         onClose={handleClose}
       >
-        <Link to={"/myprofile"}>
+        <Link to={"/dashboard/myprofile"}>
           <MenuItem>Profile</MenuItem>
         </Link>
         <Divider sx={{ my: 0.5 }} />

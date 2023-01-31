@@ -16,7 +16,7 @@ const ImageThumbs = ({ images }) => {
             spaceBetween={10}
             modules={[Thumbs]}
             grabCursor={true}
-            className="product-images-slider border-2 border-gray-300 mb-2 rounded-lg"
+            className="product-images-slider border-2 border-gray-300 mb-2 rounded-lg bg-white"
             thumbs={{
               swiper:
                 activeThumb && !activeThumb.destroyed ? activeThumb : null,

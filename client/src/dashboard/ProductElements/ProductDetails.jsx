@@ -1,16 +1,30 @@
+import { Breadcrumbs, Button, Tooltip, Typography } from "@mui/material";
 import axios from "axios";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { BiEditAlt } from "react-icons/bi";
+import { MdDelete } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import Comments from "../../components/ProductItems/Comments";
+import ImageThumbs from "../../components/ProductItems/ImageThumbs";
+import { ReviewsBox } from "../../components/ProductItems/ReviewsBox";
 import Layout from "../Layout";
 
 const ProductDetails = () => {
   const goback = useNavigate();
+  const dispatch = useDispatch();
+  const { product } = useSelector((state) => state);
+
+  const [loading, setLoading] = useState(true);
   const { id } = useParams();
-  const [product, setProduct] = useState({});
+
   const productDetail = async () => {
     try {
       const { data } = await axios.get(`/product/${id}`);
-      setProduct(data.product);
+      dispatch({ type: "GET_PRODUCT", payload: data.product });
+      setLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -19,123 +33,172 @@ const ProductDetails = () => {
     productDetail();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  console.log(product);
+  const {_id, name, images, price, inStock, category, brand, createdAt, createdBy, reviews } = product
   return (
-    <Layout>
-      <section>
-        <div className="relative mx-auto max-w-screen-xl px-4 py-8">
-          <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-2">
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-1">
-              <img
-                alt="Les Paul"
-                src={product.image}
-                className="aspect-square w-full rounded-xl object-cover"
-              />
-
-              <div className="grid grid-cols-4 gap-4 lg:mt-1">
-                <img
-                  alt="Les Paul"
-                  src="https://images.unsplash.com/photo-1456948927036-ad533e53865c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-                  className="aspect-square w-full rounded-xl object-cover"
-                />
-
-                <img
-                  alt="Les Paul"
-                  src="https://images.unsplash.com/photo-1456948927036-ad533e53865c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-                  className="aspect-square w-full rounded-xl object-cover"
-                />
-
-                <img
-                  alt="Les Paul"
-                  src="https://images.unsplash.com/photo-1456948927036-ad533e53865c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-                  className="aspect-square w-full rounded-xl object-cover"
-                />
-
-                <img
-                  alt="Les Paul"
-                  src="https://images.unsplash.com/photo-1456948927036-ad533e53865c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-                  className="aspect-square w-full rounded-xl object-cover"
-                />
+    <>
+      <Helmet>
+        <title data-rh="true">{`${name} | E-commerce`}</title>
+      </Helmet>
+      <Layout>
+        {!loading ? (
+          <div className="container-full md:px-5">
+            <Breadcrumbs aria-label="breadcrumb" sx={{ marginY: "8px" }}>
+              <Link to={"/dashboard"}>Dashboard</Link>
+              <Link to={"/dashboard/products"}>All Products</Link>
+              <Typography color="blue">{name}</Typography>
+            </Breadcrumbs>
+            <div className="grid grid-cols-3 gap-x-5 border-t  border-r-gray-400 lg:py-5 py-4">
+              <div className="col-span-1">
+                <ImageThumbs images={images} />
               </div>
-            </div>
-
-            <div className="sticky top-0">
-              <strong className="rounded-full border border-blue-600 bg-gray-100 px-3 py-0.5 text-xs font-medium tracking-wide text-blue-600">
-                Pre Order
-              </strong>
-
-              <div className="mt-8 flex justify-between">
-                <div className="">
-                  <h1 className="text-2xl font-semibold">
-                    {"id:"}
-                    {product._id}
-                  </h1>
-                  <h1 className="text-xl font-semibold">{product.name}</h1>
-                  <p className="text-lg font-semibold">
-                    {"Price: "}
-                    {product.price}
-                    {"$"}
-                  </p>
-                  <p className="mt-0.5 text-sm">Highest Rated Product</p>
-
-                  <div className="mt-2 -ml-0.5 flex">
-                    <svg
-                      className="h-5 w-5 text-yellow-400"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
+              <div className="col-span-1 block">
+                <table className="border-collapse w-full shadow-md rounded-lg overflow-hidden">
+                  <thead>
+                    <tr className="text-sm">
+                      <th className="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">
+                        Title
+                      </th>
+                      <th className="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">
+                        Feature
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0 text-sm">
+                      <td className="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
+                        Object Id
+                      </td>
+                      <td className="w-full lg:w-auto p-3 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
+                        {_id}
+                      </td>
+                    </tr>
+                    <tr className="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0 text-sm">
+                      <td className="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
+                        Name
+                      </td>
+                      <td className="w-full lg:w-auto p-3 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
+                        {name}
+                      </td>
+                    </tr>
+                    <tr className="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0 text-sm">
+                      <td className="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
+                        Price
+                      </td>
+                      <td className="w-full lg:w-auto p-3 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
+                        {price}
+                      </td>
+                    </tr>
+                    <tr className="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0 text-sm">
+                      <td className="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
+                        Category
+                      </td>
+                      <td className="w-full lg:w-auto p-3 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
+                        {category}
+                      </td>
+                    </tr>
+                    <tr className="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0 text-sm">
+                      <td className="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
+                        Brand
+                      </td>
+                      <td className="w-full lg:w-auto p-3 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
+                        {brand || "-------"}
+                      </td>
+                    </tr>
+                    <tr className="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0 text-sm">
+                      <td className="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
+                        Stock
+                      </td>
+                      <td className="w-full lg:w-auto p-3 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
+                        {inStock}
+                      </td>
+                    </tr>
+                    <tr className="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0 text-sm">
+                      <td className="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
+                        Created At
+                      </td>
+                      <td className="w-full lg:w-auto p-3 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
+                        {moment(createdAt).format("lll")}
+                      </td>
+                    </tr>
+                    <tr className="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0 text-sm">
+                      <td className="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
+                        Created At
+                      </td>
+                      <td className="w-full lg:w-auto p-3 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
+                        {createdBy
+                          ? createdBy.name
+                          : "deleted account"}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div className="col-span-1">
+                <div className="p-5 rounded-lg border border-gray-200 shadow-lg">
+                  <Tooltip title="Add new user">
+                    <Button
+                      variant="contained"
+                      size="large"
+                      fullWidth
+                      sx={{
+                        background: "rgb(145, 85, 253)",
+                        borderRadius: "8px",
+                        marginBottom: "25px",
+                      }}
+                      startIcon={<BiEditAlt />}
                     >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-
-                    <svg
-                      className="h-5 w-5 text-yellow-400"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
+                      Update
+                    </Button>
+                  </Tooltip>
+                  <Tooltip title="Add new user">
+                    <Button
+                      variant="contained"
+                      color="error"
+                      size="large"
+                      fullWidth
+                      sx={{
+                        borderRadius: "8px",
+                        minWidth: "130px",
+                      }}
+                      startIcon={<MdDelete />}
                     >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-
-                    <svg
-                      className="h-5 w-5 text-yellow-400"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-
-                    <svg
-                      className="h-5 w-5 text-yellow-400"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-
-                    <svg
-                      className="h-5 w-5 text-gray-200"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  </div>
+                      Delete
+                    </Button>
+                  </Tooltip>
                 </div>
               </div>
-
-              <div className="group relative mt-4">
-                <p className="">{product.descr}</p>
+            </div>
+            <div className="md:my-5">
+              <h1 className="text-2xl font-semibold md:mb-5">
+                Product reviews
+              </h1>
+              <div className="grid grid-cols-12 gap-9">
+                <div className="w-full col-span-6">
+                  {reviews && reviews[0] ? (
+                    <div className="reviews">
+                      {reviews &&
+                        reviews
+                          .map((review) => (
+                            <Comments key={review._id} review={review} />
+                          ))
+                          .reverse()}
+                    </div>
+                  ) : (
+                    <p className="noReviews">No Reviews Yet</p>
+                  )}
+                </div>
+                <div className="w-full col-span-6 flex justify-end">
+                  <ReviewsBox product={product} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-    </Layout>
+        ) : (
+          <div className="">s</div>
+          // <ProductDetailLoader />
+        )}
+      </Layout>
+    </>
   );
 };
 

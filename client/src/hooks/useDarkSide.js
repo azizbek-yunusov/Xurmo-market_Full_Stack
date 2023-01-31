@@ -1,15 +1,21 @@
-// import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-// export default function useDarkSide() {
-//   const [theme, setTheme] = useState(localStorage.theme);
-//   const colorTheme = !theme === "dark" ? "light" : "dark";
+export default function useDarkSide() {
+  const [theme, setTheme] = useState(localStorage.theme);
 
-//   useEffect(() => {
-//     const root = window.document.documentElement;
-//     root.classList.remove(colorTheme);
-//     root.classList.add(theme);
-//     localStorage.setItem("theme", theme);
-//   }, [theme, colorTheme]);
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (theme === "dark") {
+      root.classList.add("dark");
+      localStorage.setItem("theme", theme);
+    } else {
+      localStorage.setItem("theme", theme);
+      root.classList.remove("dark");
+    }
+  }, [theme]);
 
-//   return [colorTheme, setTheme];
-// }
+  const handleThemeSwitch = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+  return [theme, handleThemeSwitch];
+}

@@ -1,3 +1,4 @@
+import { Chip } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -7,6 +8,8 @@ import Layout from "../Layout";
 
 const UserProfile = () => {
   const { access_token } = useSelector((state) => state.auth);
+  const [loading, setLoading] = useState(true);
+
 
   const params = useParams();
   const { id: userId } = params;
@@ -17,6 +20,7 @@ const UserProfile = () => {
         headers: { Authorization: access_token },
       });
       setUser(data.user);
+      setLoading(false)
     } catch (err) {
       console.log(err);
     }
@@ -31,18 +35,18 @@ const UserProfile = () => {
     <>
       <HelmetTitle title={"User Profile"} />
       <Layout>
-         <div className="grid grid-cols-12 gap-5 mx-5 my-5">
+        {!loading ?  <div className="grid grid-cols-12 gap-5 mx-5 my-5">
           <div className="col-span-4 border p-5 bg-white dark:bg-[#2e2d4a] border-gray-300 dark:border-gray-700 rounded-xl  flex flex-col">
             <div className="flex flex-col items-center mt-10">
               <img
-                src="https://demos.themeselection.com/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/4.png"
+                src={user?.avatar.url || "hhss"}
                 className="w-28 h-28 rounded-xl"
                 alt=""
               />
-              <h1 className="text-2xl mt-3 text-zinc-600 dark:text-zinc-100 font-medium">
-                Azizbek
+              <h1 className="text-2xl my-3 text-zinc-600 dark:text-zinc-100 font-medium">
+                {user?.name}
               </h1>
-              <p className="bg-pink-200 dark:bg-green-200 text-center text-red-500 dark:text-green-500 px-4 pb-1 mt-3 rounded-xl"></p>
+              <Chip label="Client" size="small" color="success" />
             </div>
             <div className="mt-8">
               <h1 className="text-2xl my-3 text-zinc-600 dark:text-zinc-100">
@@ -94,7 +98,8 @@ const UserProfile = () => {
           <div className="col-span-8 border p-5 bg-white dark:bg-[#2e2d4a] border-gray-300 rounded-xl dark:border-gray-700 flex flex-col">
             s
           </div>
-        </div>
+        </div> : <h1 className="">Loading...</h1> }
+        
       </Layout>
     </>
   );

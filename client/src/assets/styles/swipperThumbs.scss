@@ -26,11 +26,12 @@
 
 .product-images-slider-thumbs {
   .swiper-slide {
+    background-color: white;
     cursor: pointer;
     border: 2px solid #dddbdb;
 
     &-thumb-active {
-      border-color: #ff0000;
+      border-color: #af02da;
     }
   }
 

@@ -4,7 +4,7 @@ const cloudinary = require("../utils/cloudinary");
 const createBanner = async (req, res) => {
   const { _id, name, href, image, createdAt } = req.body;
   try {
-    const result = await cloudinary.v2.uploader.upload(image, {
+    const result = await cloudinary.uploader.upload(image, {
       folder: "Banners",
       // width: 300,
       // crop: "scale"

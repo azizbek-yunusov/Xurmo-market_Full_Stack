@@ -4,7 +4,6 @@ import "./App.css";
 import Footer from "./components/Footer";
 import Header from "./components/Header/Header";
 import TopLink from "./components/Header/TopLink";
-import Admins from "./dashboard/UserItems/Admins";
 import AddCategory from "./dashboard/CategoryItems/AddCategory";
 import CategoriesTable from "./dashboard/CategoryItems/CategoriesTable";
 import HomeDashboard from "./dashboard/Home";
@@ -14,19 +13,19 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import BasketList from "./components/Cart/BasketList";
 import OrdersList from "./dashboard/OrderItems/OrdersList";
-import { AddBanner, BannersTable } from "./dashboard/BannerItems";
+import { AddBanner, BannersList } from "./dashboard/BannerItems";
 import {
+  AllProductList,
   CreateProduct,
   ProductDetails,
-  ProductsTable,
   UpdateProduct,
 } from "./dashboard/ProductElements";
 import {
   CreateUser,
   Profile,
   UpdateUser,
+  UserList,
   UserProfile,
-  UsersTable,
 } from "./dashboard/UserItems";
 import { ProductDetail, ProductsList } from "./components/ProductItems";
 import ActivationEmail from "./pages/ActivationEmail";
@@ -96,18 +95,17 @@ function App() {
             <Route path="/dashboard" element={<HomeDashboard />} />,
             <Route path="/product/update/:id" element={<UpdateProduct />} />
             <Route path="/product/create" element={<CreateProduct />} />
-            <Route path="/dashboard/products" element={<ProductsTable />} />
+            <Route path="/dashboard/products" element={<AllProductList />} />
             <Route path="/product/:id" element={<ProductDetails />} />
-            <Route path="/dashboard/banners" element={<BannersTable />} />
+            <Route path="/dashboard/banners" element={<BannersList />} />
             <Route path="/banner/add" element={<AddBanner />} />
             <Route path="/dashboard/brands" element={<BrandsList />} />
             <Route path="/brand/create" element={<CreateBrand />} />
             <Route path="/brand/:id" element={<UpdateBrand />} />
             <Route path="/dashboard/categories" element={<CategoriesTable />} />
             <Route path="/category/add" element={<AddCategory />} />
-            <Route path="/dashboard/users" element={<UsersTable />} />
+            <Route path="/dashboard/users" element={<UserList />} />
             <Route path="/user/create" element={<CreateUser />} />
-            <Route path="/dashboard/admins" element={<Admins />} />
             <Route path="/dashboard/orders" element={<OrdersList />} />
             <Route path="/dashboard/myprofile" element={<Profile />} />
             <Route path="/user/:id" element={<UserProfile />} />

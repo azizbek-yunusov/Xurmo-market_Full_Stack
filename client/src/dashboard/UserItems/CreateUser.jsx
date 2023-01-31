@@ -1,6 +1,17 @@
-import { Select } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import React, { useState } from "react";
+import { BiCamera } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import HelmetTitle from "../../utils/HelmetTitle";
 import Layout from "../Layout";
 
 const CreateUser = () => {
@@ -32,7 +43,6 @@ const CreateUser = () => {
       .then((data) => {
         if (data.error) {
           console.log(data.error);
-          
         } else {
           if (admin) {
             navigate("/dashboard/admins");
@@ -44,171 +54,144 @@ const CreateUser = () => {
   };
   return (
     <>
+      <HelmetTitle title={"Add new User"} />
       <Layout>
-        <section className="">
-          <div className="flex min-h-screen">
-            <div className="flex w-full p-8">
+        <section className="relative">
+          <div className="bg-indigo-400 w-full h-40 pl-5 pt-4 text-gray-50 rounded-b-lg">
+            <h1 className="text-white text-2xl">Add new User</h1>
+            {/* <ol className="list-reset mt-1 flex text-grey-dark text-sm text-gray-200">
+            <li>
+              <Link to={"/dashboard"}>Dashboard</Link>
+            </li>
+            <li>
+              <span className="mx-2">/</span>
+            </li>
+            <li>
+              <Link to={"/dashboard/products"}>Create</Link>
+            </li>
+            <li>
+              <span className="mx-2">/</span>
+            </li>
+            <li>
+              <span>Create</span>
+            </li>
+          </ol> */}
+          </div>
+          <div className="-mt-24 rounded-2xl flex mx-4 bg-white shadow-lg">
+            <div className="flex w-full p-8 px-16">
               <div className="w-full">
-                <h1 className="text-2xl font-semibold tracking-wider text-gray-800 capitalize">
-                  Create Product
-                </h1>
-
-                <p className="mt-4 text-gray-500 ">
-                  Let’s get you all set up so you can verify your personal
-                  account and begin setting up your profile.
-                </p>
-
-                <form onSubmit={createUser}>
-                  <div className="grid grid-cols-1 gap-4 mt-8 md:grid-cols-2">
-                    <div>
-                      <label className="block mb-2 text-sm text-gray-600 ">
-                        First Name
-                      </label>
-                      <input
-                        required
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        type="text"
-                        placeholder="John"
-                        className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md  focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block mb-2 text-sm text-gray-600 ">
-                        Last name
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="Snow"
-                        className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block mb-2 text-sm text-gray-600 ">
-                        Phone number
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="XXX-XX-XXXX-XXX"
-                        className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block mb-2 text-sm text-gray-600 ">
-                        Email address
-                      </label>
-                      <input
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        type="email"
-                        placeholder="johnsnow@example.com"
-                        className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block mb-2 text-sm text-gray-600 ">
-                        Password
-                      </label>
-                      <input
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        type="password"
-                        placeholder="Enter your password"
-                        className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                      />
-
-                      <Select
-                        defaultValue="USER"
-                        style={{
-                          width: 120,
-                        }}
-                        onChange={handleChange}
-                        options={[
-                          {
-                            value: true,
-                            label: "ADMIN",
-                          },
-                          {
-                            value: false,
-                            label: "USER",
-                          },
-                        ]}
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block mb-2 text-sm text-gray-600 ">
-                        Confirm password
-                      </label>
-                      <input
-                        disabled
-                        type="password"
-                        placeholder="Enter your password"
-                        className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md  focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                      />
-                    </div>
-
-                    <label htmlFor="file-upload">
-                      <label
-                        htmlFor="file-upload"
-                        className="block text-sm font-medium mb-3 text-gray-700"
-                      >
-                        Cover photo
-                      </label>
-                      <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                        <div className="space-y-1 text-center">
-                          <svg
-                            className="mx-auto h-12 w-12 text-gray-400"
-                            stroke="currentColor"
-                            fill="none"
-                            viewBox="0 0 48 48"
-                            aria-hidden="true"
-                          >
-                            <path
-                              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                              strokeWidth={2}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                          <div className="flex text-sm text-gray-600">
-                            <label
-                              htmlFor="file-upload"
-                              className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
-                            >
-                              <span>Upload a file</span>
-                              <input
-                                id="file-upload"
-                                name="file-upload"
-                                type="file"
-                                className="sr-only"
-                              />
-                            </label>
-                            <p className="pl-1">or drag and drop</p>
-                          </div>
-                          <p className="text-xs text-gray-500">
-                            PNG, JPG, GIF up to 10MB
-                          </p>
-                        </div>
+                <div className="grid grid-cols-3 gap-x-5">
+                  <div className="col-span-1 flex_center">
+                    <div className="relative">
+                      <div className="absolute bottom-3 right-0 bg-white rounded-full">
+                        <IconButton
+                          color="default"
+                          aria-label="upload picture"
+                          component="label"
+                          size="large"
+                          sx={{ padding: "10px" }}
+                        >
+                          <input hidden accept="image/*" type="file" />
+                          <BiCamera />
+                        </IconButton>
                       </div>
-                    </label>
-                  </div>
-                  <div className="w-full mt-8 flex justify-end">
-                    <div
-                      onClick={() => goback(-1)}
-                      className="inline-flex justify-center rounded-md border-2 mr-3 border-indigo-600 py-3 px-10 text-lg font-medium text-indigo-600 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    >
-                      Cancel
+                      <img
+                        src="https://www.ihp.ie/wp-content/uploads/profile-img.jpg"
+                        className="rounded-full h-40 object-cover"
+                        alt=""
+                      />
                     </div>
+                  </div>
+                  <div className="col-span-2 grid grid-cols-1 gap-6 gap-x-5 md:grid-cols-2">
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
+                      label="First Name"
+                      type="text"
+                      className="rounded-xl"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
+                      label="Last Name"
+                      type="text"
+                      className="rounded-xl"
+                      // value={price}
+                      // onChange={(e) => setPrice(e.target.value)}
+                    />
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
+                      label="Email"
+                      type="text"
+                      className="rounded-xl"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
+                      label="Phone"
+                      type="number"
+                      className="rounded-xl"
+                      // value={inStock}
+                      // onChange={(e) => setInStock(e.target.value)}
+                    />
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
+                      label="Password"
+                      type="number"
+                      className="rounded-xl"
+                      // value={Password}
+                      // onChange={(e) => setDiscount(e.target.value)}
+                    />
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      variant="outlined"
+                      label="Compare Password"
+                      type="number"
+                      className="rounded-xl"
+                      // value={discount}
+                      // onChange={(e) => setDiscount(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="w-full mt-10 flex justify-end">
+                  <Button
+                    onClick={() => goback(-1)}
+                    variant="contained"
+                    size="large"
+                    sx={{
+                      width: "150px",
+                      borderRadius: "6px",
+                      marginRight: "15px",
+                    }}
+                  >
+                    Cancel
+                  </Button>
+
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    size="large"
+                    sx={{
+                      width: "150px",
+                      background: "#AB47BC",
+                      borderRadius: "6px",
+                    }}
+                  >
                     {loading ? (
-                      <button
-                        type="submit"
-                        className="inline-flex justify-center items-center rounded-md border border-transparent bg-indigo-600 py-3 px-10 text-lg font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                      >
+                      <div className="flex items-center justify-center">
                         <svg
                           className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                           xmlns="http://www.w3.org/2000/svg"
@@ -229,18 +212,13 @@ const CreateUser = () => {
                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                           />
                         </svg>
-                        Loading...
-                      </button>
+                        {"Loading... "}
+                      </div>
                     ) : (
-                      <button
-                        type="submit"
-                        className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-10 text-lg font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                      >
-                        Save
-                      </button>
+                      "Save"
                     )}
-                  </div>
-                </form>
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
