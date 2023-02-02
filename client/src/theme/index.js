@@ -54,21 +54,6 @@ export const theme = createTheme({
         },
       },
     },
-    MuiCardHeader: {
-      defaultProps: {
-        titleTypographyProps: {
-          variant: "h6",
-        },
-        subheaderTypographyProps: {
-          variant: "body2",
-        },
-      },
-      styleOverrides: {
-        root: {
-          padding: "32px 24px",
-        },
-      },
-    },
     MuiCssBaseline: {
       styleOverrides: {
         "*": {
@@ -100,70 +85,73 @@ export const theme = createTheme({
         },
       },
     },
-    MuiOutlinedInput: {
+    MuiInputLabel: {
       styleOverrides: {
-        notchedOutline: {
-          borderColor: "#E6E8F0",
+        root: {
+          color: "#8e8e8e",
         },
       },
     },
+    MuiInput: {
+      styleOverrides: {
+        root: {
+          "&:before": {
+            borderBottom: `1px solid #919191`,
+          },
+          "&:hover:not(.Mui-disabled):before": {
+            borderBottom: `1px solid #919191`,
+          },
+          "&.Mui-disabled:before": {
+            borderBottom: `1px solid #919191`,
+          },
+        },
+      },
+    },
+    MuiFilledInput: {
+      styleOverrides: {
+        root: {
+          backgroundColor: `#919191`,
+          "&:hover:not(.Mui-disabled)": {
+            backgroundColor: `#919191`,
+          },
+          "&:before": {
+            borderBottom: `1px solid #919191`,
+          },
+          "&:hover:not(.Mui-disabled):before": {
+            borderBottom: `1px solid #919191`,
+          },
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          "&:hover:not(.Mui-focused) .MuiOutlinedInput-notchedOutline": {
+            borderColor: `#e0e0e0`,
+          },
+          "&:hover.Mui-error .MuiOutlinedInput-notchedOutline": {
+            borderColor: "red",
+          },
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#d1d0d0",
+          },
+          "&.Mui-disabled .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#d1d0d0",
+          },
+        },
+      },
+    },
+    MuiCheckbox: {
+      styleOverrides: {
+          root: {
+              color: 'a2a2a2',
+              "&$checked": {
+                color: "red",
+              },
+          },
+      },
   },
-  // MuiInputLabel: {
-  //   styleOverrides: {
-  //     root: {
-  //       color: theme.palette.text.secondary
-  //     }
-  //   }
-  // },
-  // MuiInput: {
-  //   styleOverrides: {
-  //     root: {
-  //       '&:before': {
-  //         borderBottom: `1px solid rgba(${theme.palette.customColors.main}, 0.22)`
-  //       },
-  //       '&:hover:not(.Mui-disabled):before': {
-  //         borderBottom: `1px solid rgba(${theme.palette.customColors.main}, 0.32)`
-  //       },
-  //       '&.Mui-disabled:before': {
-  //         borderBottom: `1px solid ${theme.palette.text.disabled}`
-  //       }
-  //     }
-  //   }
-  // },
-  // MuiFilledInput: {
-  //   styleOverrides: {
-  //     root: {
-  //       backgroundColor: `rgba(${theme.palette.customColors.main}, 0.04)`,
-  //       '&:hover:not(.Mui-disabled)': {
-  //         backgroundColor: `rgba(${theme.palette.customColors.main}, 0.08)`
-  //       },
-  //       '&:before': {
-  //         borderBottom: `1px solid rgba(${theme.palette.customColors.main}, 0.22)`
-  //       },
-  //       '&:hover:not(.Mui-disabled):before': {
-  //         borderBottom: `1px solid rgba(${theme.palette.customColors.main}, 0.32)`
-  //       }
-  //     }
-  //   }
-  // },
-  // MuiOutlinedInput: {
-  //   styleOverrides: {
-  //     root: {
-  //       '&:hover:not(.Mui-focused) .MuiOutlinedInput-notchedOutline': {
-  //         borderColor: `rgba(${theme.palette.customColors.main}, 0.32)`
-  //       },
-  //       '&:hover.Mui-error .MuiOutlinedInput-notchedOutline': {
-  //         borderColor: theme.palette.error.main
-  //       },
-  //       '& .MuiOutlinedInput-notchedOutline': {
-  //         borderColor: `rgba(${theme.palette.customColors.main}, 0.22)`
-  //       },
-  //       '&.Mui-disabled .MuiOutlinedInput-notchedOutline': {
-  //         borderColor: theme.palette.text.disabled
-  //       }
-  //     }
-  //   }
-  // },
+  },
   palette: {
     neutral: {
       100: "#F3F4F6",
@@ -261,73 +249,4 @@ export const theme = createTheme({
     "0px 25px 50px rgba(100, 116, 139, 0.25)",
     "0px 25px 50px rgba(100, 116, 139, 0.25)",
   ],
-  typography: {
-    button: {
-      fontWeight: 600,
-    },
-    fontFamily:
-      '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
-    body1: {
-      fontSize: "1rem",
-      fontWeight: 400,
-      lineHeight: 1.5,
-    },
-    body2: {
-      fontSize: "0.875rem",
-      fontWeight: 400,
-      lineHeight: 1.57,
-    },
-    subtitle1: {
-      fontSize: "1rem",
-      fontWeight: 500,
-      lineHeight: 1.75,
-    },
-    subtitle2: {
-      fontSize: "0.875rem",
-      fontWeight: 500,
-      lineHeight: 1.57,
-    },
-    overline: {
-      fontSize: "0.75rem",
-      fontWeight: 600,
-      letterSpacing: "0.5px",
-      lineHeight: 2.5,
-      textTransform: "uppercase",
-    },
-    caption: {
-      fontSize: "0.75rem",
-      fontWeight: 400,
-      lineHeight: 1.66,
-    },
-    h1: {
-      fontWeight: 700,
-      fontSize: "3.5rem",
-      lineHeight: 1.375,
-    },
-    h2: {
-      fontWeight: 700,
-      fontSize: "3rem",
-      lineHeight: 1.375,
-    },
-    h3: {
-      fontWeight: 700,
-      fontSize: "2.25rem",
-      lineHeight: 1.375,
-    },
-    h4: {
-      fontWeight: 700,
-      fontSize: "2rem",
-      lineHeight: 1.375,
-    },
-    h5: {
-      fontWeight: 600,
-      fontSize: "1.5rem",
-      lineHeight: 1.375,
-    },
-    h6: {
-      fontWeight: 600,
-      fontSize: "1.125rem",
-      lineHeight: 1.375,
-    },
-  },
 });

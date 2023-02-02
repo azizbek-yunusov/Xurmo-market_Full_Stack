@@ -56,6 +56,10 @@ const orderSchema = new Schema({
   deliveryType: {
     type: String,
   },
+  status: {
+    type: String,
+    default: "shipped"
+  },
   isDelivered: { type: Boolean, default: false },
   deliveredAt: { type: Date },
   user: {

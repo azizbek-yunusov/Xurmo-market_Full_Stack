@@ -10,7 +10,7 @@ const HomeDashboard = () => {
         <title data-rh="true">Dashboard | E-commerce</title>
       </Helmet>
       <Layout>
-        <h1 className="text-3xl text-gray-700 dark:text-gray-200 font-semibold mt-2 ml-4">
+        <h1 className="text-3xl text-gray-700 dark:text-gray-200 font-semibold mt-3 ml-4">
           {" "}
           Overview
         </h1>

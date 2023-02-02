@@ -31,9 +31,11 @@ const AllProductList = () => {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
-  const filteredProducts = products.filter((frontMatter) => {
-    const searchContent = frontMatter.name;
-    return searchContent.toLowerCase().includes(term.toLowerCase());
+  const filteredProducts = products.filter((value) => {
+    const searchName = value.name;
+    return (
+      searchName.toLowerCase().includes(term.toLowerCase())
+    );
   });
 
   const handleSelectAll = (event) => {
@@ -98,6 +100,7 @@ const AllProductList = () => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log(products);
   return (
     <>
       <HelmetTitle title="All products" />
@@ -106,7 +109,7 @@ const AllProductList = () => {
           <CircularProgress />
         ) : (
           <>
-            <div className="bg-white dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border border-gray-300 dark:border-gray-600">
+            <div className="bg-white dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border border-gray-200 dark:border-gray-600">
               <h1 className="p-5 text-gray-600 dark:text-gray-200 text-xl font-semibold">
                 Search Filter
               </h1>

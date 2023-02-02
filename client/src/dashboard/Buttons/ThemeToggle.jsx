@@ -54,7 +54,6 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 
 const ThemeToggle = () => {
   const [theme, handleThemeSwitch] = useDarkSide();
-  console.log(theme);
   return (
     <div onClick={handleThemeSwitch} className="mx-4 cursor-pointer flex text-2xl justify-center">
       {theme === "light" ? <FiSun className="text-gray-700" /> : <FiMoon className="text-gray-100" />}

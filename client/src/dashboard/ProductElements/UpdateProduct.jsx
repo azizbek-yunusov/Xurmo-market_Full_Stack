@@ -1,21 +1,17 @@
 import {
   Button,
   FormControl,
-  Input,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
-  TextareaAutosize,
   TextField,
 } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
-import toast from "react-hot-toast";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { IoMdClose } from "react-icons/io";
 import { useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import HelmetTitle from "../../utils/HelmetTitle";
 
 import Layout from "../Layout";
@@ -34,7 +30,6 @@ const UpdateProduct = () => {
   const [discount, setDiscount] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const goback = useNavigate();
   const navigate = useNavigate();
@@ -104,7 +99,6 @@ const UpdateProduct = () => {
     } catch (err) {
       console.log(err);
     }
-    
   };
 
   const updateProductImagesChange = (e) => {
@@ -168,7 +162,7 @@ const UpdateProduct = () => {
             </li>
           </ol> */}
           </div>
-          <div className="-mt-24 rounded-2xl flex mx-4 bg-white shadow-lg">
+          <div className="-mt-24 rounded-2xl flex mx-4 bg-white dark:bg-[#2e2d4a] border border-gray-200 dark:border-gray-600">
             <div className="flex w-full p-8 px-16">
               <div className="w-full">
                 <form onSubmit={updateProductHandler}>
@@ -252,22 +246,27 @@ const UpdateProduct = () => {
                       value={discount}
                       onChange={(e) => setDiscount(e.target.value)}
                     />
-                    <div className="">
-                      <label
-                        htmlFor="description"
-                        className="block mb-1 text-base text-gray-700"
-                      >
-                        Desciption
-                      </label>
-                      <textarea
-                        value={descr}
-                        onChange={(e) => setDescr(e.target.value)}
-                        id="description"
-                        rows="5"
-                        className="block p-2.5 w-full text-base text-gray-800 bg-white rounded-md border-2 border-gray-300 focus:ring-blue-500 focus:border-blue-500 ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Description.."
-                      />
-                    </div>
+                    <TextField
+                      fullWidth
+                      multiline
+                      minRows={5}
+                      label="Description"
+                      placeholder="Bio..."
+                      value={descr}
+                      onChange={(e) => setDescr(e.target.value)}
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          alignItems: "baseline",
+                        },
+                      }}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            {/* <MessageOutline /> */}
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
                     <div className="flex">
                       <label htmlFor="createProductFormFile">
                         <p className="block text-base mb-1 text-gray-700">

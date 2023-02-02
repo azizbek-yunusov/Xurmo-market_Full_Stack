@@ -12,7 +12,6 @@ import NotFound from "./pages/NotFound";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import BasketList from "./components/Cart/BasketList";
-import OrdersList from "./dashboard/OrderItems/OrdersList";
 import { AddBanner, BannersList } from "./dashboard/BannerItems";
 import {
   AllProductList,
@@ -38,6 +37,7 @@ import { Addresses, EditMyProfile, Favorites, MyInfor, MyOrders, Settings } from
 import useNetworkStatus from "./hooks/useNetworkStatus";
 import { SearchPage } from "./pages";
 import { BrandsList, CreateBrand, UpdateBrand } from "./dashboard/Brand";
+import { OrderItem, OrdersList } from "./dashboard/OrderItems";
 
 function App() {
   const pathname = useLocation().pathname;
@@ -107,6 +107,7 @@ function App() {
             <Route path="/dashboard/users" element={<UserList />} />
             <Route path="/user/create" element={<CreateUser />} />
             <Route path="/dashboard/orders" element={<OrdersList />} />
+            <Route path="/dashboard/order/:id" element={<OrderItem />} />
             <Route path="/dashboard/myprofile" element={<Profile />} />
             <Route path="/user/:id" element={<UserProfile />} />
             <Route path="/users/update/:id" element={<UpdateUser />} />

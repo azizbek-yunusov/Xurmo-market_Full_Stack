@@ -21,8 +21,8 @@ const SearchInput = () => {
       <div onClick={handleOpen} className="flex items-center cursor-pointer">
         <BiSearch className="text-2xl text-gray-500" />
         <p className="mx-2 text-base text-gray-400">Search</p>
-        <div className="text-xs text-gray-400 border border-gray-300 rounded-md p-1 px-[6px]">
-          ⌘K
+        <div className="text-base text-gray-400">
+          ( Ctrl + / )
         </div>
       </div>
       <Modal

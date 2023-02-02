@@ -37,56 +37,56 @@ const TopData = () => {
   }, []);
   return (
     <div className="w-full px-5 grid grid-cols-4 gap-4 md:my-4">
-      <div className="flex justify-between items-center bg-slate-50 dark:bg-[#2e2d4a] border border-gray-300 dark:border-gray-700  px-6 py-6 rounded-xl">
-        <div className="bg-orange-200 p-4 rounded-xl">
+      <div className="flex justify-start items-center bg-white dark:bg-[#2e2d4a] border border-gray-200 dark:border-gray-700  px-6 py-5 rounded-lg">
+        <div className="bg-orange-100 p-4 rounded-lg shadow-md shadow-orange-400/50">
           <BsFolder className="text-orange-500 text-3xl" />
         </div>
-        <div className="">
-          <p className="text-2xl font-semibold font-mono text-right mr-2 text-gray-700 dark:text-gray-200 ">
+        <div className="ml-4">
+          <p className="text-sm text-gray-500 dark:text-gray-200">
+            Total products
+          </p>
+          <p className="text-2xl font-semibold font-mono mr-2 text-gray-700 dark:text-gray-200 ">
             {products.length}
             {/* <CountUp d.01} end={products.length} /> */}
           </p>
-          <p className="text-base text-gray-600 dark:text-gray-200">
-            Total products
-          </p>
         </div>
       </div>
-      <div className="flex justify-between items-center px-5 border border-gray-300 dark:border-gray-700 rounded-xl bg-slate-50 dark:bg-[#2e2d4a] ">
-        <div className="bg-violet-200 p-4 rounded-xl">
+      <div className="flex justify-start items-center px-5 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-[#2e2d4a] ">
+        <div className="bg-violet-100 p-4 rounded-lg shadow-md shadow-violet-400/50">
           <AiOutlineUser className="text-violet-600 text-3xl" />
         </div>
-        <div className="">
-          <p className="text-2xl font-semibold font-mono text-right mr-2 text-gray-700 dark:text-gray-200">
-            {orders.length}
-          </p>
-          <p className="text-base text-gray-600 dark:text-gray-200">
-            Total Orders
-          </p>
-        </div>
-      </div>
-      <div className="flex justify-between items-center px-5 border border-gray-300 dark:border-gray-700 rounded-xl bg-slate-50 dark:bg-[#2e2d4a] ">
-        <div className="bg-pink-200 p-4 rounded-xl">
-          <AiOutlineShopping className="text-pink-600 text-3xl" />
-        </div>
-        <div className="">
-          <p className="text-2xl font-semibold font-mono text-right mr-2 text-gray-700 dark:text-gray-200">
-            {users.length}
-          </p>
-          <p className="text-base text-gray-600 dark:text-gray-200">
+        <div className="ml-4">
+          <p className="text-sm text-gray-500 dark:text-gray-200">
             Total Customers
           </p>
+          <p className="text-2xl font-semibold font-mono mr-2 text-gray-700 dark:text-gray-200">
+            {users.length}
+          </p>
         </div>
       </div>
-      <div className="flex justify-between items-center px-5 border border-gray-300 dark:border-gray-700 rounded-xl bg-slate-50 dark:bg-[#2e2d4a] ">
-        <div className="bg-green-200 p-4 rounded-xl">
+      <div className="flex justify-start items-center px-5 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-[#2e2d4a] ">
+        <div className="bg-pink-100 p-4 rounded-lg shadow-md shadow-pink-400/50">
+          <AiOutlineShopping className="text-pink-600 text-3xl" />
+        </div>
+        <div className="ml-4">
+          <p className="text-sm text-gray-500 dark:text-gray-200">
+            Total Orders
+          </p>
+          <p className="text-2xl font-semibold font-mono mr-2 text-gray-700 dark:text-gray-200">
+            {orders.length}
+          </p>
+        </div>
+      </div>
+      <div className="flex justify-start items-center px-5 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-[#2e2d4a] ">
+        <div className="bg-green-100 p-4 rounded-lg shadow-md shadow-green-400/50">
           <MdOutlineAttachMoney className="text-green-600 text-3xl" />
         </div>
-        <div className="">
-          <p className="text-2xl font-semibold font-mono text-right mr-2 text-gray-700 dark:text-gray-200">
-            {"$9745"}
-          </p>
-          <p className="text-base text-gray-600 dark:text-gray-200">
+        <div className="ml-4">
+          <p className="text-sm text-gray-500 dark:text-gray-200">
             Total Revenue
+          </p>
+          <p className="text-2xl font-semibold font-mono mr-2 text-gray-700 dark:text-gray-200">
+            {"$9745"}
           </p>
         </div>
       </div>

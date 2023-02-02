@@ -114,12 +114,12 @@ const UserButton = () => {
             <Avatar
               alt="Remy Sharp"
               src={
-                user.avatar.url ||
+                user.avatar?.url ||
                 "https://www.ihp.ie/wp-content/uploads/profile-img.jpg"
               }
             />
           </StyledBadge>
-          {/* <p className="normal-case ml-2">Azizbek</p> */}
+          <p className="normal-case ml-2">Azizbek</p>
         </div>
       </Button>
       <StyledMenu
