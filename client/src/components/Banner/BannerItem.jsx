@@ -6,12 +6,12 @@ const BannerItem = ({ name, image, href }) => {
   return (
     <div
       // onMouseMove={() => console.log("hover")}
-      className="w-full overflow-hidden cursor-pointer flex justify-start items-center px-1"
+      className="w-full overflow-hidden cursor-pointer flex justify-start items-center"
     >
       <img
         src={image.url}
         alt={name}
-        className="w-full bg-center object-center lg:h-full rounded-xl"
+        className="w-full bg-center object-cover lg:h-[385px] md:h-[248px] h-[135px] rounded-xl"
       />
     </div>
   );

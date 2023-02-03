@@ -1,4 +1,4 @@
-import { Tooltip } from "@mui/material";
+import { Rating, Tooltip } from "@mui/material";
 import React from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsCartCheck } from "react-icons/bs";
@@ -49,7 +49,7 @@ const WishProductItem = ({ productId }) => {
               <h1 className="text-base text-gray-700 mr-2">
                 {ratings?.toFixed(1)}
               </h1>
-              {/* <Rate className="text-base" disabled allowHalf value={ratings} /> */}
+              <Rating className="text-base" readOnly allowHalf value={ratings} />
             </div>
           </div>
           <div className="w-full flex justify-between items-center px-2">

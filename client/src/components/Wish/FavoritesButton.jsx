@@ -12,10 +12,10 @@ const FavoritesButton = () => {
         <Badge
           showZero
           badgeContent={favorites ? favorites.length : 0}
-          color="secondary"
+          color="error"
           
         >
-          <GrFavorite className="md:text-[26px] cursor-pointer text-red-600" />
+          <GrFavorite className="md:text-[26px] cursor-pointer" />
         </Badge>
       </Link>
     </>

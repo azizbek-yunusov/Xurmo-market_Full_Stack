@@ -37,19 +37,19 @@ const Header = () => {
               : "sticky top-0 right-0 w-full z-50 border-b shadow-xl border-b-gray-300"
           }`}
         >
-          <div className="container-full grid grid-cols-12 md:py-4">
+          <div className="container-full grid grid-cols-12 md:py-4 py-1">
             <div className="col-span-3 flex justify-start items-center">
               <Link
                 to="/"
-                className="text-red-600 md:text-3xl font-bold global-font"
+                className="text-red-600 md:text-3xl text-xl font-bold global-font"
               >
                 logoipsum
               </Link>
             </div>
-            <div className="col-span-6 flex justify-center items-center">
+            <div className="md:col-span-6 col-span-9 flex justify-center items-center">
               <SearchBox />
             </div>
-            <div className="col-span-3 flex justify-end items-center">
+            <div className="hidden col-span-3 lg:flex justify-end items-center">
               <ul className="flex justify-between items-center my-1">
                 <li className="mx-4">
                   <FavoritesButton />

@@ -23,20 +23,38 @@ const ProductCard = (props) => {
   const isFavorite = existItemWish === undefined ? false : true;
   return (
     <>
-      <div className="overflow-hidden relative flex tranistion_normal hover:shadow-xl flex-col justify-between h-[400px] border border-gray-200 hover:border-gray-50 rounded-xl p-3 px-4">
+      <div className="overflow-hidden relative flex tranistion_normal hover:shadow-xl flex-col justify-between md:h-[400px] h-[380px] md:border border-gray-200 hover:border-gray-50 md:rounded-xl rounded-md md:p-3 p-2 md:px-4">
         {discount > 0 && (
-          <div className="md:px-2 md:py-1 absolute top-2 left-2 md:text-sm font-semibold rounded-lg bg-red-600 text-white">
-            {discount}
+          <div className="md:px-2 p-[2px] px-1 md:py-1 absolute top-2 left-2 md:text-sm text-xs font-semibold md:rounded-lg rounded bg-red-600 text-white">
+            -{discount}
             {"%"}
           </div>
         )}
+
+        <div className="md:hidden absolute top-1 right-1">
+          {isFavorite ? (
+            <button
+              onClick={() => deleteFavoriteItem(_id)}
+              className="rounded-full border-none border-gray-400 p-1 flex_center"
+            >
+              <BsFillHeartFill className="text-2xl text-red-500" />
+            </button>
+          ) : (
+            <button
+              onClick={() => addToFavorite(_id)}
+              className="p-1 rounded-full border-none border-gray-400"
+            >
+              <BsHeart className="text-2xl text-gray-400" />
+            </button>
+          )}
+        </div>
 
         <div className="">
           <Link
             to={`/product/view/${_id}`}
             className="flex justify-center items-center"
           >
-            <img className="h-44" src={images[0].url} alt="" />
+            <img className="md:h-44 h-40" src={images[0].url} alt="" />
           </Link>
           <div className="w-full mt-1">
             <h1 className="md:text-base font-semibold global-font">{name}</h1>
@@ -48,7 +66,9 @@ const ProductCard = (props) => {
               <p className="md:text-lg font-semibold">
                 {price - (price * discount) / 100}$
               </p>
-              <p className="md:text-lg font-semibold line-through text-gray-500 md:ml-3">{price}$</p>
+              <p className="md:text-lg font-semibold line-through text-gray-500 md:ml-3">
+                {price}$
+              </p>
             </div>
           ) : (
             <p className="md:text-lg font-semibold">{price}$</p>
@@ -61,24 +81,26 @@ const ProductCard = (props) => {
             <Rating defaultValue={ratings} readOnly />
           </div>
         </div>
-        <div className="w-full flex justify-between items-center px-2">
-          {isFavorite ? (
-            <button
-              onClick={() => deleteFavoriteItem(_id)}
-              className="p-1 rounded-full border-none mr-4 border-gray-400"
-            >
-              <BsFillHeartFill className="text-[32px] text-red-500" />
-            </button>
-          ) : (
-            <button
-              onClick={() => addToFavorite(_id)}
-              className="p-1 rounded-full border-none mr-4 border-gray-400"
-            >
-              <BsHeart className="text-[32px] text-gray-400" />
-            </button>
-          )}
+        <div className="w-full flex justify-between items-center md:px-2">
+          <div className="hidden md:block">
+            {isFavorite ? (
+              <button
+                onClick={() => deleteFavoriteItem(_id)}
+                className="p-1 rounded-full border-none md:mr-4 border-gray-400"
+              >
+                <BsFillHeartFill className="md:text-[32px] text-2xl text-red-500" />
+              </button>
+            ) : (
+              <button
+                onClick={() => addToFavorite(_id)}
+                className="p-1 rounded-full border-none md:mr-4 border-gray-400"
+              >
+                <BsHeart className="md:text-[32px] text-gray-400" />
+              </button>
+            )}
+          </div>
           {isCart ? (
-            <div className="flex justify-between px-3 items-center border-2 border-[#01f736] py-[6px] w-full rounded-xl text-lg transition_normal hover:border-blue-500">
+            <div className="flex justify-between md:px-3 items-center border-2 border-[#01f736] md:py-[6px] py-1 w-full md:rounded-xl rounded-lg md:text-lg text-base transition_normal hover:border-blue-500">
               <Tooltip title="remove from cart">
                 <button
                   onClick={() => decrementQtyItem(existItem.productId._id)}
@@ -87,7 +109,9 @@ const ProductCard = (props) => {
                   <AiOutlineMinus />
                 </button>
               </Tooltip>
-              <p className="font-mono text-lg">{existItem.quantity}</p>
+              <p className="font-mono md:text-lg text-base">
+                {existItem.quantity}
+              </p>
               <Tooltip title="Increase by one">
                 <button
                   onClick={() => addToCartHandle(_id)}

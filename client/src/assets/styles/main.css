@@ -1,6 +1,6 @@
 .AuthorGradientBorder::after {
   content: "";
-  border-radius: 19px;
+  border-radius: 10px;
   position: absolute;
   top: -4px;
   left: -4px;
@@ -11,7 +11,7 @@
 }
 .AuthorGradientBorder::before {
   content: "";
-  border-radius: 19px;
+  border-radius: 10px;
   position: absolute;
   top: 0;
   left: 0;

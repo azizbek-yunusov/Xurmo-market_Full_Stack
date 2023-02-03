@@ -11,7 +11,7 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import BasketList from "./components/Cart/BasketList";
+import Basket from "./components/Cart/Basket";
 import { AddBanner, BannersList } from "./dashboard/BannerItems";
 import {
   AllProductList,
@@ -73,7 +73,7 @@ function App() {
         <Route path="/myprofile/favorites" element={<Favorites />} />
         <Route path="/product/view/:id" element={<ProductDetail />} />
         <Route path="/products" element={<ProductsList />} />
-        <Route path="/cart" element={<BasketList />} />
+        <Route path="/cart" element={<Basket />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/wishlist" element={<WishList />} />
         <Route path="/checkout" element={<CheckOut />} />

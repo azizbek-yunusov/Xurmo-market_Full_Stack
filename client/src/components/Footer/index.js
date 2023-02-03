@@ -20,7 +20,7 @@ export const Footer = () => {
         <>
           <footer
             aria-label="Site Footer"
-            className="md:py-5 border-t border-t-gray-200"
+            className="py-5 border-t border-t-gray-200 mt-8"
           >
             <div className="container-full">
               <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">

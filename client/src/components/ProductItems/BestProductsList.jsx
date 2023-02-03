@@ -19,14 +19,14 @@ const BestProductsList = () => {
   return (
     <div className="container-full md:my-5">
       <div className="flex justify-between items-center mb-5">
-        <h1 className="text-4xl font-semibold text-gray-800">Products</h1>
+        <h1 className="lg:text-4xl text-2xl font-semibold text-gray-800">Products</h1>
         <Link className="text-red-600 text-lg font-semibold" to={"/products"}>
           all views
         </Link>
       </div>
       <div className="">
         {!loading ? (
-          <div className="col-span-12 grid grid-cols-5 gap-4 relative">
+          <div className="col-span-12 grid lg:grid-cols-5 md:grid-cols-3 lg:gap-4 grid-cols-2 gap-3 relative">
             {products.slice(0, 8).map((item) => (
               <ProductCard key={item._id} {...item} />
             ))}
