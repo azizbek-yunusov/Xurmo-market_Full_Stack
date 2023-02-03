@@ -51,7 +51,7 @@ export const Review = ({ product }) => {
         fullWidth
         onClick={handleOpen}
       >
-        add review
+        Add Review
       </Button>
       <Modal
         aria-labelledby="transition-modal-title"

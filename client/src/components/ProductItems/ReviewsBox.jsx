@@ -18,7 +18,7 @@ export const ReviewsBox = () => {
     findFour?.length > 0 ? (findFour?.length * 100) / product?.numOfReviews : 0;
   return (
     <>
-      <div className="max-w-[400px] max-h-[440px] p-6 px-8 rounded-lg flex justify-between flex-col w-full border border-gray-300">
+      <div className="md:max-w-[400px] max-h-[440px] md:p-6 p-5 md:px-8 md:rounded-lg rounded-xl flex justify-between flex-col w-full border border-gray-300">
         <div className="flex md:mt-1 items-center justify-between">
           <div className="">
             <h1 className="text-5xl font-semibold">
@@ -32,7 +32,7 @@ export const ReviewsBox = () => {
             {/* <Rate disabled allowHalf value={product.ratings} /> */}
           </div>
         </div>
-        <div className="">
+        <div className="my-3">
           <div className="md:my-5 flex justify-between items-center">
             <div className="flex">
               <AiFillStar className="text-orange-500" />

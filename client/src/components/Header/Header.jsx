@@ -37,13 +37,13 @@ const Header = () => {
               : "sticky top-0 right-0 w-full z-50 border-b shadow-xl border-b-gray-300"
           }`}
         >
-          <div className="container-full grid grid-cols-12 md:py-4 py-1">
+          <div className="container-full relative grid grid-cols-12 md:py-4 py-1">
             <div className="col-span-3 flex justify-start items-center">
               <Link
                 to="/"
                 className="text-red-600 md:text-3xl text-xl font-bold global-font"
               >
-                logoipsum
+                logo
               </Link>
             </div>
             <div className="md:col-span-6 col-span-9 flex justify-center items-center">

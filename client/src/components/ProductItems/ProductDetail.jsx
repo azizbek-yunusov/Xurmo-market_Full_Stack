@@ -120,9 +120,9 @@ const ProductDetail = () => {
           <ProductDetailLoader />
         )}
 
-        <div className="container-full md:my-5">
-          <h1 className="text-4xl font-semibold md:mb-5">Product reviews</h1>
-          <div className="grid grid-cols-12 gap-9">
+        <div className="container-full md:my-0">
+          <h1 className="md:text-4xl text-2xl font-semibold md:mb-5 mb-3">Product reviews</h1>
+          <div className="lg:grid md:grid-cols-12 md:gap-9 flex flex-col-reverse">
             <div className="w-full col-span-6">
               {product.reviews && product.reviews[0] ? (
                 <div className="reviews">

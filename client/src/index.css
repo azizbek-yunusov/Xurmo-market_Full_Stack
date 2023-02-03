@@ -33,6 +33,9 @@
 .flex_betwen {
   @apply flex items-center justify-between;
 }
+.flex_col {
+  @apply flex flex-col;
+}
 .text-primary {
   @apply text-xl text-gray-800 font-semibold;
 }

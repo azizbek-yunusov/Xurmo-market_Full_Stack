@@ -143,14 +143,31 @@ export const theme = createTheme({
     },
     MuiCheckbox: {
       styleOverrides: {
-          root: {
-              color: 'a2a2a2',
-              "&$checked": {
-                color: "red",
-              },
+        root: {
+          color: "a2a2a2",
+          "&$checked": {
+            color: "red",
           },
+        },
       },
-  },
+    },
+    MuiSelect: {
+      styleOverrides: {
+        select: {
+          minWidth: "6rem !important",
+          "&.MuiTablePagination-select": {
+            minWidth: "1rem !important",
+          },
+        },
+      },
+    },
+    MuiRating: {
+      styleOverrides: {
+        root: {
+          color: "orange"
+        }
+      }
+    }
   },
   palette: {
     neutral: {

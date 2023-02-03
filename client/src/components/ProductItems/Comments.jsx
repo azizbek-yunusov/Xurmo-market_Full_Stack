@@ -4,11 +4,11 @@ import { Rating } from "@mui/material";
 
 const Comments = ({ review }) => {
   return (
-    <div className="rounded-lg my-5 shadow-md p-5 w-full">
-      <div className="flex justify-between border-b border-gray-200 md:pb-3">
+    <div className="rounded-lg my-5 border border-gray-200 p-5 w-full">
+      <div className="flex justify-between md:pb-3">
         <div className="flex items-center">
           <img
-            src="https://www.ihp.ie/wp-content/uploads/profile-img.jpg"
+            src={review.user?.avatar.url || "https://www.ihp.ie/wp-content/uploads/profile-img.jpg"}
             className="w-12 h-1w-12 rounded-full"
             alt=""
           />

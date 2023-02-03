@@ -35,9 +35,9 @@ import { WishList } from "./components/Wish";
 import CheckOut from "./components/CheckOut";
 import { Addresses, EditMyProfile, Favorites, MyInfor, MyOrders, Settings } from "./components/Profile";
 import useNetworkStatus from "./hooks/useNetworkStatus";
-import { SearchPage } from "./pages";
 import { BrandsList, CreateBrand, UpdateBrand } from "./dashboard/Brand";
 import { OrderItem, OrdersList } from "./dashboard/OrderItems";
+import { SearchPage } from "./components/Search";
 
 function App() {
   const pathname = useLocation().pathname;

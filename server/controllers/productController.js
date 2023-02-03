@@ -35,8 +35,8 @@ const getbestProducts = async (req, res) => {
 const getProduct = async (req, res) => {
   try {
     const product = await ProductModel.findById(req.params.id)
-      .populate("createdBy", "_id name")
-      .populate("reviews.user", "_id name");
+      .populate("createdBy", "_id name avatar")
+      .populate("reviews.user", "_id name avatar");
     res.status(201).json({ product });
   } catch (err) {
     console.log(err);
@@ -49,7 +49,7 @@ const createProduct = async (req, res) => {
     let imagesBuffer = [];
 
     for (let i = 0; i < images.length; i++) {
-      const result = await cloudinary.v2.uploader.upload(images[i], {
+      const result = await cloudinary.uploader.upload(images[i], {
         folder: "products",
       });
 
@@ -121,7 +121,7 @@ const deleteProduct = async (req, res) => {
     return res.status(401).json({ msg: "Product not found" });
   }
   for (let i = 0; i < product.images.length; i++) {
-    await cloudinary.v2.uploader.destroy(product.images[i].public_id);
+    await cloudinary.uploader.destroy(product.images[i].public_id);
   }
   await product.remove();
   res.status(201).json({
@@ -139,10 +139,7 @@ const addReview = async (req, res) => {
       comment,
     };
 
-    const product = await ProductModel.findById(productId).populate(
-      "reviews.user",
-      "_id name"
-    );
+    let product = await ProductModel.findById(productId).populate("reviews.user", "_id name avatar");
 
     const isReviewed = product.reviews.find(
       (rev) => rev.name.toString() === req.user.id.toString()
