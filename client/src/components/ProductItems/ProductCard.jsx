@@ -23,7 +23,7 @@ const ProductCard = (props) => {
   const isFavorite = existItemWish === undefined ? false : true;
   return (
     <>
-      <div className="overflow-hidden relative flex tranistion_normal hover:shadow-xl flex-col justify-between md:h-[400px] h-[380px] md:border border-gray-200 hover:border-gray-50 md:rounded-xl rounded-md md:p-3 p-2 md:px-4">
+      <div className="overflow-hidden bg-white relative flex tranistion_normal hover:shadow-xl flex-col justify-between md:h-[400px] h-[380px] md:border border-gray-200 hover:border-gray-50 md:rounded-xl rounded-md md:p-3 p-2 md:px-4">
         {discount > 0 && (
           <div className="md:px-2 p-[2px] px-1 md:py-1 absolute top-2 left-2 md:text-sm text-xs font-semibold md:rounded-lg rounded bg-red-600 text-white">
             -{discount}
@@ -100,22 +100,22 @@ const ProductCard = (props) => {
             )}
           </div>
           {isCart ? (
-            <div className="flex justify-between md:px-3 items-center border-2 border-[#01f736] md:py-[6px] py-1 w-full md:rounded-xl rounded-lg md:text-lg text-base transition_normal hover:border-blue-500">
+            <div className="flex justify-between md:px-3 items-center border-2 border-[#888888] md:py-[6px] py-1 w-full md:rounded-xl rounded-lg md:text-lg text-base transition_normal hover:border-blue-500">
               <Tooltip title="remove from cart">
                 <button
                   onClick={() => decrementQtyItem(existItem.productId._id)}
-                  className="text-gray-600 px-4 py-1"
+                  className="text-gray-800 px-1 py-1"
                 >
                   <AiOutlineMinus />
                 </button>
               </Tooltip>
-              <p className="font-mono md:text-lg text-base">
+              <p className="font-mono md:text-lg text-gray-800 text-base">
                 {existItem.quantity}
               </p>
               <Tooltip title="Increase by one">
                 <button
                   onClick={() => addToCartHandle(_id)}
-                  className=" tranistion_normal  px-4 py-1"
+                  className=" tranistion_normal text-gray-800 px-1 py-1"
                 >
                   <AiOutlinePlus />
                 </button>

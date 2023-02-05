@@ -39,6 +39,9 @@
 .text-primary {
   @apply text-xl text-gray-800 font-semibold;
 }
+.border_l {
+  @apply border border-gray-200;
+}
 .tranistion_normal {
   @apply transition duration-200 ease-linear;
 }

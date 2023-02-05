@@ -87,8 +87,7 @@ const CategoriesTable = () => {
       console.log(err);
     }
   };
-  const deleteCategory = async (e) => {
-    e.preventDefault();
+  const deleteCategory = async (id) => {
     try {
       await axios.delete(`/category/${id}`, {
         headers: {
@@ -109,10 +108,6 @@ const CategoriesTable = () => {
     fetchProducts();
     fetchData();
   }, []);
-  const [checked, setChecked] = useState(false);
-  const checkToggle = (checked) => {
-    setChecked(!checked);
-  };
   return (
     <>
     <HelmetTitle title="All categories" />
@@ -271,7 +266,7 @@ const CategoriesTable = () => {
                 </div>
               )}
 
-              {isTable ? (
+              {!isTable ? (
                 <TableBody
                   categories={categories}
                   handleSelectAll={handleSelectAll}

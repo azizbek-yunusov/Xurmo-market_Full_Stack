@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import CategoryItem from "./CategoryItem";
-import { Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
-import "swiper/css/pagination";
 import { CategoryListLoader } from "../SkeletonLoaders";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 
@@ -31,42 +29,31 @@ const CategoryList = () => {
       {loading ? (
         <CategoryListLoader />
       ) : (
-        <div className="md:my-10 my-5 container-full">
+        <div className="md:my-10 mb-6 container-full">
           <Swiper
-            style={{
-              "--swiper-navigation-size": "18px",
-            }}
             breakpoints={{
               300: {
-                width: 300,
                 slidesPerView: 3,
-                spaceBetween: 10,
-              },
-              425: {
-                width: 425,
-                slidesPerView: 3,
-                spaceBetween: 10,
-              },
-              640: {
-                width: 640,
-                slidesPerView: 3,
-                spaceBetween: 10,
+                spaceBetween: 5,
               },
               768: {
-                width: 768,
-                slidesPerView: 5,
-                spaceBetween: 10,
+                slidesPerView: 4,
+                spaceBetween: 5,
               },
               1024: {
-                width: 1024,
+                slidesPerView: 5,
+                spaceBetween: 20,
+              },
+              1440: {
                 slidesPerView: 6,
-                spaceBetween: 40,
+                spaceBetween: 20,
               },
             }}
-            modules={[Pagination]}
-            navigation
-            pagination={{ clickable: true }}
-            scrollbar={{ draggable: true }}
+            slidesPerView={7}
+            spaceBetween={5}
+            pagination={{
+              clickable: true,
+            }}
           >
             {categories.map((item, index) => (
               <SwiperSlide key={index}>

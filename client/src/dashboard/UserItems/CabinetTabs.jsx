@@ -7,7 +7,7 @@ const CabinetTabs = () => {
   const pathname = useLocation().pathname;
 
   return (
-      <div className="flex my-4 rounded-xl bg-white shadow-lg">
+      <div className="flex my-4 rounded-xl bg-white border_l">
         <div className="flex justify-center items-center rounded-xl py-3 md:px-7">
           <div className="w-full flex justify-between items-center ">
             {sidebarAdminUz.map((item, index) => (

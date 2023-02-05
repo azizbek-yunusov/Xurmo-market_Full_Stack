@@ -12,6 +12,7 @@ const TableBody = ({
   handleSelectOne,
   deleteCategory,
 }) => {
+  console.log(categories);
   return (
     <table className="min-w-max w-full table-auto rounded-lg ">
       <thead>
@@ -42,7 +43,7 @@ const TableBody = ({
                 className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 font-semibold hover:dark:bg-gray-600"
               >
                 <td className="py-3 flex_center">
-                   <Checkbox
+                  <Checkbox
                     checked={selectedCategoryIds.indexOf(item._id) !== -1}
                     onChange={(event) => handleSelectOne(event, item._id)}
                     value="true"
@@ -71,23 +72,34 @@ const TableBody = ({
                   <div className="flex justify-start items-center">
                     <div className="mr-2">
                       <Avatar
-                        src="https://www.material-tailwind.com/img/face-2.jpg"
+                        src={
+                          item.createdBy?.avatar?.url ||
+                          "https://www.material-tailwind.com/img/face-2.jpg"
+                        }
                         alt="avatar"
                         size="sm"
                       />
                     </div>
-                    <span className="mr-2">
-                      {item.createdBy ? item.createdBy.name : "deleted account"}
-                    </span>
+                    <div className="flex flex-col">
+                      <Link
+                        to={`/category/${item.createdBy?._id}`}
+                        className="transition_normal hover:text-purple-500"
+                      >
+                        {item.createdBy?.name}
+                      </Link>
+                      <span className="text-gray-500 text-[12px]">
+                        {item.createdBy?.email}
+                      </span>
+                    </div>
                   </div>
                 </td>
-                <td className="py-3 px-6 text-left">
+                <td className="py-3 px-3 text-left">
                   <div className="flex justify-start items-center">
                     <span>{moment(item.createdAt).format("lll")}</span>
                   </div>
                 </td>
 
-                <td className="py-3 px-6 text-left">
+                <td className="py-3 px-3 text-left">
                   <div className="flex item-center justify-start">
                     <Link
                       to={`/category/${item._id}`}
@@ -148,7 +160,7 @@ const TableBody = ({
         )}
       </tbody>
     </table>
-  )
-}
+  );
+};
 
-export default TableBody
+export default TableBody;

@@ -8,7 +8,7 @@ const CabinetTop = () => {
   const { user } = useSelector((state) => state.auth);
 
   return (
-    <div className="bg-white shadow-lg rounded-xl p-2 relative">
+    <div className="bg-white border_l rounded-xl p-2 relative">
       <div className="-z-20">
         <img
           src="/images/profilebg.png"

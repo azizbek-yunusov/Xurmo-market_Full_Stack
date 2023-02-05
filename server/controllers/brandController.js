@@ -5,7 +5,7 @@ const cloudinary = require("../utils/cloudinary");
 const createBrand = async (req, res) => {
   const { _id, name, slug, image, createdAt } = req.body;
   try {
-    const result = await cloudinary.v2.uploader.upload(image, {
+    const result = await cloudinary.uploader.upload(image, {
       folder: "Brands",
     });
     const brand = await BrandModel.create({

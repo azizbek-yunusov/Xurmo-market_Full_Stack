@@ -180,6 +180,7 @@ const getSearch = async (req, res) => {
     const pageSize = query.pageSize || PAGE_SIZE;
     const page = query.page || 1;
     const category = query.category || "";
+    const brand = query.brand || "";
     const price = query.price || "";
     const rating = query.rating || "";
     const searchQuery = query.query || "";
@@ -196,6 +197,7 @@ const getSearch = async (req, res) => {
         : {};
 
     const categoryFilter = category && category !== "all" ? { category } : {};
+    const brandFilter = brand && brand !== "all" ? { brand } : {};
 
     const ratingFilter =
       rating && rating !== "all"
@@ -233,6 +235,7 @@ const getSearch = async (req, res) => {
     const products = await ProductModel.find({
       ...queryFilter,
       ...categoryFilter,
+      ...brandFilter,
       ...priceFilter,
       ...ratingFilter,
     })
@@ -243,6 +246,7 @@ const getSearch = async (req, res) => {
     const countProducts = await ProductModel.countDocuments({
       ...queryFilter,
       ...categoryFilter,
+      ...brandFilter,
       ...priceFilter,
       ...ratingFilter,
     });

@@ -6,7 +6,7 @@ const AutoComplate = ({ filteredData, clearFilter, query }) => {
     <>
       {filteredData.length !== 0 && (
         <>
-          <div className="block lg:w-[500px] md:w-[420px] mt-[2px] rounded-lg shadow-md text-left overflow-hidden z-20 max-h-96 absolute left-0 top-11 bg-white">
+          <div className="block lg:w-[600px] md:w-[420px] mt-[2px] rounded-lg shadow-md text-left overflow-hidden z-20 max-h-96 absolute left-0 top-11 bg-white">
             <Link
               to={`/product/`}
               onClick={clearFilter}
@@ -17,7 +17,7 @@ const AutoComplate = ({ filteredData, clearFilter, query }) => {
             {filteredData.slice(0, 20).map((value, key) => {
               return (
                 <Link
-                  to={`/product/${value._id}`}
+                  to={`/product/view/${value._id}`}
                   onClick={clearFilter}
                   className="cursor-pointer py-2 w-full px-5 hover:bg-gray-100 flex items-center"
                   key={key}

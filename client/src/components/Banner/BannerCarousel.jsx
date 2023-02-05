@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Navigation, Pagination } from "swiper";
+import { Autoplay, Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
@@ -40,7 +40,7 @@ const BannerCarousel = () => {
     fetchProducts();
   }, []);
   return (
-    <div className="container-full lg:grid lg:grid-cols-12 block overflow-hidden md:my-5 gap-0 pb-2">
+    <div className="container-full lg:grid lg:grid-cols-12 block overflow-hidden md:my-4 gap-0 pb-2">
       <div className="col-span-9 rounded-xl overflow-hidden">
         {loading ? (
           <BannerLoader />
@@ -49,25 +49,27 @@ const BannerCarousel = () => {
             style={{
               "--swiper-navigation-size": "18px",
             }}
-            // breakpoints={{
-            //   300: {
-            //     width: 300,
-            //     modules: [Pagination, Navigation],
-            //   },
-            //   768: {
-            //     width: 768,
-            //     modules: [Pagination, Navigation],
-            //   },
-            //   1024: {
-            //     width: 1024,
-            //     modules: [Pagination, Navigation],
-            //   },
-            //   1280: {
-            //     width: 1280,
-            //     modules: [Pagination, Navigation],
-            //   },
-            // }}
-            modules={[Pagination, Navigation]}
+            breakpoints={{
+              300: {
+                modules: [],
+              },
+              768: {
+                modules: [],
+              },
+              1024: {
+                width: 1024,
+                modules: [Pagination, Navigation],
+              },
+              1280: {
+                width: 1280,
+                modules: [Pagination, Navigation],
+              },
+            }}
+            modules={[Autoplay, Pagination, Navigation]}
+            autoplay={{
+              delay: 2500,
+              disableOnInteraction: false,
+            }}
             spaceBetween={10}
             slidesPerView={1}
             navigation={true}

@@ -20,6 +20,7 @@ import {
   UpdateProduct,
 } from "./dashboard/ProductElements";
 import {
+  AccountSetting,
   CreateUser,
   Profile,
   UpdateUser,
@@ -33,7 +34,14 @@ import { useEffect } from "react";
 import { refreshToken } from "./redux/actions/authAction";
 import { WishList } from "./components/Wish";
 import CheckOut from "./components/CheckOut";
-import { Addresses, EditMyProfile, Favorites, MyInfor, MyOrders, Settings } from "./components/Profile";
+import {
+  Addresses,
+  EditMyProfile,
+  Favorites,
+  MyInfor,
+  MyOrders,
+  Settings,
+} from "./components/Profile";
 import useNetworkStatus from "./hooks/useNetworkStatus";
 import { BrandsList, CreateBrand, UpdateBrand } from "./dashboard/Brand";
 import { OrderItem, OrdersList } from "./dashboard/OrderItems";
@@ -48,7 +56,17 @@ function App() {
   useEffect(() => {
     dispatch(refreshToken());
   }, [dispatch]);
-
+  useEffect(() => {
+    // replain config
+    window.replainSettings = { id: "c95b900e-06ea-42b1-8cbc-f4c2fe9edce6" };
+    (function (u) {
+      var s = document.createElement("script");
+      s.async = true;
+      s.src = u;
+      var x = document.getElementsByTagName("script")[0];
+      x.parentNode.insertBefore(s, x);
+    })("https://widget.replain.cc/dist/client.js");
+  }, []);
   return (
     <>
       <Toaster position="top-left" reverseOrder={true} />
@@ -109,6 +127,7 @@ function App() {
             <Route path="/dashboard/orders" element={<OrdersList />} />
             <Route path="/dashboard/order/:id" element={<OrderItem />} />
             <Route path="/dashboard/myprofile" element={<Profile />} />
+            <Route path="/cabinet/settings" element={<AccountSetting />} />
             <Route path="/user/:id" element={<UserProfile />} />
             <Route path="/users/update/:id" element={<UpdateUser />} />
           </>

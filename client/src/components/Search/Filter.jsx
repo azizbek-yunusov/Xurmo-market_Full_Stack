@@ -1,126 +1,216 @@
-import styled from "@emotion/styled";
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
+  Checkbox,
+  FormControl,
   InputAdornment,
-  Slider,
-  SliderThumb,
+  Rating,
   TextField,
-  Typography,
 } from "@mui/material";
+import Slider from "@material-ui/core/Slider";
 import React, { useState } from "react";
-import { MdOutlineExpandMore } from "react-icons/md";
+import { BiSearch } from "react-icons/bi";
+import { MdOutlineKeyboardArrowDown } from "react-icons/md";
+import { Link } from "react-router-dom";
 
-function AirbnbThumbComponent(props) {
-  const { children, ...other } = props;
-  return <SliderThumb {...other}>{children}</SliderThumb>;
-}
-
-const AirbnbSlider = styled(Slider)(({ theme }) => ({
-  color: "#3a8589",
-  height: 5,
-  padding: "13px 10",
-
-  "& .MuiSlider-thumb": {
-    height: 27,
-    width: 27,
-    backgroundColor: "#fff",
-    border: "1px solid currentColor",
-    "&:hover": {
-      boxShadow: "0 0 0 8px rgba(58, 133, 137, 0.16)",
-    },
-    "& .airbnb-bar": {
-      height: 9,
-      width: 1,
-      backgroundColor: "currentColor",
-      marginLeft: 1,
-      marginRight: 1,
-    },
-  },
-  "& .MuiSlider-track": {
-    height: 3,
-  },
-  "& .MuiSlider-rail": {
-    color: theme.palette.mode === "dark" ? "#bfbfbf" : "#d8d8d8",
-    opacity: theme.palette.mode === "dark" ? undefined : 1,
-    height: 10,
-  },
-}));
 function valuetext(value) {
   return `${value}°C`;
 }
-const Filter = ({ categories, brands }) => {
-  const [value, setValue] = useState([10, 90]);
+
+export const ratings = [
+  {
+    name: "5",
+    rating: 5,
+  },
+  {
+    name: "4",
+    rating: 4,
+  },
+
+  {
+    name: "3",
+    rating: 3,
+  },
+
+  {
+    name: "2",
+    rating: 2,
+  },
+
+  {
+    name: "1",
+    rating: 1,
+  },
+];
+
+const Filter = ({ categories, brands, getFilterUrl }) => {
+  const [value, setValue] = useState([0, 10000]);
+  const [termBd, setTermBd] = useState("");
+  const [termCy, setTermCy] = useState("");
+  const [showCy, setShowCy] = useState(true);
+  const [showBd, setShowBd] = useState(true);
+  const [showRg, setShowRg] = useState(true);
+  const [showPc, setShowPc] = useState(true);
   const [fromPrice, setFromPrice] = useState(0);
   const [untilPrice, setUntilPrice] = useState(100000);
+
+  const filteredBrands = brands.filter((s) => {
+    const searchName = s.name;
+    return searchName.toLowerCase().includes(termBd.toLowerCase());
+  });
+  const filteredCategories = categories.filter((s) => {
+    const searchName = s.name;
+    return searchName.toLowerCase().includes(termCy.toLowerCase());
+  });
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   return (
-    <div className="flex_col border border-gray-200 rounded-lg p-4">
+    <div className="flex_col border border-gray-200 rounded-lg p-5">
       <h1 className="text-xl text-gray-700 font-semibold md:mb-8">Filter</h1>
       <div className="flex_col">
-        <p className="text-lg text-gray-600 font-semibold md:mb-3">Price</p>
-        <Slider
-          getAriaLabel={() => "Temperature range"}
-          value={value}
-          onChange={handleChange}
-          valueLabelDisplay="auto"
-          getAriaValueText={valuetext}
-        />
-
-        <div className="flex_betwen md:my-5">
-          <TextField
-            type={"number"}
-            size="small"
-            id="max-price"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">dan</InputAdornment>
-              ),
-            }}
-            sx={{ marginRight: "8px" }}
-          />
-
-          <TextField
-            type={"number"}
-            size="small"
-            id="max-price"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">gacha</InputAdornment>
-              ),
-            }}
-          />
+        <div
+          onClick={() => setShowPc(!showPc)}
+          className="flex_betwen text-gray-600 md:mb-2 cursor-pointer"
+        >
+          <p className="text-lg font-semibold">Price</p>
+          <MdOutlineKeyboardArrowDown className="md:text-2xl" />
         </div>
-        <div className="flex_col md:my-5">
-          <p className="text-lg text-gray-600 font-semibold md:mb-2">
-            Category
-          </p>
-          <div className="block">
-            {categories.map((item, index) => (
-              <p key={index} className="my-2 w-full text-gray-600">
-                {item.name}
-              </p>
-            ))}
+        {showPc && (
+          <div className="">
+            <Slider
+              value={value}
+              onChange={handleChange}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+              min={0}
+              max={10000}
+            />
+
+            <div className="flex_betwen md:my-5">
+              <TextField
+                size="small"
+                // value={term}
+                // onChange={(e) => setTerm(e.target.value)}
+                placeholder="dan"
+                variant="outlined"
+                sx={{ marginRight: "15px" }}
+              />
+              <TextField
+                size="small"
+                // value={term}
+                // onChange={(e) => setTerm(e.target.value)}
+                placeholder="gacha"
+                variant="outlined"
+              />
+            </div>
           </div>
-          
+        )}
+        <div className="flex_col md:my-3">
+          <div
+            onClick={() => setShowCy(!showCy)}
+            className="flex_betwen text-gray-600 md:mb-2 cursor-pointer"
+          >
+            <p className="text-lg font-semibold">Category</p>
+            <MdOutlineKeyboardArrowDown className="md:text-2xl" />
+          </div>
+          {showCy && (
+            <div className="">
+              <FormControl>
+                <TextField
+                  size="small"
+                  fullWidth
+                  value={termCy}
+                  onChange={(e) => setTermCy(e.target.value)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <BiSearch className="text-xl" />
+                      </InputAdornment>
+                    ),
+                  }}
+                  placeholder="Search Category"
+                  variant="outlined"
+                />
+              </FormControl>
+              <div className="block mt-1">
+                {filteredCategories.map((item, index) => (
+                  <Link
+                    to={getFilterUrl({ category: item.name })}
+                    key={index}
+                    className="flex"
+                  >
+                    <Checkbox size="small" />
+                    <p className="my-[6px] w-full text-gray-600">{item.name}</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-        <div className="flex_col md:my-5">
-          <p className="text-lg text-gray-600 font-semibold md:mb-2">
-            Brand
-          </p>
-          <div className="block">
-            {brands.map((item, index) => (
-              <p key={index} className="my-2 w-full text-gray-600">
-                {item.name}
-              </p>
-            ))}
+        <div className="flex_col md:my-3">
+          <div
+            onClick={() => setShowBd(!showBd)}
+            className="flex_betwen text-gray-600 md:mb-2 cursor-pointer"
+          >
+            <p className="text-lg font-semibold">Brand</p>
+            <MdOutlineKeyboardArrowDown className="md:text-2xl" />
           </div>
-          
+          {showBd && (
+            <div className="">
+              <FormControl>
+                <TextField
+                  size="small"
+                  fullWidth
+                  value={termBd}
+                  onChange={(e) => setTermBd(e.target.value)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <BiSearch className="text-xl" />
+                      </InputAdornment>
+                    ),
+                  }}
+                  placeholder="Search Brand"
+                  variant="outlined"
+                />
+              </FormControl>
+              <div className="block mt-1">
+                {filteredBrands.map((item, index) => (
+                  <div key={index} className="flex items-center">
+                    <Checkbox size="small" />
+                    <p className="my-[6px] w-full uppercase font-semibold text-gray-600">
+                      {item.name}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+        <div className="flex_col md:my-3">
+          <div
+            onClick={() => setShowRg(!showRg)}
+            className="flex_betwen text-gray-600 md:mb-2 cursor-pointer"
+          >
+            <p className="text-lg font-semibold">Rating</p>
+            <MdOutlineKeyboardArrowDown className="md:text-2xl" />
+          </div>
+          {showRg && (
+            <div className="flex_col mt-1">
+              {ratings.map((item, index) => (
+                <Link
+                  to={getFilterUrl({ rating: item.rating })}
+                  key={index}
+                  className="flex items-center md:my-1"
+                >
+                  <Checkbox size="small" color="warning" />
+                  <Rating defaultValue={item.rating} readOnly />
+                  <span className="ml-2 text-gray-800">{item.name}</span>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

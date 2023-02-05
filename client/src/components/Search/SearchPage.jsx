@@ -21,6 +21,7 @@ const SearchPage = () => {
   const { search } = useLocation();
   const sp = new URLSearchParams(search); // /search?category=Shirts
   const category = sp.get("category") || "all";
+  const brand = sp.get("brand") || "all";
   const query = sp.get("query") || "all";
   const price = sp.get("price") || "all";
   const rating = sp.get("rating") || "all";
@@ -35,7 +36,7 @@ const SearchPage = () => {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
-          `/search?page=${page}&query=${query}&category=${category}&price=${price}&rating=${rating}&order=${order}`
+          `/search?page=${page}&query=${query}&category=${category}&price=${price}&brand=${brand}&rating=${rating}&order=${order}`
         );
         setResult(data.products);
       } catch (err) {
@@ -43,18 +44,19 @@ const SearchPage = () => {
       }
     };
     fetchData();
-  }, [category, order, page, price, query, rating]);
+  }, [category, brand, order, page, price, query, rating]);
 
   const getFilterUrl = (filter, skipPathname) => {
     const filterPage = filter.page || page;
     const filterCategory = filter.category || category;
+    const filterBrand = filter.brand || brand;
     const filterQuery = filter.query || query;
     const filterRating = filter.rating || rating;
     const filterPrice = filter.price || price;
     const sortOrder = filter.order || order;
     return `${
       skipPathname ? "" : "/search?"
-    }category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}&order=${sortOrder}&page=${filterPage}`;
+    }category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&brand=${filterBrand}&rating=${filterRating}&order=${sortOrder}&page=${filterPage}`;
   };
   const fetchCategory = async () => {
     const { data } = await axios.get("/categories");
@@ -81,8 +83,12 @@ const SearchPage = () => {
           </h1>
         ) : null}
         <div className="grid grid-cols-12 min-h-[550px] md:gap-x-5">
-          <div className="col-span-3 xl:block hidden">
-            <Filter categories={categories} brands={brands} />
+          <div className="col-span-3 xl:block hidden px-2 overflow-y-scroll max-h-screen">
+            <Filter
+              categories={categories}
+              brands={brands}
+              getFilterUrl={getFilterUrl}
+            />
           </div>
           <div className="col-span-9">
             <div className="flex_betwen md:mb-6">

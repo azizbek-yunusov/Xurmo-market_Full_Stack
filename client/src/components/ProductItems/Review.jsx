@@ -1,4 +1,12 @@
-import { Backdrop, Box, Button, Fade, Modal, Rating } from "@mui/material";
+import {
+  Backdrop,
+  Box,
+  Button,
+  Fade,
+  Modal,
+  Rating,
+  TextField,
+} from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -66,7 +74,7 @@ export const Review = ({ product }) => {
       >
         <Fade in={open}>
           <Box sx={style} className="rounded-xl bg-white">
-            <h1 className="text-primary">Write a review</h1>
+            <h1 className="text-primary md:mb-3 mb-2">Write a review</h1>
             <form onSubmit={reviewsHandle}>
               <Rating
                 name="simple-controlled"
@@ -74,21 +82,22 @@ export const Review = ({ product }) => {
                 onChange={(event, newValue) => {
                   setRating(newValue);
                 }}
-                sx={{ marginY: "6px" }}
+                sx={{ marginBottom: "20px" }}
               />
-              <textarea
+              <TextField
+                fullWidth
+                multiline
+                label="Comments"
+                minRows={4}
+                placeholder="Comments"
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                id="message"
-                rows="5"
-                className="block p-2.5 my-3 w-full text-base text-gray-800 bg-gray-50 rounded-lg border-2 border-gray-300 focus:ring-purple-500 focus:border-purple-500 ring-purple-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500"
-                placeholder="Your message..."
               />
               <div className="flex items-center justify-end mt-5">
                 <Button
                   onClick={handleClose}
                   variant="contained"
-                  size="large"
+                  size="medium"
                   color="info"
                   sx={{ borderRadius: "6px", marginRight: "15px" }}
                 >
@@ -97,7 +106,7 @@ export const Review = ({ product }) => {
                 <Button
                   onClick={handleClose}
                   variant="contained"
-                  size="large"
+                  size="medium"
                   type="submit"
                 >
                   add review

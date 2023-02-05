@@ -47,7 +47,7 @@ const AddCategory = () => {
         if (data.error) {
         } else {
           setLoading(false);
-          navigate("/dashboard/categoies");
+          navigate("/dashboard/categories");
         }
       });
   };
