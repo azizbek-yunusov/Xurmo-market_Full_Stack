@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ProductCard from "../ProductItems/ProductCard";
+import AdaptableCard from "./AdaptableCard";
 import WatchingVideoCard from "./WatchingVideoCard";
 
 const ListBox = () => {
@@ -30,8 +31,8 @@ const ListBox = () => {
         </div>
         <div className="grid grid-cols-12 md:gap-x-5">
           <div className="col-span-3 md:mx-2">
-            {products.slice(0, 1).map((item, index) => (
-              <ProductCard key={index} {...item} />
+            {products.slice(0, 2).map((item, index) => (
+              <AdaptableCard key={index} index={index} {...item} />
             ))}
           </div>
           <div className="col-span-9">

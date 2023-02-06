@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ProductCard from "./ProductCard";
 import { ProductList } from "../SkeletonLoaders";
+import { useTranslation } from "react-i18next";
 
 const BestProductsList = () => {
+  const { t } = useTranslation(["product"]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const fetchData = async () => {
@@ -19,9 +21,9 @@ const BestProductsList = () => {
   return (
     <div className="container-full md:my-5">
       <div className="flex justify-between items-center mb-5">
-        <h1 className="lg:text-4xl text-2xl font-semibold text-gray-800">Products</h1>
+        <h1 className="lg:text-4xl text-2xl font-semibold text-gray-800">{t("bestp")}</h1>
         <Link className="text-red-600 text-lg font-semibold" to={"/products"}>
-          all views
+        {t("allviews")}
         </Link>
       </div>
       <div className="">

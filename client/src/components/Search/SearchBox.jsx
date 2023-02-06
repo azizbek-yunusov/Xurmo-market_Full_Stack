@@ -6,8 +6,10 @@ import { recognition } from "../../utils/SpeechRecognition";
 import { useMediaQuery } from "@mui/material";
 import axios from "axios";
 import AutoComplate from "./AutoComplate";
+import { useTranslation } from "react-i18next";
 
 const SearchBox = () => {
+  const { t } = useTranslation(["product"]);
   const navigate = useNavigate();
   const matches = useMediaQuery("(min-width: 700px)");
   const [query, setQuery] = useState("");
@@ -79,9 +81,7 @@ const SearchBox = () => {
             value={query}
             onChange={handleAutoComplete}
             className="lg:w-[600px] md:w-[420px] w-full bg-white border md:border-2 md:border-gray-300 text-gray-900 text-sm rounded-lg md:rounded-lg focus:ring-purple-400 focus:border-purple-400 block pl-10 p-2.5"
-            placeholder={
-              matches ? `Search, Smartphones, Laptop Products...` : "Search"
-            }
+            placeholder={matches ? t("inputtext") : "Search"}
           />
           <div
             onClick={() => openVoiceSearch()}

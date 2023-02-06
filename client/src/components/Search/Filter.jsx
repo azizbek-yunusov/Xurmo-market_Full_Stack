@@ -41,7 +41,7 @@ export const ratings = [
   },
 ];
 
-const Filter = ({ categories, brands, getFilterUrl }) => {
+const Filter = ({ categories, brands, getFilterUrl, category}) => {
   const [value, setValue] = useState([0, 10000]);
   const [termBd, setTermBd] = useState("");
   const [termCy, setTermCy] = useState("");
@@ -140,7 +140,7 @@ const Filter = ({ categories, brands, getFilterUrl }) => {
                     key={index}
                     className="flex"
                   >
-                    <Checkbox size="small" />
+                    <Checkbox size="small" defaultChecked={item === category ? true : false} />
                     <p className="my-[6px] w-full text-gray-600">{item.name}</p>
                   </Link>
                 ))}

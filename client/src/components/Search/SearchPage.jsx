@@ -88,6 +88,7 @@ const SearchPage = () => {
               categories={categories}
               brands={brands}
               getFilterUrl={getFilterUrl}
+              category={category}
             />
           </div>
           <div className="col-span-9">

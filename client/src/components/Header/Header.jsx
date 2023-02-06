@@ -42,7 +42,7 @@ const Header = () => {
             <div className="col-span-3 flex justify-between items-center">
               <Link
                 to="/"
-                className="text-red-600  md:text-3xl text-xl font-bold global-font"
+                className="text-red-600 md:block hidden md:text-3xl text-xl font-bold global-font"
               >
                 logo
               </Link>

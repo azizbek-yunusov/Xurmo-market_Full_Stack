@@ -40,7 +40,7 @@ const BannerCarousel = () => {
     fetchProducts();
   }, []);
   return (
-    <div className="container-full lg:grid lg:grid-cols-12 block overflow-hidden md:my-4 gap-0 pb-2">
+    <div className="container-full lg:grid lg:grid-cols-12 block overflow-hidden md:my-4 my-5 gap-0 pb-2">
       <div className="col-span-9 rounded-xl overflow-hidden">
         {loading ? (
           <BannerLoader />
@@ -84,7 +84,7 @@ const BannerCarousel = () => {
           </Swiper>
         )}
       </div>
-      <div className="col-span-3 xl:mx-8 lg:mx-5 lg:my-0 my-5">
+      <div className="col-span-3 xl:mx-8 lg:mx-5 lg:my-0 mt-2">
         <DayProductList products={products} />
       </div>
     </div>
