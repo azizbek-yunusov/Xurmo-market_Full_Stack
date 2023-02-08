@@ -155,9 +155,9 @@ const SignUp = () => {
                   <div className="mt-3">
                     <Button
                       type="submit"
-                      className="w-full primary_bg bg-purple-600"
+                      className="w-full"
                       variant="contained"
-                      color="secondary"
+                      color="primary"
                       size="large"
                     >
                       Sign Up

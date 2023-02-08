@@ -125,9 +125,8 @@ const SignIn = () => {
                       type="submit"
                       className="w-full tracking-wide font-normal"
                       variant="contained"
-                      color="secondary"
+                      color="primary"
                       size="large"
-                      sx={{background: "rgb(145, 85, 253)", borderRadius: "6px"}}
                     >
                       {loading ? (
                         <div className="flex items-center justify-center">

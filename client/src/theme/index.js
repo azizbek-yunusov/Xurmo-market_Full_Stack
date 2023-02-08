@@ -173,10 +173,10 @@ export const theme = createTheme({
     },
     divider: "#E6E8F0",
     primary: {
-      main: "#5048E5",
-      light: "#828DF8",
-      dark: "#3832A0",
-      contrastText: "#FFFFFF",
+      light: '#9E69FD',
+      main: '#9155FD',
+      dark: '#804BDF',
+      contrastText: '#FFF'
     },
     secondary: {
       main: "#10B981",

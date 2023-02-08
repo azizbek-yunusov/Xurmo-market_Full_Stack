@@ -19,7 +19,7 @@
   @apply w-full lg:px-6 px-4 mx-auto min-w-[320px] select-none global-font;
 }
 .primary_bg {
-  @apply bg-[#c003ff];
+  @apply bg-[#b038f6];
 }
 .primary_text_color {
   @apply bg-[#ff8400];
@@ -49,15 +49,8 @@
   @apply relative flex rounded-lg flex-row items-center h-11 tranistion_normal focus:outline-none hover:bg-fuchsia-400 text-gray-100 dark:text-gray-300 font-semibold hover:text-gray-800;
 }
 .sidebar_link-active {
-  @apply relative flex rounded-lg mx-0 flex-row items-center h-11 focus:outline-none dark:bg-[#424069] bg-gradient-to-r from-cyan-300 to-blue-400 text-gray-800  dark:text-gray-100 font-semibold hover:text-gray-800;
-}
-
-.profile-link {
-  @apply text-gray-900 p-1 py-2 rounded-lg mr-2;
-}
-.profile-active {
-  @apply text-gray-700 bg-teal-600;
+  @apply relative flex rounded-lg mx-0 flex-row items-center h-11 focus:outline-none dark:bg-[#424069] bg-gradient-to-r from-cyan-300 to-teal-500 text-purple-600  dark:text-gray-100 font-semibold hover:text-gray-800;
 }
 .dd{
-  color: #d1d0d0;
+  color: #b038f6;
 }

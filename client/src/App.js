@@ -1,39 +1,10 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import "./App.css";
-import Footer from "./components/Footer";
-import Header from "./components/Header/Header";
-import TopLink from "./components/Header/TopLink";
-import AddCategory from "./dashboard/CategoryItems/AddCategory";
-import CategoriesTable from "./dashboard/CategoryItems/CategoriesTable";
-import HomeDashboard from "./dashboard/Home";
-import Home from "./pages/Home";
-import NotFound from "./pages/NotFound";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
-import Basket from "./components/Cart/Basket";
-import { AddBanner, BannersList } from "./dashboard/BannerItems";
-import {
-  AllProductList,
-  CreateProduct,
-  ProductDetails,
-  UpdateProduct,
-} from "./dashboard/ProductElements";
-import {
-  AccountSetting,
-  CreateUser,
-  Profile,
-  UpdateUser,
-  UserList,
-  UserProfile,
-} from "./dashboard/UserItems";
-import { ProductDetail, ProductsList } from "./components/ProductItems";
-import ActivationEmail from "./pages/ActivationEmail";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 import { refreshToken } from "./redux/actions/authAction";
-import { WishList } from "./components/Wish";
-import CheckOut from "./components/CheckOut";
+import { useEffect } from "react";
+import { ActivationEmail, Home, NotFound, SignIn, SignUp } from "./pages";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Addresses,
   EditMyProfile,
@@ -41,11 +12,41 @@ import {
   MyInfor,
   MyOrders,
   Settings,
-} from "./components/Profile";
-import useNetworkStatus from "./hooks/useNetworkStatus";
-import { BrandsList, CreateBrand, UpdateBrand } from "./dashboard/Brand";
-import { OrderItem, OrdersList } from "./dashboard/OrderItems";
-import { SearchPage } from "./components/Search";
+} from "./components/client-components/Profile";
+import { ProductDetail, ProductsList } from "./components/client-components/ProductItems";
+import { WishList } from "./components/client-components/Wish";
+import CheckOut from "./components/client-components/CheckOut";
+import {
+  AllProductList,
+  CreateProduct,
+  ProductDetails,
+  UpdateProduct,
+} from "./components/dashboard-components/ProductElements";
+import { AddBanner, BannersList } from "./components/dashboard-components/BannerItems";
+import {
+  BrandsList,
+  CreateBrand,
+  UpdateBrand,
+} from "./components/dashboard-components/Brand";
+import {
+  AddCategory,
+  CategoriesTable,
+} from "./components/dashboard-components/CategoryItems";
+import {
+  AccountSetting,
+  CreateUser,
+  Profile,
+  UpdateUser,
+  UserList,
+  UserProfile,
+} from "./components/dashboard-components/UserItems";
+import { OrderItem, OrdersList } from "./components/dashboard-components/OrderItems";
+import Footer from "./components/client-components/Footer";
+import { Navbar, TopLink } from "./components/client-components/Header";
+import { Basket } from "./components/client-components/Cart";
+import { SearchPage } from "./components/client-components/Search";
+import { useNetworkStatus } from "./hooks";
+import { HomeDashboard } from "./components/dashboard-components";
 
 function App() {
   const pathname = useLocation().pathname;
@@ -65,7 +66,7 @@ function App() {
       s.src = u;
       var x = document.getElementsByTagName("script")[0];
       x.parentNode.insertBefore(s, x);
-    })("https://widget.replain.cc/dist/client.js");
+    })("https://widget.replain.cc/dist/client-components.js");
   }, []);
   return (
     <>
@@ -77,7 +78,7 @@ function App() {
         pathname === "/checkout" ? null : (
           <>
             <TopLink />
-            <Header />
+            <Navbar />
           </>
         )}
       </>
