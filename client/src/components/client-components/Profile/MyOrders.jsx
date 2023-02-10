@@ -4,10 +4,14 @@ import { useSelector } from "react-redux";
 import LayoutP from "./LayoutP";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
+import { Link } from "react-router-dom";
+import { getMyOrder } from "../../../redux/order/myOrder";
 
 const MyOrders = () => {
   let { t } = useTranslation(["shop"]);
-  const { access_token } = useSelector((state) => state.auth);
+  const { auth, order } = useSelector((state) => state);
+  let { access_token } = auth;
+  let { orders } = order;
   const [myOrders, setMyOrders] = useState([]);
   const fetchMyOrders = async () => {
     try {
@@ -21,27 +25,25 @@ const MyOrders = () => {
   };
   useEffect(() => {
     if (access_token) {
-      fetchMyOrders();
+      getMyOrder(access_token);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    //   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [access_token]);
+  console.log(order);
   return (
     <LayoutP>
-      <div className="md:mx-8">
+      <div className="">
         <div className="flex justify-between items-center ">
-          {/* <h1 className="md:text-3xl font-semibold">{t("myorders")}</h1>
+          {/* <h1 className="md:text-xl font-semibold">{t("myorders")}</h1>
           <h1 className="text-xl">all orders</h1> */}
         </div>
         <div className="">
-          {myOrders.length ? (
-            myOrders.map((item, index) => (
-              <div
-                key={index}
-                className="border border-gray-300 rounded-xl p-4 my-4"
-              >
+          {orders.length ? (
+            orders.map((item, index) => (
+              <div key={index} className="border border_l rounded-xl p-4 my-4">
                 <div className="flex justify-between items-center border-b border-b-gray-300 pb-4">
                   <div className="">
-                    <p className="text-lg font-bold text-gray-800">
+                    <p className="text-lg font-bold text-gray-700">
                       {t("order")}
                       {"-"}
                       <span className="">
@@ -54,7 +56,9 @@ const MyOrders = () => {
                       </span>{" "}
                     </p>
                   </div>
-                  <div className="">active</div>
+                  <div className="p-1 bg-purple-400 rounded-md text-white px-2">
+                    buyurtma berildi
+                  </div>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <div className="mt-3">
@@ -69,10 +73,13 @@ const MyOrders = () => {
                             alt=""
                           />
                           <div className="ml-2">
-                            <p className="md:text-lg font-semibold text-gray-800">
+                            <Link
+                              to={`/product/view/${ord.productId._id}`}
+                              className="md:text-lg font-semibold text-gray-7"
+                            >
                               {ord.productId.name}
-                            </p>
-                            <p className="mt-3 md:text-lg font-semibold text-gray-800">
+                            </Link>
+                            <p className="mt-3 md:text-lg font-semibold text-gray-7">
                               {ord.productId.price}
                               {"$"}
                             </p>
@@ -119,8 +126,10 @@ const MyOrders = () => {
                           </li>
                           <li className="my-3">{item.contact || item.email}</li>
                           <li className="my-3">
-                            {item.shippingAddress.region}{" "}{t("region")}{", "}
-                            {item.shippingAddress.district}{" "}{t("")}{", "}
+                            {item.shippingAddress.region} {t("region")}
+                            {", "}
+                            {item.shippingAddress.district} {t("")}
+                            {", "}
                             {item.shippingAddress.street}
                           </li>
                         </ul>

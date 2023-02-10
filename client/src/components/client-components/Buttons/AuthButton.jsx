@@ -78,7 +78,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 const AuthButton = () => {
-  const { avatar, name } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const signOutHandle = () => {
@@ -115,12 +115,12 @@ const AuthButton = () => {
             <Avatar
               alt="Remy Sharp"
               src={
-                avatar?.url ||
+                user.avatar?.url ||
                 "https://www.ihp.ie/wp-content/uploads/profile-img.jpg"
               }
             />
           </StyledBadge>
-          <p className="normal-case ml-2">{name}</p>
+          <p className="normal-case ml-2">{user.name}</p>
         </div>
       </Button>
       <StyledMenu

@@ -21,7 +21,6 @@ const AdaptableCard = (props) => {
   const isCart = existItem === undefined ? false : true;
   const existItemWish = favorites?.find((x) => x.productId._id === _id);
   const isFavorite = existItemWish === undefined ? false : true;
-  console.log(index);
   return (
     <>
       <div className={"block bg-white overflow-hidden w-full relative tranistion_normal md:my-2 hover:shadow-xl md:h-[200px] h-[200px] md:border border-gray-200 hover:border-gray-50 md:rounded-xl rounded-md md:p-5 p-3 md:px-4"}>

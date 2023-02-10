@@ -13,7 +13,7 @@ const Tabs = () => {
   const pathname = useLocation().pathname;
   return (
     <div className="flex justify-center">
-      <div className="w-10/12 flex justify-center items-center -mt-11 rounded-xl bg-[#ffffff4d] backdrop-blur-xl py-3 border border-gray-300 md:px-7">
+      <div className="w-full flex justify-center items-center -mt-11 rounded-xl bg-[#ffffff4d] backdrop-blur-lg py-3 border border-gray-200 md:px-7">
         <div className="w-full flex justify-between items-center ">
           {(pathUz || pathEn || pathRu).map((item, index) => (
             <Link key={index} to={`${item.path}`}>

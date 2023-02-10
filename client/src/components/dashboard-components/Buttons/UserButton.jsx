@@ -1,84 +1,34 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { Avatar, Badge, Button, Divider, Menu, MenuItem } from "@mui/material";
-import { styled, alpha } from "@mui/material/styles";
+import {
+  Avatar,
+  Badge,
+  Box,
+  Divider,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { signOut } from "../../../redux/actions/authAction";
+import { BiUser } from "react-icons/bi";
+import { AiOutlineMail, AiOutlineUser } from "react-icons/ai";
+import { FiLogOut } from "react-icons/fi";
 
-const StyledMenu = styled((props) => (
-  <Menu
-    elevation={0}
-    anchorOrigin={{
-      vertical: "bottom",
-      horizontal: "right",
-    }}
-    transformOrigin={{
-      vertical: "top",
-      horizontal: "right",
-    }}
-    {...props}
-  />
-))(({ theme }) => ({
-  "& .MuiPaper-root": {
-    borderRadius: 6,
-    marginTop: theme.spacing(1),
-    minWidth: 180,
-    color:
-      theme.palette.mode === "light"
-        ? "rgb(55, 65, 81)"
-        : theme.palette.grey[300],
-    boxShadow:
-      "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
-    "& .MuiMenu-list": {
-      padding: "4px 0",
-    },
-    "& .MuiMenuItem-root": {
-      "& .MuiSvgIcon-root": {
-        fontSize: 18,
-        color: theme.palette.text.secondary,
-        marginRight: theme.spacing(1.5),
-      },
-      "&:active": {
-        backgroundColor: alpha(
-          theme.palette.primary.main,
-          theme.palette.action.selectedOpacity
-        ),
-      },
-    },
-  },
-}));
-const StyledBadge = styled(Badge)(({ theme }) => ({
-  "& .MuiBadge-badge": {
-    backgroundColor: "#44b700",
-    color: "#44b700",
-    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-    "&::after": {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      borderRadius: "50%",
-      animation: "ripple 1.2s infinite ease-in-out",
-      border: "1px solid currentColor",
-      content: '""',
-    },
-  },
-  "@keyframes ripple": {
-    "0%": {
-      transform: "scale(.8)",
-      opacity: 1,
-    },
-    "100%": {
-      transform: "scale(2.4)",
-      opacity: 0,
-    },
-  },
+// ** Styled Components
+const BadgeContentSpan = styled("span")(({ theme }) => ({
+  width: 8,
+  height: 8,
+  borderRadius: "50%",
+  backgroundColor: theme.palette.success.main,
+  boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
 }));
 
 const UserButton = () => {
-  const { user } = useSelector((state) => state);
+  const { user } = useSelector((state) => state.auth);
+  let {avatar, name} = user
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const signOutHandle = () => {
@@ -88,58 +38,107 @@ const UserButton = () => {
   };
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
+  const handleDropdownOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const handleDropdownClose = () => {
     setAnchorEl(null);
   };
+
+  const styles = {
+    py: 1,
+    px: 2,
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    color: "text.primary",
+    textDecoration: "none",
+    "& svg": {
+      fontSize: "1.375rem",
+      color: "text.secondary",
+    },
+  };
   return (
-    <>
-      <Button
-        id="demo-customized-button"
-        aria-controls={open ? "demo-customized-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        variant="text"
-        disableElevation
-        onClick={handleClick}
+    <Fragment>
+      <Badge
+        overlap="circular"
+        onClick={handleDropdownOpen}
+        sx={{ ml: 2, cursor: "pointer" }}
+        badgeContent={<BadgeContentSpan />}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
-        <div className="flex_center">
-          <StyledBadge
-            overlap="circular"
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            variant="dot"
-          >
-            <Avatar
-              alt="Remy Sharp"
-              src={
-                user.avatar?.url ||
-                "https://www.ihp.ie/wp-content/uploads/profile-img.jpg"
-              }
-            />
-          </StyledBadge>
-          <p className="normal-case ml-2">Azizbek</p>
-        </div>
-      </Button>
-      <StyledMenu
-        id="demo-customized-menu"
-        MenuListProps={{
-          "aria-labelledby": "demo-customized-button",
-        }}
+        <Avatar
+          alt={name}
+          onClick={handleDropdownOpen}
+          src={
+            avatar?.url ||
+            "https://www.ihp.ie/wp-content/uploads/profile-img.jpg"
+          }
+        />
+      </Badge>
+      <Menu
         anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
+        open={Boolean(anchorEl)}
+        onClose={() => handleDropdownClose()}
+        sx={{ "& .MuiMenu-paper": { width: 230, marginTop: 4 } }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
-        <Link to={"/dashboard/myprofile"}>
-          <MenuItem>Profile</MenuItem>
-        </Link>
-        <Divider sx={{ my: 0.5 }} />
-        <MenuItem onClick={signOutHandle} disableRipple>
-          Sign out
+        <Box sx={{ py: 1, px: 3 }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Badge
+              overlap="circular"
+              badgeContent={<BadgeContentSpan />}
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            >
+              <Avatar
+                alt="John Doe"
+                src={
+                  avatar?.url ||
+                  "https://www.ihp.ie/wp-content/uploads/profile-img.jpg"
+                }
+              />
+            </Badge>
+            <Box
+              sx={{
+                display: "flex",
+                marginLeft: 3,
+                alignItems: "flex-start",
+                flexDirection: "column",
+              }}
+            >
+              <p className="font-semibold text-gray-800 text-lg">{name}</p>
+              <Typography
+                variant="body2"
+                sx={{ fontSize: "0.8rem", color: "text.disabled" }}
+              >
+                Admin
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+        <Divider sx={{ mt: 0, mb: 1 }} />
+        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+          <Link to={"/dashboard/cabinet"}>
+            <Box sx={styles}>
+              <AiOutlineUser sx={{ marginRight: 2 }} />
+              Profile
+            </Box>
+          </Link>
         </MenuItem>
-      </StyledMenu>
-    </>
+        <Divider />
+        <MenuItem sx={{ py: 2 }} onClick={signOutHandle}>
+          <FiLogOut
+            sx={{
+              marginRight: 2,
+              fontSize: "1.375rem",
+              color: "text.secondary",
+            }}
+          />
+          Logout
+        </MenuItem>
+      </Menu>
+    </Fragment>
   );
 };
 

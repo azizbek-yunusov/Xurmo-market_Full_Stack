@@ -21,7 +21,7 @@ const style = {
 const SideBarPf = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { auth, address, user } = useSelector((state) => state);
+  const { user, access_token } = useSelector((state) => state.auth);
   const [name, setName] = useState(user.name || "");
   const [lastName, setLastName] = useState(user.lastName || "");
   const [contact, setContact] = useState(user.phoneNumber || "");
@@ -44,7 +44,7 @@ const SideBarPf = () => {
         method: "put",
         headers: {
           "Content-Type": "application/json",
-          Authorization: auth.access_token,
+          Authorization: access_token,
         },
         body: JSON.stringify({
           name,
@@ -75,7 +75,7 @@ const SideBarPf = () => {
       method: "post",
       headers: {
         "Content-Type": "application/json",
-        Authorization: auth.access_token,
+        Authorization: access_token,
       },
       body: JSON.stringify({
         avatar,
@@ -101,14 +101,13 @@ const SideBarPf = () => {
 
     reader.readAsDataURL(e.target.files[0]);
   };
-console.log(user);
   return (
     <div className="flex flex-col justify-between sticky top-56">
-      <div className="relative flex items-center flex-col justify-between w-[350px] h-[450px] bg-white -mt-28 ml-5 md:py-5 shadow-lg rounded-2xl">
+      <div className="relative flex items-center flex-col justify-between w-[350px] h-[450px] bg-white -mt-28 ml-5 md:py-5 border_l rounded-2xl">
         <div className="flex flex-col items-center">
-          <div className="z-10  overflow-hidden rounded-full max-w-max bg-white">
+          <div className="z-10 ring ring-fuchsia-500 ring-offset-2 overflow-hidden md:rounded-2xl max-w-max bg-white">
             <img
-              className="md:rounded-full h-40 w-40 object-cover"
+              className="md:rounded-2xl h-40 w-40 object-cover"
               src={user.avatar?.url}
               alt=""
             />
@@ -116,7 +115,7 @@ console.log(user);
           <h1 className="md:my-3 md:text-2xl text-gray-900 font-semibold my-3 ">
             {user.name} {user.lastName ? user.lastName : ""}
           </h1>
-          {address.length ? (
+          {/* {address.length ? (
             <div className="flex items-center bg-light-green-100 rounded-md p-1 px-2">
               <MdLocationOn className="text-lg text-gray-600" />
               <p className="text-sm font-semibold text-gray-600">
@@ -127,7 +126,7 @@ console.log(user);
                 {address[0].street}
               </p>
             </div>
-          ) : null}
+          ) : null} */}
 
           <div className="flex items-center text-base font-semibold text-gray-600 my-2">
             <MdEmail className="text-base mx-1" />
@@ -157,107 +156,6 @@ console.log(user);
           </Button>
         </div>
       </div>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <Box sx={style} className="rounded-xl bg-white text-center">
-            <h1 className="text-gray-800 text-2xl font-semibold">
-              Edit User Information
-            </h1>
-            <p className="text-gray-500 font-semibold text-base mb-8">
-              Updating user details will receive a privacy audit.
-            </p>
-            <form encType="multipart/form-data" onSubmit={updateProfileSubmit}>
-              <div className="flex_betwen">
-                <label
-                  htmlFor="avatar-upload"
-                  className="relative cursor-pointer w-[50%]"
-                >
-                  <div id="updateProfileImage" className="">
-                    <img
-                      className="h-44 md:rounded-full p-[6px]"
-                      src={avatarPreview}
-                      alt="Profile"
-                    />
-                    <input
-                      id="avatar-upload"
-                      type="file"
-                      name="avatar"
-                      accept="image/*"
-                      className="sr-only"
-                      onChange={updateProfileDataChange}
-                    />
-                  </div>
-                </label>
-                <div className="flex flex-col w-full">
-                  <div className="mb-5">
-                    <TextField
-                      fullWidth
-                      id="outlined-basic"
-                      variant="outlined"
-                      label="Name"
-                      type="text"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </div>
-                  <div className="mb-5">
-                    <TextField
-                      fullWidth
-                      id="outlined-basic"
-                      variant="outlined"
-                      label="Last name"
-                      type="text"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="mb-5">
-                    <TextField
-                      fullWidth
-                      id="outlined-basic"
-                      variant="outlined"
-                      label="Contact"
-                      type="text"
-                      value={contact}
-                      onChange={(e) => setContact(e.target.value)}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center justify-end mt-5">
-                <Button
-                  onClick={handleClose}
-                  variant="contained"
-                  size="large"
-                  color="info"
-                  sx={{ borderRadius: "6px", marginRight: "15px" }}
-                >
-                  close
-                </Button>
-                <Button
-                  // onClick={handleClose}
-                  variant="contained"
-                  size="large"
-                  type="submit"
-                >
-                  update
-                </Button>
-              </div>
-            </form>
-          </Box>
-        </Fade>
-      </Modal>
     </div>
   );
 };

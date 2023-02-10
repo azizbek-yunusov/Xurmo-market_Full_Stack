@@ -11,7 +11,6 @@ const LayoutP = ({ children }) => {
   return (
     <>
       <HelmetTitle title={"My profile"} />
-
       <div className="container-full min-h-[560px] md:mb-3 flex flex-col text-gray-800">
         <div className="">
           <img
@@ -24,28 +23,11 @@ const LayoutP = ({ children }) => {
           <div className="col-span-3 sticky top-5">
             <SideBarPf />
           </div>
-          <div className="col-span-9 block ">
+          <div className="col-span-9 block md:px-12">
             <Tabs />
-            <div className="md:mx-10 md:my-2">{children}</div>
+            <div className="md:my-5">{children}</div>
           </div>
         </div>
-        {/* <Breadcrumbs>
-          <Link to={"/"} className="flex items-center opacity-80">
-            <BiHome className="text-base md:mr-1 mb-1" />
-            <span>Home</span>
-          </Link>
-          <Link to={"/"} className="">
-            Profile
-          </Link>
-        </Breadcrumbs> */}
-        {/* <div className="grid grid-cols-12 gap-x-5 justify-between md:my-3 w-full">
-          <div className="col-span-3 bg-[#ffffff] dark:bg-[#2e2d4a] border-r dark:border-r-gray-300 overflow-hidden">
-            <div className="sticky top-5">
-              <SideBarPf />
-            </div>
-          </div>
-          <div className="col-span-9 dark:bg-[#2e2d4a]">{children}</div>
-        </div> */}
       </div>
     </>
   );

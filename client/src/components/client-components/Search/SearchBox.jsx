@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { CgSearch } from "react-icons/cg";
 import { BiMicrophone } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-import { useMediaQuery } from "@mui/material";
+import { IconButton, useMediaQuery } from "@mui/material";
 import axios from "axios";
 import AutoComplate from "./AutoComplate";
 import { useTranslation } from "react-i18next";
@@ -92,10 +92,9 @@ const SearchBox = () => {
         </div>
         <button
           type="submit"
-          className="md:inline-flex hidden items-center py-2.5 px-3 ml-2 text-sm font-medium text-white bg- rounded-lg bg-[#f200ff] focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="md:inline-flex hidden items-center py-[10px] px-3 ml-2 text-sm font-medium text-white bg- rounded-lg bg_secondary"
         >
-          <CgSearch className="md:text-lg mr-1 text-gray-50" />
-          Search
+          <CgSearch className="md:text-xl text-gray-50" />
         </button>
       </form>
       <AutoComplate

@@ -1,9 +1,19 @@
 import React from "react";
 import { AiOutlineUser } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
-import { sidebar } from "../../data/sidebar";
+import {
+  sidebarAdminEn,
+  sidebarAdminRu,
+  sidebarAdminUz,
+} from "../../data/sidebar";
 
 const SideBar = () => {
+  let pathUz =
+    localStorage.getItem("i18nextLng") === "uz" ? sidebarAdminUz : false;
+  let pathEn =
+    localStorage.getItem("i18nextLng") === "en" ? sidebarAdminEn : false;
+  let pathRu =
+    localStorage.getItem("i18nextLng") === "ru" ? sidebarAdminRu : false;
   const pathname = useLocation().pathname;
   return (
     <div className="min-h-screen fixed top-0 left-0 flex flex-col w-14 hover:w-64 md:w-64 h-full text-white transition-all duration-300 border-none z-10 sidebar px-3">
@@ -15,11 +25,11 @@ const SideBar = () => {
           <li className="px-5 hidden md:block overflow-hidden">
             <div className="flex flex-row items-center h-8">
               <div className="text-sm font-light tracking-wide text-gray-400 uppercase">
-                Main
+                
               </div>
             </div>
           </li>
-          {sidebar.map((item, index) => (
+          {(pathUz || pathEn || pathRu).map((item, index) => (
             <li key={index}>
               <Link to={`${item.path}`}>
                 <div

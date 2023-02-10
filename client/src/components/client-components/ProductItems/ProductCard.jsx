@@ -126,7 +126,7 @@ const ProductCard = (props) => {
           ) : (
             <button
               onClick={() => addToCartHandle(_id)}
-              className="border-2 border-[#ff8800] py-2 flex items-center justify-center w-full rounded-lg bg-[#ff8800] text-lg text-white transition_normal"
+              className="border-2 border-[#ff8800] py-2 flex items-center justify-center w-full rounded-lg bg_secondary text-lg text-white transition_normal"
             >
               <FiShoppingCart className="md:text-xl" />
               <span className="ml-2 text-base">{t("addcart")}</span>

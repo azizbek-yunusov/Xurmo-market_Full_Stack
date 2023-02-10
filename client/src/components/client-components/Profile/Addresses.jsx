@@ -8,14 +8,28 @@ import LayoutP from "./LayoutP";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import {
+  Backdrop,
   Box,
   Button,
   CircularProgress,
+  Fade,
   FormControl,
   InputLabel,
   MenuItem,
+  Modal,
   Select,
+  TextField,
 } from "@mui/material";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 800,
+  boxShadow: 24,
+  p: 4,
+};
 
 const Addresses = () => {
   let { t } = useTranslation(["shop"]);
@@ -27,18 +41,11 @@ const Addresses = () => {
   const [house, setHouse] = useState("");
   const [isActive, setIsActive] = useState(false);
   const [allAddresses, setAllAddresses] = useState([]);
-  const navigate = useNavigate();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const fetchAdresses = async () => {
     const { data } = await axios.get("/addresses", {
       headers: { Authorization: access_token },
@@ -84,7 +91,6 @@ const Addresses = () => {
         if (data.error) {
         } else {
           fetchAdresses();
-          setIsModalOpen(false);
         }
       });
   };
@@ -95,69 +101,94 @@ const Addresses = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [access_token]);
-  const [age, setAge] = useState("");
-  console.log(age);
   return (
     <LayoutP>
       <div className="flex justify-between items-center md:mb-4">
         <h1 className="md:text-2xl font-semibold">Addresses</h1>
-        {/* <Button size="large" variant="contained" onClick={showModal}>
+        <Button size="large" variant="contained">
           Add address
-        </Button> */}
-        {/* <Modal
-          open={isModalOpen}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          okText={null}
-          width={700}
+        </Button>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={open}
+          onClose={handleClose}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
         >
-          <h1 className="w-full global_font text-2xl font-semibold mb-4 text-center">
-            New Address
-          </h1>
-          <form onSubmit={addAddress}>
-            <div className="md:my-6 grid grid-cols-2 gap-5">
-              <Input
-                value={region}
-                onChange={(e) => setRegion(e.target.value)}
-                label={t("shop:region")}
-                size="lg"
-              />
-              <Input
-                value={district}
-                onChange={(e) => setDistrict(e.target.value)}
-                label={t("shop:district")}
-                size="lg"
-              />
-              <Input
-                value={street}
-                onChange={(e) => setStreet(e.target.value)}
-                label={t("shop:street")}
-                size="lg"
-              />
-              <Input
-                value={house}
-                onChange={(e) => setHouse(e.target.value)}
-                label={t("shop:housenumber")}
-                size="lg"
-              />
-            </div>
+          <Fade in={open}>
+            <Box sx={style} className="rounded-xl bg-white text-center">
+              <h1 className="text-gray-800 text-2xl font-semibold">
+                Edit User Information
+              </h1>
+              <p className="text-gray-500 font-semibold text-base mb-8">
+                Updating user details will receive a privacy audit.
+              </p>
+              <form>
+                <div className="flex_betwen">
+                  <div className="flex flex-col w-full">
+                    <div className="mb-5">
+                      <TextField
+                        fullWidth
+                        id="outlined-basic"
+                        variant="outlined"
+                        label="Name"
+                        type="text"
+                        // value={name}
+                        // onChange={(e) => setName(e.target.value)}
+                      />
+                    </div>
+                    <div className="mb-5">
+                      <TextField
+                        fullWidth
+                        id="outlined-basic"
+                        variant="outlined"
+                        label="Last name"
+                        type="text"
+                        // value={lastName}
+                        // onChange={(e) => setLastName(e.target.value)}
+                      />
+                    </div>
 
-            <div className="flex justify-end items-center mt-3">
-              <Button
-                color="red"
-                size="md"
-                onClick={handleCancel}
-                className="md:mr-3"
-              >
-                close
-              </Button>
-
-              <Button type="submit" size="md" onClick={handleOk}>
-                save
-              </Button>
-            </div>
-          </form>
-        </Modal> */}
+                    <div className="mb-5">
+                      <TextField
+                        fullWidth
+                        id="outlined-basic"
+                        variant="outlined"
+                        label="Contact"
+                        type="text"
+                        // value={contact}
+                        // onChange={(e) => setContact(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center justify-end mt-5">
+                  <Button
+                    onClick={handleClose}
+                    variant="contained"
+                    size="large"
+                    color="info"
+                    sx={{ borderRadius: "6px", marginRight: "15px" }}
+                  >
+                    close
+                  </Button>
+                  <Button
+                    // onClick={handleClose}
+                    variant="contained"
+                    size="large"
+                    type="submit"
+                  >
+                    update
+                  </Button>
+                </div>
+              </form>
+            </Box>
+          </Fade>
+        </Modal>
       </div>
       <div className="grid grid-cols-2 gap-5">
         {allAddresses.length ? (
@@ -237,22 +268,6 @@ const Addresses = () => {
           <CircularProgress />
         )}
       </div>
-      <Box sx={{ minWidth: 120 }}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Age</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={age}
-            label="Age"
-            onChange={(e) => setAge(e.target.value)}
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
     </LayoutP>
   );
 };

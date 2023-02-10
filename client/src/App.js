@@ -1,7 +1,6 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import "./App.css";
-import { refreshToken } from "./redux/actions/authAction";
 import { useEffect } from "react";
 import { ActivationEmail, Home, NotFound, SignIn, SignUp } from "./pages";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,8 +8,8 @@ import {
   Addresses,
   EditMyProfile,
   Favorites,
-  MyInfor,
   MyOrders,
+  OverView,
   Settings,
 } from "./components/client-components/Profile";
 import { ProductDetail, ProductsList } from "./components/client-components/ProductItems";
@@ -47,6 +46,7 @@ import { Basket } from "./components/client-components/Cart";
 import { SearchPage } from "./components/client-components/Search";
 import { useNetworkStatus } from "./hooks";
 import { HomeDashboard } from "./components/dashboard-components";
+import { refreshToken } from "./redux/actions/authAction";
 
 function App() {
   const pathname = useLocation().pathname;
@@ -84,7 +84,7 @@ function App() {
       </>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/myprofile" element={<MyInfor />} />
+        <Route path="/myprofile" element={<OverView />} />
         <Route path="/myprofile/orders" element={<MyOrders />} />
         <Route path="/myprofile/addresses" element={<Addresses />} />
         <Route path="/myprofile/settings" element={<Settings />} />
@@ -127,7 +127,7 @@ function App() {
             <Route path="/user/create" element={<CreateUser />} />
             <Route path="/dashboard/orders" element={<OrdersList />} />
             <Route path="/dashboard/order/:id" element={<OrderItem />} />
-            <Route path="/dashboard/myprofile" element={<Profile />} />
+            <Route path="/dashboard/cabinet" element={<Profile />} />
             <Route path="/cabinet/settings" element={<AccountSetting />} />
             <Route path="/user/:id" element={<UserProfile />} />
             <Route path="/users/update/:id" element={<UpdateUser />} />

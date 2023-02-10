@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { Breadcrumbs, Button, Typography } from "@mui/material";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
@@ -10,34 +9,26 @@ import { HelmetTitle } from "../../../utils";
 import ImageThumbs from "./ImageThumbs";
 import Comments from "./Comments";
 import { ReviewsBox } from "./ReviewsBox";
+import { getProduct } from "../../../redux/product";
 
 const ProductDetail = () => {
-  const { isLogged, product } = useSelector((state) => state);
+  const { product, isLoading } = useSelector((state) => state.product);
 
   const goback = useNavigate();
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
 
   const { id } = useParams();
-  const productDetail = async () => {
-    try {
-      const { data } = await axios.get(`/product/${id}`);
-      dispatch({ type: "GET_PRODUCT", payload: data.product });
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
-    }
-  };
   useEffect(() => {
-    productDetail();
+    dispatch(getProduct(id));
     window.scrollTo(0, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+  console.log(product);
   return (
     <>
       <HelmetTitle title={`${product.name}`} />
       <>
-        {!loading ? (
+        {!isLoading ? (
           <div className="container-full md:px-10 min-h-screen">
             <Breadcrumbs aria-label="breadcrumb" sx={{ marginY: "8px" }}>
               <Link to={"/"}>Home</Link>

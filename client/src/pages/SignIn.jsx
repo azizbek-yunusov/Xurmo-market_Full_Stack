@@ -1,17 +1,18 @@
 /* eslint-disable no-unused-vars */
 import React, { useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { signIn } from "../redux/actions/authAction";
 import LoginBg from "../assets/images/loginBg.png";
 import AuthBottomBg from "../assets/images/auth-bottom-bg.png";
 import TreeBg from "../assets/images/tree-bg.png";
-import { signIn } from "../redux/actions/authAction";
 import toast from "react-hot-toast";
 import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
 
 const SignIn = () => {
   const dispatch = useDispatch();
+  const { auth } = useSelector((state) => state);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
@@ -48,6 +49,7 @@ const SignIn = () => {
       console.log(err);
     }
   };
+  console.log(auth);
   return (
     <>
       <Helmet>
@@ -95,7 +97,9 @@ const SignIn = () => {
                       type="email"
                       value={email}
                       className="rounded-xl"
+                      error={emailError ? true : false}
                       onChange={(e) => setEmail(e.target.value)}
+                      helperText={emailError && "Emailni kiriting"}
                     />
                   </div>
                   <div className="mt-6">
@@ -105,7 +109,7 @@ const SignIn = () => {
                       variant="outlined"
                       label="Password"
                       type="password"
-                      sx={{borderRadius: "10px"}}
+                      sx={{ borderRadius: "10px" }}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />

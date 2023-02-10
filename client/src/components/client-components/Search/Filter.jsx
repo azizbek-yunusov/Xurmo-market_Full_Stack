@@ -3,9 +3,9 @@ import {
   FormControl,
   InputAdornment,
   Rating,
+  Slider,
   TextField,
 } from "@mui/material";
-import Slider from "@material-ui/core/Slider";
 import React, { useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";

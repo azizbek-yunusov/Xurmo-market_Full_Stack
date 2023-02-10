@@ -9,15 +9,16 @@ import "swiper/css/navigation";
 import BannerItem from "./BannerItem";
 import DayProductList from "./DayProductList";
 import { BannerLoader } from "../SkeletonLoaders";
+import { backendURL } from "../../../utils/baseUrl";
 
 const BannerCarousel = () => {
   const [banners, setBanners] = useState([]);
   const [products, setProducts] = useState([]);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const fetchBanners = async () => {
     try {
-      setLoading(true);
+      // setLoading(true);
       const { data } = await axios.get("/banners");
       setBanners(data.banners);
       setLoading(false);
@@ -39,6 +40,7 @@ const BannerCarousel = () => {
     fetchBanners();
     fetchProducts();
   }, []);
+  console.log(banners);
   return (
     <div className="container-full lg:grid lg:grid-cols-12 block overflow-hidden md:my-4 my-5 gap-0 pb-2">
       <div className="col-span-9 rounded-xl overflow-hidden">

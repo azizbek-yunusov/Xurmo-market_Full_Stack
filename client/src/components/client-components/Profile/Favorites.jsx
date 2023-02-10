@@ -9,9 +9,6 @@ const Favorites = () => {
   return (
     <LayoutP>
       <div className="">
-        <h1 className="text-2xl text-gray-800 font-semibold md:mb-4">
-          Sevimlilar
-        </h1>
         {favorites.length ? (
           <div className="grid md:grid-cols-4 md:gap-4">
             {favorites.map((item, index) => (

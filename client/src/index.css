@@ -13,6 +13,17 @@
 @layer base {
   html {
     font-family: "Inter";
+    body {
+      @apply dark:bg-[#100025] bg-white;
+    }
+  }
+}
+@layer base {
+  html {
+    font-family: "Inter";
+  }
+  body {
+    @apply dark:bg-[#2e2d4a] bg-gray-50;
   }
 }
 .container-full {
@@ -52,5 +63,8 @@
   @apply relative flex rounded-lg mx-0 flex-row items-center h-11 focus:outline-none dark:bg-[#424069] bg-gradient-to-r from-cyan-300 to-teal-500 text-purple-600  dark:text-gray-100 font-semibold hover:text-gray-800;
 }
 .dd{
-  color: #b038f6;
+  color: #f6ad38;
+}
+.bg_secondary {
+  @apply bg-[#ff8800]
 }

@@ -16,7 +16,6 @@ const Translate = () => {
   const handleChange = (value) => {
     i18n.changeLanguage(value);
   };
-  console.log(UzSvg);
   const languages = [
     {
       name: "Uz",
@@ -43,7 +42,7 @@ const Translate = () => {
             onClick={() => handleChange(item.value)}
             className={` ${
               localStorage.getItem("i18nextLng") === item.value
-                ? "border-gray-100 cursor-not-allowed"
+                ? "border-pink-200 cursor-not-allowed"
                 : ""
             }  md:mx-3 px-1 border border-transparent rounded-md flex items-center cursor-pointer`}
           >

@@ -5,7 +5,8 @@ import { useSelector } from "react-redux";
 import { Review } from "./Review";
 
 export const ReviewsBox = () => {
-  const { auth, product } = useSelector((state) => state);
+  const { product } = useSelector((state) => state.product);
+
 
   // 1 star
   const findOne = product?.reviews?.filter((item) => item.rating === 1);
@@ -137,7 +138,7 @@ export const ReviewsBox = () => {
           </div>
         </div>
         <div className="w-full">
-          {auth.isLogged ? (
+          {/* {auth.isLogged ? (
             <>
               <Review product={product} />
             </>
@@ -152,7 +153,7 @@ export const ReviewsBox = () => {
                 add review
               </Button>
             </>
-          )}
+          )} */}
         </div>
       </div>
     </>

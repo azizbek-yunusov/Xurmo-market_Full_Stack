@@ -29,6 +29,12 @@ app.use(
   })
 );
 
+// MJGe6EPXnYxRMG4r
+//qb81HPEM7OGfLzFb
+// "mongodb+srv://azizbekjon:4B7I6zqkZocYDbl6@cluster0.q2jib.mongodb.net/node-blog-izzy"
+// "mongodb+srv://azizbek.z9eriwj.mongodb.net/myFirstDatabase"
+
+// mongosh "mongodb+srv://azizbek:qb81HPEM7OGfLzFb@cluster0.z9eriwj.mongodb.net/e-commerce"
 app.use(productRoutes);
 app.use(userRoutes);
 app.use(bannerRoutes);
@@ -37,7 +43,7 @@ app.use(orderRoutes);
 app.use(cartRoutes);
 app.use(brandRoutes);
 
-mongoose.connect(MONGO_URI, () => {
+mongoose.connect("mongodb+srv://azizbek:MJGe6EPXnYxRMG4r@cluster0.hg12aev.mongodb.net/e-commerce", () => {
   console.log("MongoDB is working");
 });
 

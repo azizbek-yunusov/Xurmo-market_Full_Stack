@@ -24,7 +24,7 @@ const Basket = () => {
         ) : (
           <div className="min-h-[630px] flex justify-center items-start">
             <div className="flex justify-start items-center relative flex-col">
-              <img src="/images/shopping-cart.png" alt="Shopping bag" className="h-96" />
+              <img src="/images/shopping-basket.png" alt="Shopping bag" className="h-96" />
               <h1 className="text-3xl md:mb-5 text-gray-600 font-semibold">
                 The shopping cart is empty
               </h1>
@@ -34,7 +34,6 @@ const Basket = () => {
                 variant="contained"
                 color="primary"
                 size="large"
-                sx={{background: "rgb(145, 85, 253)", borderRadius: "6px"}}
               >
                 Continue Shopping
               </Button>

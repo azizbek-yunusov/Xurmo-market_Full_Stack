@@ -62,7 +62,7 @@ const TableBody = ({
                     name="half-rating-read"
                     readOnly
                     size="small"
-                    value={item.ratings}
+                    value={item.ratings?.toFixed(1)}
                   />
                   <span className="ml-1">{item.ratings}</span>
                 </div>
