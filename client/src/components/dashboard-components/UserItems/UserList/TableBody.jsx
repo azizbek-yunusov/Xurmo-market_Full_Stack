@@ -17,7 +17,7 @@ const TableBody = ({
           .map((user, index) => (
             <tr
               key={index}
-              className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 font-semibold hover:dark:bg-gray-600"
+              className="border-b border-gray-200 dark:border-gray-700 font-semibold"
             >
               <td className="py-3 flex_center">
                 {/* <Checkbox sx={{ borderRadius: 5 }} /> */}
@@ -54,36 +54,12 @@ const TableBody = ({
               </td>
               <td className="py-3 text-gray-500 pl-10">{user.email}</td>
               <td className="py-3 px-6 text-left">
-                {/* <span>{user.admin ? "Admin" : "Client"}</span>
-                 */}
                 {user.admin ? (
                   <Chip label="Admin" size="small" color="primary" />
                 ) : (
                   <Chip label="Client" size="small" color="success" />
                 )}
               </td>
-              {/* <td className="py-3 px-6 text-left">
-                <div className="flex justify-center items-center">
-                  <AvatarGroup total={24}>
-                    <Avatar
-                      sx={{ borderRadius: "12px" }}
-                      alt="Travis Howard"
-                      src="https://www.material-tailwind.com/img/face-2.jpg"
-                    />
-                    <Avatar
-                      sx={{ borderRadius: "12px" }}
-                      alt="Agnes Walker"
-                      src="https://www.material-tailwind.com/img/face-2.jpg"
-                    />
-                    <Avatar
-                      sx={{ borderRadius: "12px" }}
-                      alt="Trevor Henderson"
-                      src="https://www.material-tailwind.com/img/face-2.jpg"
-                    />
-                  </AvatarGroup>
-                  <span className="mr-2">15 pct</span>
-                </div>
-              </td> */}
 
               <td className="py-3 px-6 text-left">
                 <div className="flex justify-start items-center">

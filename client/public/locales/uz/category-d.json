@@ -1,0 +1,23 @@
+{
+  "all-categories": "Barcha Kategoriyalar",
+  "search-filter": "Qidiruv filteri",
+  "select-brand": "Brendni tanlang",
+  "select-category": "Kategoriyani tanlang",
+  "select-rating": "Reyting tanlang",
+  "add-category": "Kategoriya qo'shish",
+  "add-category-title": "Yangi Kategoriya yaratish",
+  "search": "Qidirish",
+  "name": "Nomi",
+  "name-pl": "Smartfon, telefon, gadjetlar",
+  "href": "Href",
+  "href-pl": "smartfon-gadjet-noutbular",
+  "upload-image": "Rasmlarni yuklang",
+  "upload-banner": "Banner uchun rasm yuklang",
+  "category": "Kategoriya",
+  "rating": "reyting",
+  "created-by": "Yaratilgan",
+  "created-at": "Yaratilgan sana",
+  "actions": "Amallar",
+  "delete": "O'chirish",
+  "selected": "Tanlandi"
+}

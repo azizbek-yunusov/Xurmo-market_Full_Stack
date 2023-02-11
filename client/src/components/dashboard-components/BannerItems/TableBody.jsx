@@ -1,6 +1,7 @@
 import { Avatar, Checkbox, Chip } from "@mui/material";
 import moment from "moment";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { FiEdit } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
@@ -12,6 +13,8 @@ const TableBody = ({
   handleSelectOne,
   deleteBanner,
 }) => {
+  let { t } = useTranslation(["banner-d"]);
+
   return (
     <table className="min-w-max w-full table-auto rounded-lg ">
       <thead>
@@ -27,10 +30,10 @@ const TableBody = ({
               onChange={handleSelectAll}
             />
           </th>
-          <th className="px-3">Banner</th>
-          <th className="px-3">CreatedBy</th>
-          <th className="px-3">CreatedAt</th>
-          <th className="px-3">Actions</th>
+          <th className="px-3">{t("banner")}</th>
+          <th className="px-3">{t("created-by")}</th>
+          <th className="px-3">{t("created-at")}</th>
+          <th className="px-3">{t("actions")}</th>
         </tr>
       </thead>
       <tbody className="text-gray-600 dark:text-gray-300 text-sm font-light">
@@ -42,7 +45,6 @@ const TableBody = ({
                 className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 font-semibold hover:dark:bg-gray-600"
               >
                 <td className="py-3 flex_center">
-                  {/* <Checkbox sx={{ borderRadius: 5 }} /> */}
                   <Checkbox
                     checked={selectedBannerIds.indexOf(item._id) !== -1}
                     onChange={(event) => handleSelectOne(event, item._id)}

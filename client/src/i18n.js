@@ -18,7 +18,7 @@ i18n
     backend: {
       loadPath: "/locales/{{lng}}/{{ns}}.json",
     },
-    ns: ["translation", "home", "profile", "shop", "product"],
+    ns: ["translation", "home", "profile", "shop", "product", "product-d", "brand-d", "banner-d", "category-d"],
     supportedLngs: ["en", "ru", "uz"],
     // detection: option,
     interpolation: {

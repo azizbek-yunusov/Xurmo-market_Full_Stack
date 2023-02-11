@@ -20,8 +20,8 @@ const Profile = () => {
           <CabinetTop />
           <CabinetTabs />
           <div className="grid grid-cols-3 gap-x-5">
-            <div className="col-span-1 bg-white border_l rounded-xl p-5">
-              <h1 className="text-gray-400 mb-2">About</h1>
+            <div className="col-span-1 bg-white dark:bg-transparent border_primary rounded-xl p-5">
+              <h1 className="text-gray-300 mb-2">About</h1>
               <div className="">
                 <ul className="border-t border-t-gray-200">
                   <li className="text-zinc-500 dark:text-zinc-400 my-3 flex items-center">
@@ -76,7 +76,7 @@ const Profile = () => {
                 </ul>
               </div>
             </div>
-            <div className="col-span-2 bg-white border_l rounded-xl p-5">
+            <div className="col-span-2 bg-white dark:bg-transparent border_primary rounded-xl p-5">
               no data
             </div>
           </div>

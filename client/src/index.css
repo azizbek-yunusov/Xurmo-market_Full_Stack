@@ -13,17 +13,9 @@
 @layer base {
   html {
     font-family: "Inter";
-    body {
-      @apply dark:bg-[#100025] bg-white;
-    }
-  }
-}
-@layer base {
-  html {
-    font-family: "Inter";
   }
   body {
-    @apply dark:bg-[#2e2d4a] bg-gray-50;
+    @apply dark:bg-[#312d4b] bg-white;
   }
 }
 .container-full {
@@ -60,11 +52,23 @@
   @apply relative flex rounded-lg flex-row items-center h-11 tranistion_normal focus:outline-none hover:bg-fuchsia-400 text-gray-100 dark:text-gray-300 font-semibold hover:text-gray-800;
 }
 .sidebar_link-active {
-  @apply relative flex rounded-lg mx-0 flex-row items-center h-11 focus:outline-none dark:bg-[#424069] bg-gradient-to-r from-cyan-300 to-teal-500 text-purple-600  dark:text-gray-100 font-semibold hover:text-gray-800;
+  @apply relative flex rounded-lg mx-0 flex-row items-center h-11 focus:outline-none dark:bg-[#424069] bg-gradient-to-r from-cyan-500 to-teal-500 text-gray-100 dark:from-indigo-400 dark:to-blue-500 dark:text-gray-100 font-semibold hover:text-gray-800;
 }
-.dd{
-  color: #f6ad38;
+.dd {
+  color: #312d4b;
 }
 .bg_secondary {
-  @apply bg-[#ff8800]
+  @apply bg-[#ff8800];
+}
+.border_primary {
+  @apply border border-gray-200 dark:border-gray-600;
+}
+.icon_color {
+  @apply text-gray-700 dark:text-gray-300;
+}
+.text_color {
+  @apply text-gray-700 dark:text-gray-300;
+}
+.bg_color {
+  @apply bg-white dark:bg-[#312d4b];
 }

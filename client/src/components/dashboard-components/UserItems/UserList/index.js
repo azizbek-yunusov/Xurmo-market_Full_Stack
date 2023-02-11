@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Button,
   Checkbox,
   Chip,
@@ -12,7 +11,6 @@ import {
   Tooltip,
 } from "@mui/material";
 import axios from "axios";
-import moment from "moment";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { BiExport, BiSearch } from "react-icons/bi";
@@ -125,7 +123,7 @@ const UsersTable = () => {
     <>
       <HelmetTitle title={"All Users"} />
       <Layout>
-        <div className="bg-white mx-5 dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border border-gray-300">
+        <div className="bg-white dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border_primary">
           <h1 className="p-5 text-gray-600 text-xl font-semibold">
             Search Filter
           </h1>
@@ -178,7 +176,7 @@ const UsersTable = () => {
             </FormControl>
           </div>
           {selectedCustomerIds.length ? (
-            <div className="flex w-full bg-white items-center justify-between py-3 px-4">
+            <div className="flex w-full items-center justify-between py-3 px-4">
               <Chip
                 label={`${selectedCustomerIds.length} Selected`}
                 size="medium"
@@ -200,7 +198,7 @@ const UsersTable = () => {
               </Button>
             </div>
           ) : (
-            <div className="flex w-full bg-white items-center justify-between py-3 px-4">
+            <div className="flex w-full items-center justify-between py-3 px-4">
               <FormControl size="small" sx={{ minWidth: "80px" }}>
                 <Select
                   labelId="demo-simple-select-label"
@@ -266,7 +264,7 @@ const UsersTable = () => {
 
           <table className="min-w-max w-full table-auto rounded-lg ">
             <thead>
-              <tr className="bg-gray-100 text-left dark:bg-[#232338] text-gray-500 dark:text-gray-200 text-sm font-light rounded-t-lg uppercase">
+              <tr className="bg-gray-100 text-left dark:bg-[#373755] text-gray-500 dark:text-gray-200 text-sm font-light rounded-t-lg uppercase">
                 <th className="py-2 text-center">
                   <Checkbox
                     checked={selectedCustomerIds.length === users.length}

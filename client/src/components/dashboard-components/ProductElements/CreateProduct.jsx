@@ -16,8 +16,10 @@ import {
   TextField,
 } from "@mui/material";
 import { HelmetTitle } from "../../../utils";
+import { useTranslation } from "react-i18next";
 
 const CreateProduct = () => {
+  let { t } = useTranslation(["product-d"]);
   const { access_token } = useSelector((state) => state.auth);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -101,11 +103,11 @@ const CreateProduct = () => {
 
   return (
     <>
-      <HelmetTitle title={"Create Product"} />
+      <HelmetTitle title={t("add-product-title")} />
       <Layout>
         <section className="relative">
           <div className="bg-indigo-400 w-full h-40 pl-5 pt-4 text-gray-50">
-            <h1 className="text-white text-2xl">Create Product</h1>
+            <h1 className="text-white text-2xl">{t("add-product-title")}</h1>
             {/* <ol className="list-reset mt-1 flex text-grey-dark text-sm text-gray-200">
             <li>
               <Link to={"/dashboard"}>Dashboard</Link>
@@ -133,7 +135,8 @@ const CreateProduct = () => {
                       id="outlined-basic"
                       fullWidth
                       variant="outlined"
-                      label="Name"
+                      label={t("name")}
+                      placeholder={t("name-pl")}
                       type="text"
                       className="rounded-xl"
                       value={name}
@@ -142,13 +145,13 @@ const CreateProduct = () => {
 
                     <FormControl fullWidth>
                       <InputLabel id="demo-simple-select-label">
-                        Select category
+                        {t("select-category")}
                       </InputLabel>
                       <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={category}
-                        label="Select category"
+                        label={t("select-category")}
                         onChange={(e) => setCategory(e.target.value)}
                       >
                         {categories?.map((item, index) => (
@@ -163,7 +166,8 @@ const CreateProduct = () => {
                         id="outlined-basic"
                         fullWidth
                         variant="outlined"
-                        label="Price"
+                        label={t("price")}
+                        placeholder={t("price-pl")}
                         type="number"
                         className="rounded-xl"
                         value={price}
@@ -172,13 +176,13 @@ const CreateProduct = () => {
                     </div>
                     <FormControl fullWidth>
                       <InputLabel id="demo-simple-select-label">
-                        Select brand
+                        {t("select-brand")}
                       </InputLabel>
                       <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={brand}
-                        label="Select brand"
+                        label={t("select-brand")}
                         onChange={(e) => setBrand(e.target.value)}
                       >
                         {brands?.map((item, index) => (
@@ -192,7 +196,8 @@ const CreateProduct = () => {
                       id="outlined-basic"
                       fullWidth
                       variant="outlined"
-                      label="In Stock"
+                      label={t("in-stock")}
+                      placeholder={t("in-stock-pl")}
                       type="number"
                       className="rounded-xl"
                       value={inStock}
@@ -202,7 +207,8 @@ const CreateProduct = () => {
                       id="outlined-basic"
                       fullWidth
                       variant="outlined"
-                      label="Discount"
+                      label={t("discount")}
+                      placeholder={t("discount-pl")}
                       type="number"
                       className="rounded-xl"
                       value={discount}
@@ -213,31 +219,19 @@ const CreateProduct = () => {
                         fullWidth
                         multiline
                         minRows={5}
-                        label="Description"
-                        placeholder="Bio..."
+                        label={t("descr")}
+                        placeholder={t("descr-pl")}
                         value={descr}
                         onChange={(e) => setDescr(e.target.value)}
-                        sx={{
-                          "& .MuiOutlinedInput-root": {
-                            alignItems: "baseline",
-                          },
-                        }}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              {/* <MessageOutline /> */}
-                            </InputAdornment>
-                          ),
-                        }}
                       />
                     </div>
                     <div className="flex">
                       <label htmlFor="file-upload">
                         <label
                           htmlFor="file-upload"
-                          className="block text-base mb-1 text-gray-700"
+                          className="block text-base mb-1 text-gray-600"
                         >
-                          Upload images
+                          {t("upload-images")}
                         </label>
                         <div className="mr-2 flex bg-white justify-center items-center rounded-md border-2 border-dashed border-gray-300 p-3 py-6 cursor-pointer h-36">
                           <div className="flex justify-center flex-col items-center">
@@ -247,7 +241,7 @@ const CreateProduct = () => {
                                 htmlFor="file-upload"
                                 className="relative cursor-pointer rounded-md bg-white font-medium"
                               >
-                                <span>Upload image</span>
+                                <span>{t("upload-images")}</span>
                                 <input
                                   id="file-upload"
                                   name="file"

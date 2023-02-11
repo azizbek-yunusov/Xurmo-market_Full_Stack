@@ -17,7 +17,7 @@ const CabinetTabs = () => {
   const pathname = useLocation().pathname;
 
   return (
-    <div className="flex my-4 rounded-xl bg-white border_l">
+    <div className="flex my-4 rounded-xl bg-white dark:bg-transparent border_primary">
       <div className="flex justify-center items-center rounded-xl py-3 md:px-7">
         <div className="w-full flex justify-between items-center ">
           {(pathUz || pathEn || pathRu).map((item, index) => (

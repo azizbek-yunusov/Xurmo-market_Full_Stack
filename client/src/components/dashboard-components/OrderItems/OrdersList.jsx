@@ -18,6 +18,7 @@ import { MdDelete } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { HelmetTitle } from "../../../utils";
+import { NotData } from "../Helpers";
 import Layout from "../Layout";
 import TableBody from "./TableBody";
 
@@ -113,7 +114,7 @@ const OrdersList = () => {
           <CircularProgress />
         ) : (
           <>
-            <div className="bg-white dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border border-gray-200 dark:border-gray-600">
+            <div className="bg-white dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border_primary">
               <h1 className="p-5 text-gray-600 dark:text-gray-200 text-xl font-semibold">
                 Search Filter
               </h1>
@@ -248,39 +249,42 @@ const OrdersList = () => {
                   </div>
                 </div>
               )}
-
-              <table className="min-w-max w-full table-auto rounded-lg ">
-                <thead>
-                  <tr className="bg-gray-100 text-left dark:bg-[#232338] text-gray-500 dark:text-gray-200 text-xs font-light rounded-t-lg uppercase">
-                    <th className="py-2 text-center">
-                      <Checkbox
-                        checked={selectedOrderIds.length === orders.length}
-                        color="primary"
-                        indeterminate={
-                          selectedOrderIds.length > 0 &&
-                          selectedOrderIds.length < orders.length
-                        }
-                        onChange={handleSelectAll}
-                      />
-                    </th>
-                    <th className="px-2">Order ID</th>
-                    <th className="px-2">Products</th>
-                    <th className="px-2">Payment Status</th>
-                    <th className="px-2">Date</th>
-                    <th className="px-2">Total</th>
-                    <th className="px-2">Payment Status</th>
-                    <th className="px-2">Order Status</th>
-                    <th className="px-2">Customer</th>
-                    <th className="px-2">Actions</th>
-                  </tr>
-                </thead>
-                <TableBody
-                  selectedOrderIds={selectedOrderIds}
-                  filteredOrders={filteredOrders}
-                  handleSelectOne={handleSelectOne}
-                  deleteOrder={deleteOrder}
-                />
-              </table>
+              {orders.length ? (
+                <table className="min-w-max w-full table-auto rounded-lg ">
+                  <thead>
+                    <tr className="bg-gray-100 text-left dark:bg-[#232338] text-gray-500 dark:text-gray-200 text-xs font-light rounded-t-lg uppercase">
+                      <th className="py-2 text-center">
+                        <Checkbox
+                          checked={selectedOrderIds.length === orders.length}
+                          color="primary"
+                          indeterminate={
+                            selectedOrderIds.length > 0 &&
+                            selectedOrderIds.length < orders.length
+                          }
+                          onChange={handleSelectAll}
+                        />
+                      </th>
+                      <th className="px-2">Order ID</th>
+                      <th className="px-2">Products</th>
+                      <th className="px-2">Payment Status</th>
+                      <th className="px-2">Date</th>
+                      <th className="px-2">Total</th>
+                      <th className="px-2">Payment Status</th>
+                      <th className="px-2">Order Status</th>
+                      <th className="px-2">Customer</th>
+                      <th className="px-2">Actions</th>
+                    </tr>
+                  </thead>
+                  <TableBody
+                    selectedOrderIds={selectedOrderIds}
+                    filteredOrders={filteredOrders}
+                    handleSelectOne={handleSelectOne}
+                    deleteOrder={deleteOrder}
+                  />
+                </table>
+              ) : (
+                <NotData />
+              )}
             </div>
           </>
         )}

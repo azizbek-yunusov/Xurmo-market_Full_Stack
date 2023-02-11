@@ -67,7 +67,6 @@ const sendOrder = async (options) => {
     service: "gmail",
     auth: {
       user: SENDER_EMAIL_ADDRESS,
-      
     },
   });
 

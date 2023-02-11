@@ -1,5 +1,6 @@
 import { Button, TextField } from "@mui/material";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
 import { useSelector } from "react-redux";
@@ -7,20 +8,8 @@ import { useNavigate } from "react-router-dom";
 import HelmetTitle from "../../../utils/HelmetTitle";
 import Layout from "../Layout";
 
-const rootInputStyles = {
-  '&:hover fieldset': {
-    border: '1px solid #888888!important',
-  },
-  '&:focus-within fieldset, &:focus-visible fieldset': {
-    border: '2px solid #7e57c2!important',
-  },
-};
-const inputLabelStyles = {
-  color: '#7e57c2',
-  textTransform: 'capitalize',
-};
-
 const AddBanner = () => {
+  let { t } = useTranslation(["banner-d"]);
   const { access_token } = useSelector((state) => state.auth);
   const [name, setName] = useState("");
   const [href, setHref] = useState("");
@@ -70,11 +59,11 @@ const AddBanner = () => {
   };
   return (
     <>
-      <HelmetTitle title={"Create Banner"} />
+      <HelmetTitle title={t("add-banner-title")} />
       <Layout>
         <section className="relative">
-          <div className="bg-indigo-400 w-full h-40 pl-5 pt-4 text-gray-50">
-            <h1 className="text-white text-2xl">Create Banner</h1>
+          <div className="bg-indigo-400 w-full h-40 pl-5 pt-4 text-gray-50 rounded-xl">
+            <h1 className="text-white text-2xl">{t("add-banner-title")}</h1>
             {/* <ol className="list-reset mt-1 flex text-grey-dark text-sm text-gray-200">
             <li>
               <Link to={"/dashboard"}>Dashboard</Link>
@@ -93,33 +82,29 @@ const AddBanner = () => {
             </li>
           </ol> */}
           </div>
-          <div className="-mt-24 rounded-2xl flex mx-4 bg-white shadow-lg">
+          <div className="-mt-24 rounded-2xl flex mx-4 bg_color backdrop-blur-md dark: border_primary">
             <div className="flex w-full p-8 px-16">
               <div className="w-full">
                 <form onSubmit={createHandler}>
                   <div className="flex flex-col">
                     <div className="grid grid-cols-2 gap-x-12">
                       <TextField
-                        sx={{...rootInputStyles }}
                         id="outlined-basic"
                         fullWidth
                         variant="outlined"
-                        label="Name"
+                        label={t("name")}
+                        placeholder={t("name-pl")}
                         type="text"
                         className="rounded-xl"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        InputLabelProps={{
-                          sx: {
-                            ...inputLabelStyles,
-                          },
-                        }}
                       />
                       <TextField
                         id="outlined-basic"
                         fullWidth
                         variant="outlined"
-                        label="Slug"
+                        label={t("href")}
+                        placeholder={t("href-pl")}
                         type="text"
                         className="rounded-xl"
                         value={href}
@@ -129,18 +114,18 @@ const AddBanner = () => {
 
                     <div className="mt-5">
                       <label htmlFor="file-upload" className="w-full">
-                        <p className="block text-base mb-1 text-gray-700">
-                          Upload image
+                        <p className="block text-base mb-1 text_color">
+                          {t("upload-image")}
                         </p>
-                        <div className="mr-2 flex min-w-full bg-gray-100 justify-center items-center rounded-md border-2 border-dashed border-gray-300 p-3 py-8 cursor-pointer">
+                        <div className="mr-2 flex min-w-full bg-gray-100 dark:bg-gray-700/50 justify-center items-center rounded-md border-2 border-dashed border-gray-300 p-3 py-8 cursor-pointer">
                           <div className="flex justify-center flex-col items-center">
-                            <AiOutlineCloudUpload className="text-3xl text-gray-600" />
-                            <div className="flex text-sm text-gray-600">
+                            <AiOutlineCloudUpload className="text-3xl text-gray-600 text_color" />
+                            <div className="flex text-sm text_color">
                               <label
                                 htmlFor="file-upload"
                                 className="relative cursor-pointer rounded-md font-medium"
                               >
-                                <span>Upload image</span>
+                                <span> {t("upload-image")}</span>
                                 <input
                                   id="file-upload"
                                   name="file"
@@ -160,7 +145,7 @@ const AddBanner = () => {
                     {image.length > 0 ? (
                       <div className="p-[6px] mx-[2px] relative  md:mt-3">
                         <div
-                          className="border border-gray-300 overflow-hidden rounded"
+                          className="border_primary overflow-hidden rounded"
                           id="file_img"
                         >
                           <img
@@ -171,7 +156,7 @@ const AddBanner = () => {
                         </div>
                         <IoMdClose
                           onClick={() => deleteImage(0)}
-                          className="absolute text-gray-600 top-0 p-1 border text-2xl border-gray-300 right-0 cursor-pointer rounded-full bg-white"
+                          className="absolute text-gray-600 top-0 p-1 text-2xl border_primary right-0 cursor-pointer rounded-full bg-white"
                         />
                       </div>
                     ) : null}

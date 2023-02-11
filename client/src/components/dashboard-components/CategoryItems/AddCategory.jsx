@@ -1,18 +1,21 @@
 import { Button, TextField } from "@mui/material";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { HelmetTitle } from "../../../utils";
-
 import Layout from "../Layout";
+import BannerUpload from "./BannerUpload";
 
 const AddCategory = () => {
+  let { t } = useTranslation(["category-d"]);
   const { access_token } = useSelector((state) => state.auth);
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
   const [image, setImage] = useState([]);
+  const [banner, setBanner] = useState([]);
   const [loading, setLoading] = useState(false);
   const goback = useNavigate();
   const navigate = useNavigate();
@@ -40,6 +43,7 @@ const AddCategory = () => {
         name,
         slug,
         image,
+        banner,
       }),
     })
       .then((res) => res.json())
@@ -51,12 +55,14 @@ const AddCategory = () => {
         }
       });
   };
+
+  console.log(banner);
   return (
     <>
-      <HelmetTitle title={"Create category"} />
+      <HelmetTitle title={t("add-category-title")} />
       <Layout>
         <section className="relative">
-          <div className="bg-indigo-400 w-full h-40 pl-5 pt-4 text-gray-50">
+          <div className="bg-indigo-400 w-full h-40 pl-5 pt-4 text-gray-50 rounded-xl">
             <h1 className="text-white text-2xl">Create category</h1>
             {/* <ol className="list-reset mt-1 flex text-grey-dark text-sm text-gray-200">
           <li>
@@ -76,7 +82,7 @@ const AddCategory = () => {
           </li>
         </ol> */}
           </div>
-          <div className="-mt-24 rounded-2xl flex mx-4 bg-white shadow-lg">
+          <div className="-mt-24 rounded-2xl flex mx-4 bg_color border_primary">
             <div className="flex w-full p-8 px-16">
               <div className="w-full">
                 <form onSubmit={createCategoryHandler}>
@@ -86,7 +92,8 @@ const AddCategory = () => {
                         id="outlined-basic"
                         fullWidth
                         variant="outlined"
-                        label="Name"
+                        label={t("name")}
+                        placeholder={t("name-pl")}
                         type="text"
                         className="rounded-xl"
                         value={name}
@@ -96,7 +103,8 @@ const AddCategory = () => {
                         id="outlined-basic"
                         fullWidth
                         variant="outlined"
-                        label="Slug"
+                        label={t("href")}
+                        placeholder={t("href-pl")}
                         type="text"
                         className="rounded-xl"
                         value={slug}
@@ -107,18 +115,18 @@ const AddCategory = () => {
 
                     <div className="flex">
                       <label htmlFor="file-upload">
-                        <p className="block text-base mb-1 text-gray-700">
-                          Upload image
+                        <p className="block text-base mb-1 text_color">
+                          {t("upload-image")}
                         </p>
-                        <div className="mr-2 flex bg-white justify-center items-center rounded-md border-2 border-dashed border-gray-300 p-3 py-6 cursor-pointer">
+                        <div className="mr-2 flex bg-gray-100 dark:bg-gray-700/50 justify-center items-center rounded-md border-2 border-dashed border-gray-300 p-3 py-6 cursor-pointer">
                           <div className="flex justify-center flex-col items-center">
-                            <AiOutlineCloudUpload className="text-3xl text-gray-600" />
-                            <div className="flex text-sm text-gray-600">
+                            <AiOutlineCloudUpload className="text-3xl text_color" />
+                            <div className="flex text-sm text_color">
                               <label
                                 htmlFor="file-upload"
-                                className="relative cursor-pointer rounded-md bg-white font-medium"
+                                className="relative cursor-pointer rounded-md bg-gray-100 dark:bg-gray-700/50 font-medium"
                               >
-                                <span>Upload image</span>
+                                <span>{t("upload-image")}</span>
                                 <input
                                   id="file-upload"
                                   name="file"
@@ -128,7 +136,7 @@ const AddCategory = () => {
                                 />
                               </label>
                             </div>
-                            <p className="text-xs text-gray-500">
+                            <p className="text-xs text_color">
                               PNG, JPG up to 10MB
                             </p>
                           </div>
@@ -154,6 +162,7 @@ const AddCategory = () => {
                       ) : null}
                     </div>
                   </div>
+                  <BannerUpload banner={banner} setBanner={setBanner} />
                   <div className="w-full mt-10 flex justify-end">
                     <Button
                       onClick={() => goback(-1)}

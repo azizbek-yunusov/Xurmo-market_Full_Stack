@@ -1,14 +1,22 @@
-import "./theme-switch.css";
 import { FiMoon, FiSun } from "react-icons/fi";
 import { useDarkSide } from "../../../hooks";
-
+import { IconButton } from "@mui/material";
 
 const ThemeToggle = () => {
   const [theme, handleThemeSwitch] = useDarkSide();
   return (
-    <div onClick={handleThemeSwitch} className="mx-4 cursor-pointer flex text-2xl justify-center">
-      {theme === "light" ? <FiSun className="text-gray-700" /> : <FiMoon className="text-gray-100" />}
-    </div>
+    <IconButton
+      onClick={handleThemeSwitch}
+      color="default"
+      sx={{marginX: 1}}
+      aria-label="ThemeToggle"
+    >
+      {theme === "light" ? (
+        <FiSun className="text-gray-700" />
+      ) : (
+        <FiMoon className="text-gray-300" />
+      )}
+    </IconButton>
   );
 };
 

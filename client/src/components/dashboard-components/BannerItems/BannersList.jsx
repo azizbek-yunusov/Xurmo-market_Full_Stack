@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { BiExport, BiSearch, BiTable } from "react-icons/bi";
 import { BsGrid } from "react-icons/bs";
 import { FiPlus } from "react-icons/fi";
@@ -19,12 +20,13 @@ import { MdDelete } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import HelmetTitle from "../../../utils/HelmetTitle";
-
+import { NotData } from "../Helpers";
 import Layout from "../Layout";
 import GridList from "./GridList";
 import TableBody from "./TableBody";
 
 const BannersList = () => {
+  let { t } = useTranslation(["banner-d"]);
   const { access_token } = useSelector((state) => state.auth);
   const [banners, setBanners] = useState([]);
   const [term, setTerm] = useState("");
@@ -102,10 +104,11 @@ const BannersList = () => {
 
   useEffect(() => {
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
-      <HelmetTitle title="All banners" />
+      <HelmetTitle title={t("all-banner")} />
       <Layout>
         {loading ? (
           <CircularProgress />
@@ -113,19 +116,19 @@ const BannersList = () => {
           <>
             <div className="bg-white dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border border-gray-300 dark:border-gray-600">
               <h1 className="p-5 text-gray-600 dark:text-gray-200 text-xl font-semibold">
-                Search Filter
+                {t("search-filter")}
               </h1>
               <div className="grid grid-cols-3 gap-x-5 pb-6 mb-3 px-5 border-b border-b-gray-200 dark:border-b-gray-600">
                 <FormControl size="medium" sx={{}}>
                   <InputLabel _id="demo-simple-select-label">
-                    Select Category
+                    {t("select-category")}
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     _id="demo-simple-select"
                     // value={"all"}
                     // onChange={(e) => setCategory(e.target.value)}
-                    label="Select Category"
+                    label={t("select-category")}
                   >
                     <MenuItem value={"all"}>All</MenuItem>
                     <MenuItem value={"user"}>banners</MenuItem>
@@ -134,14 +137,14 @@ const BannersList = () => {
                 </FormControl>
                 <FormControl size="medium" sx={{}}>
                   <InputLabel _id="demo-simple-select-label">
-                    Select Brand
+                    {t("select-banner")}
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     _id="demo-simple-select"
                     // value={"all"}
                     // onChange={(e) => setCategory(e.target.value)}
-                    label="Select Brand"
+                    label={t("select-banner")}
                   >
                     <MenuItem value={"all"}>Date</MenuItem>
                     <MenuItem value={"user"}>Name</MenuItem>
@@ -150,14 +153,14 @@ const BannersList = () => {
                 </FormControl>
                 <FormControl size="medium" sx={{}}>
                   <InputLabel _id="demo-simple-select-label">
-                    Select Rating
+                    {t("select-rating")}
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     _id="demo-simple-select"
                     // value={"all"}
                     // onChange={(e) => setCategory(e.target.value)}
-                    label="Select Rating"
+                    label={t("select-rating")}
                   >
                     <MenuItem value={"all"}>All</MenuItem>
                     <MenuItem value={"user"}>banners</MenuItem>
@@ -167,7 +170,9 @@ const BannersList = () => {
               </div>
               {selectedBannerIds.length ? (
                 <div className="flex w-ful items-center justify-between py-[12.5px] px-4">
-                  <h1 className="font-semibold text-gray-700">{`${selectedBannerIds.length} Selected`}</h1>
+                  <h1 className="font-semibold text_color">{`(${
+                    selectedBannerIds.length
+                  }) ${t("selected")}`}</h1>
                   <Button
                     variant="contained"
                     color="error"
@@ -179,7 +184,7 @@ const BannersList = () => {
                     }}
                     startIcon={<MdDelete />}
                   >
-                    DELETE
+                    {t("delete")}
                   </Button>
                 </div>
               ) : (
@@ -210,7 +215,7 @@ const BannersList = () => {
                           </InputAdornment>
                         ),
                       }}
-                      placeholder="Search"
+                      placeholder={t("search")}
                       variant="outlined"
                     />
                   </FormControl>
@@ -242,7 +247,7 @@ const BannersList = () => {
                       EXPORT
                     </Button>
                     <Link to={"/banner/add"}>
-                      <Tooltip title="Add new user">
+                      <Tooltip title={t("add-banner-title")}>
                         <Button
                           variant="contained"
                           size="medium"
@@ -253,32 +258,37 @@ const BannersList = () => {
                           }}
                           startIcon={<FiPlus />}
                         >
-                          ADD NEW BANNER
+                          {t("add-banner")}
                         </Button>
                       </Tooltip>
                     </Link>
                   </div>
                 </div>
               )}
-
-              {isTable ? (
-                <TableBody
-                  banners={banners}
-                  handleSelectAll={handleSelectAll}
-                  selectedBannerIds={selectedBannerIds}
-                  filteredBanners={filteredBanners}
-                  handleSelectOne={handleSelectOne}
-                  deleteBanner={deleteBanner}
-                />
+              {banners.length ? (
+                <>
+                  {isTable ? (
+                    <TableBody
+                      banners={banners}
+                      handleSelectAll={handleSelectAll}
+                      selectedBannerIds={selectedBannerIds}
+                      filteredBanners={filteredBanners}
+                      handleSelectOne={handleSelectOne}
+                      deleteBanner={deleteBanner}
+                    />
+                  ) : (
+                    <GridList
+                      banners={banners}
+                      handleSelectAll={handleSelectAll}
+                      selectedBannerIds={selectedBannerIds}
+                      filteredBanners={filteredBanners}
+                      handleSelectOne={handleSelectOne}
+                      deleteBanner={deleteBanner}
+                    />
+                  )}
+                </>
               ) : (
-                <GridList
-                  banners={banners}
-                  handleSelectAll={handleSelectAll}
-                  selectedBannerIds={selectedBannerIds}
-                  filteredBanners={filteredBanners}
-                  handleSelectOne={handleSelectOne}
-                  deleteBanner={deleteBanner}
-                />
+                <NotData />
               )}
             </div>
           </>

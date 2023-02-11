@@ -1,5 +1,6 @@
 import { Button, Tooltip } from "@mui/material";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { BiEdit } from "react-icons/bi";
 import { BsEye, BsTrash } from "react-icons/bs";
 import { Link } from "react-router-dom";
@@ -12,6 +13,7 @@ const GridList = ({
   handleSelectOne,
   deleteBanner,
 }) => {
+  let { t } = useTranslation(["banner-d"]);
   return (
     <div className="grid grid-cols-3 gap-5 p-5">
       {filteredBanners.length ? (
@@ -22,7 +24,7 @@ const GridList = ({
               className="col-span-1 rounded-lg border border-gray-200 dark:border-gray-600 p-2"
             >
               <img src={item.image.url} className="h-40 rounded-xl" alt="" />
-              <h1 className="text-gray-700 text-lg mb-5 mt-3">{item.name}</h1>
+              <h1 className="text_color text-lg mb-5 mt-3">{item.name}</h1>
               <div className="flex justify-end">
                 <Link to={`/banner/${item._id}`}>
                   <Tooltip title="View">
@@ -36,7 +38,7 @@ const GridList = ({
                       }}
                       startIcon={<BsEye />}
                     >
-                      View
+                      {t("view")}
                     </Button>
                   </Tooltip>
                 </Link>
@@ -52,7 +54,7 @@ const GridList = ({
                       }}
                       startIcon={<BiEdit />}
                     >
-                      Update
+                      {t("update")}
                     </Button>
                   </Tooltip>
                 </Link>
@@ -68,7 +70,7 @@ const GridList = ({
                     }}
                     startIcon={<BsTrash />}
                   >
-                    Delete
+                    {t("delete")}
                   </Button>
                 </Tooltip>
               </div>

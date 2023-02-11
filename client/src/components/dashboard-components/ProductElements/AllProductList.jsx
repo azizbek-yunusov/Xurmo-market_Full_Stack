@@ -21,8 +21,11 @@ import { BiExport, BiSearch } from "react-icons/bi";
 import TableBody from "./TableBody";
 import Layout from "../Layout";
 import { HelmetTitle } from "../../../utils";
+import { NotData } from "../Helpers";
+import { useTranslation } from "react-i18next";
 
 const AllProductList = () => {
+  let { t } = useTranslation(["product-d"]);
   const { access_token } = useSelector((state) => state.auth);
   const [term, setTerm] = useState("");
   const [products, setProducts] = useState([]);
@@ -33,9 +36,7 @@ const AllProductList = () => {
 
   const filteredProducts = products.filter((value) => {
     const searchName = value.name;
-    return (
-      searchName.toLowerCase().includes(term.toLowerCase())
-    );
+    return searchName.toLowerCase().includes(term.toLowerCase());
   });
 
   const handleSelectAll = (event) => {
@@ -103,7 +104,7 @@ const AllProductList = () => {
   console.log(products);
   return (
     <>
-      <HelmetTitle title="All products" />
+      <HelmetTitle title={t("all-products")} />
       <Layout>
         {loading ? (
           <CircularProgress />
@@ -111,19 +112,19 @@ const AllProductList = () => {
           <>
             <div className="bg-white dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border border-gray-200 dark:border-gray-600">
               <h1 className="p-5 text-gray-600 dark:text-gray-200 text-xl font-semibold">
-                Search Filter
+                {t("search-filter")}
               </h1>
               <div className="grid grid-cols-3 gap-x-5 pb-6 mb-3 px-5 border-b border-b-gray-200 dark:border-b-gray-600">
                 <FormControl size="medium" sx={{}}>
                   <InputLabel _id="demo-simple-select-label">
-                    Select Category
+                    {t("select-category")}
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     _id="demo-simple-select"
                     // value={"all"}
                     // onChange={(e) => setCategory(e.target.value)}
-                    label="Select Category"
+                    label={t("select-category")}
                   >
                     <MenuItem value={"all"}>All</MenuItem>
                     <MenuItem value={"user"}>products</MenuItem>
@@ -132,14 +133,14 @@ const AllProductList = () => {
                 </FormControl>
                 <FormControl size="medium" sx={{}}>
                   <InputLabel _id="demo-simple-select-label">
-                    Select Brand
+                    {t("select-rating")}
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     _id="demo-simple-select"
                     // value={"all"}
                     // onChange={(e) => setCategory(e.target.value)}
-                    label="Select Brand"
+                    label={t("select-brand")}
                   >
                     <MenuItem value={"all"}>Date</MenuItem>
                     <MenuItem value={"user"}>Name</MenuItem>
@@ -148,14 +149,14 @@ const AllProductList = () => {
                 </FormControl>
                 <FormControl size="medium" sx={{}}>
                   <InputLabel _id="demo-simple-select-label">
-                    Select Rating
+                    {t("select-rating")}
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     _id="demo-simple-select"
                     // value={"all"}
                     // onChange={(e) => setCategory(e.target.value)}
-                    label="Select Rating"
+                    label={t("select-rating")}
                   >
                     <MenuItem value={"all"}>All</MenuItem>
                     <MenuItem value={"user"}>products</MenuItem>
@@ -165,7 +166,7 @@ const AllProductList = () => {
               </div>
               {selectedProductIds.length ? (
                 <div className="flex w-ful items-center justify-between py-[12.5px] px-4">
-                  <h1 className="font-semibold text-gray-700">{`${selectedProductIds.length} Selected`}</h1>
+                  <h1 className="font-semibold text-gray-700">{`${selectedProductIds.length} ${t("selected")}`}</h1>
                   <Button
                     variant="contained"
                     color="error"
@@ -177,7 +178,7 @@ const AllProductList = () => {
                     }}
                     startIcon={<MdDelete />}
                   >
-                    DELETE
+                    {t("delete")}
                   </Button>
                 </div>
               ) : (
@@ -208,7 +209,7 @@ const AllProductList = () => {
                           </InputAdornment>
                         ),
                       }}
-                      placeholder="Search"
+                      placeholder={t("search")}
                       variant="outlined"
                     />
                   </FormControl>
@@ -235,44 +236,49 @@ const AllProductList = () => {
                           }}
                           startIcon={<FiPlus />}
                         >
-                          ADD NEW PRODUCT
+                          {t("add-product")}
                         </Button>
                       </Tooltip>
                     </Link>
                   </div>
                 </div>
               )}
-
-              <table className="min-w-max w-full table-auto rounded-lg ">
-                <thead>
-                  <tr className="bg-gray-100 text-left dark:bg-[#232338] text-gray-500 dark:text-gray-200 text-sm font-light rounded-t-lg uppercase">
-                    <th className="py-2 text-center">
-                      <Checkbox
-                        checked={selectedProductIds.length === products.length}
-                        color="primary"
-                        indeterminate={
-                          selectedProductIds.length > 0 &&
-                          selectedProductIds.length < products.length
-                        }
-                        onChange={handleSelectAll}
-                      />
-                    </th>
-                    <th className="px-3">Product</th>
-                    <th className="px-3">Price</th>
-                    <th className="px-3">Category</th>
-                    <th className="px-3">Rating</th>
-                    <th className="px-3">CreatedBy</th>
-                    <th className="px-3">CreatedAt</th>
-                    <th className="px-3">Actions</th>
-                  </tr>
-                </thead>
-                <TableBody
-                  selectedProductIds={selectedProductIds}
-                  filteredProducts={filteredProducts}
-                  handleSelectOne={handleSelectOne}
-                  deleteProduct={deleteProduct}
-                />
-              </table>
+              {products.length ? (
+                <table className="min-w-max w-full table-auto rounded-lg ">
+                  <thead>
+                    <tr className="bg-gray-100 text-left dark:bg-[#232338] text-gray-500 dark:text-gray-200 text-sm font-light rounded-t-lg uppercase">
+                      <th className="py-2 text-center">
+                        <Checkbox
+                          checked={
+                            selectedProductIds.length === products.length
+                          }
+                          color="primary"
+                          indeterminate={
+                            selectedProductIds.length > 0 &&
+                            selectedProductIds.length < products.length
+                          }
+                          onChange={handleSelectAll}
+                        />
+                      </th>
+                      <th className="px-2.5">{t("product")}</th>
+                      <th className="px-2.5">{t("price")}</th>
+                      <th className="px-2.5">{t("category")}</th>
+                      <th className="px-2.5">{t("rating")}</th>
+                      <th className="px-2.5">{t("created-by")}</th>
+                      <th className="px-2.5">{t("created-at")}</th>
+                      <th className="px-2.5">{t("actions")}</th>
+                    </tr>
+                  </thead>
+                  <TableBody
+                    selectedProductIds={selectedProductIds}
+                    filteredProducts={filteredProducts}
+                    handleSelectOne={handleSelectOne}
+                    deleteProduct={deleteProduct}
+                  />
+                </table>
+              ) : (
+                <NotData />
+              )}
             </div>
           </>
         )}

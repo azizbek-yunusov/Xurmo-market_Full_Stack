@@ -17,7 +17,7 @@ const Favorites = () => {
           </div>
         ) : (
           <div className="flex justify-center items-center flex-col">
-            <img src="/images/profile.png" className="h-52" alt="" />
+            <img src="/images/wish.png" className="h-52" alt="" />
             <h1 className="text-2xl text-gray-800 font-semibold md:mb-5">
               Favorites list is empty
             </h1>

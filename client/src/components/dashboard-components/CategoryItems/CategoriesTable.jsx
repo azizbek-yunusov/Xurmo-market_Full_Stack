@@ -1,8 +1,5 @@
 import {
-  Avatar,
-  AvatarGroup,
   Button,
-  Checkbox,
   CircularProgress,
   FormControl,
   IconButton,
@@ -16,6 +13,7 @@ import {
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 import { BiExport, BiSearch, BiTable } from "react-icons/bi";
 import { BsGrid } from "react-icons/bs";
 import { FiPlus } from "react-icons/fi";
@@ -23,11 +21,13 @@ import { MdDelete } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { HelmetTitle } from "../../../utils";
+import { NotData } from "../Helpers";
 import Layout from "../Layout";
 import GridList from "./GridList";
 import TableBody from "./TableBody";
 
 const CategoriesTable = () => {
+  let { t } = useTranslation(["category-d"]);
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const { access_token } = useSelector((state) => state.auth);
@@ -123,7 +123,7 @@ const CategoriesTable = () => {
   }, []);
   return (
     <>
-      <HelmetTitle title="All categories" />
+      <HelmetTitle title={t("all-categories")} />
       <Layout>
         {!loading ? (
           <CircularProgress />
@@ -131,19 +131,19 @@ const CategoriesTable = () => {
           <>
             <div className="bg-white dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border border-gray-300 dark:border-gray-600">
               <h1 className="p-5 text-gray-600 dark:text-gray-200 text-xl font-semibold">
-                Search Filter
+                {t("search-filter")}
               </h1>
               <div className="grid grid-cols-3 gap-x-5 pb-6 mb-3 px-5 border-b border-b-gray-200 dark:border-b-gray-600">
                 <FormControl size="medium" sx={{}}>
                   <InputLabel _id="demo-simple-select-label">
-                    Select Category
+                    {t("select-category")}
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     _id="demo-simple-select"
                     // value={"all"}
                     // onChange={(e) => setCategory(e.target.value)}
-                    label="Select Category"
+                    label={t("select-category")}
                   >
                     <MenuItem value={"all"}>All</MenuItem>
                     <MenuItem value={"user"}>categories</MenuItem>
@@ -152,14 +152,14 @@ const CategoriesTable = () => {
                 </FormControl>
                 <FormControl size="medium" sx={{}}>
                   <InputLabel _id="demo-simple-select-label">
-                    Select Brand
+                    {t("select-brand")}
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     _id="demo-simple-select"
                     // value={"all"}
                     // onChange={(e) => setCategory(e.target.value)}
-                    label="Select Brand"
+                    label={t("select-brand")}
                   >
                     <MenuItem value={"all"}>Date</MenuItem>
                     <MenuItem value={"user"}>Name</MenuItem>
@@ -168,14 +168,14 @@ const CategoriesTable = () => {
                 </FormControl>
                 <FormControl size="medium" sx={{}}>
                   <InputLabel _id="demo-simple-select-label">
-                    Select Rating
+                    {t("select-rating")}
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     _id="demo-simple-select"
                     // value={"all"}
                     // onChange={(e) => setCategory(e.target.value)}
-                    label="Select Rating"
+                    label={t("select-rating")}
                   >
                     <MenuItem value={"all"}>All</MenuItem>
                     <MenuItem value={"user"}>categories</MenuItem>
@@ -185,7 +185,9 @@ const CategoriesTable = () => {
               </div>
               {selectedCategoryIds.length ? (
                 <div className="flex w-ful items-center justify-between py-[12.5px] px-4">
-                  <h1 className="font-semibold text-gray-700">{`${selectedCategoryIds.length} Selected`}</h1>
+                  <h1 className="font-semibold text-gray-700">{`${
+                    selectedCategoryIds.length
+                  } ${t("selected")}`}</h1>
                   <Button
                     variant="contained"
                     color="error"
@@ -197,7 +199,7 @@ const CategoriesTable = () => {
                     }}
                     startIcon={<MdDelete />}
                   >
-                    DELETE
+                    {t("delete")}
                   </Button>
                 </div>
               ) : (
@@ -228,7 +230,7 @@ const CategoriesTable = () => {
                           </InputAdornment>
                         ),
                       }}
-                      placeholder="Search"
+                      placeholder={t("search")}
                       variant="outlined"
                     />
                   </FormControl>
@@ -260,7 +262,7 @@ const CategoriesTable = () => {
                       EXPORT
                     </Button>
                     <Link to={"/category/add"}>
-                      <Tooltip title="Add new user">
+                      <Tooltip title={t("add-category-title")}>
                         <Button
                           variant="contained"
                           size="medium"
@@ -271,32 +273,37 @@ const CategoriesTable = () => {
                           }}
                           startIcon={<FiPlus />}
                         >
-                          ADD NEW CATEGORY
+                          {t("add-category")}
                         </Button>
                       </Tooltip>
                     </Link>
                   </div>
                 </div>
               )}
-
-              {!isTable ? (
-                <TableBody
-                  categories={categories}
-                  handleSelectAll={handleSelectAll}
-                  selectedCategoryIds={selectedCategoryIds}
-                  filteredCategories={filteredCategories}
-                  handleSelectOne={handleSelectOne}
-                  deleteCategory={deleteCategory}
-                />
+              {categories.length ? (
+                <>
+                  {!isTable ? (
+                    <TableBody
+                      categories={categories}
+                      handleSelectAll={handleSelectAll}
+                      selectedCategoryIds={selectedCategoryIds}
+                      filteredCategories={filteredCategories}
+                      handleSelectOne={handleSelectOne}
+                      deleteCategory={deleteCategory}
+                    />
+                  ) : (
+                    <GridList
+                      categories={categories}
+                      handleSelectAll={handleSelectAll}
+                      selectedCategoryIds={selectedCategoryIds}
+                      filteredCategories={filteredCategories}
+                      handleSelectOne={handleSelectOne}
+                      deleteCategory={deleteCategory}
+                    />
+                  )}
+                </>
               ) : (
-                <GridList
-                  categories={categories}
-                  handleSelectAll={handleSelectAll}
-                  selectedCategoryIds={selectedCategoryIds}
-                  filteredCategories={filteredCategories}
-                  handleSelectOne={handleSelectOne}
-                  deleteCategory={deleteCategory}
-                />
+                <NotData />
               )}
             </div>
           </>
