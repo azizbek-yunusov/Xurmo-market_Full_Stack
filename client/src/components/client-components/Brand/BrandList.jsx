@@ -20,14 +20,14 @@ const BrandsList = () => {
     fetchData();
   }, []);
   return (
-    <div className="container-full md:my-5 my-5 md:pt-10 md:pb-5 bg-[#f2f2f2]">
+    <div className="container-full md:my-5 my-5 md:pt-10 md:pb-5 py-4 bg-[#f2f2f2]">
       <div className="flex_betwen">
-        <h1 className="lg:text-3xl text-2xl text-gray-800 text-left font-semibold">
+        <h1 className="lg:text-3xl text-sm text-gray-800 text-left font-semibold">
           Brendlar
         </h1>
         <Link
           to={"/manufacturer"}
-          className="text-lg hover:underline transition_normal text-orange-500"
+          className="md:text-lg hover:underline text-xs transition_normal text-orange-500"
         >
           Barchasini ko'rish
         </Link>

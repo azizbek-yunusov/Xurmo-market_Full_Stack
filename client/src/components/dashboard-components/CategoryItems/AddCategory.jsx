@@ -15,7 +15,6 @@ const AddCategory = () => {
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
   const [image, setImage] = useState([]);
-  const [banner, setBanner] = useState([]);
   const [loading, setLoading] = useState(false);
   const goback = useNavigate();
   const navigate = useNavigate();
@@ -43,7 +42,6 @@ const AddCategory = () => {
         name,
         slug,
         image,
-        banner,
       }),
     })
       .then((res) => res.json())
@@ -56,7 +54,6 @@ const AddCategory = () => {
       });
   };
 
-  console.log(banner);
   return (
     <>
       <HelmetTitle title={t("add-category-title")} />
@@ -162,7 +159,7 @@ const AddCategory = () => {
                       ) : null}
                     </div>
                   </div>
-                  <BannerUpload banner={banner} setBanner={setBanner} />
+                  {/* <BannerUpload banner={banner} setBanner={setBanner} /> */}
                   <div className="w-full mt-10 flex justify-end">
                     <Button
                       onClick={() => goback(-1)}

@@ -12,7 +12,10 @@ import {
   OverView,
   Settings,
 } from "./components/client-components/Profile";
-import { ProductDetail, ProductsList } from "./components/client-components/ProductItems";
+import {
+  ProductDetail,
+  ProductsList,
+} from "./components/client-components/ProductItems";
 import { WishList } from "./components/client-components/Wish";
 import CheckOut from "./components/client-components/CheckOut";
 import {
@@ -21,7 +24,10 @@ import {
   ProductDetails,
   UpdateProduct,
 } from "./components/dashboard-components/ProductElements";
-import { AddBanner, BannersList } from "./components/dashboard-components/BannerItems";
+import {
+  AddBanner,
+  BannersList,
+} from "./components/dashboard-components/BannerItems";
 import {
   BrandsList,
   CreateBrand,
@@ -39,9 +45,16 @@ import {
   UserList,
   UserProfile,
 } from "./components/dashboard-components/UserItems";
-import { OrderItem, OrdersList } from "./components/dashboard-components/OrderItems";
+import {
+  OrderItem,
+  OrdersList,
+} from "./components/dashboard-components/OrderItems";
 import Footer from "./components/client-components/Footer";
-import { Navbar, TopLink } from "./components/client-components/Header";
+import {
+  BottomNavigation,
+  Navbar,
+  TopLink,
+} from "./components/client-components/Header";
 import { Basket } from "./components/client-components/Cart";
 import { SearchPage } from "./components/client-components/Search";
 import { useNetworkStatus } from "./hooks";
@@ -58,15 +71,14 @@ function App() {
     dispatch(refreshToken());
   }, [dispatch]);
   useEffect(() => {
-    // replain config
-    window.replainSettings = { id: "c95b900e-06ea-42b1-8cbc-f4c2fe9edce6" };
+    window.replainSettings = { id: "9ba7af42-4b86-455f-b953-ebe0286ecce7" };
     (function (u) {
       var s = document.createElement("script");
       s.async = true;
       s.src = u;
       var x = document.getElementsByTagName("script")[0];
       x.parentNode.insertBefore(s, x);
-    })("https://widget.replain.cc/dist/client-components.js");
+    })("https://widget.replain.cc/dist/client.js");
   }, []);
   return (
     <>
@@ -79,6 +91,7 @@ function App() {
           <>
             <TopLink />
             <Navbar />
+            <BottomNavigation />
           </>
         )}
       </>

@@ -59,14 +59,13 @@ const UserButton = () => {
   };
   return (
     <>
-      <div className="mx-2">
+      <div className="mx-2 md:block hidden">
         <IconButton
           id="demo-customized-button"
           aria-controls={open ? "demo-customized-menu" : undefined}
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
           variant="text"
-          
           onClick={handleClick}
         >
           <AiOutlineUser />
@@ -91,6 +90,9 @@ const UserButton = () => {
           </Link>
         </StyledMenu>
       </div>
+      <Link className="md:hidden flex_center text_color text-xl">
+        <AiOutlineUser />
+      </Link>
     </>
   );
 };

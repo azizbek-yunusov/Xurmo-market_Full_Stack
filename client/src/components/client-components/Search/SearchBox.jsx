@@ -7,6 +7,7 @@ import axios from "axios";
 import AutoComplate from "./AutoComplate";
 import { useTranslation } from "react-i18next";
 import { recognition } from "../../../utils/SpeechRecognition";
+import MobileSearchBox from "./MobileSearchBox";
 
 const SearchBox = () => {
   const { t } = useTranslation(["product"]);
@@ -16,6 +17,7 @@ const SearchBox = () => {
   const [products, setProducts] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showSearch, setShowSearch] = useState(false);
   const [isVoiceSearch, setIsVoiceSearch] = useState(false);
   const [voiceText, setVoiceText] = useState("");
 
@@ -60,11 +62,15 @@ const SearchBox = () => {
   useEffect(() => {
     fetchData();
   }, []);
+  const toggleMobileSearchBar = () => {
+    setShowSearch(!showSearch);
+  };
   return (
     <div className="relative">
       <form
         onSubmit={SearchHandler}
         autoComplete="off"
+        onClick={toggleMobileSearchBar}
         className="flex items-center w-full"
       >
         <label htmlFor="voice-search" className="sr-only">
@@ -80,21 +86,21 @@ const SearchBox = () => {
             required
             value={query}
             onChange={handleAutoComplete}
-            className="lg:w-[600px] md:w-[420px] w-full bg-white border md:border-2 md:border-gray-300 text-gray-900 text-sm rounded-lg md:rounded-lg focus:ring-purple-400 focus:border-purple-400 block pl-10 p-2.5"
-            placeholder={matches ? t("inputtext") : "Search"}
+            className="lg:w-[600px] md:w-[420px] w-full bg-white border-2 md:border-gray-300 text-gray-900 text-sm rounded-lg md:rounded-lg focus:ring-purple-400 md:focus:border-purple-400 focus:border-orange-400 block md:pl-10 pl-10 p-2 md:p-2.5"
+            placeholder={matches ? t("inputtext") : t("search")}
           />
           <div
             onClick={() => openVoiceSearch()}
             className="flex absolute inset-y-0 right-0 items-center pr-3"
           >
-            <BiMicrophone className="md:text-[22px] text-gray-500" />
+            <BiMicrophone className="md:text-[22px] text-xl text-gray-500" />
           </div>
         </div>
         <button
           type="submit"
           className="md:inline-flex hidden items-center py-[10px] px-3 ml-2 text-sm font-medium text-white bg- rounded-lg bg_secondary"
         >
-          <CgSearch className="md:text-xl text-gray-50" />
+          <CgSearch className="text-xl text-gray-50" />
         </button>
       </form>
       <AutoComplate
@@ -102,6 +108,9 @@ const SearchBox = () => {
         query={query}
         clearFilter={clearFilter}
       />
+      {showSearch && (
+        <MobileSearchBox products={products} toggleMobileSearchBar={toggleMobileSearchBar} />
+      )}
     </div>
   );
 };

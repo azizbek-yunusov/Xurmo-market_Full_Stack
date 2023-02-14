@@ -4,8 +4,11 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import Products from "./Products";
+import { useTranslation } from "react-i18next";
+import { HelmetTitle } from "../../../utils";
 
 const Basket = () => {
+  let { t } = useTranslation(["product"]);
   const { cart } = useSelector((state) => state);
   const navigate = useNavigate();
   useEffect(() => {
@@ -14,28 +17,27 @@ const Basket = () => {
   }, []);
   return (
     <>
-      <Helmet>
-        <title data-rh="true">Shopping Cart | E-commerce</title>
-      </Helmet>
-
-      <div className="md:my-5">
+      <HelmetTitle title={t("cart")} />
+      <div className="md:my-5 my-3">
         {cart.length ? (
           <Products cart={cart} />
         ) : (
-          <div className="min-h-[630px] flex justify-center items-start">
+          <div className="md:min-h-[630px] min-h-[450px] flex justify-center items-start">
             <div className="flex justify-start items-center relative flex-col">
-              <img src="/images/shopping-basket.png" alt="Shopping bag" className="h-96" />
-              <h1 className="text-3xl md:mb-5 text-gray-600 font-semibold">
-                The shopping cart is empty
+              <img
+                src="/images/shopping-basket.png"
+                alt="Shopping bag"
+                className="md:h-96 h-64"
+              />
+              <h1 className="md:text-3xl text-xl md:mb-5 mb-3 text-gray-600 font-semibold">
+                {t("empty-cart")}
               </h1>
               <Button
                 onClick={() => navigate("/")}
-                fullWidth
                 variant="contained"
                 color="primary"
-                size="large"
               >
-                Continue Shopping
+                {t("empty-cart")}
               </Button>
             </div>
           </div>

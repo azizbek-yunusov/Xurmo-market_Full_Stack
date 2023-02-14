@@ -20,10 +20,12 @@ const BestProductsList = () => {
   }, []);
   return (
     <div className="container-full md:my-5">
-      <div className="flex justify-between items-center md:mb-8 mb-5">
-        <h1 className="lg:text-4xl text-2xl font-semibold text-gray-800">{t("bestp")}</h1>
-        <Link className="text-red-600 text-lg font-semibold" to={"/products"}>
-        {t("allviews")}
+      <div className="flex_betwen md:mb-8 mb-5">
+        <h1 className="lg:text-4xl text-sm font-semibold text-gray-800">
+          {t("bestp")}
+        </h1>
+        <Link className="text-red-600 md:text-lg text-xs font-semibold" to={"/products"}>
+          {t("allviews")}
         </Link>
       </div>
       <div className="">

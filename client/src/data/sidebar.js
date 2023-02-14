@@ -20,25 +20,25 @@ export const sidebarProfileEn = [
     id: 1,
     path: "/myprofile",
     name: "Overview",
-    icon: <BiHomeAlt className="md:text-xl" />,
+    icon: <BiHomeAlt className="md:text-xl text-xl" />,
   },
   {
     id: 2,
     path: "/myprofile/orders",
     name: "My orders",
-    icon: <RiShoppingBag3Line className="md:text-xl" />,
+    icon: <RiShoppingBag3Line className="md:text-xl text-xl" />,
   },
   {
     id: 4,
     path: "/myprofile/favorites",
     name: "Favorites",
-    icon: <MdFavoriteBorder className="md:text-xl" />,
+    icon: <MdFavoriteBorder className="md:text-xl text-xl" />,
   },
   {
     id: 1,
     path: "/myprofile/settings",
     name: "Settings",
-    icon: <AiOutlineSetting className="md:text-xl" />,
+    icon: <AiOutlineSetting className="md:text-xl text-xl" />,
   },
 ];
 export const sidebarProfileUz = [
@@ -46,25 +46,25 @@ export const sidebarProfileUz = [
     id: 1,
     path: "/myprofile",
     name: "Umumiy",
-    icon: <BiHomeAlt className="md:text-xl" />,
+    icon: <BiHomeAlt className="md:text-xl text-xl" />,
   },
   {
     id: 2,
     path: "/myprofile/orders",
     name: "Buyurtmalarim",
-    icon: <RiShoppingBag3Line className="md:text-xl" />,
+    icon: <RiShoppingBag3Line className="md:text-xl text-xl" />,
   },
   {
     id: 4,
     path: "/myprofile/favorites",
     name: "Sevimlilar",
-    icon: <MdFavoriteBorder className="md:text-xl" />,
+    icon: <MdFavoriteBorder className="md:text-xl text-xl" />,
   },
   {
     id: 1,
     path: "/myprofile/settings",
     name: "Sozlamalar",
-    icon: <AiOutlineSetting className="md:text-xl" />,
+    icon: <AiOutlineSetting className="md:text-xl text-xl" />,
   },
 ];
 export const sidebarProfileRu = [
@@ -72,25 +72,25 @@ export const sidebarProfileRu = [
     id: 1,
     path: "/myprofile",
     name: "Общий",
-    icon: <BiHomeAlt className="md:text-xl" />,
+    icon: <BiHomeAlt className="md:text-xl text-xl" />,
   },
   {
     id: 2,
     path: "/myprofile/orders",
     name: "Мои заказы",
-    icon: <RiShoppingBag3Line className="md:text-xl" />,
+    icon: <RiShoppingBag3Line className="md:text-xl text-xl" />,
   },
   {
     id: 4,
     path: "/myprofile/favorites",
     name: "Избранное",
-    icon: <MdFavoriteBorder className="md:text-xl" />,
+    icon: <MdFavoriteBorder className="md:text-xl text-xl" />,
   },
   {
     id: 1,
     path: "/myprofile/settings",
     name: "Настройки",
-    icon: <AiOutlineSetting className="md:text-xl" />,
+    icon: <AiOutlineSetting className="md:text-xl text-xl" />,
   },
 ];
 
@@ -100,25 +100,25 @@ export const sidebarProAdminUz = [
     id: 2,
     path: "/dashboard/cabinet",
     name: "Umumiy",
-    icon: <BiHomeAlt className="md:text-xl" />,
+    icon: <BiHomeAlt className="md:text-xl text-xl" />,
   },
   {
     id: 3,
     path: "/cabinet/projects",
     name: "Loyihalar",
-    icon: <BsUiChecksGrid className="md:text-xl" />,
+    icon: <BsUiChecksGrid className="md:text-xl text-xl" />,
   },
   {
     id: 4,
     path: "/myprofile/favorites",
     name: "Jamoa",
-    icon: <AiOutlineTeam className="md:text-xl" />,
+    icon: <AiOutlineTeam className="md:text-xl text-xl" />,
   },
   {
     id: 1,
     path: "/myprofile/settings",
     name: "Sozlamalar",
-    icon: <AiOutlineSetting className="md:text-xl" />,
+    icon: <AiOutlineSetting className="md:text-xl text-xl" />,
   },
 ];
 export const sidebarProAdminEn = [
@@ -126,25 +126,25 @@ export const sidebarProAdminEn = [
     id: 2,
     path: "/dashboard/myprofile",
     name: "Overview",
-    icon: <BiHomeAlt className="md:text-xl" />,
+    icon: <BiHomeAlt className="md:text-xl text-xl" />,
   },
   {
     id: 3,
     path: "/myprofile/addresses",
     name: "Projects",
-    icon: <BsUiChecksGrid className="md:text-xl" />,
+    icon: <BsUiChecksGrid className="md:text-xl text-xl" />,
   },
   {
     id: 4,
     path: "/myprofile/favorites",
     name: "Teams",
-    icon: <AiOutlineTeam className="md:text-xl" />,
+    icon: <AiOutlineTeam className="md:text-xl text-xl" />,
   },
   {
     id: 1,
     path: "/myprofile/settings",
     name: "Settings",
-    icon: <AiOutlineSetting className="md:text-xl" />,
+    icon: <AiOutlineSetting className="md:text-xl text-xl" />,
   },
 ];
 export const sidebarProAdminRu = [
@@ -152,25 +152,25 @@ export const sidebarProAdminRu = [
     id: 2,
     path: "/dashboard/myprofile",
     name: "Общий",
-    icon: <BiHomeAlt className="md:text-xl" />,
+    icon: <BiHomeAlt className="md:text-xl text-xl" />,
   },
   {
     id: 3,
     path: "/myprofile/addresses",
     name: "Manzillar",
-    icon: <BsUiChecksGrid className="md:text-xl" />,
+    icon: <BsUiChecksGrid className="md:text-xl text-xl" />,
   },
   {
     id: 4,
     path: "/myprofile/favorites",
     name: "Sevimlilar",
-    icon: <AiOutlineTeam className="md:text-xl" />,
+    icon: <AiOutlineTeam className="md:text-xl text-xl" />,
   },
   {
     id: 1,
     path: "/myprofile/settings",
     name: "Sozlamalar",
-    icon: <AiOutlineSetting className="md:text-xl" />,
+    icon: <AiOutlineSetting className="md:text-xl text-xl" />,
   },
 ];
 

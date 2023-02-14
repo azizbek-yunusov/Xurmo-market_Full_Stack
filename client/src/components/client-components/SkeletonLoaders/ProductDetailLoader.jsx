@@ -22,9 +22,7 @@ const ProductDetailLoader = () => {
             <div className="w-1/3 bg-[#f3f3f3] rounded-xl h-8 my-4"></div>
           </div>
           <div className="col-span-1">
-            <div className="w-full h-[450px] border-8 border-[#f3f3f3] rounded-xl">
-
-            </div>
+            <div className="w-full h-[450px] border-8 border-[#f3f3f3] rounded-xl"></div>
           </div>
         </div>
       </div>

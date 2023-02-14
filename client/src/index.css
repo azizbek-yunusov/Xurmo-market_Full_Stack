@@ -36,6 +36,9 @@
 .flex_betwen {
   @apply flex items-center justify-between;
 }
+.flex_end {
+  @apply flex items-center justify-end;
+}
 .flex_col {
   @apply flex flex-col;
 }

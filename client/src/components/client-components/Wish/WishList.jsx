@@ -4,8 +4,11 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import WishProductItem from "./WishProductItem";
 import { Button } from "@mui/material";
+import { useTranslation } from "react-i18next";
+import { HelmetTitle } from "../../../utils";
 
 const WishList = () => {
+  let { t } = useTranslation(["product"]);
   const { favorites } = useSelector((state) => state);
   const navigate = useNavigate();
   useEffect(() => {
@@ -14,13 +17,10 @@ const WishList = () => {
   }, []);
   return (
     <>
-      <Helmet>
-        <title data-rh="true">Sevimlilar | E-commerce</title>
-      </Helmet>
-
+      <HelmetTitle title={t("wish-list")} />
       <div className="">
         <div className="container-full min-h-[600px]">
-          { favorites.length ? (
+          {favorites.length ? (
             <div>
               <div className="flex md:mt-5">
                 <Link to="/">Bosh Sahifa</Link>
@@ -38,19 +38,27 @@ const WishList = () => {
               </div>
             </div>
           ) : (
-            <div className="flex justify-center items-center flex-col">
-              {/* <img src={Wish} className="h-96" alt="" /> */}
-              <h1 className="text-3xl text-gray-700 font-semibold md:mb-5">
-                Favorites list is empty
-              </h1>
-              <Button
-                onClick={() => navigate("/")}
-                size="lg"
-                variant="gradient"
-                className="tracking-wide"
-              >
-                continue shopping
-              </Button>
+            <div className="md:min-h-[630px] min-h-[450px] flex justify-center items-start">
+              <div className="flex justify-start items-center relative flex-col">
+                <img
+                  src="/images/wish.png"
+                  alt="Shopping bag"
+                  className="md:h-80 h-64"
+                />
+                <h1 className="md:text-2xl text-xl md:mb-5 mb-2 text-gray-600 font-semibold">
+                  {t("empty-wish")}
+                </h1>
+                <h1 className="md:text-lg md:mb-5 mb-3 text-gray-500 text-center">
+                  {t("empty-wish-t")}
+                </h1>
+                <Button
+                  onClick={() => navigate("/")}
+                  variant="contained"
+                  color="primary"
+                >
+                  {t("wish-b")}
+                </Button>
+              </div>
             </div>
           )}
         </div>

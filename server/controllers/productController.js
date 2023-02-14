@@ -37,7 +37,7 @@ const getProduct = async (req, res) => {
     const product = await ProductModel.findById(req.params.id)
       .populate("createdBy", "_id name avatar")
       .populate("reviews.user", "_id name avatar");
-    res.status(201).json({ product });
+    res.status(201).json(product);
   } catch (err) {
     console.log(err);
   }
@@ -139,7 +139,10 @@ const addReview = async (req, res) => {
       comment,
     };
 
-    let product = await ProductModel.findById(productId).populate("reviews.user", "_id name avatar");
+    let product = await ProductModel.findById(productId).populate(
+      "reviews.user",
+      "_id name avatar"
+    );
 
     const isReviewed = product.reviews.find(
       (rev) => rev.name.toString() === req.user.id.toString()

@@ -46,7 +46,7 @@ const TransleteD = () => {
         sx={{marginX: 1}}
         aria-label="translate"
       >
-        <MdOutlineTranslate className="icon_color" />
+        <MdOutlineTranslate className="icon_color md:text-2xl text-xl" />
       </IconButton>
       <Menu
         anchorEl={anchorEl}

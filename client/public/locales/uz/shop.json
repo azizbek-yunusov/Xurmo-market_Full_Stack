@@ -30,6 +30,7 @@
   "ordertype": "To'lov turi",
   "orderat": "Buyurtma qilingan sana",
   "contact": "Telofon raqam",
-  "address": "Manzil"
+  "address": "Manzil",
+  "empty-order": "Buyurtma berilmagan"
   
 }

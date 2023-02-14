@@ -33,7 +33,6 @@ const Translate = () => {
       svg: RuSvg,
     },
   ];
-  console.log(localStorage.getItem("i18nextLng"));
   return (
     <div>
       <div className="flex_betwen transition_normal">
@@ -43,7 +42,7 @@ const Translate = () => {
             onClick={() => handleChange(item.value)}
             className={` ${
               localStorage.getItem("i18nextLng") === item.value
-                ? "border-gray-500 cursor-not-allowed"
+                ? "border-gray-500 bg-gray-200/30 cursor-not-allowed"
                 : ""
             }  md:mx-3 px-1 border border-transparent rounded-md flex items-center cursor-pointer`}
           >

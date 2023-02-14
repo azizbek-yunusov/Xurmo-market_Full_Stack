@@ -15,7 +15,7 @@ const ListBox = () => {
     fetchData();
   }, []);
   return (
-    <div className="bg-[#f2f2f2] my-8 pt-8 pb-5">
+    <div className="bg-[#f2f2f2] my-8 pt-8 pb-5 hidden">
       <div className="container-full md:my-5">
         <div className="flex_betwen md:mb-5">
           <h1 className="lg:text-3xl text-2xl text-gray-800 text-left font-semibold">

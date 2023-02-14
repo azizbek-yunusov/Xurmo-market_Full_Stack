@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
 import { signOut } from "../../../redux/actions/authAction";
+import { AiOutlineUser } from "react-icons/ai";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -97,49 +98,57 @@ const AuthButton = () => {
 
   return (
     <>
-      <Button
-        id="demo-customized-button"
-        aria-controls={open ? "demo-customized-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        variant="text"
-        disableElevation
-        onClick={handleClick}
-      >
-        <div className="flex_center">
-          <StyledBadge
-            overlap="circular"
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            variant="dot"
-          >
-            <Avatar
-              alt="Remy Sharp"
-              src={
-                user.avatar?.url ||
-                "https://www.ihp.ie/wp-content/uploads/profile-img.jpg"
-              }
-            />
-          </StyledBadge>
-          <p className="normal-case ml-2">{user.name}</p>
-        </div>
-      </Button>
-      <StyledMenu
-        id="demo-customized-menu"
-        MenuListProps={{
-          "aria-labelledby": "demo-customized-button",
-        }}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-      >
-        <Link onClick={handleClose} to={"/myprofile"}>
-          <MenuItem>Profile</MenuItem>
-        </Link>
-        <Divider sx={{ my: 0.5 }} />
-        <MenuItem onClick={signOutHandle} disableRipple>
-          Sign out
-        </MenuItem>
-      </StyledMenu>
+      <div className="md:block hidden">
+        <Button
+          id="demo-customized-button"
+          aria-controls={open ? "demo-customized-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          variant="text"
+          disableElevation
+          onClick={handleClick}
+        >
+          <div className="flex_center">
+            <StyledBadge
+              overlap="circular"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              variant="dot"
+            >
+              <Avatar
+                alt="Remy Sharp"
+                src={
+                  user.avatar?.url ||
+                  "https://www.ihp.ie/wp-content/uploads/profile-img.jpg"
+                }
+              />
+            </StyledBadge>
+            <p className="normal-case ml-2">{user.name}</p>
+          </div>
+        </Button>
+        <StyledMenu
+          id="demo-customized-menu"
+          MenuListProps={{
+            "aria-labelledby": "demo-customized-button",
+          }}
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+        >
+          <Link onClick={handleClose} to={"/myprofile"}>
+            <MenuItem>Profile</MenuItem>
+          </Link>
+          <Divider sx={{ my: 0.5 }} />
+          <MenuItem onClick={signOutHandle} disableRipple>
+            Sign out
+          </MenuItem>
+        </StyledMenu>
+      </div>
+      <Link to={"/myprofile"}>
+
+      <div className="md:hidden flex_center text_color text-xl">
+        <img src={user.avatar?.url} className="h-8 object-cover w-8 bg-purple-600 rounded-full" alt={user.name} />
+      </div>
+      </Link>
     </>
   );
 };

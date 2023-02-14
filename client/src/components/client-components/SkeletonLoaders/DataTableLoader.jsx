@@ -4,7 +4,6 @@ const DataTableLoader = () => {
   return (
     <>
       <div className="bg-white dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border border-gray-300">
-       
         <table className="min-w-max w-full table-auto rounded-lg ">
           <thead>
             <tr className="bg-gray-100 dark:bg-[#232338] text-gray-700 dark:text-gray-200 text-sm rounded-t-lg leading-normal global-font">

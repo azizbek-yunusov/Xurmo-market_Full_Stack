@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import React from "react";
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { AiOutlineHeart, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsHeart } from "react-icons/bs";
 import { HiOutlineTrash } from "react-icons/hi";
 import { useSelector } from "react-redux";
@@ -17,10 +17,10 @@ const Products = ({ cart }) => {
   } = useGlobalApi(access_token);
   return (
     <>
-      <div className="container-full grid grid-cols-12 gap-5 min-h-screen">
-        <div className="col-span-8 ">
-          <div className="border border-gray-200 p-5 md:rounded-2xl">
-            <div className="flex justify-between items-center font-semibold mb-4 text-gray-700">
+      <div className="container-full grid md:grid-cols-12 md:gap-x-5 min-h-screen">
+        <div className="md:col-span-8 col-span-12">
+          <div className="border border-gray-200 md:p-5 p-3 md:rounded-2xl rounded-lg">
+            <div className="flex justify-between items-center font-semibold md:mb-4 mb-3 text-gray-700">
               <h1 className="md:text-2xl">Shopping cart</h1>
               <h1 className="md:text-xl font-mono">Items {cart.length}</h1>
             </div>
@@ -29,26 +29,31 @@ const Products = ({ cart }) => {
                 ? cart.map((item, index) => (
                     <div
                       key={index}
-                      className="p-1 my-2 border-t border-t-gray-200"
+                      className="md:p-1 my-2 border-t border-t-gray-200"
                     >
-                      <div className="grid grid-cols-12 lg:py-3 py-3 px-1 ease-in-out duration-300 border-b-0 border-b-gray-200">
-                        <div className="col-span-7 flex justify-start">
-                          <div className="overflow-hidden border-0 border-gray-300 py-1 rounded-xl">
+                      <div className=" grid grid-cols-12 lg:py-3 py-1 md:px-1 ease-in-out duration-300 border-b-0 border-b-gray-200">
+                        <div className="md:col-span-7 col-span-12 flex justify-start">
+                          <div className=" overflow-hidden border-0 border-gray-300 py-1 rounded-xl">
                             <img
                               src={item.productId.images[0].url}
                               alt={""}
                               className="object-cover md:h-28 md:w-28 w-24 h-24 object-center"
                             />
                           </div>
-                          <div className="md:ml-4 flex flex-col justify-between">
-                            <p className="md:text-base font-semibold">
+                          <div className="md:ml-4 ml-1 flex flex-col md:justify-between justify-around">
+                            <p className="md:text-base text-gray-800 font-semibold">
                               {item.productId.name}
                             </p>
-                            <p className="font-semibold text-lg">
+                            <p className="font-semibold md:flex hidden text-lg text-gray-800">
                               {item.productId.price}
                               {"$"}
                             </p>
-                            <div className="flex">
+                            <p className="font-semibold md:hidden flex text-lg text-gray-800">
+                              {item.quantity * item.productId.price}
+                              {"$"}
+                            </p>
+
+                            <div className="md:flex hidden">
                               <button
                                 onClick={() => deleteHandle(item.productId._id)}
                                 className="flex items-center text-base text-red-500"
@@ -71,8 +76,8 @@ const Products = ({ cart }) => {
                             </div>
                           </div>
                         </div>
-                        <div className="col-span-3 flex justify-center items-center">
-                          <div className="flex items-center w-max md:justify-center justify-between h-min rounded-md">
+                        <div className="md:col-span-3 col-span-7 md:flex_center flex_end md:mt-0 mt-2">
+                          <div className="md:flex hidden items-center w-max md:justify-center justify-between h-min rounded-md">
                             {item.quantity > 1 ? (
                               <button
                                 onClick={() =>
@@ -99,12 +104,58 @@ const Products = ({ cart }) => {
                               <AiOutlinePlus />
                             </button>
                           </div>
+                          <div className="md:hidden flex items-center w-max md:justify-center justify-between h-min rounded-md border-2 border-gray-300">
+                            {item.quantity > 1 ? (
+                              <button
+                                onClick={() =>
+                                  decrementQtyItem(item.productId._id)
+                                }
+                                className="px-2 py-1"
+                              >
+                                <AiOutlineMinus />
+                              </button>
+                            ) : (
+                              <button className="px-2 py-1 text-gray-400">
+                                <AiOutlineMinus />
+                              </button>
+                            )}
+                            <p className="mx-4 py-1 font-mono text-lg">
+                              {item.quantity}
+                            </p>
+                            <button
+                              onClick={() => {
+                                addToCartHandle(item.productId._id);
+                              }}
+                              className="px-2 py-1"
+                            >
+                              <AiOutlinePlus />
+                            </button>
+                          </div>
                         </div>
-                        <div className="col-span-2 flex justify-center items-center">
-                          <h1 className="md:text-2xl font-semibold tracking-widest text-gray-700">
+                        <div className="md:col-span-2 col-span-5 md:flex_center flex_end md:mt-0 mt-2">
+                          <h1 className="md:text-2xl md:flex hidden font-semibold tracking-widest text-gray-700">
                             {item.quantity * item.productId.price}
                             {"$"}
                           </h1>
+                          <div
+                            className="md:hidden
+                           flex_center"
+                          >
+                            <button
+                              onClick={() =>
+                                deleteFavoriteItem(item.productId._id)
+                              }
+                              className="flex items-center text-base mr-5 text-gray-500"
+                            >
+                              <AiOutlineHeart className="text-[26px]" />
+                            </button>
+                            <button
+                              onClick={() => deleteHandle(item.productId._id)}
+                              className="flex items-center text-base text-red-500"
+                            >
+                              <HiOutlineTrash className="text-[26px]" />
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -116,8 +167,8 @@ const Products = ({ cart }) => {
                 <Addresses />
               </div> */}
         </div>
-        <div className="col-span-4">
-          <div className="sticky top-28 border border-gray-200 p-5 md:rounded-2xl">
+        <div className="md:col-span-4">
+          <div className="md:sticky top-28 border border-gray-200 p-5 md:rounded-2xl">
             <div className="flex justify-between md:px-3 items-center mb-5 border-b-2 border-b-gray-300">
               <h1 className="md:text-2xl mb-5 text-gray-600 font-bold">
                 Total:

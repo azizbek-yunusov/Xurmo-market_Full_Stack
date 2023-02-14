@@ -1,23 +1,22 @@
-/* eslint-disable no-unused-vars */
 import React, { useRef, useState } from "react";
-import { Helmet } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { signIn } from "../redux/actions/authAction";
-import LoginBg from "../assets/images/loginBg.png";
-import AuthBottomBg from "../assets/images/auth-bottom-bg.png";
-import TreeBg from "../assets/images/tree-bg.png";
 import toast from "react-hot-toast";
 import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
+import { useTranslation } from "react-i18next";
+import HelmetTitle from "../utils/HelmetTitle";
 
 const SignIn = () => {
+  let { t } = useTranslation(["home"]);
   const dispatch = useDispatch();
-  const { auth } = useSelector((state) => state);
+  const [localStorage, setLocalStorage] = useState(null);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const storeDataEl = useRef();
   const passwordEl = useRef();
   const emailEl = useRef();
   const navigate = useNavigate();
@@ -40,50 +39,52 @@ const SignIn = () => {
         setPasswordError(true);
         return;
       }
-
+      const { checked: storeData } = storeDataEl.current;
       setLoading(true);
       dispatch(signIn(email, password));
       navigate("/");
       setLoading(false);
+      if (storeData) {
+        window.localStorage.setItem("email", email);
+        window.localStorage.setItem("password", password);
+      } else {
+        window.localStorage.removeItem("name");
+        window.localStorage.removeItem("email");
+      }
     } catch (err) {
       console.log(err);
     }
   };
-  console.log(auth);
   return (
     <>
-      <Helmet>
-        <title>Sign In | E-commerce</title>
-      </Helmet>
+      <HelmetTitle title={t("sign-in")} />
       <div className="bg-white ">
         <div className="grid grid-cols-12 min-h-screen bg-white gap-0">
-          <div className="md:col-span-8 relative md:flex hidden justify-center items-center overflow-hidden">
+          <div className="xl:col-span-8 lg:col-span-7 relative lg:flex hidden justify-center items-center overflow-hidden">
             <img
-              src={LoginBg}
+              src="/images/loginBg.png"
               className="max-w-3xl w-full z-20 object-cover"
-              alt=""
+              alt="Login images"
             />
             <img
               className="absolute left-0 bottom-0 z-10"
-              src={AuthBottomBg}
-              alt=""
+              src="/images/auth-bottom-bg.png"
+              alt="Login images"
             />
             <img
               className="absolute left-0 bottom-1 z-20"
-              src={TreeBg}
-              alt=""
+              src="/images/tree-bg.png"
+              alt="Login images"
             />
           </div>
-          <div className="md:col-span-4 col-span-12 border-l border-l-gray-300 flex items-center justify-center xl:px-16 md:px-10 w-full mx-auto">
+          <div className="xl:col-span-4 lg:col-span-5 col-span-12 border-l border-l-gray-300 flex items-center justify-center xl:px-16 md:px-10 px-8 w-full mx-auto">
             <div className="">
               <div className="">
                 <h2 className="text-2xl font-bold text-gray-700 ">
-                  Welcome to TexnoRoom! 👋🏻
+                  Logo {t("sign-in-t")} 👋🏻
                 </h2>
 
-                <p className="mt-3 text-gray-500">
-                  Please sign-in to your account and start the adventure
-                </p>
+                <p className="mt-3 text-gray-500">{t("sign-in-p")}</p>
               </div>
 
               <div className="mt-8">
@@ -93,7 +94,7 @@ const SignIn = () => {
                       id="outlined-basic"
                       fullWidth
                       variant="outlined"
-                      label="Email"
+                      label={t("email")}
                       type="email"
                       value={email}
                       className="rounded-xl"
@@ -107,7 +108,7 @@ const SignIn = () => {
                       id="outlined-basic"
                       fullWidth
                       variant="outlined"
-                      label="Password"
+                      label={t("password")}
                       type="password"
                       sx={{ borderRadius: "10px" }}
                       value={password}
@@ -116,12 +117,18 @@ const SignIn = () => {
                   </div>
                   <div className="mt-1 flex justify-between items-center text-sm">
                     <FormControlLabel
-                      label="Remember Me"
+                      label={t("remember")}
                       className="text-gray-500"
-                      control={<Checkbox />}
+                      control={
+                        <Checkbox
+                          id="storeData"
+                          name="storeData"
+                          ref={storeDataEl}
+                        />
+                      }
                     />
                     <Link className="text-purple-400" to={"/signin"}>
-                      Forgot Password?
+                      {t("forgot-pass")}
                     </Link>
                   </div>
                   <div className="mt-3">
@@ -157,30 +164,30 @@ const SignIn = () => {
                           {"Loading... "}
                         </div>
                       ) : (
-                        "Sig In"
+                        `${t("sign-in-b")}`
                       )}
                     </Button>
                   </div>
                 </form>
 
                 <p className="mt-5 text-base text-center text-gray-400">
-                  New on our platform?{" "}
+                  {t("new-platform")}{" "}
                   <Link
                     to={"/signup"}
                     className="text-blue-500 focus:outline-none focus:underline hover:underline"
                   >
-                    Create an account
+                    {t("create-a")}
                   </Link>
                   .
                 </p>
                 <div className="flex items-center justify-between mt-5">
                   <div className="w-full h-[1px] bg-gray-300"></div>
-                  <span className="text-sm mx-5 text-gray-400">or</span>
+                  <span className="text-sm mx-5 text-gray-400">{t("or")}</span>
                   <div className="w-full h-[1px] bg-gray-300"></div>
                 </div>
 
                 <div className="text-base">
-                  {/* <a
+                  <a
                     href="/"
                     className="flex items-center justify-center space-x-2 text-gray-600 my-3 py-3 bg-gray-50 hover:bg-gray-200 rounded-lg border-2 border-gray-300"
                   >
@@ -188,11 +195,11 @@ const SignIn = () => {
                       className="w-5 h-5"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 326667 333333"
-                      shape-rendering="geometricPrecision"
-                      text-rendering="geometricPrecision"
-                      image-rendering="optimizeQuality"
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      shapeRendering="geometricPrecision"
+                      textRendering="geometricPrecision"
+                      imageRendering="optimizeQuality"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                     >
                       <path
                         d="M326667 170370c0-13704-1112-23704-3518-34074H166667v61851h91851c-1851 15371-11851 38519-34074 54074l-311 2071 49476 38329 3428 342c31481-29074 49630-71852 49630-122593m0 0z"
@@ -211,8 +218,8 @@ const SignIn = () => {
                         fill="#ea4335"
                       ></path>
                     </svg>
-                    <span>Sign up with Google</span>
-                  </a>{" "} */}
+                    <span>{t("google-in")}</span>
+                  </a>{" "}
                 </div>
               </div>
             </div>

@@ -5,7 +5,6 @@ import React from "react";
 const BannerItem = ({ name, image, href }) => {
   return (
     <div
-      // onMouseMove={() => console.log("hover")}
       className="w-full overflow-hidden cursor-pointer flex justify-start items-center"
     >
       <img

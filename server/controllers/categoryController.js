@@ -28,14 +28,14 @@ const getCategory = async (req, res) => {
 };
 
 const createCategory = async (req, res) => {
-  const { _id, name, slug, image, banner, createdAt } = req.body;
+  const { _id, name, slug, image, createdAt } = req.body;
   try {
     const result = await cloudinary.uploader.upload(image, {
       folder: "Categories",
     });
-    const resultBanner = await cloudinary.uploader.upload(banner, {
-      folder: "Banners",
-    });
+    // const resultBanner = await cloudinary.uploader.upload(banner, {
+    //   folder: "Banners",
+    // });
     const category = await CategoryModel.create({
       _id,
       name,
@@ -44,10 +44,10 @@ const createCategory = async (req, res) => {
         public_id: result.public_id,
         url: result.secure_url,
       },
-      banner: {
-        public_id: resultBanner.public_id,
-        url: resultBanner.secure_url,
-      },
+      // banner: {
+      //   public_id: resultBanner.public_id,
+      //   url: resultBanner.secure_url,
+      // },
       createdAt,
       createdBy: req.user.id,
     });

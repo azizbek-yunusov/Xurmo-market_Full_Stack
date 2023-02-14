@@ -1,6 +1,6 @@
 import { Badge } from "@mui/material";
 import React from "react";
-import { GrFavorite } from "react-icons/gr";
+import { FiHeart } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -15,7 +15,7 @@ const FavoritesButton = () => {
           color="error"
           
         >
-          <GrFavorite className="md:text-[26px] cursor-pointer" />
+          <FiHeart className="md:text-[26px] text-xl text-gray-700 cursor-pointer" />
         </Badge>
       </Link>
     </>

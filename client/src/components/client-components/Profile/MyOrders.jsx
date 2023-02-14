@@ -143,7 +143,7 @@ const MyOrders = () => {
             <div className="flex flex-col items-center justify-center">
               <img src="/images/order.png" alt="cart" className="h-56" />
               <h1 className="text-2xl font-semibold text-gray-700">
-                Order not available
+                {t("empty-order")}
               </h1>
             </div>
           )}

@@ -1,4 +1,23 @@
 {
   "home": "home",
-  "hometitle": "Bosh sahifa"
+  "hometitle": "Bosh sahifa",
+  "sign-in-t": "ga Xush Kelibsiz",
+  "sign-in-p": "Iltimos, hisobingizga kiring va xaridni boshlang!",
+  "sign-in": "Tizimga Kirish",
+  "sign-in-b": "Kirish",
+  "sign-up-t": "Xaridlar shu yerda boshlanadi ",
+  "sign-up-p": "Ilovangizni boshqarishni oson va qiziqarli qiling!",
+  "sign-up": "Ro'yhatdan o'tish",
+  "email": "Email",
+  "name": "Ismingiz",
+  "password": "Parol",
+  "forgot-pass": "Parolni unutdingizmi?",
+  "remember": "Eslab qolish",
+  "new-platform": "Bizning do'konda yangimisz?",
+  "have-account": "Hisobingiz bormi?",
+  "sign-in-ins": "Hisobga kirish",
+  "create-a": "Hisob ochish.",
+  "or": "yoki",
+  "google-up": "Google bilan ro'yxatdan o'ting",
+  "google-in": "Google orqali hisobingizga o'ting"
 }

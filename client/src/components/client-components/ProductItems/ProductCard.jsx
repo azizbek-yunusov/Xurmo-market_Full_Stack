@@ -46,7 +46,7 @@ const ProductCard = (props) => {
               onClick={() => addToFavorite(_id)}
               className="p-1 rounded-full border-none border-gray-400"
             >
-              <BsHeart className="text-2xl text-gray-400" />
+              <BsHeart className="text-2xl heart text-gray-400" />
             </button>
           )}
         </div>
@@ -56,7 +56,7 @@ const ProductCard = (props) => {
             to={`/product/view/${_id}`}
             className="flex justify-center items-center"
           >
-            <img className="md:h-44 h-40" src={images[0].url} alt="" />
+            <img className="md:h-44 h-40 object-cover" src={images[0].url} alt="" />
           </Link>
           <div className="w-full mt-1 text-gray-800">
             <h1 className="md:text-base font-semibold global-font">{name}</h1>
@@ -83,7 +83,7 @@ const ProductCard = (props) => {
             <Rating defaultValue={ratings} readOnly />
           </div>
         </div>
-        <div className="w-full flex justify-between items-center md:px-2">
+        <div className="w-full flex_betwen md:px-2">
           <div className="hidden md:block">
             {isFavorite ? (
               <button

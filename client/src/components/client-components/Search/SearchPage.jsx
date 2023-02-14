@@ -75,15 +75,15 @@ const SearchPage = () => {
   return (
     <>
       <HelmetTitle title={`${query} - Search`} />
-      <div className="container-full md:my-5">
+      <div className="container-full md:my-5 my-3">
         {result.length ? (
-          <h1 className="md:text-[26px] md:mb-5 font-semibold text-gray-700">
+          <h1 className="md:text-[26px] mb-5 font-semibold text-gray-700">
             <span className="text-orange-500">"{query}"</span>{" "}
             {t("search-result")}
           </h1>
         ) : null}
         <div className="grid grid-cols-12 min-h-[550px] md:gap-x-5">
-          <div className="col-span-3 xl:block hidden px-2 overflow-y-scroll max-h-screen">
+          <div className="md:col-span-3 xl:block hidden px-2 overflow-y-scroll max-h-screen">
             <Filter
               categories={categories}
               brands={brands}
@@ -91,8 +91,8 @@ const SearchPage = () => {
               category={category}
             />
           </div>
-          <div className="col-span-9">
-            <div className="flex_betwen md:mb-6">
+          <div className="md:col-span-9 col-span-12">
+            <div className="flex_betwen md:mb-6 mb-4">
               <div className="">
                 <FormControl size="small" sx={{ minWidth: "150px" }}>
                   <InputLabel _id="demo-simple-select-label">
@@ -116,7 +116,7 @@ const SearchPage = () => {
               </div>
               <div className="flex_betwen">
                 <div className="">
-                  <div className="border ml-3 border-gray-300 md:rounded-lg">
+                  <div className="border ml-3 border-gray-300 rounded-lg">
                     <IconButton
                       onClick={() => setIsList(false)}
                       aria-label="Table"
@@ -138,7 +138,7 @@ const SearchPage = () => {
             {result.length ? (
               <>
                 {!isList ? (
-                  <div className="grid lg:grid-cols-3 xl:grid-cols-4 md:gap-4">
+                  <div className="grid lg:grid-cols-3 xl:grid-cols-4 grid-cols-2 md:gap-4 gap-1">
                     {result.map((item, index) => (
                       <ProductCard key={index} {...item} />
                     ))}

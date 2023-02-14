@@ -1,24 +1,3 @@
-.login_img_section {
-  background: linear-gradient(rgba(2, 2, 2, 0.7), rgba(0, 0, 0, 0.7)),
-    url(https://unctad.org/sites/default/files/2021-05/2021-03-15_eCommerceCOVID19report-3-1220x675px.jpg)
-      center center;
-}
-.bg_image {
-  background-image: url("https://images.unsplash.com/photo-1494621930069-4fd4b2e24a11?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=715&q=80");
-}
-.profile_img {
-  background-image: url("https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=2710&amp;q=80");
-}
-.signin_bg {
-  background-image: url("https://images.unsplash.com/photo-1616763355603-9755a640a287?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80");
-}
-/* Custom style */
-/* .header-right {
-  width: calc(100% - 3.5rem);
-} */
-/* .sidebar:hover {
-  width: 16rem;
-} */
 ::-webkit-scrollbar {
   width: 16px;
   border-radius: 6px;
@@ -67,15 +46,40 @@
   background: linear-gradient(45deg, #ffd800, #ff5520, #750cf2, #0cbcf2);
   z-index: -2;
 }
-.css-sghohy-MuiButtonBase-root-MuiButton-root {
-  background-color: #9155fd !important;
-  border-radius: 8px !important;
+.heart:hover {
+  animation: heartbeat 1s infinite;
+  fill: red;
+  color: red;
+  opacity: 1;
+  transition: opacity 500ms;
 }
-.css-jh47zj-MuiButtonBase-root-MuiButton-root {
-  background-color: #9155fd !important;
-  border-radius: 8px !important;
+
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.25);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
-.css-kpm0tx-MuiButtonBase-root-MuiButton-root {
-  color: rgba(45, 41, 50, 0.755) !important;
-  font-weight: 500 !important;
+@media only screen and (max-width: 600px) {
+  .day_gradient_border::after {
+    content: "";
+    border-radius: 10px;
+    position: absolute;
+    top: -2px;
+    left: -2.5px;
+    right: -2px;
+    bottom: -2.5px;
+  }
+  #__replain_widget {
+    right: 10px !important;
+    bottom: 70px !important;
+    max-height: calc(100% - 75px);
+  }
 }

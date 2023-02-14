@@ -6,7 +6,6 @@ import "./i18n";
 import "./index.css";
 import App from "./App";
 import "./assets/styles/swipper.css";
-import "./assets/styles/antdesign.css";
 import UserProvider from "./redux/store";
 import { theme } from "./theme";
 import { ThemeProvider } from "@emotion/react";
