@@ -99,32 +99,14 @@ const AuthButton = () => {
   return (
     <>
       <div className="md:block hidden">
-        <Button
-          id="demo-customized-button"
-          aria-controls={open ? "demo-customized-menu" : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
-          variant="text"
-          disableElevation
+        <Avatar
+          alt={user.name}
           onClick={handleClick}
-        >
-          <div className="flex_center">
-            <StyledBadge
-              overlap="circular"
-              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-              variant="dot"
-            >
-              <Avatar
-                alt="Remy Sharp"
-                src={
-                  user.avatar?.url ||
-                  "https://www.ihp.ie/wp-content/uploads/profile-img.jpg"
-                }
-              />
-            </StyledBadge>
-            <p className="normal-case ml-2">{user.name}</p>
-          </div>
-        </Button>
+          src={
+            user.avatar?.url ||
+            "https://www.ihp.ie/wp-content/uploads/profile-img.jpg"
+          }
+        />
         <StyledMenu
           id="demo-customized-menu"
           MenuListProps={{
@@ -144,10 +126,13 @@ const AuthButton = () => {
         </StyledMenu>
       </div>
       <Link to={"/myprofile"}>
-
-      <div className="md:hidden flex_center text_color text-xl">
-        <img src={user.avatar?.url} className="h-8 object-cover w-8 bg-purple-600 rounded-full" alt={user.name} />
-      </div>
+        <div className="md:hidden flex_center text_color text-xl">
+          <img
+            src={user.avatar?.url}
+            className="h-8 object-cover w-8 bg-purple-600 rounded-full"
+            alt={user.name}
+          />
+        </div>
       </Link>
     </>
   );

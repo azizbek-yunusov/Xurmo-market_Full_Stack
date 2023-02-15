@@ -9,7 +9,7 @@ const Cart = () => {
   return (
     <>
       <Link to={"/cart"}>
-        <Badge showZero badgeContent={cart ? cart.length : 0} color="error">
+        <Badge showZero badgeContent={cart ? cart.length : 0} color="warning">
           <FiShoppingCart className="md:text-[26px] text-xl cursor-pointer text-gray-700" />
         </Badge>
       </Link>

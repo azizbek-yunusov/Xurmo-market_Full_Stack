@@ -86,7 +86,7 @@ const SearchBox = () => {
             required
             value={query}
             onChange={handleAutoComplete}
-            className="lg:w-[600px] md:w-[420px] w-full bg-white border-2 md:border-gray-300 text-gray-900 text-sm rounded-lg md:rounded-lg focus:ring-purple-400 md:focus:border-purple-400 focus:border-orange-400 block md:pl-10 pl-10 p-2 md:p-2.5"
+            className="xl:w-[600px] lg:w-[400px] w-full bg-white border-2 md:border-gray-300 text-gray-900 text-sm rounded-lg md:rounded-lg focus:ring-purple-400 md:focus:border-[#ff8400] focus:border-orange-400 block md:pl-10 pl-10 p-2 md:p-2.5"
             placeholder={matches ? t("inputtext") : t("search")}
           />
           <div
@@ -109,7 +109,10 @@ const SearchBox = () => {
         clearFilter={clearFilter}
       />
       {showSearch && (
-        <MobileSearchBox products={products} toggleMobileSearchBar={toggleMobileSearchBar} />
+        <MobileSearchBox
+          products={products}
+          toggleMobileSearchBar={toggleMobileSearchBar}
+        />
       )}
     </div>
   );

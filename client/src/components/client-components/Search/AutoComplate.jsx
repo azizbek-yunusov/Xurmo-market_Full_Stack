@@ -6,7 +6,7 @@ const AutoComplate = ({ filteredData, clearFilter, query }) => {
     <>
       {filteredData.length !== 0 && (
         <>
-          <div className="block lg:w-[600px] md:w-[420px] mt-[2px] rounded-lg shadow-md text-left overflow-hidden z-20 max-h-96 absolute left-0 top-11 bg-white">
+          <div className="absolute left-0 top-11 bg-white xl:w-[600px] lg:w-[500px] w-full mt-[2px] rounded-lg shadow-md text-left overflow-hidden z-20 max-h-96 ">
             <Link
               to={`/product/`}
               onClick={clearFilter}

@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { AiOutlineHeart, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsHeart } from "react-icons/bs";
 import { HiOutlineTrash } from "react-icons/hi";
@@ -9,6 +10,7 @@ import useGlobalApi from "../../../hooks/useGlobalApi";
 
 const Products = ({ cart }) => {
   const { access_token } = useSelector((state) => state.auth);
+  let { t } = useTranslation(["product"]);
   const {
     addToCartHandle,
     decrementQtyItem,
@@ -21,7 +23,7 @@ const Products = ({ cart }) => {
         <div className="md:col-span-8 col-span-12">
           <div className="border border-gray-200 md:p-5 p-3 md:rounded-2xl rounded-lg">
             <div className="flex justify-between items-center font-semibold md:mb-4 mb-3 text-gray-700">
-              <h1 className="md:text-2xl">Shopping cart</h1>
+              <h1 className="md:text-2xl">{t("cart")}</h1>
               <h1 className="md:text-xl font-mono">Items {cart.length}</h1>
             </div>
             <div>
@@ -41,7 +43,7 @@ const Products = ({ cart }) => {
                             />
                           </div>
                           <div className="md:ml-4 ml-1 flex flex-col md:justify-between justify-around">
-                            <p className="md:text-base text-gray-800 font-semibold">
+                            <p className="md:text-base text-gray-800 ">
                               {item.productId.name}
                             </p>
                             <p className="font-semibold md:flex hidden text-lg text-gray-800">
@@ -168,10 +170,10 @@ const Products = ({ cart }) => {
               </div> */}
         </div>
         <div className="md:col-span-4">
-          <div className="md:sticky top-28 border border-gray-200 p-5 md:rounded-2xl">
-            <div className="flex justify-between md:px-3 items-center mb-5 border-b-2 border-b-gray-300">
+          <div className="md:sticky top-28 border border-gray-200 p-5 md:rounded-2xl rounded-xl">
+            <div className="flex justify-between md:px-3 items-center mb-5 md:border-b-2 border-b border-b-gray-300">
               <h1 className="md:text-2xl mb-5 text-gray-600 font-bold">
-                Total:
+              {t("total")}
               </h1>
               <h1 className="md:text-2xl mb-5 text-gray-600 font-bold">
                 {cart.reduce((a, c) => a + c.productId.price * c.quantity, 0)}
@@ -206,7 +208,7 @@ const Products = ({ cart }) => {
                     borderRadius: "6px",
                   }}
                 >
-                  check out
+                  {t("check-out-btn")}
                 </Button>
               </Link>
             </div>

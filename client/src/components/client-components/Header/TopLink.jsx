@@ -28,7 +28,7 @@ const TopLink = () => {
               </div>
             </div>
           </div>
-          <div className="container-full md:hidden flex_betwen">
+          <div className="container-full lg:hidden flex_betwen">
             <HiOutlinePhone className="text_color text-xl" />
             <div className="text-xl text_color font-semibold">Logo</div>
             <TransleteD />

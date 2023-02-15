@@ -4,12 +4,12 @@ import { BiMenu } from "react-icons/bi";
 
 const CatalogButton = () => {
   return (
-    <div className="md:block hidden">
+    <div className="lg:block hidden">
       <Button
         variant="contained"
-        color="primary"
-        className="w-44"
-        size="large"
+        color="warning"
+        className="w-40"
+        size="medium"
         startIcon={<BiMenu />}
       >
         Catalog

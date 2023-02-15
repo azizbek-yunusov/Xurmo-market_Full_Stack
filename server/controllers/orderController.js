@@ -56,7 +56,7 @@ const getMyOrders = async (req, res) => {
     const orders = await OrderModel.find({ user: req.user.id })
       .populate("user", "_id name email avatar")
       .populate("orderItems.productId", "_id name price images");
-    res.status(200).json({ orders });
+    res.status(200).json(orders);
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }

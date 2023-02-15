@@ -1,15 +1,10 @@
 import React, { useState } from "react";
-import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import toast from "react-hot-toast";
 import {
   Button,
   Checkbox,
   FormControlLabel,
-  IconButton,
-  InputAdornment,
-  OutlinedInput,
   TextField,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";

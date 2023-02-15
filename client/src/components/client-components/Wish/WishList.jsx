@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Helmet } from "react-helmet-async";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import WishProductItem from "./WishProductItem";

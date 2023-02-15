@@ -41,7 +41,7 @@ const DayProductItem = ({ _id, name, ratings, discount, images, price }) => {
           {ratings}<BsFillStarFill className="text-orange-400" /> 
           </p>
         </div>
-        <div className="w-full flex_betwen md:mt-2 mt-3">
+        {/* <div className="w-full flex_betwen hidden md:mt-2 mt-3">
           <div className="">
             {isFavorite ? (
               <button
@@ -90,7 +90,7 @@ const DayProductItem = ({ _id, name, ratings, discount, images, price }) => {
               <span className="ml-2 text-base">{t("addcart")}</span>
             </button>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );

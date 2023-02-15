@@ -12,8 +12,7 @@ const FavoritesButton = () => {
         <Badge
           showZero
           badgeContent={favorites ? favorites.length : 0}
-          color="error"
-          
+          color="warning"
         >
           <FiHeart className="md:text-[26px] text-xl text-gray-700 cursor-pointer" />
         </Badge>

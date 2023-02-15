@@ -1,20 +1,28 @@
 import React, { useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { signIn } from "../redux/actions/authAction";
 import toast from "react-hot-toast";
-import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  IconButton,
+  InputAdornment,
+  TextField,
+} from "@mui/material";
 import { useTranslation } from "react-i18next";
 import HelmetTitle from "../utils/HelmetTitle";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const SignIn = () => {
   let { t } = useTranslation(["home"]);
   const dispatch = useDispatch();
-  const [localStorage, setLocalStorage] = useState(null);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const storeDataEl = useRef();
   const passwordEl = useRef();
@@ -25,6 +33,12 @@ const SignIn = () => {
   };
   const passwordFocus = () => {
     passwordEl.current.focus();
+  };
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
   };
   const signInSubmit = async (e) => {
     e.preventDefault();
@@ -109,10 +123,27 @@ const SignIn = () => {
                       fullWidth
                       variant="outlined"
                       label={t("password")}
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       sx={{ borderRadius: "10px" }}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                              edge="end"
+                            >
+                              {showPassword ? (
+                                <AiOutlineEye />
+                              ) : (
+                                <AiOutlineEyeInvisible />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
                     />
                   </div>
                   <div className="mt-1 flex justify-between items-center text-sm">
@@ -180,7 +211,7 @@ const SignIn = () => {
                   </Link>
                   .
                 </p>
-                <div className="flex items-center justify-between mt-5">
+                <div className="flex items-center justify-between md:mt-5 mt-3">
                   <div className="w-full h-[1px] bg-gray-300"></div>
                   <span className="text-sm mx-5 text-gray-400">{t("or")}</span>
                   <div className="w-full h-[1px] bg-gray-300"></div>

@@ -12,7 +12,7 @@ const Favorites = () => {
     <LayoutP>
       <div className="">
         {favorites.length ? (
-          <div className="grid md:grid-cols-4 md:gap-4">
+          <div className="grid lg:grid-cols-4 md:gap-4">
             {favorites.map((item, index) => (
               <WishProductItem key={index} {...item} />
             ))}

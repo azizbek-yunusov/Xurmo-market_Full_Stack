@@ -4,8 +4,9 @@ import Tabs from "./Tabs";
 import HelmetTitle from "../../../utils/HelmetTitle";
 import { useSelector } from "react-redux";
 import { MdLocationOn } from "react-icons/md";
-import { AiFillCalendar } from "react-icons/ai";
+import { AiFillCalendar, AiOutlineSetting } from "react-icons/ai";
 import moment from "moment";
+import { IconButton } from "@mui/material";
 
 const LayoutP = ({ children }) => {
   const { user, access_token } = useSelector((state) => state.auth);
@@ -17,11 +18,11 @@ const LayoutP = ({ children }) => {
     <>
       <HelmetTitle title={"My profile"} />
       {/* Desktop responsive */}
-      <div className="container-full min-h-[560px] md:mb-3 md:flex flex-col hidden text-gray-800">
+      <div className="container-full min-h-[560px] md:mb-3 lg:flex flex-col hidden text-gray-800">
         <div className="">
           <img
             src="/images/profilebg.png"
-            className="md:h-[200px] object-cover w-full rounded-t-2xl"
+            className="lg:h-[200px] object-cover w-full rounded-t-2xl"
             alt=""
           />
         </div>
@@ -36,7 +37,7 @@ const LayoutP = ({ children }) => {
         </div>
       </div>
       {/* Mobile responsive */}
-      <div className="container-full min-h-[460px] my-5 flex flex-col md:hidden text-gray-800">
+      <div className="container-full min-h-[460px] my-5 flex flex-col lg:hidden text-gray-800">
         <div className="rounded-xl border_primary relative pb-3">
           <img
             src="/images/profilebg.png"
@@ -50,6 +51,11 @@ const LayoutP = ({ children }) => {
                 className="h-32 w-32 z-40 object-cover rounded-xl bg-blue-500/50"
                 alt=""
               />
+            </div>
+            <div className="absolute top-1 right-1">
+              <IconButton>
+                <AiOutlineSetting className="text-white" />
+              </IconButton>
             </div>
             <h1 className="text-2xl mt-2 mb-3 text-gray-600 dark:text-gray-200 font-semibold">
               {user.name}
@@ -65,7 +71,9 @@ const LayoutP = ({ children }) => {
           </div>
         </div>
         <Tabs />
-        <div className="md:my-5 border-t border-t-gray-200">{children}</div>
+        <div className="lg:my-5 border-t md:border-none border-t-gray-200">
+          {children}
+        </div>
       </div>
     </>
   );

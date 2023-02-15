@@ -1,7 +1,9 @@
 {
   "checkout": "Xaridni amalga oshirish",
+  "check-out-btn": "Xaridni amalga oshirish",
   "productonordertxt": "Buyurtmadagi mahsulotlar",
   "quantity": "miqdori",
+  "total": "Jami",
   "ordertxt": "Sizning buyurtmangiz",
   "priceorders": "ta mahsulot narxi",
   "shippingcost": "Yetkazib berish",

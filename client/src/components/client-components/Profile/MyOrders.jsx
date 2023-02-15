@@ -1,49 +1,42 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import LayoutP from "./LayoutP";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { getMyOrder } from "../../../redux/order/myOrder";
+import { CircularProgress } from "@mui/material";
 
 const MyOrders = () => {
   let { t } = useTranslation(["shop"]);
+  const dispatch = useDispatch();
   const { auth, order } = useSelector((state) => state);
   let { access_token } = auth;
-  let { orders } = order;
-  const [myOrders, setMyOrders] = useState([]);
-  const fetchMyOrders = async () => {
-    try {
-      const { data } = await axios.get("/myorders", {
-        headers: { Authorization: access_token },
-      });
-      setMyOrders(data.orders);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  let { isLoading, orders } = order;
   useEffect(() => {
     if (access_token) {
-      getMyOrder(access_token);
+      dispatch(getMyOrder(access_token));
     }
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [access_token]);
-  console.log(order);
   return (
     <LayoutP>
-      <div className="">
-        <div className="flex justify-between items-center ">
-          {/* <h1 className="md:text-xl font-semibold">{t("myorders")}</h1>
+      <div className="flex justify-between items-center ">
+        {/* <h1 className="md:text-xl font-semibold">{t("myorders")}</h1>
           <h1 className="text-xl">all orders</h1> */}
-        </div>
+      </div>
+
+      {!isLoading ? (
         <div className="">
-          {orders.length ? (
+          {orders?.length ? (
             orders.map((item, index) => (
-              <div key={index} className="border border_l rounded-xl p-4 my-4">
-                <div className="flex justify-between items-center border-b border-b-gray-300 pb-4">
+              <div
+                key={index}
+                className="border border_l rounded-xl md:p-4 p-3 my-4"
+              >
+                <div className="lg:flex_betwen border-b border-b-gray-300 md:pb-4">
                   <div className="">
-                    <p className="text-lg font-bold text-gray-700">
+                    <p className="md:text-lg font-bold text-gray-700">
                       {t("order")}
                       {"-"}
                       <span className="">
@@ -60,7 +53,7 @@ const MyOrders = () => {
                     buyurtma berildi
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid lg:grid-cols-2 grid-cols-1 gap-2">
                   <div className="mt-3">
                     {item.orderItems.map((ord) => (
                       <div key={ord._id} className="flex justify-between">
@@ -88,7 +81,7 @@ const MyOrders = () => {
                       </div>
                     ))}
                   </div>
-                  <div className="border-l mt-3 border-l-gray-300">
+                  <div className="lg:border-l mt-3 border-l-gray-300 lg:text-base text-sm">
                     <div className="grid grid-cols-2">
                       <div className="col-span-1">
                         <ul className="text-gray-500 md:ml-6">
@@ -148,7 +141,9 @@ const MyOrders = () => {
             </div>
           )}
         </div>
-      </div>
+      ) : (
+        <CircularProgress />
+      )}
     </LayoutP>
   );
 };

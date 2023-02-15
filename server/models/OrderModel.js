@@ -26,10 +26,6 @@ const orderSchema = new Schema({
     house: {
       type: String,
     },
-    other: {
-      type: String,
-    },
-    postalCode: { type: String },
   },
   orderItems: [
     {

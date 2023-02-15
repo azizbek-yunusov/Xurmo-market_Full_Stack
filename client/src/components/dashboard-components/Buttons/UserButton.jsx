@@ -13,8 +13,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { signOut } from "../../../redux/actions/authAction";
-import { BiUser } from "react-icons/bi";
-import { AiOutlineMail, AiOutlineUser } from "react-icons/ai";
+import { AiOutlineUser } from "react-icons/ai";
 import { FiLogOut } from "react-icons/fi";
 
 // ** Styled Components

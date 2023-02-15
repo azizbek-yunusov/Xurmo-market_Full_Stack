@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Breadcrumbs, Button, Typography } from "@mui/material";
+import {
+  Breadcrumbs,
+  Button,
+  Rating,
+  Typography,
+} from "@mui/material";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { FiShoppingCart } from "react-icons/fi";
 import { ProductDetailLoader } from "../SkeletonLoaders";
@@ -10,10 +15,10 @@ import ImageThumbs from "./ImageThumbs";
 import Comments from "./Comments";
 import { ReviewsBox } from "./ReviewsBox";
 import { getProduct } from "../../../redux/product";
+import BottomScoll from "./BottomScoll";
 
 const ProductDetail = () => {
   const { product, isLoading } = useSelector((state) => state.product);
-
   const goback = useNavigate();
   const dispatch = useDispatch();
 
@@ -23,10 +28,10 @@ const ProductDetail = () => {
     window.scrollTo(0, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
-  console.log(product);
   return (
     <>
       <HelmetTitle title={`${product.name}`} />
+      <BottomScoll product={product} />
       <>
         {!isLoading ? (
           <div className="container-full md:px-10 min-h-screen">
@@ -40,11 +45,15 @@ const ProductDetail = () => {
                 <ImageThumbs images={product.images} />
               </div>
               <div className="block">
-                <h1 className="md:text-3xl text-xl  font-semibold text-zinc-700">
-                  {product.category} {product.name}
+                <h1 className="md:text-3xl text-2xl  font-semibold text-zinc-700">
+                  {product.name}
                 </h1>
+                <div className="flex items-center mt-2">
+                  <Rating value={product.rating} readOnly />
+                  <span className="text-lg text-gray-700 ml-2">{product.ratings?.toFixed(1)}</span>
+                </div>
                 <div className="">
-                  <h1 className="text-lg leading-6 lg:mt-4 mt-4 text-zinc-600">
+                  <h1 className="md:text-lg leading-6 lg:mt-4 mt-4 md:text-zinc-600 text-gray-500">
                     {product.descr}
                   </h1>
                 </div>

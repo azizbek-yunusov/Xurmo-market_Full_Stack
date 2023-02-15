@@ -25,7 +25,7 @@ const ProductCard = (props) => {
   const isFavorite = existItemWish === undefined ? false : true;
   return (
     <>
-      <div className="overflow-hidden bg-white relative flex tranistion_normal hover:shadow-xl flex-col justify-between md:h-[400px] h-[380px] md:border border-gray-200 hover:border-gray-50 md:rounded-xl rounded-md md:p-3 p-2 md:px-4">
+      <div className="overflow-hidden bg-white relative flex tranistion_normal hover:shadow-xl flex-col justify-between md:h-[400px] h-[350px] md:border border-gray-200 hover:border-gray-50 md:rounded-xl rounded-md md:p-3 p-2 md:px-4">
         {discount > 0 && (
           <div className="md:px-2 p-[2px] px-1 md:py-1 absolute top-2 left-2 md:text-sm text-xs font-semibold md:rounded-lg rounded bg-red-600 text-white">
             -{discount}
@@ -56,7 +56,11 @@ const ProductCard = (props) => {
             to={`/product/view/${_id}`}
             className="flex justify-center items-center"
           >
-            <img className="md:h-44 h-40 object-cover" src={images[0].url} alt="" />
+            <img
+              className="md:h-44 h-[140px] object-cover"
+              src={images[0].url}
+              alt=""
+            />
           </Link>
           <div className="w-full mt-1 text-gray-800">
             <h1 className="md:text-base font-semibold global-font">{name}</h1>
@@ -102,11 +106,11 @@ const ProductCard = (props) => {
             )}
           </div>
           {isCart ? (
-            <div className="flex justify-between md:px-3 items-center border-2 border-[#888888] md:py-[6px] py-1 w-full md:rounded-xl rounded-lg md:text-lg text-base transition_normal hover:border-blue-500">
+            <div className="flex_betwen md:px-3 border-2 border-[#888888] md:py-[6px] py-[6px] w-full md:rounded-xl rounded-lg md:text-lg text-base transition_normal hover:border-blue-500">
               <Tooltip title="remove from cart">
                 <button
                   onClick={() => decrementQtyItem(existItem.productId._id)}
-                  className="text-gray-800 px-1 py-1"
+                  className="text-gray-800 md:px-1 pl-3 py-1"
                 >
                   <AiOutlineMinus />
                 </button>
@@ -117,7 +121,7 @@ const ProductCard = (props) => {
               <Tooltip title="Increase by one">
                 <button
                   onClick={() => addToCartHandle(_id)}
-                  className=" tranistion_normal text-gray-800 px-1 py-1"
+                  className=" tranistion_normal text-gray-800 md:px-1 pr-3 py-1"
                 >
                   <AiOutlinePlus />
                 </button>
@@ -126,10 +130,10 @@ const ProductCard = (props) => {
           ) : (
             <button
               onClick={() => addToCartHandle(_id)}
-              className="border-2 border-[#ff8800] py-2 flex items-center justify-center w-full rounded-lg bg_secondary text-lg text-white transition_normal"
+              className="border-2 border-[#ff8800] md:py-2 py-[10px] flex items-center justify-center w-full rounded-lg bg_secondary text-lg text-white transition_normal"
             >
               <FiShoppingCart className="md:text-xl" />
-              <span className="ml-2 text-base">{t("addcart")}</span>
+              <span className="ml-2 ms:text-base text-sm">{t("addcart")}</span>
             </button>
           )}
         </div>

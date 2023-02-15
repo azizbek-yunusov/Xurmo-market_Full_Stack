@@ -49,7 +49,7 @@ const WishProductItem = ({ productId }) => {
               <h1 className="text-base text-gray-700 mr-2">
                 {ratings?.toFixed(1)}
               </h1>
-              <Rating className="text-base" readOnly allowHalf value={ratings} />
+              <Rating className="text-base" readOnly value={ratings} />
             </div>
           </div>
           <div className="w-full flex justify-between items-center px-2">
