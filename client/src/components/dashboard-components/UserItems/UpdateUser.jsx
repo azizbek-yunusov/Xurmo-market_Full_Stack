@@ -1,8 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
-import Layout from "../Layout";
+import { Layout } from "../Layouts";
 
 const UpdateUser = () => {
   const [name, setName] = useState("");

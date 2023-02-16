@@ -19,10 +19,10 @@ import { useSelector } from "react-redux";
 import { MdDelete } from "react-icons/md";
 import { BiExport, BiSearch } from "react-icons/bi";
 import TableBody from "./TableBody";
-import Layout from "../Layout";
 import { HelmetTitle } from "../../../utils";
 import { NotData } from "../Helpers";
 import { useTranslation } from "react-i18next";
+import { Layout } from "../Layouts";
 
 const AllProductList = () => {
   let { t } = useTranslation(["product-d"]);

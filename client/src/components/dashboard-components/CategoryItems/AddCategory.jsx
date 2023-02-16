@@ -6,8 +6,7 @@ import { IoMdClose } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { HelmetTitle } from "../../../utils";
-import Layout from "../Layout";
-import BannerUpload from "./BannerUpload";
+import { Layout } from "../Layouts";
 
 const AddCategory = () => {
   let { t } = useTranslation(["category-d"]);

@@ -22,7 +22,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { HelmetTitle } from "../../../utils";
 import { NotData } from "../Helpers";
-import Layout from "../Layout";
+import { Layout } from "../Layouts";
 import GridList from "./GridList";
 import TableBody from "./TableBody";
 

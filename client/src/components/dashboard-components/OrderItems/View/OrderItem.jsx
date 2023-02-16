@@ -1,6 +1,6 @@
 import React from 'react'
 import { HelmetTitle } from '../../../../utils'
-import Layout from '../../Layout'
+import Layout from '../../Layouts/Layout'
 
 const OrderItem = () => {
   return (

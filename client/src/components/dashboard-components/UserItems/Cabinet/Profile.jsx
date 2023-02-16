@@ -5,7 +5,7 @@ import { MdLanguage } from "react-icons/md";
 import { SlLocationPin } from "react-icons/sl";
 import { useSelector } from "react-redux";
 import { HelmetTitle } from "../../../../utils";
-import Layout from "../../Layout";
+import { Layout } from "../../Layouts";
 import CabinetTabs from "./CabinetTabs";
 import CabinetTop from "./CabinetTop";
 

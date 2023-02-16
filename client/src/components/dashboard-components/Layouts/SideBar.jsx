@@ -5,7 +5,7 @@ import {
   sidebarAdminEn,
   sidebarAdminRu,
   sidebarAdminUz,
-} from "../../data/sidebar";
+} from "../../../data/sidebar";
 
 const SideBar = () => {
   let pathUz =

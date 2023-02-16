@@ -75,10 +75,33 @@ const deleteBanner = async (req, res) => {
   } catch (err) {}
 };
 
+const deleteSelected = async (req, res) => {
+  try {
+    let selected = [...req.body.selected];
+
+    // for (let i = 0; i < selected.length; i++) {
+    //   console.log(selected);
+    // }
+    await selected.forEach((id) => {
+      BannerModel.deleteOne({ _id: id }, (err) => {
+        if (err) {
+          console.error(err);
+        } else {
+          console.log("Mahsulot o'chirildi");
+        }
+      });
+    });
+    res.status(200).json({ msg: "successfully" });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   createBanner,
   getAllBanners,
   getBanner,
   updateBanner,
   deleteBanner,
+  deleteSelected,
 };

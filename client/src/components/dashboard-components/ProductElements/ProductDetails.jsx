@@ -10,7 +10,7 @@ import { HelmetTitle } from "../../../utils";
 import Comments from "../../client-components/ProductItems/Comments";
 import ImageThumbs from "../../client-components/ProductItems/ImageThumbs";
 import { ReviewsBox } from "../../client-components/ProductItems/ReviewsBox";
-import Layout from "../Layout";
+import { Layout } from "../Layouts";
 
 const ProductDetails = () => {
   const goback = useNavigate();

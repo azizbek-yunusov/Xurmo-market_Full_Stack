@@ -1,15 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { IoMdClose } from "react-icons/io";
-import Layout from "../Layout";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import {
   Button,
   FormControl,
-  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -17,6 +14,7 @@ import {
 } from "@mui/material";
 import { HelmetTitle } from "../../../utils";
 import { useTranslation } from "react-i18next";
+import { Layout } from "../Layouts";
 
 const CreateProduct = () => {
   let { t } = useTranslation(["product-d"]);

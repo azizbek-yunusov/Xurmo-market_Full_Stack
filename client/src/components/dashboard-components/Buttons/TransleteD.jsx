@@ -43,7 +43,7 @@ const TransleteD = () => {
       <IconButton
         onClick={handleDropdownOpen}
         color="default"
-        sx={{marginX: 1}}
+        sx={{ marginX: 1 }}
         aria-label="translate"
       >
         <MdOutlineTranslate className="icon_color md:text-2xl text-xl" />

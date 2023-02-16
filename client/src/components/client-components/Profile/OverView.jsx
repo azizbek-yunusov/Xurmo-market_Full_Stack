@@ -11,8 +11,8 @@ const OverView = () => {
   return (
     <>
       <LayoutP>
-        <div className="md:grid grid-cols-3 gap-x-5 md:my-0 my-5">
-          <div className="col-span-1 bg-white border_l rounded-lg p-5">
+        <div className="md:grid grid-cols-6 gap-x-5 md:my-0 my-5">
+          <div className="col-span-2 md:col-span-3 bg-white border_l rounded-lg p-5">
             <h1 className="text-gray-400 mb-2">About</h1>
             <div className="">
               <ul className="border-t border-t-gray-200">
@@ -68,7 +68,7 @@ const OverView = () => {
               </ul>
             </div>
           </div>
-          <div className="col-span-2 bg-white border_l rounded-lg p-5">no data</div>
+          <div className="col-span-4 md:col-span-3 bg-white border_l rounded-lg p-5">no data</div>
         </div>
       </LayoutP>
     </>

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { HelmetTitle } from "../../../utils";
-import Layout from "../Layout";
+import { Layout } from "../Layouts";
 
 const UserProfile = () => {
   const { access_token } = useSelector((state) => state.auth);

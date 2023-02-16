@@ -5,7 +5,7 @@ import { IoMdClose } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import HelmetTitle from "../../../utils/HelmetTitle";
-import Layout from "../Layout";
+import { Layout } from "../Layouts";
 
 const CreateBrand = () => {
   const { access_token } = useSelector((state) => state.auth);

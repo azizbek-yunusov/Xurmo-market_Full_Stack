@@ -14,12 +14,12 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { BiExport, BiSearch } from "react-icons/bi";
-import { FiEdit, FiPlus } from "react-icons/fi";
+import { FiPlus } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { HelmetTitle } from "../../../../utils";
-import Layout from "../../Layout";
+import { Layout } from "../../Layouts";
 import TableBody from "./TableBody";
 
 const UsersTable = () => {

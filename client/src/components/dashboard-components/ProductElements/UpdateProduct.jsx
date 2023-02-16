@@ -13,7 +13,7 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { HelmetTitle } from "../../../utils";
-import Layout from "../Layout";
+import { Layout } from "../Layouts";
 
 const UpdateProduct = () => {
   const { access_token } = useSelector((state) => state.auth);

@@ -6,7 +6,7 @@ import { IoMdClose } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import HelmetTitle from "../../../utils/HelmetTitle";
-import Layout from "../Layout";
+import { Layout } from "../Layouts";
 
 const AddBanner = () => {
   let { t } = useTranslation(["banner-d"]);
@@ -151,7 +151,7 @@ const AddBanner = () => {
                           <img
                             src={image}
                             alt="images"
-                            className="img-thumbnail h-52 p-2 w-full"
+                            className="object-cover h-52 p-2 w-full"
                           />
                         </div>
                         <IoMdClose

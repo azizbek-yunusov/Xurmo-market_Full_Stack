@@ -58,8 +58,8 @@ import {
 import { Basket } from "./components/client-components/Cart";
 import { SearchPage } from "./components/client-components/Search";
 import { useNetworkStatus } from "./hooks";
-import { HomeDashboard } from "./components/dashboard-components";
 import { refreshToken } from "./redux/actions/authAction";
+import { HomeDashboard } from "./components/dashboard-components/Overview";
 
 function App() {
   const pathname = useLocation().pathname;

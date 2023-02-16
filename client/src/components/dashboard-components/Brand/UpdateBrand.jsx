@@ -6,7 +6,7 @@ import { IoMdClose } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import HelmetTitle from "../../../utils/HelmetTitle";
-import Layout from "../Layout";
+import { Layout } from "../Layouts";
 
 const UpdateBrand = () => {
   const { access_token } = useSelector((state) => state.auth);
@@ -68,7 +68,6 @@ const UpdateBrand = () => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(image);
   return (
     <>
       <HelmetTitle title={"Update Brand"} />

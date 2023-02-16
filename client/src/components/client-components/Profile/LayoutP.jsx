@@ -18,7 +18,7 @@ const LayoutP = ({ children }) => {
     <>
       <HelmetTitle title={"My profile"} />
       {/* Desktop responsive */}
-      <div className="container-full min-h-[560px] md:mb-3 lg:flex flex-col hidden text-gray-800">
+      <div className="container-full min-h-[560px] md:mb-3 xl:flex flex-col hidden text-gray-800">
         <div className="">
           <img
             src="/images/profilebg.png"
@@ -36,15 +36,15 @@ const LayoutP = ({ children }) => {
           </div>
         </div>
       </div>
-      {/* Mobile responsive */}
-      <div className="container-full min-h-[460px] my-5 flex flex-col lg:hidden text-gray-800">
+      {/* Tablet && Mobile responsive */}
+      <div className="container-full min-h-[460px] my-5 flex flex-col xl:hidden text-gray-800">
         <div className="rounded-xl border_primary relative pb-3">
           <img
             src="/images/profilebg.png"
             className="h-[150px] w-full object-cover rounded-t-xl"
             alt="Bg"
           />
-          <div className="flex_col items-center">
+          <div className="flex_col md:flex md:flex-row justify-start md:items-start items-center xl:px-0 px-6">
             <div className="z-40 bg-white dark:bg-purple-800/30 dark:backdrop-blur-sm p-[6px] max-w-max rounded-2xl -mt-14">
               <img
                 src={user.avatar?.url || "/images/profile.png"}
@@ -57,21 +57,36 @@ const LayoutP = ({ children }) => {
                 <AiOutlineSetting className="text-white" />
               </IconButton>
             </div>
-            <h1 className="text-2xl mt-2 mb-3 text-gray-600 dark:text-gray-200 font-semibold">
-              {user.name}
-            </h1>
-            <p className="flex text-gray-400 mb-1">
-              <MdLocationOn className="text-xl" />
-              Uzbekistan
-            </p>
-            <p className="flex text-gray-400 ">
-              <AiFillCalendar className="text-xl" />
-              {moment(user.createdAt).format("LL")}
-            </p>
+            <div className="md:hidden text-center">
+              <h1 className="text-2xl mt-1 mb-2 text-gray-600 dark:text-gray-200 font-semibold">
+                {user.name}
+              </h1>
+              <p className="flex_center text-gray-400 mb-1">
+                <MdLocationOn className="text-xl" />
+                Uzbekistan
+              </p>
+              <p className="flex text-gray-400 ">
+                <AiFillCalendar className="text-xl" />
+                {moment(user.createdAt).format("LL")}
+              </p>
+            </div>
+            <div className="md:flex items-center hidden">
+              <h1 className="text-2xl mt-2 mb-3 text-gray-600 dark:text-gray-200 font-semibold">
+                {user.name}
+              </h1>
+              <p className="flex text-gray-400 mb-1">
+                <MdLocationOn className="text-xl" />
+                Uzbekistan
+              </p>
+              <p className="flex text-gray-400 ">
+                <AiFillCalendar className="text-xl" />
+                {moment(user.createdAt).format("LL")}
+              </p>
+            </div>
           </div>
         </div>
         <Tabs />
-        <div className="lg:my-5 border-t md:border-none border-t-gray-200">
+        <div className="lg:my-5 md:my-3 border-t md:border-none border-t-gray-200">
           {children}
         </div>
       </div>

@@ -1,9 +1,6 @@
 import React from "react";
-import FullScreen from "./Buttons/FullScreen";
-import ThemeToggle from "./Buttons/ThemeToggle";
-import Translate from "./Buttons/TransleteD";
-import { UserButton } from "./Buttons";
-import SearchInput from "./Search/SearchInput";
+import { FullScreen, ThemeToggle, UserButton, TransleteD } from "../Buttons";
+import SearchInput from "../Search/SearchInput";
 
 const NavbarD = () => {
   return (
@@ -15,7 +12,7 @@ const NavbarD = () => {
           </div>
         </div>
         <div className="col-span-3 flex justify-end items-center">
-          <Translate />
+          <TransleteD />
           <FullScreen />
           <ThemeToggle />
           <UserButton />

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HelmetTitle } from "../../../utils";
-import Layout from "../Layout";
+import { Layout } from "../Layouts";
 import TabAccount from "./TabAccount";
 
 const CreateUser = () => {

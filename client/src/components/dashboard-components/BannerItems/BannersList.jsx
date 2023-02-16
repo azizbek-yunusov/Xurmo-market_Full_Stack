@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { BiExport, BiSearch, BiTable } from "react-icons/bi";
 import { BsGrid } from "react-icons/bs";
@@ -21,7 +22,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import HelmetTitle from "../../../utils/HelmetTitle";
 import { NotData } from "../Helpers";
-import Layout from "../Layout";
+import { Layout } from "../Layouts";
 import GridList from "./GridList";
 import TableBody from "./TableBody";
 
@@ -101,11 +102,30 @@ const BannersList = () => {
       console.log(err);
     }
   };
+  const deleteSelected = async () => {
+    try {
+      await fetch("http://localhost:5000/banner/selected", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: access_token,
+        },
+        body: JSON.stringify({
+          selected: selectedBannerIds,
+        }),
+      });
+      fetchData();
+      toast.success("Successfully");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log(selectedBannerIds);
   return (
     <>
       <HelmetTitle title={t("all-banner")} />
@@ -177,6 +197,7 @@ const BannersList = () => {
                     variant="contained"
                     color="error"
                     size="medium"
+                    onClick={() => deleteSelected()}
                     sx={{
                       marginLeft: "15px",
                       borderRadius: "6px",
