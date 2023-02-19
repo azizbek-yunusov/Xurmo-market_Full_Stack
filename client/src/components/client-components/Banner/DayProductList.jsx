@@ -7,6 +7,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
+import Timer from "./Timer";
 
 const DayProductList = ({ products }) => {
   return (
@@ -14,6 +15,7 @@ const DayProductList = ({ products }) => {
       <div className="bg-white md:rounded-md rounded-lg day_gradient_border p-1 h-full my-1 min-h-[188px]">
         <div className="flex_betwen md:px-3 px-2 md:py-2 py-1">
           <h1 className="md:text-lg text-sm">Kun maxsuloti</h1>
+          <Timer />
         </div>
         <Swiper
           modules={[Pagination]}

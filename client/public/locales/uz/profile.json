@@ -3,5 +3,13 @@
   "myorder": "Mening buyurtmalarim",
   "addresses": "Manzillar",
   "favorites": "Sevimlilar",
-  "sign-out": "Chiqish"
+  "sign-out": "Chiqish",
+  "edit": "Tahrirlash",
+  "name": "Ism",
+  "last-name": "Familiya",
+  "email": "Elektron pochta",
+  "language": "Til",
+  "contact": "Telefon raqam",
+  "address": "Manzil"
+
 }

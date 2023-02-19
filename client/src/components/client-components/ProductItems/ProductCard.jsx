@@ -1,12 +1,18 @@
 import { Rating, Tooltip } from "@mui/material";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import {
+  AiFillStar,
+  AiOutlineMinus,
+  AiOutlinePlus,
+  AiOutlineStar,
+} from "react-icons/ai";
 import { BsFillHeartFill, BsHeart } from "react-icons/bs";
 import { FiShoppingCart } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useGlobalApi } from "../../../hooks";
+import Price from "../Helpers/Price";
 
 const ProductCard = (props) => {
   const { t } = useTranslation(["product"]);
@@ -25,7 +31,7 @@ const ProductCard = (props) => {
   const isFavorite = existItemWish === undefined ? false : true;
   return (
     <>
-      <div className="overflow-hidden bg-white relative flex tranistion_normal hover:shadow-xl flex-col justify-between md:h-[400px] h-[350px] md:border border-gray-200 hover:border-gray-50 md:rounded-xl rounded-md md:p-3 p-2 md:px-4">
+      <div className="overflow-hidden bg-white relative flex tranistion_normal hover:shadow-xl flex-col justify-between md:h-[400px] h-[330px] md:border border-gray-200 hover:border-gray-50 md:rounded-xl rounded-md md:p-3 p-2 md:px-4">
         {discount > 0 && (
           <div className="md:px-2 p-[2px] px-1 md:py-1 absolute top-2 left-2 md:text-sm text-xs font-semibold md:rounded-lg rounded bg-red-600 text-white">
             -{discount}
@@ -63,7 +69,7 @@ const ProductCard = (props) => {
             />
           </Link>
           <div className="w-full mt-1 text-gray-800">
-            <h1 className="md:text-base font-semibold global-font">{name}</h1>
+            <h1 className="md:text-base text-sm font-semibold global-font">{name}</h1>
           </div>
         </div>
         <div className="w-full text-gray-800">
@@ -72,6 +78,7 @@ const ProductCard = (props) => {
               <p className="md:text-lg font-semibold">
                 {price - (price * discount) / 100}$
               </p>
+              {/* <Price price={"15200000"} className="md:text-lg font-semibold" /> */}
               <p className="md:text-lg font-semibold line-through text-gray-500 md:ml-3">
                 {price}$
               </p>
@@ -80,11 +87,16 @@ const ProductCard = (props) => {
             <p className="md:text-lg font-semibold">{price}$</p>
           )}
 
-          <div className="flex mt-2">
+          <div className="flex items-center md:mt-2 mt-1">
             <h1 className="text-base text-gray-700 mr-2">
               {ratings?.toFixed(1)}
             </h1>
-            <Rating defaultValue={ratings} readOnly />
+            <Rating
+              icon={<AiFillStar fontSize="20px" />}
+              emptyIcon={<AiOutlineStar fontSize="20px" />}
+              readOnly
+              value={ratings || 0}
+            />
           </div>
         </div>
         <div className="w-full flex_betwen md:px-2">
@@ -130,7 +142,7 @@ const ProductCard = (props) => {
           ) : (
             <button
               onClick={() => addToCartHandle(_id)}
-              className="border-2 border-[#ff8800] md:py-2 py-[10px] flex items-center justify-center w-full rounded-lg bg_secondary text-lg text-white transition_normal"
+              className="border-2 border-[#ff8800] md:py-2 py-2 flex items-center justify-center w-full rounded-lg bg_secondary text-lg text-white transition_normal"
             >
               <FiShoppingCart className="md:text-xl" />
               <span className="ml-2 ms:text-base text-sm">{t("addcart")}</span>

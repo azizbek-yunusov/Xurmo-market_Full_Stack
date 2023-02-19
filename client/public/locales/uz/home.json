@@ -1,5 +1,5 @@
 {
-  "home": "home",
+  "home": "Asosiy",
   "hometitle": "Bosh sahifa",
   "sign-in-t": "ga Xush Kelibsiz",
   "sign-in-p": "Iltimos, hisobingizga kiring va xaridni boshlang!",
@@ -19,5 +19,11 @@
   "create-a": "Hisob ochish.",
   "or": "yoki",
   "google-up": "Google bilan ro'yxatdan o'ting",
-  "google-in": "Google orqali hisobingizga o'ting"
+  "google-in": "Google orqali hisobingizga o'ting",
+  "wish-list": "Sevimlilar",
+  "cart": "Savatcha",
+  "profile": "Profil",
+  "sign-out": "Chiqish",
+  "successfully": "Muvaffiqiyatli"
+
 }

@@ -7,6 +7,7 @@ import { Backdrop, Box, Button, Fade, Modal, TextField } from "@mui/material";
 import { BsFillCalendarFill } from "react-icons/bs";
 import moment from "moment";
 import { signOut } from "../../../redux/actions/authAction";
+import { useTranslation } from "react-i18next";
 
 const style = {
   position: "absolute",
@@ -19,6 +20,7 @@ const style = {
 };
 
 const SideBarPf = () => {
+  let { t } = useTranslation(["profile"]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user, access_token } = useSelector((state) => state.auth);
@@ -105,14 +107,14 @@ const SideBarPf = () => {
     <div className="flex flex-col justify-between sticky top-56">
       <div className="relative flex items-center flex-col justify-between w-[350px] h-[450px] bg-white -mt-28 ml-5 md:py-5 border_l rounded-2xl">
         <div className="flex flex-col items-center">
-          <div className="z-10 ring ring-fuchsia-500 ring-offset-2 overflow-hidden md:rounded-2xl max-w-max bg-white">
+          <div className="z-10 overflow-hidden md:rounded-2xl max-w-max bg-white">
             <img
-              className="md:rounded-2xl h-40 w-40 object-cover"
+              className="md:rounded-2xl h-40 w-40 object-cover bg-teal-300"
               src={user.avatar?.url}
               alt=""
             />
           </div>
-          <h1 className="md:my-3 md:text-2xl text-gray-900 font-semibold my-3 ">
+          <h1 className="md:my-3 md:text-2xl text-gray-800 font-semibold my-3 ">
             {user.name} {user.lastName ? user.lastName : ""}
           </h1>
           {/* {address.length ? (
@@ -144,7 +146,7 @@ const SideBarPf = () => {
             variant="contained"
             sx={{ borderRadius: "6px", marginRight: "8px" }}
           >
-            <div className="flex_center">Edit</div>
+            <div className="flex_center">{t("edit")}</div>
           </Button>
           <Button
             color="error"
@@ -152,7 +154,7 @@ const SideBarPf = () => {
             variant="contained"
             sx={{ borderRadius: "6px", background: "red" }}
           >
-            <div className="flex_center">sign out</div>
+            <div className="flex_center">{t("sign-out")}</div>
           </Button>
         </div>
       </div>

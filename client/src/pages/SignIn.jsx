@@ -167,7 +167,7 @@ const SignIn = () => {
                       type="submit"
                       className="w-full tracking-wide font-normal"
                       variant="contained"
-                      color="primary"
+                      color="secondary"
                       size="large"
                     >
                       {loading ? (

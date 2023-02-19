@@ -168,11 +168,11 @@ const addReview = async (req, res) => {
     await product.save({ validateBeforeSave: false });
 
     res.status(200).json({
-      success: true,
+      msg: "Successfully",
       product,
     });
   } catch (err) {
-    console.log(err);
+    return console.log(err);
   }
 };
 
