@@ -41,7 +41,7 @@ const CategoriesTable = () => {
   const [page, setPage] = useState(0);
 
   const filteredCategories = categories.filter((frontMatter) => {
-    const searchContent = frontMatter.name;
+    const searchContent = frontMatter.slug;
     return searchContent.toLowerCase().includes(term.toLowerCase());
   });
 

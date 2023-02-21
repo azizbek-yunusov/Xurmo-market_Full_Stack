@@ -14,7 +14,6 @@ import {
 import { useTranslation } from "react-i18next";
 import HelmetTitle from "../utils/HelmetTitle";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-
 const SignIn = () => {
   let { t } = useTranslation(["home"]);
   const dispatch = useDispatch();
@@ -97,10 +96,8 @@ const SignIn = () => {
                 <h2 className="text-2xl font-bold text-gray-700 ">
                   Logo {t("sign-in-t")} 👋🏻
                 </h2>
-
                 <p className="mt-3 text-gray-500">{t("sign-in-p")}</p>
               </div>
-
               <div className="mt-8">
                 <form onSubmit={signInSubmit}>
                   <div className="mt-6">
@@ -167,7 +164,7 @@ const SignIn = () => {
                       type="submit"
                       className="w-full tracking-wide font-normal"
                       variant="contained"
-                      color="primary"
+                      color="secondary"
                       size="large"
                     >
                       {loading ? (
@@ -200,7 +197,6 @@ const SignIn = () => {
                     </Button>
                   </div>
                 </form>
-
                 <p className="mt-5 text-base text-center text-gray-400">
                   {t("new-platform")}{" "}
                   <Link
@@ -216,7 +212,6 @@ const SignIn = () => {
                   <span className="text-sm mx-5 text-gray-400">{t("or")}</span>
                   <div className="w-full h-[1px] bg-gray-300"></div>
                 </div>
-
                 <div className="text-base">
                   <a
                     href="/"
@@ -260,5 +255,4 @@ const SignIn = () => {
     </>
   );
 };
-
 export default SignIn;

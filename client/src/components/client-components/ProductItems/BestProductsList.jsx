@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import ProductCard from "./ProductCard";
 import { useTranslation } from "react-i18next";
 import { ProductList } from "../SkeletonLoaders";
-
 const BestProductsList = () => {
   const { t } = useTranslation(["product"]);
   const [products, setProducts] = useState([]);
@@ -14,7 +13,6 @@ const BestProductsList = () => {
     setProducts(data.products);
     setLoading(false);
   };
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -24,13 +22,16 @@ const BestProductsList = () => {
         <h1 className="lg:text-4xl text-sm font-semibold text-gray-800">
           {t("bestp")}
         </h1>
-        <Link className="text-red-600 md:text-lg text-xs font-semibold" to={"/products"}>
+        <Link
+          className="text-red-600 md:text-lg text-xs font-semibold"
+          to={"/products"}
+        >
           {t("allviews")}
         </Link>
       </div>
       <div className="">
         {!loading ? (
-          <div className="col-span-12 grid lg:grid-cols-5 md:grid-cols-3 lg:gap-4 grid-cols-2 gap-3 relative">
+          <div className="col-span-12 grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 lg:gap-4 grid-cols-2 gap-3 relative">
             {products.slice(0, 8).map((item) => (
               <ProductCard key={item._id} {...item} />
             ))}
@@ -42,5 +43,4 @@ const BestProductsList = () => {
     </div>
   );
 };
-
 export default BestProductsList;

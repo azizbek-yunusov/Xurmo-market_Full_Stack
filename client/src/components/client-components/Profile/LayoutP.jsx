@@ -7,11 +7,14 @@ import { MdLocationOn } from "react-icons/md";
 import { AiFillCalendar, AiOutlineSetting } from "react-icons/ai";
 import moment from "moment";
 import { IconButton } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const LayoutP = ({ children }) => {
+  let { t } = useTranslation(["home"]);
   const { user, access_token } = useSelector((state) => state.auth);
   useEffect(() => {
     window.scrollTo(0, 0);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
@@ -48,10 +51,11 @@ const LayoutP = ({ children }) => {
             <div className="z-40 bg-white dark:bg-purple-800/30 dark:backdrop-blur-sm p-[6px] max-w-max rounded-2xl -mt-14">
               <img
                 src={user.avatar?.url || "/images/profile.png"}
-                className="h-32 w-32 z-40 object-cover rounded-xl bg-blue-500/50"
+                className="h-32 w-32 z-40 object-cover rounded-xl bg-teal-300"
                 alt=""
               />
             </div>
+
             <div className="absolute top-1 right-1">
               <IconButton>
                 <AiOutlineSetting className="text-white" />
@@ -70,21 +74,24 @@ const LayoutP = ({ children }) => {
                 {moment(user.createdAt).format("LL")}
               </p>
             </div>
-            <div className="md:flex items-center hidden">
+            <div className="md:flex flex-col hidden lg:ml-2">
               <h1 className="text-2xl mt-2 mb-3 text-gray-600 dark:text-gray-200 font-semibold">
                 {user.name}
               </h1>
-              <p className="flex text-gray-400 mb-1">
-                <MdLocationOn className="text-xl" />
-                Uzbekistan
-              </p>
-              <p className="flex text-gray-400 ">
-                <AiFillCalendar className="text-xl" />
-                {moment(user.createdAt).format("LL")}
-              </p>
+              <div className="flex">
+                <p className="flex text-gray-400 mb-1">
+                  <MdLocationOn className="text-xl" />
+                  Uzbekistan
+                </p>
+                <p className="flex text-gray-400 lg:ml-4">
+                  <AiFillCalendar className="text-xl" />
+                  {moment(user.createdAt).format("LL")}
+                </p>
+              </div>
             </div>
           </div>
         </div>
+
         <Tabs />
         <div className="lg:my-5 md:my-3 border-t md:border-none border-t-gray-200">
           {children}
@@ -93,5 +100,4 @@ const LayoutP = ({ children }) => {
     </>
   );
 };
-
 export default LayoutP;

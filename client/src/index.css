@@ -5,10 +5,10 @@
   -webkit-tap-highlight-color: transparent;
   outline: 0 none !important;
 }
-
 /* Tailwind directives to your CSS */
 @tailwind base;
 @tailwind components;
+
 @tailwind utilities;
 @layer base {
   html {
@@ -42,9 +42,13 @@
 .flex_col {
   @apply flex flex-col;
 }
+.flex_col_center {
+  @apply flex flex-col justify-between items-center;
+}
 .is_mobile {
   @apply md:flex hidden;
 }
+
 .is_desktop {
   @apply md:hidden flex;
 }
@@ -69,9 +73,13 @@
 .bg_secondary {
   @apply bg-[#ff8800];
 }
+.text_secondary {
+  @apply text-[#ff8800];
+}
 .border_primary {
   @apply border border-gray-200 dark:border-gray-600;
 }
+
 .icon_color {
   @apply text-gray-700 dark:text-gray-300;
 }

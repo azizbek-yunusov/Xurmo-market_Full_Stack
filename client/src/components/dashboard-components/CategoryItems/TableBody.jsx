@@ -1,6 +1,7 @@
 import { Avatar, Checkbox } from "@mui/material";
 import moment from "moment";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { FiEdit } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
@@ -12,6 +13,8 @@ const TableBody = ({
   handleSelectOne,
   deleteCategory,
 }) => {
+  const { i18n } = useTranslation();
+  console.log(i18n.language);
   return (
     <table className="min-w-max w-full table-auto rounded-lg ">
       <thead>
@@ -62,7 +65,13 @@ const TableBody = ({
                         to={`/item/${item._id}`}
                         className="transition_normal hover:text-purple-500"
                       >
-                        {item.name}
+                        {i18n.language === "uz"
+                          ? item.nameUz
+                          : i18n.language === "en"
+                          ? item.nameEn
+                          : i18n.language === "ru"
+                          ? item.nameRu
+                          : null}
                       </Link>
                     </div>
                   </div>

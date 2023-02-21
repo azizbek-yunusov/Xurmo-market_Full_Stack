@@ -5,6 +5,8 @@ import { Button } from "@mui/material";
 import Products from "./Products";
 import { useTranslation } from "react-i18next";
 import { HelmetTitle } from "../../../utils";
+import MobileTop from "../Helpers/MobileTop";
+import BottomCheckOut from "./BottomCheckOut";
 
 const Basket = () => {
   let { t } = useTranslation(["product"]);
@@ -17,7 +19,9 @@ const Basket = () => {
   return (
     <>
       <HelmetTitle title={t("cart")} />
+      <BottomCheckOut cart={cart} />
       <div className="md:my-5 my-3">
+        <MobileTop name={t("cart")} list={cart} items={t("items")} />
         {cart.length ? (
           <Products cart={cart} />
         ) : (
@@ -34,7 +38,7 @@ const Basket = () => {
               <Button
                 onClick={() => navigate("/")}
                 variant="contained"
-                color="primary"
+                color="secondary"
               >
                 {t("empty-cart")}
               </Button>
@@ -45,5 +49,4 @@ const Basket = () => {
     </>
   );
 };
-
 export default Basket;

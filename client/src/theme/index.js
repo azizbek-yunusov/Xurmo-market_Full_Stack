@@ -1,5 +1,4 @@
 import { createTheme } from "@mui/material";
-
 export const theme = createTheme({
   breakpoints: {
     values: {
@@ -142,10 +141,10 @@ export const theme = createTheme({
     MuiRating: {
       styleOverrides: {
         root: {
-          color: "orange"
-        }
-      }
-    }
+          color: "orange",
+        },
+      },
+    },
   },
   palette: {
     neutral: {
@@ -173,13 +172,13 @@ export const theme = createTheme({
     },
     divider: "#E6E8F0",
     primary: {
-      light: '#9E69FD',
-      main: '#9155FD',
-      dark: '#804BDF',
-      contrastText: '#FFF'
+      light: "#9E69FD",
+      main: "#9155FD",
+      dark: "#804BDF",
+      contrastText: "#FFF",
     },
     secondary: {
-      main: "#10B981",
+      main: "#ff8800",
       light: "#3FC79A",
       dark: "#0B815A",
       contrastText: "#FFFFFF",
