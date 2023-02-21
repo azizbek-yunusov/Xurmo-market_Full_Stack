@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { getMyOrder } from "../../../redux/order/myOrder";
-import OrderChip from "../Helpers/OrderChip";
 import { CircularProgress } from "@mui/material";
 
 const MyOrders = () => {
@@ -35,7 +34,7 @@ const MyOrders = () => {
                 key={index}
                 className="border border_l rounded-xl md:p-4 p-3 my-4"
               >
-                <div className="sm:flex justify-between items-center block border-b border-b-gray-200 md:pb-4 pb-2">
+                <div className="lg:flex_betwen border-b border-b-gray-300 md:pb-4">
                   <div className="">
                     <p className="md:text-lg font-bold text-gray-700">
                       {t("order")}
@@ -50,7 +49,9 @@ const MyOrders = () => {
                       </span>{" "}
                     </p>
                   </div>
-                  <OrderChip />
+                  <div className="p-1 bg-purple-400 rounded-md text-white px-2">
+                    buyurtma berildi
+                  </div>
                 </div>
                 <div className="grid lg:grid-cols-2 grid-cols-1 gap-2">
                   <div className="mt-3">

@@ -1,6 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import { baseUrl } from "../../utils/baseUrl";
 
 export const getProduct = createAsyncThunk(
   "product/getByIdProduct",
@@ -14,40 +12,22 @@ export const getProduct = createAsyncThunk(
   }
 );
 
-export const addReview = createAsyncThunk(
-  "product/addReview",
-  async ({ access_token, productId, rating, comment }, thunkApi) => {
-    try {
-      const { data } = await axios.put(
-        `${baseUrl}review`,
-        {
-          productId,
-          rating,
-          comment,
-        },
-        {
-          headers: {
-            Authorization: access_token,
-          },
-        }
-      );
-      return data.product;
-    } catch (error) {
-      return console.log(error);
-    }
-  }
-);
-const initialState = {
-  product: [],
-  isLoading: false,
-  isError: false,
-  isSuccess: false,
-};
-
-export const productSlice = createSlice({
+export const getProductSlice = createSlice({
   name: "product",
-  initialState,
-  reducers: {},
+  initialState: { isLoading: false, product: [], error: null },
+  reducers: {
+    // getProductRequest: (state) => {
+    //   state.isLoading = true;
+    // },
+    // getProductSuccess: (state, action) => {
+    //   state.isLoading = false;
+    //   state.product = action.payload;
+    // },
+    // getProductFailure: (state, action) => {
+    //   state.isLoading = false;
+    //   state.error = action.payload;
+    // },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getProduct.pending, (state) => {
@@ -55,29 +35,14 @@ export const productSlice = createSlice({
       })
       .addCase(getProduct.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isSuccess = true;
         state.product = action.payload;
       })
       .addCase(getProduct.rejected, (state, action) => {
         state.isLoading = false;
-        state.isSuccess = false;
-        state.isError = action.payload;
-      })
-      .addCase(addReview.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(addReview.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.product = action.payload;
-      })
-      .addCase(addReview.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = false;
-        state.isError = action.payload;
+        state.error = action.payload;
       })
       .addDefaultCase(() => {});
   },
 });
 
-export default productSlice.reducer;
+export default getProductSlice.reducer;

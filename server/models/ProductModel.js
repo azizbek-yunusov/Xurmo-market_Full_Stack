@@ -35,6 +35,9 @@ const productSchema = new Schema(
       type: Number,
       default: 1,
     },
+    category: {
+      type: String,
+    },
     ratings: {
       type: Number,
       default: 0,
@@ -58,15 +61,33 @@ const productSchema = new Schema(
         comment: {
           type: String,
         },
-        image: {
-          public_id: {
-            type: String,
-            required: true,
+        pictures: [
+          {
+            public_id: {
+              type: String,
+              // required: true,
+            },
+            url: {
+              type: String,
+              // required: true,
+            },
           },
-          url: {
-            type: String,
-            required: true,
+        ],
+        likes: [
+          {
+            type: Schema.Types.ObjectId,
+            ref: "User",
           },
+        ],
+        dislikes: [
+          {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+          },
+        ],
+        isShow: {
+          type: Boolean,
+          default: true,
         },
         createdAt: {
           type: Date,
@@ -74,8 +95,10 @@ const productSchema = new Schema(
         },
       },
     ],
-    category: {
-      type: String,
+
+    isShow: {
+      type: Boolean,
+      default: true,
     },
     createdAt: {
       type: Date,

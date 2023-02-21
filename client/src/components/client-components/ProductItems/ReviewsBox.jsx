@@ -1,15 +1,12 @@
 import React from "react";
-import { Box, Button, LinearProgress, Rating } from "@mui/material";
+import { Box, Button, LinearProgress } from "@mui/material";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { Review } from "./Review";
-import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 
 export const ReviewsBox = () => {
-  let { t } = useTranslation(["product"]);
   const { product } = useSelector((state) => state.product);
-  const { isLogged } = useSelector((state) => state.auth);
+
 
   // 1 star
   const findOne = product?.reviews?.filter((item) => item.rating === 1);
@@ -32,62 +29,30 @@ export const ReviewsBox = () => {
   const fivePercentage =
     findFive?.length > 0 ? (findFive?.length * 100) / product?.numOfReviews : 0;
 
-  const ratingStatistics = [
-    {
-      id: 1,
-      percentage: onePercentage,
-      number: "1",
-    },
-    {
-      id: 2,
-      percentage: twoPercentage,
-      number: "2",
-    },
-    {
-      id: 3,
-      percentage: threePercentage,
-      number: "3",
-    },
-    {
-      id: 4,
-      percentage: fourPercentage,
-      number: "4",
-    },
-    {
-      id: 5,
-      percentage: fivePercentage,
-      number: "5",
-    },
-  ];
   return (
     <>
-      <div className="md:max-w-[400px] max-h-[440px] md:p-6 p-5 md:px-8 md:rounded-lg rounded-xl flex justify-between flex-col w-full border_primary">
-        <div className="flex md:mt-1 items-center flex-col md:flex-row">
-          <div className="md:text-left text-center">
+      <div className="md:max-w-[400px] max-h-[440px] md:p-6 p-5 md:px-8 md:rounded-lg rounded-xl flex justify-between flex-col w-full border border-gray-300">
+        <div className="flex md:mt-1 items-center justify-between">
+          <div className="">
             <h1 className="text-5xl font-semibold">
-              {product?.ratings?.toFixed(1)}
+              {product.ratings?.toFixed(1)}
             </h1>
             <p className="text-base text-gray-400 mt-4">
-              {product?.numOfReviews}{""}{t("bassed-on-reviews")}
+              Based on {product.numOfReviews} reviews
             </p>
           </div>
-          <Rating
-            sx={{ marginY: "10px" }}
-            icon={<AiFillStar fontSize="20px" />}
-            emptyIcon={<AiOutlineStar fontSize="20px" />}
-            readOnly
-            value={product?.ratings || 0}
-          />
+          <div className="">
+            {/* <Rate disabled allowHalf value={product.ratings} /> */}
+          </div>
         </div>
         <div className="my-3">
-          <div className="md:my-5 my-3 flex justify-between items-center">
-            <div className="flex items-center">
-              <span className="text-zinc-700 mr-1">5</span>
-              <AiFillStar className="text_secondary" />
-              <AiFillStar className="text_secondary" />
-              <AiFillStar className="text_secondary" />
-              <AiFillStar className="text_secondary" />
-              <AiFillStar className="text_secondary" />
+          <div className="md:my-5 flex justify-between items-center">
+            <div className="flex">
+              <AiFillStar className="text-orange-500" />
+              <AiFillStar className="text-orange-500" />
+              <AiFillStar className="text-orange-500" />
+              <AiFillStar className="text-orange-500" />
+              <AiFillStar className="text-orange-500" />
             </div>
             <Box sx={{ width: "100%", marginX: "6px" }}>
               <LinearProgress
@@ -97,19 +62,15 @@ export const ReviewsBox = () => {
                 value={fivePercentage}
               />
             </Box>
-            <span className="text-zinc-700 w-16 text-right">
-              {fivePercentage}
-              {"%"}
-            </span>
+            <span className="">5</span>
           </div>
-          <div className="md:my-5 my-3 flex justify-between items-center">
-            <div className="flex items-center">
-              <span className="text-zinc-700 mr-1">4</span>
-              <AiFillStar className="text_secondary" />
-              <AiFillStar className="text_secondary" />
-              <AiFillStar className="text_secondary" />
-              <AiFillStar className="text_secondary" />
-              <AiOutlineStar className="text-gray-400" />
+          <div className="md:my-5 flex justify-between items-center">
+            <div className="flex">
+              <AiFillStar className="text-orange-500" />
+              <AiFillStar className="text-orange-500" />
+              <AiFillStar className="text-orange-500" />
+              <AiFillStar className="text-orange-500" />
+              <AiOutlineStar className="text-gray-500" />
             </div>
             <Box sx={{ width: "100%", marginX: "6px" }}>
               <LinearProgress
@@ -119,19 +80,15 @@ export const ReviewsBox = () => {
                 value={fourPercentage}
               />
             </Box>
-            <span className="text-zinc-700 w-16 text-right">
-              {fourPercentage}
-              {"%"}
-            </span>
+            <span className="">4</span>
           </div>
-          <div className="md:my-5 my-3 flex justify-between items-center">
-            <div className="flex items-center">
-              <span className="text-zinc-700 mr-1">3</span>
-              <AiFillStar className="text_secondary" />
-              <AiFillStar className="text_secondary" />
-              <AiFillStar className="text_secondary" />
-              <AiOutlineStar className="text-gray-400" />
-              <AiOutlineStar className="text-gray-400" />
+          <div className="md:my-5 flex justify-between items-center">
+            <div className="flex">
+              <AiFillStar className="text-orange-500" />
+              <AiFillStar className="text-orange-500" />
+              <AiFillStar className="text-orange-500" />
+              <AiOutlineStar className="text-gray-500" />
+              <AiOutlineStar className="text-gray-500" />
             </div>
             <Box sx={{ width: "100%", marginX: "6px" }}>
               <LinearProgress
@@ -141,19 +98,15 @@ export const ReviewsBox = () => {
                 value={threePercentage}
               />
             </Box>
-            <span className="text-zinc-700 w-16 text-right">
-              {threePercentage}
-              {"%"}
-            </span>
+            <span className="">3</span>
           </div>
-          <div className="md:my-5 my-3 flex justify-between items-center">
-            <div className="flex items-center">
-              <span className="text-zinc-700 mr-1">2</span>
-              <AiFillStar className="text_secondary" />
-              <AiFillStar className="text_secondary" />
-              <AiOutlineStar className="text-gray-400" />
-              <AiOutlineStar className="text-gray-400" />
-              <AiOutlineStar className="text-gray-400" />
+          <div className="md:my-5 flex justify-between items-center">
+            <div className="flex">
+              <AiFillStar className="text-orange-500" />
+              <AiFillStar className="text-orange-500" />
+              <AiOutlineStar className="text-gray-500" />
+              <AiOutlineStar className="text-gray-500" />
+              <AiOutlineStar className="text-gray-500" />
             </div>
             <Box sx={{ width: "100%", marginX: "6px" }}>
               <LinearProgress
@@ -163,19 +116,15 @@ export const ReviewsBox = () => {
                 value={twoPercentage}
               />
             </Box>
-            <span className="text-zinc-700 w-16 text-right">
-              {twoPercentage}
-              {"%"}
-            </span>
+            <span className="">2</span>
           </div>
-          <div className="md:my-5 my-3 flex justify-between items-center">
-            <div className="flex items-center">
-              <span className="text-zinc-700 mr-1">1</span>
-              <AiFillStar className="text_secondary" />
-              <AiOutlineStar className="text-gray-400" />
-              <AiOutlineStar className="text-gray-400" />
-              <AiOutlineStar className="text-gray-400" />
-              <AiOutlineStar className="text-gray-400" />
+          <div className="md:my-5 flex justify-between items-center">
+            <div className="flex">
+              <AiFillStar className="text-orange-500" />
+              <AiOutlineStar className="text-gray-500" />
+              <AiOutlineStar className="text-gray-500" />
+              <AiOutlineStar className="text-gray-500" />
+              <AiOutlineStar className="text-gray-500" />
             </div>
             <Box sx={{ width: "100%", marginX: "6px" }}>
               <LinearProgress
@@ -185,28 +134,26 @@ export const ReviewsBox = () => {
                 value={onePercentage}
               />
             </Box>
-            <span className="text-zinc-700 w-16 text-right">
-              {onePercentage}
-              {"%"}
-            </span>
+            <span className="">1</span>
           </div>
         </div>
         <div className="w-full">
-          {isLogged ? (
-            <Review productId={product._id} />
+          {/* {auth.isLogged ? (
+            <>
+              <Review product={product} />
+            </>
           ) : (
-            <Link to={"/signin"}>
+            <>
               <Button
-                variant="contained"
+                variant="outlined"
                 size="large"
-                color="warning"
                 fullWidth
-                // onClick={handleOpen}
+                // onClick={showModal}
               >
-               {t("add-review")}
+                add review
               </Button>
-            </Link>
-          )}
+            </>
+          )} */}
         </div>
       </div>
     </>

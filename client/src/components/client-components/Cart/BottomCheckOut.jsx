@@ -3,6 +3,8 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { AiOutlineShopping } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import Price from "../Helpers/Price";
+
 
 const BottomCheckOut = ({ cart }) => {
   const scroll = useScrollTrigger();
@@ -13,7 +15,10 @@ const BottomCheckOut = ({ cart }) => {
       {scroll && (
         <div className="md:hidden flex_betwen fixed bottom-0 left-0 w-full py-2 z-50 bg-white shadow-lg px-4 border-t border-t-gray-100">
           <div className="col-span-1 flex items-center">
-            <p className="text-gray-800 text-base font-bold">{totalPrice}</p>
+            <Price
+              price={totalPrice}
+              className="text-gray-800 text-base font-bold"
+            />
           </div>
           <div className="col-span-1">
             <Link

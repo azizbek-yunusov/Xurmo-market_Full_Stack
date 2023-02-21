@@ -2,7 +2,7 @@ const BannerModel = require("../models/BannerModel");
 const cloudinary = require("../utils/cloudinary");
 
 const createBanner = async (req, res) => {
-  const { _id, name, href, image, createdAt } = req.body;
+  const { name, href, image, createdAt } = req.body;
   try {
     const result = await cloudinary.uploader.upload(image, {
       folder: "Banners",
@@ -10,7 +10,6 @@ const createBanner = async (req, res) => {
       // crop: "scale"
     });
     const banner = await BannerModel.create({
-      _id,
       name,
       href,
       image: {

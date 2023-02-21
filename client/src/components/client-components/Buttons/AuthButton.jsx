@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
 import { signOut } from "../../../redux/actions/authAction";
-import { useTranslation } from "react-i18next";
+import { AiOutlineUser } from "react-icons/ai";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -23,7 +23,7 @@ const StyledMenu = styled((props) => (
 ))(({ theme }) => ({
   "& .MuiPaper-root": {
     borderRadius: 6,
-    marginTop: theme.spacing(5),
+    marginTop: theme.spacing(1),
     minWidth: 180,
     color:
       theme.palette.mode === "light"
@@ -49,10 +49,37 @@ const StyledMenu = styled((props) => (
     },
   },
 }));
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    backgroundColor: "#44b700",
+    color: "#44b700",
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    "&::after": {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      borderRadius: "50%",
+      animation: "ripple 1.2s infinite ease-in-out",
+      border: "1px solid currentColor",
+      content: '""',
+    },
+  },
+  "@keyframes ripple": {
+    "0%": {
+      transform: "scale(.8)",
+      opacity: 1,
+    },
+    "100%": {
+      transform: "scale(2.4)",
+      opacity: 0,
+    },
+  },
+}));
 
 const AuthButton = () => {
   const { user } = useSelector((state) => state.auth);
-  let { t } = useTranslation(["home"]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const signOutHandle = () => {
@@ -71,20 +98,15 @@ const AuthButton = () => {
 
   return (
     <>
-      <div className="md:block hidden text-gray-500">
-        <div className="flex flex-col items-center cursor-pointer">
-          <Avatar
-            alt={user.name}
-            onClick={handleClick}
-            sx={{ width: 32, height: 32 }}
-            className="bg-teal-300"
-            src={
-              user.avatar?.url ||
-              "https://www.ihp.ie/wp-content/uploads/profile-img.jpg"
-            }
-          />
-          <p className="text-xs pt-[6px] sm:text-sm">{t("profile")}</p>
-        </div>
+      <div className="md:block hidden">
+        <Avatar
+          alt={user.name}
+          onClick={handleClick}
+          src={
+            user.avatar?.url ||
+            "https://www.ihp.ie/wp-content/uploads/profile-img.jpg"
+          }
+        />
         <StyledMenu
           id="demo-customized-menu"
           MenuListProps={{
@@ -95,26 +117,22 @@ const AuthButton = () => {
           onClose={handleClose}
         >
           <Link onClick={handleClose} to={"/myprofile"}>
-            <MenuItem>{t("profile")}</MenuItem>
+            <MenuItem>Profile</MenuItem>
           </Link>
           <Divider sx={{ my: 0.5 }} />
           <MenuItem onClick={signOutHandle} disableRipple>
-            {t("sign-out")}
+            Sign out
           </MenuItem>
         </StyledMenu>
       </div>
-      <Link
-        to={"/myprofile"}
-        className="md:hidden flex justify-between text-gray-500 active:text-orange-400 transition_normal flex-col items-center"
-      >
-        <div className="flex_center text-xl">
+      <Link to={"/myprofile"}>
+        <div className="md:hidden flex_center text_color text-xl">
           <img
             src={user.avatar?.url}
             className="h-8 object-cover w-8 bg-purple-600 rounded-full"
             alt={user.name}
           />
         </div>
-        <p className="text-xs pt-1 sm:text-sm">{t("profile")}</p>
       </Link>
     </>
   );

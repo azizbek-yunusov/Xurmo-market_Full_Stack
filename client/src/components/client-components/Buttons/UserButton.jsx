@@ -4,7 +4,6 @@ import { styled, alpha } from "@mui/material/styles";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Divider, IconButton, Menu, MenuItem } from "@mui/material";
-import { useTranslation } from "react-i18next";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -50,7 +49,6 @@ const StyledMenu = styled((props) => (
 }));
 
 const UserButton = () => {
-  let { t } = useTranslation(["home"]);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -62,13 +60,16 @@ const UserButton = () => {
   return (
     <>
       <div className="mx-2 md:block hidden">
-        <div
+        <IconButton
+          id="demo-customized-button"
+          aria-controls={open ? "demo-customized-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          variant="text"
           onClick={handleClick}
-          className="flex justify-between cursor-pointer text-gray-500 active:text-orange-400 transition_normal flex-col items-center"
         >
-          <AiOutlineUser className="text-2xl" />
-          <p className="text-xs pt-2 sm:text-sm">{t("sign-in-b")}</p>
-        </div>
+          <AiOutlineUser />
+        </IconButton>
         <StyledMenu
           id="demo-customized-menu"
           MenuListProps={{
@@ -79,22 +80,18 @@ const UserButton = () => {
           onClose={handleClose}
         >
           <Link to={"/signin"}>
-            <MenuItem onClick={handleClose}>{t("sign-in-b")}</MenuItem>
+            <MenuItem onClick={handleClose}>Sign In</MenuItem>
           </Link>
           <Divider sx={{ my: 0.5 }} />
           <Link to={"/signup"}>
             <MenuItem onClick={handleClose} disableRipple>
-              {t("sign-up")}
+              Sign Up
             </MenuItem>
           </Link>
         </StyledMenu>
       </div>
-      <Link
-        to={"/signin"}
-        className="md:hidden flex justify-between text-gray-500 active:text-orange-400 transition_normal flex-col items-center"
-      >
-        <AiOutlineUser className="text-2xl" />
-        <p className="text-xs pt-[6px] sm:text-sm">{t("sign-in-b")}</p>
+      <Link className="md:hidden flex_center text_color text-xl">
+        <AiOutlineUser />
       </Link>
     </>
   );

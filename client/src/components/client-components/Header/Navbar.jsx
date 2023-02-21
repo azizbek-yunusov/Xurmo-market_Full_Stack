@@ -11,7 +11,7 @@ function useIsScrollTop() {
 
   useEffect(() => {
     function onScroll() {
-      setIsTop(window.scrollY <= 50);
+      setIsTop(window.scrollY <= 0);
     }
     window.addEventListener("scroll", onScroll, { passive: true });
 
@@ -28,15 +28,15 @@ const Navbar = () => {
   return (
     <>
       {isLogged && isAdmin ? null : (
-        <>
+        <div>
           <div
             className={`bg-white lg:block hidden w-full tranistion_normal ${
               isTop
                 ? ""
-                : "md:sticky top-0 w-full z-50 border-b md:drop-shadow-md  shadow-sm border-b-gray-300"
+                : "md:fixed top-0 right-0 w-full z-50 border-b shadow-xl border-b-gray-300"
             }`}
           >
-            <div className="container-full  grid lg:grid-cols-12 md:pb-2 md:pt-[14px] py-1">
+            <div className="container-full  grid lg:grid-cols-12 md:py-[14px] py-1">
               <div className="col-span-3 flex justify-between items-center">
                 <Link
                   to="/"
@@ -51,13 +51,13 @@ const Navbar = () => {
               </div>
               <div className="hidden lg:col-span-3 lg:flex justify-end items-center">
                 <ul className="flex justify-between items-center my-1">
-                  <li className="lg:mr-3 xl:mr-6">
+                  <li className="lg:mr-6">
                     <FavoritesButton />
                   </li>
-                  <li className="lg:mx-3 xl:mx-6">
+                  <li className="lg:mx-6">
                     <Cart />
                   </li>
-                  <li className="xl:mx-4 ml-3 -mt-1">
+                  <li className="mx-4 -mt-1">
                     {isLogged ? <AuthButton /> : <UserButton />}
                   </li>
                 </ul>
@@ -65,20 +65,20 @@ const Navbar = () => {
             </div>
           </div>
           <div
-            className={`bg-white lg:hidden ${
+            className={`bg-white ${
               isTop
                 ? ""
-                : "sticky top-0 w-full z-50 border-b  shadow-xl border-b-gray-300"
+                : "fixed top-0 right-0 w-full z-50 border-b shadow-xl border-b-gray-300"
             }`}
           >
-            <div className="container-full  flex_betwen my-2 py-[2px]">
+            <div className="container-full lg:hidden flex_betwen my-2">
               <Menu />
               <div className="w-full ml-3">
                 <SearchBox />
               </div>
             </div>
           </div>
-        </>
+        </div>
       )}
     </>
   );

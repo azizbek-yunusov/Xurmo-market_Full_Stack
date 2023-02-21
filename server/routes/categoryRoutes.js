@@ -4,6 +4,7 @@ const {
   getCategory,
   createCategory,
   updateCategory,
+  deleteSelected,
   deleteCategory,
 } = require("../controllers/categoryController");
 const authAdminMiddleware = require("../middleware/authAdminMiddleware");
@@ -24,6 +25,12 @@ router.delete(
   authMiddleware,
   authAdminMiddleware,
   deleteCategory
+);
+router.post(
+  "/category/selected",
+  authMiddleware,
+  authAdminMiddleware,
+  deleteSelected
 );
 
 module.exports = router;

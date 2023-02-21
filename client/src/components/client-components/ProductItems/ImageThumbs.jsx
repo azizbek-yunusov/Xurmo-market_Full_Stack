@@ -9,7 +9,7 @@ const ImageThumbs = ({ images }) => {
   const [activeThumb, setActiveThumb] = useState();
   return (
     <>
-      <main className="md:block hidden product_detail">
+      <main className="md:block hidden">
         {images && images[0] && (
           <>
             <Swiper
@@ -64,10 +64,7 @@ const ImageThumbs = ({ images }) => {
       <div className="md:hidden block">
         {images && images[0] && (
           <Swiper
-            style={{
-              "--swiper-navigation-size": "18px",
-            }}
-            modules={[Pagination]}
+            modules={[Pagination, Navigation]}
             slidesPerView={1}
             navigation={true}
             pagination={{ clickable: true }}

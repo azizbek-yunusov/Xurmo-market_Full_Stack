@@ -5,7 +5,6 @@ import WishProductItem from "./WishProductItem";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { HelmetTitle } from "../../../utils";
-import MobileTop from "../Helpers/MobileTop";
 
 const WishList = () => {
   let { t } = useTranslation(["product"]);
@@ -19,20 +18,19 @@ const WishList = () => {
     <>
       <HelmetTitle title={t("wish-list")} />
       <div className="">
-        <MobileTop name={t("wish")} list={favorites} items={t("items")} />
         <div className="container-full min-h-[600px]">
           {favorites.length ? (
             <div>
-              <div className="md:flex hidden md:mt-5">
+              <div className="flex md:mt-5">
                 <Link to="/">Bosh Sahifa</Link>
                 {"/"}
                 <Link to="/wishlist">Sevimlilar</Link>
               </div>
-              <div className="w-full md:flex hidden justify-between items-center text-lg md:mt-5 border-b pb-3 border-b-gray-200">
+              <div className="w-full flex justify-between items-center md:text-lg md:mt-5 border-b pb-3 border-b-gray-200">
                 <h1 className="md:text-2xl font-semibold">Sevimlilar</h1>
                 <div className="font-semibold">Barchasini o'chirish</div>
               </div>
-              <div className="grid md:grid-cols-5 grid-cols-2 md:gap-3 gap-2 md:mt-5 mt-3">
+              <div className="grid md:grid-cols-5 gap-3 md:mt-5">
                 {favorites.map((item, index) => (
                   <WishProductItem key={index} {...item} />
                 ))}
@@ -44,7 +42,7 @@ const WishList = () => {
                 <img
                   src="/images/wish.png"
                   alt="Shopping bag"
-                  className="md:h-80 h-60"
+                  className="md:h-80 h-64"
                 />
                 <h1 className="md:text-2xl text-xl md:mb-5 mb-2 text-gray-600 font-semibold">
                   {t("empty-wish")}
@@ -55,7 +53,7 @@ const WishList = () => {
                 <Button
                   onClick={() => navigate("/")}
                   variant="contained"
-                  color="secondary"
+                  color="primary"
                 >
                   {t("wish-b")}
                 </Button>

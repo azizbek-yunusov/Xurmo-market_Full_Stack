@@ -1,6 +1,5 @@
 const OrderModel = require("../models/OrderModel");
 const UserModel = require("../models/UserModel");
-const { sendOrder } = require("./sendMailController");
 
 const newOrder = async (req, res) => {
   try {

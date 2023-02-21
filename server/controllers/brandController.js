@@ -3,13 +3,12 @@ const ProductModel = require("../models/ProductModel");
 const cloudinary = require("../utils/cloudinary");
 
 const createBrand = async (req, res) => {
-  const { _id, name, slug, image, createdAt } = req.body;
+  const { name, slug, image, createdAt } = req.body;
   try {
     const result = await cloudinary.uploader.upload(image, {
       folder: "Brands",
     });
     const brand = await BrandModel.create({
-      _id,
       name,
       slug,
       image: {

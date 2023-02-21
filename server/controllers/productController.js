@@ -129,52 +129,26 @@ const deleteProduct = async (req, res) => {
   });
 };
 
-const addReview = async (req, res) => {
+const deleteSelected = async (req, res) => {
   try {
-    const { rating, comment, productId } = req.body;
-    const review = {
-      user: req.user.id,
-      name: req.user.id,
-      rating: Number(rating),
-      comment,
-    };
+    let selected = [...req.body.selected];
 
-    let product = await ProductModel.findById(productId).populate(
-      "reviews.user",
-      "_id name avatar"
-    );
-
-    const isReviewed = product.reviews.find(
-      (rev) => rev.name.toString() === req.user.id.toString()
-    );
-    if (isReviewed) {
-      product.reviews.forEach((rev) => {
-        if (rev.name.toString() === req.user.id.toString())
-          (rev.rating = rating), (rev.comment = comment);
+    selected.forEach((id) => {
+      ProductModel.deleteOne({ _id: id }, (err) => {
+        if (err) {
+          console.error(err);
+        } else {
+          console.log("Mahsulot o'chirildi");
+        }
       });
-    } else {
-      product.reviews.push(review);
-      product.numOfReviews = product.reviews.length;
-    }
-
-    let avg = 0;
-
-    product.reviews.forEach((rev) => {
-      avg += rev.rating;
     });
-
-    product.ratings = avg / product.reviews.length;
-
-    await product.save({ validateBeforeSave: false });
-
-    res.status(200).json({
-      msg: "Successfully",
-      product,
-    });
+    res.status(200).json({ msg: "successfully" });
   } catch (err) {
-    return console.log(err);
+    console.log(err);
   }
 };
+
+
 
 const PAGE_SIZE = 3;
 const getSearch = async (req, res) => {
@@ -270,6 +244,6 @@ module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
-  addReview,
+  deleteSelected,
   getSearch,
 };

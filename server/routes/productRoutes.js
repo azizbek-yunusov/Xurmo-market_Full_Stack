@@ -6,7 +6,7 @@ const {
   updateProduct,
   getProduct,
   deleteProduct,
-  addReview,
+  deleteSelected,
   getSearch
 } = require("../controllers/productController");
 const authAdminMiddleware = require("../middleware/authAdminMiddleware");
@@ -24,8 +24,13 @@ router.delete(
   authAdminMiddleware,
   deleteProduct
 );
+router.post(
+  "/product/selected",
+  authMiddleware,
+  authAdminMiddleware,
+  deleteSelected
+);
 router.get("/search", getSearch)
 
-router.put("/review", authMiddleware, addReview);
 
 module.exports = router;

@@ -28,7 +28,7 @@ const getCategory = async (req, res) => {
 };
 
 const createCategory = async (req, res) => {
-  const { _id, name, slug, image, createdAt } = req.body;
+  const { nameUz, nameEn, nameRu, slug, image, createdAt } = req.body;
   try {
     const result = await cloudinary.uploader.upload(image, {
       folder: "Categories",
@@ -37,8 +37,9 @@ const createCategory = async (req, res) => {
     //   folder: "Banners",
     // });
     const category = await CategoryModel.create({
-      _id,
-      name,
+      nameUz,
+      nameEn,
+      nameRu,
       slug,
       image: {
         public_id: result.public_id,
@@ -62,9 +63,11 @@ const createCategory = async (req, res) => {
 
 const updateCategory = async (req, res) => {
   try {
-    const { name, slug, image } = req.body;
+    const { nameUz, nameEn, nameRu, image } = req.body;
     const updatedBanner = await CategoryModel.findByIdAndUpdate(req.params.id, {
-      name,
+      nameUz,
+      nameEn,
+      nameRu,
       slug,
       image,
     });
@@ -84,10 +87,31 @@ const deleteCategory = async (req, res) => {
     console.log(err);
   }
 };
+
+const deleteSelected = async (req, res) => {
+  try {
+    let selected = [...req.body.selected];
+
+    await selected.forEach((id) => {
+      CategoryModel.deleteOne({ _id: id }, (err) => {
+        if (err) {
+          console.error(err);
+        } else {
+          console.log("Deleted");
+        }
+      });
+    });
+    res.status(200).json({ msg: "successfully" });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   getAllCategoris,
   getCategory,
   createCategory,
   updateCategory,
+  deleteSelected,
   deleteCategory,
 };

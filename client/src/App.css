@@ -79,7 +79,7 @@
   }
   #__replain_widget {
     right: 10px !important;
-    bottom: 75px !important;
+    bottom: 70px !important;
     max-height: calc(100% - 75px);
   }
 }

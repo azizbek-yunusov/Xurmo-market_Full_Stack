@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useGlobalApi } from "../../../hooks";
 import AddToWish from "../Helpers/AddToWish";
+import Price from "../Helpers/Price";
 
 const ShopBox = ({ product }) => {
   const { t } = useTranslation(["product"]);
@@ -28,7 +29,10 @@ const ShopBox = ({ product }) => {
         <div className="sticky top-28 border_primary rounded-xl w-full">
           <div className="flex flex-col md:p-5 p-3 justify-between xl:w-[380px] lg:w-[300px] w-fulll">
             <div className="flex_betwen mb-2">
-              <p className="md:text-lg text-gray-600">{product.price}</p>
+              <Price
+                price={product.price}
+                className="md:text-2xl text-lg font-semibold text-gray-600"
+              />
               <AddToWish productId={product._id} />
             </div>
             <div className="mb-3 border-b border-b-gray-200 pb-5">
@@ -47,24 +51,24 @@ const ShopBox = ({ product }) => {
             <div className="my-3">
               {isCart ? (
                 <div className="flex_betwen">
-                  <div className="flex_betwen md:px-3 border-2 border-[#888888] md:py-4 py-4 w-full md:rounded-xl rounded-lg md:text-lg text-base transition_normal hover:border-blue-500">
+                  <div className="border-2 border-[#ff8800] md:py-3 py-3 flex_betwen w-full rounded-lg text-lg text-gray-700 transition_normal">
                     <Tooltip title="remove from cart">
                       <button
                         onClick={() =>
                           decrementQtyItem(existItem.productId._id)
                         }
-                        className="text-gray-800 md:px-1 pl-3 py-1"
+                        className="text-gray-700 md:px-4 pl-3 py-1 text-2xl"
                       >
                         <AiOutlineMinus />
                       </button>
                     </Tooltip>
-                    <p className="font-mono md:text-lg text-gray-800 text-base">
+                    <p className="font-mono md:text-xl text-gray-800 text-base">
                       {existItem.quantity}
                     </p>
                     <Tooltip title="Increase by one">
                       <button
                         onClick={() => addToCartHandle(_id)}
-                        className=" tranistion_normal text-gray-800 md:px-1 pr-3 py-1"
+                        className=" tranistion_normal text-gray-700 md:px-4 pl-3 py-1 text-2xl"
                       >
                         <AiOutlinePlus />
                       </button>
@@ -72,7 +76,7 @@ const ShopBox = ({ product }) => {
                   </div>
                   <Link
                     to={"/cart"}
-                    className="p-[10px] ml-3 hover:border-gray-400 rounded-md text-white bg_secondary"
+                    className="md:py-[18px] py-3 px-5 ml-3 hover:border-gray-400 rounded-md text-white bg_secondary"
                   >
                     <BsCartCheck className="md:text-xl text-white" />
                   </Link>
@@ -89,7 +93,7 @@ const ShopBox = ({ product }) => {
             </div>
             <button
               onClick={() => addToCartHandle(_id)}
-              className="border-2 border-[#ff8800] md:py-3 py-3 flex items-center justify-center w-full rounded-lg text-lg text-gray-700 transition_normal"
+              className="border-2 border-[#ff8800] md:py-3 py-3 flex items-center justify-center w-full rounded-lg text-lg text-gray-700 transition_normal hover:bg-orange-400 hover:text-white"
             >
               <BsBagCheck className="md:text-xl" />
               <span className="ml-2">{t("buy-now")}</span>

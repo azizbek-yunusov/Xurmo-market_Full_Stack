@@ -7,8 +7,10 @@ require("dotenv").config();
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
-const productRoutes = require("./routes/productRoutes");
+const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const productRoutes = require("./routes/productRoutes");
+const productReviewRoutes = require("./routes/productReviewRoutes");
 const bannerRoutes = require("./routes/bannerRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const orderRoutes = require("./routes/orderRoutes");
@@ -29,7 +31,9 @@ app.use(
   })
 );
 
+app.use(authRoutes);
 app.use(productRoutes);
+app.use(productReviewRoutes);
 app.use(userRoutes);
 app.use(bannerRoutes);
 app.use(categoryRoutes);
@@ -41,4 +45,4 @@ mongoose.connect(MONGO_URI, () => {
   console.log("MongoDB is working");
 });
 
-app.listen(5000, console.log(`Server has a been started on port:${PORT}`));
+app.listen(PORT, console.log(`Server has a been started on port:${PORT}`));
