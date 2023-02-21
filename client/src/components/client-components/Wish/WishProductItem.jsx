@@ -7,6 +7,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import useGlobalApi from "../../../hooks/useGlobalApi";
+import Price from "../Helpers/Price";
 const WishProductItem = ({ productId }) => {
   const { _id, name, images, price, ratings, discount } = productId;
   const { cart, auth } = useSelector((state) => state);
@@ -49,17 +50,18 @@ const WishProductItem = ({ productId }) => {
           </div>
           <div className="w-full text-gray-800">
             {discount > 0 ? (
-              <div className="flex items-center">
-                <p className="md:text-lg font-semibold">
-                  {price - (price * discount) / 100}$
-                </p>
-                {/* <Price price={"15200000"} className="md:text-lg font-semibold" /> */}
-                <p className="md:text-lg font-semibold line-through text-gray-500 md:ml-3">
-                  {price}$
-                </p>
+              <div className="">
+                <Price
+                  price={price - (price * discount) / 100}
+                  className="md:text-lg font-semibold"
+                />
+                <Price
+                  price={price}
+                  className="md:text-lg font-semibold line-through text-gray-500 md:ml-3"
+                />
               </div>
             ) : (
-              <p className="md:text-lg font-semibold">{price}$</p>
+              <Price price={price} className="md:text-lg font-semibold" />
             )}
 
             <div className="flex mt-2">

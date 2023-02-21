@@ -7,7 +7,7 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { BiHomeAlt, BiStoreAlt } from "react-icons/bi";
@@ -19,6 +19,7 @@ import useGlobalApi from "../../../hooks/useGlobalApi";
 import HelmetTitle from "../../../utils/HelmetTitle";
 import Top from "./Top";
 import address from "../../../data/address.json";
+import Price from "../Helpers/Price";
 
 const CheckOut = () => {
   const { t } = useTranslation();
@@ -26,8 +27,6 @@ const CheckOut = () => {
   const { addToCartHandle, decrementQtyItem, deleteHandle } = useGlobalApi(
     auth.access_token
   );
-  // region_id
-  // let defaultAddress = address.length && address[0];
 
   const [name, setName] = useState(auth.user.name || "");
   const [lastName, setLastName] = useState("");
@@ -45,11 +44,15 @@ const CheckOut = () => {
   const paymentOnChange = (e) => {
     setPayment(e.target.value);
   };
+  const defaultDistricts = address.districts.filter((value) => {
+    return value.region_id === 11;
+  });
   const handleRegion = (e) => {
     const getRegionId = e.target.value;
     const getRegionData = address?.regions.find(
       (reg) => reg.id === getRegionId
     );
+    console.log(getRegionId);
     const getDistrictsdata = address.districts.filter(
       (item) => item.region_id === getRegionId
     );
@@ -97,6 +100,11 @@ const CheckOut = () => {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <HelmetTitle title={t("shop:checkout")} />
@@ -118,7 +126,7 @@ const CheckOut = () => {
           </h1>
           <form onSubmit={newOrderHandle}>
             <div className="grid md:grid-cols-3 grid-cols-1 md:my-5 my-3">
-              <div className="md:col-span-2 md:mr-20">
+              <div className="md:col-span-2 xl:mr-20 lg:mr-10 md:mr-3">
                 <div className="md:mb-9 mb-4">
                   <div className="flex items-center mb-8">
                     <span className="flex_center md:w-8 md:h-8 w-6 h-6 bg-zinc-800 rounded-full md:text-xl text-sm text-white">
@@ -295,6 +303,7 @@ const CheckOut = () => {
                       <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
+                        
                         defaultValue={"11"}
                         label={t("shop:region")}
                         onChange={(e) => handleRegion(e)}
@@ -314,11 +323,15 @@ const CheckOut = () => {
                       <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
+                        placeholder="select"
                         label={t("shop:district")}
                         value={district || ""}
                         onChange={(e) => setDistrict(e.target.value)}
                       >
-                        {selectDistricts?.map((item, index) => (
+                        {(selectDistricts.length
+                          ? selectDistricts
+                          : defaultDistricts
+                        ).map((item, index) => (
                           <MenuItem key={index} value={item.name}>
                             {item.name}
                           </MenuItem>
@@ -352,7 +365,7 @@ const CheckOut = () => {
                     type="submit"
                     className="w-full md:block hidden"
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     size="large"
                   >
                     {t("shop:checkout")}
@@ -366,7 +379,7 @@ const CheckOut = () => {
                     <p className="text-lg font-semibold">
                       {t("shop:productonordertxt")}
                     </p>
-                    <div className="md:mt-0 mt-2">
+                    <div className="mt-2">
                       {cart.length
                         ? cart.map((item) => (
                             <div
@@ -385,10 +398,10 @@ const CheckOut = () => {
                                   {item.productId.name}
                                 </p>
                                 <div className="flex md:mt-3 justify-between items-center">
-                                  <p className="text-base font-semibold">
-                                    {item.productId.price}
-                                    {"$"}
-                                  </p>
+                                  <Price
+                                    price={item.productId.price}
+                                    className="text-base font-semibold"
+                                  />
                                   <span className="">
                                     {t("shop:quantity")}
                                     {":"}
@@ -409,15 +422,18 @@ const CheckOut = () => {
                       <p className="">
                         {totalQuantity} {t("shop:priceorders")}
                       </p>
-                      <p className="">{totalPrice}</p>
+                      <Price price={totalPrice} className="" />
                     </div>
                     <div className="flex justify-between items-center text-sm my-5 md:pb-5 pb-3 border-b border-b-gray-300">
                       <p className="">{t("shop:shippingcost")}</p>
                       <p className="">{t("shop:freeshipping")}</p>
                     </div>
                     <div className="flex justify-between items-center">
-                      <p className="font-semibold">{t("shop:totalpayment")}</p>
-                      <p className="text-2xl font-semibold">{totalPrice}</p>
+                      <p className="font-semibold">{t("shop:totalpayment")}:</p>
+                      <Price
+                        price={totalPrice}
+                        className="xl:text-2xl text-lg font-semibold"
+                      />
                     </div>
                   </div>
                 </div>
@@ -427,7 +443,7 @@ const CheckOut = () => {
                   type="submit"
                   className="w-full"
                   variant="contained"
-                  color="primary"
+                  color="secondary"
                   size="large"
                 >
                   {t("shop:checkout")}

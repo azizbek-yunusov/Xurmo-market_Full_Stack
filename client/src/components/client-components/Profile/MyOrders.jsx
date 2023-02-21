@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { getMyOrder } from "../../../redux/order/myOrder";
 import OrderChip from "../Helpers/OrderChip";
 import { CircularProgress } from "@mui/material";
+import Price from "../Helpers/Price";
 
 const MyOrders = () => {
   let { t } = useTranslation(["shop"]);
@@ -112,8 +113,10 @@ const MyOrders = () => {
                             {moment(item.createdAt).format("lll")}
                           </li>
                           <li className="my-3">
-                            {item.totalPrice}
-                            {"$"}
+                            <Price
+                              price={item.totalPrice}
+                              className=""
+                            />
                           </li>
                           <li className="my-3">{item.contact || item.email}</li>
                           <li className="my-3">

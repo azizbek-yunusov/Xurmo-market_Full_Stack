@@ -16,7 +16,7 @@ const ImageThumbs = ({ images }) => {
               spaceBetween={10}
               modules={[Thumbs]}
               grabCursor={true}
-              className="product-images-slider border-2 border-gray-300 mb-2 rounded-lg bg-white"
+              className="product-images-slider sm:max-h-[500px] sm:max-w-[500px]  border-2 border-gray-300 mb-2 rounded-lg bg-white"
               thumbs={{
                 swiper:
                   activeThumb && !activeThumb.destroyed ? activeThumb : null,
@@ -38,7 +38,7 @@ const ImageThumbs = ({ images }) => {
                 loop={true}
                 spaceBetween={10}
                 slidesPerView={4}
-                modules={[Navigation, Thumbs]}
+                modules={[Pagination, Navigation, Thumbs]}
                 className="product-images-slider-thumbs"
               >
                 {images.map((item, index) => (

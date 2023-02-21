@@ -7,6 +7,7 @@ import { HiOutlineTrash } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import useGlobalApi from "../../../hooks/useGlobalApi";
+import Price from "../Helpers/Price";
 const Products = ({ cart }) => {
   const { access_token } = useSelector((state) => state.auth);
   let { t } = useTranslation(["product"]);
@@ -18,10 +19,10 @@ const Products = ({ cart }) => {
   } = useGlobalApi(access_token);
   return (
     <>
-      <div className="container-full grid md:grid-cols-12 md:gap-x-5 min-h-screen">
-        <div className="md:col-span-8 col-span-12">
-          <div className="md:border border-gray-200 md:p-5 md:rounded-2xl">
-            <div className="md:flex hidden justify-between items-center font-semibold md:mb-4 mb-3 text-gray-700">
+      <div className="container-full grid md:grid-cols-12 lg:gap-x-5 gap-y-3">
+        <div className="lg:col-span-8 col-span-12">
+          <div className="md:border border-gray-200 md:p-0 xl:p-5 md:rounded-2xl">
+            <div className="md:flex hidden md:p-4 xl:p-0 justify-between items-center font-semibold text-gray-700">
               <h1 className="md:text-2xl">{t("cart")}</h1>
               <h1 className="md:text-xl font-mono">Items {cart.length}</h1>
             </div>
@@ -30,10 +31,10 @@ const Products = ({ cart }) => {
                 ? cart.map((item, index) => (
                     <div
                       key={index}
-                      className="md:p-1 my-2 md:border-t border-t-gray-200"
+                      className="xl:p-1 my-2 md:border-t border-t-gray-200"
                     >
-                      <div className="grid grid-cols-12 lg:py-3 py-1 md:px-1 ease-in-out duration-300 border-b-0 border-b-gray-200">
-                        <div className="col-span-7 flex justify-start">
+                      <div className="grid grid-cols-12 lg:py-3 py-1 xl:px-1 ease-in-out duration-300 border-b-0 border-b-gray-200">
+                        <div className="col-span-12 md:col-span-7 flex justify-start">
                           <div className="overflow-hidden border-0 border-gray-300 py-1 rounded-xl">
                             <img
                               src={item.productId.images[0].url}
@@ -41,18 +42,20 @@ const Products = ({ cart }) => {
                               className="object-cover md:h-28 md:w-28 w-20 h-20 object-center"
                             />
                           </div>
-                          <div className="md:ml-4 ml-2 flex flex-col md:justify-between justify-around b">
-                            <p className="md:text-base text-sm text-gray-800 ">
+                          <div className="md:ml-4 ml-1 flex flex-col md:justify-between justify-around">
+                            <p className="text-base text-gray-800 ">
                               {item.productId.name}
                             </p>
-                            <p className="font-semibold md:flex hidden text-lg text-gray-800">
-                              {item.productId.price}
-                              {"$"}
-                            </p>
-                            <p className="font-semibold md:hidden flex text-lg text-gray-800">
-                              {item.quantity * item.productId.price}
-                              {"$"}
-                            </p>
+
+                            <Price
+                              price={item.productId.price}
+                              className="font-semibold md:flex hidden text-lg text-gray-800"
+                            />
+                            <Price
+                              price={item.quantity * item.productId.price}
+                              className="font-semibold md:hidden flex text-sm text-gray-800"
+                            />
+
                             <div className="md:flex hidden">
                               <button
                                 onClick={() => deleteHandle(item.productId._id)}
@@ -76,31 +79,31 @@ const Products = ({ cart }) => {
                             </div>
                           </div>
                         </div>
-                        <div className="col-span-5 w-full flex justify-between items-center">
-                          <div className="w-full md:flex_center flex_end md:mt-0 mt-2">
-                            <div className="md:flex hidden items-center w-max md:justify-center justify-between h-min rounded-md">
+                        <div className="md:col-span-5 col-span-12 w-full flex_betwen">
+                          <div className="w-full flex items-end justify-end">
+                            <div className="md:flex hidden items-center w-max md:justify-center justify-between h-min rounded-md border-2 border-gray-300">
                               {item.quantity > 1 ? (
                                 <button
                                   onClick={() =>
                                     decrementQtyItem(item.productId._id)
                                   }
-                                  className="h-8 text-[#00e8a6] border-2 border-[#00e8a6] tranistion_normal hover:bg-[#00e8a6] hover:text-white rounded-lg p-1 px-2"
+                                  className="px-2 py-1"
                                 >
                                   <AiOutlineMinus />
                                 </button>
                               ) : (
-                                <button className="h-8 cursor-not-allowed text-red-600 border-2 border-[#f00] rounded-lg p-1 px-2">
+                                <button className="px-2 py-1 text-gray-400">
                                   <AiOutlineMinus />
                                 </button>
                               )}
-                              <p className="mx-4 font-mono text-lg">
+                              <p className="mx-4 py-1 font-mono text-lg">
                                 {item.quantity}
                               </p>
                               <button
                                 onClick={() => {
                                   addToCartHandle(item.productId._id);
                                 }}
-                                className="h-8 text-[#00e8a6] border-2 border-[#00e8a6] tranistion_normal hover:bg-[#00e8a6] hover:text-white rounded-lg p-1 px-2"
+                                className="px-2 py-1"
                               >
                                 <AiOutlinePlus />
                               </button>
@@ -133,20 +136,20 @@ const Products = ({ cart }) => {
                               </button>
                             </div>
                           </div>
-                          <div className="w-full h-full md:flex_center flex_end md:mt-0 mt-2">
-                            <h1 className="md:text-2xl md:flex hidden font-semibold tracking-widest text-gray-700">
-                              {item.quantity * item.productId.price}
-                              {"$"}
-                            </h1>
+                          <div className="h-full flex justify-end items-center md:mt-0 mx-1 mt-2">
+                            <Price
+                              price={item.quantity * item.productId.price}
+                              className="xl:text-2xl md:text-base md:flex hidden font-semibold text-gray-700"
+                            />
                             <div
                               className="md:hidden
-                           flex_col justify-around items-end h-full"
+                           flex justify-between items-center h-full"
                             >
                               <button
                                 onClick={() =>
                                   deleteFavoriteItem(item.productId._id)
                                 }
-                                className="flex items-center text-base text-gray-400"
+                                className="flex items-center text-base mx-4 text-gray-400"
                               >
                                 <AiOutlineHeart className="text-[26px]" />
                               </button>
@@ -166,24 +169,28 @@ const Products = ({ cart }) => {
             </div>
           </div>
         </div>
-        <div className="md:col-span-4">
-          <div className="md:sticky top-28 border border-gray-200 p-5 md:rounded-2xl rounded-xl">
+        <div className="lg:col-span-4 col-span-12">
+          <div className="lg:sticky lg:top-28 border border-gray-200 p-5 md:rounded-2xl rounded-xl">
             <div className="flex justify-between md:px-3 items-center mb-5 md:border-b-2 border-b border-b-gray-300">
               <h1 className="md:text-2xl mb-5 text-gray-600 font-bold">
                 {t("total")}
               </h1>
-              <h1 className="md:text-2xl mb-5 text-gray-600 font-bold">
-                {cart.reduce((a, c) => a + c.productId.price * c.quantity, 0)}
-                {"$"}
-              </h1>
+
+              <Price
+                price={cart.reduce(
+                  (a, c) => a + c.productId.price * c.quantity,
+                  0
+                )}
+                className="md:text-2xl mb-5 text-gray-600 font-bold"
+              />
             </div>
-            <div className="border-2 border-purple-400 flex justify-between items-center overflow-hidden rounded-xl">
+            <div className="border-2 border-[#ff8400] flex justify-between items-center overflow-hidden rounded-lg">
               <input
                 type="text"
-                className="w-full px-4 text-base py-3"
+                className="w-full px-4 text-base py-2"
                 placeholder="promo code"
               />
-              <button className="my-[2px] lowercase flex px-10 h-full py-3 rounded-lg mx-[2px] bg-orange-400 text-white">
+              <button className="my-[2px] lowercase flex px-10 h-full py-[10px] rounded-md mx-[2px] bg_secondary text-white">
                 apply
               </button>
             </div>

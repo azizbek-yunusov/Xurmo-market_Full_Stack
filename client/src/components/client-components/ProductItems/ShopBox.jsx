@@ -24,7 +24,7 @@ const ShopBox = ({ product }) => {
   const existItem = cart?.find((x) => x.productId?._id === _id);
   const isCart = existItem === undefined ? false : true;
   return (
-    <div className="container-full flex justify-center col-span-1">
+    <div className="flex justify-center md:px-4 col-span-1">
       <div className="md:w-auto w-full">
         <div className="sticky top-28 border_primary rounded-xl w-full">
           <div className="flex flex-col md:p-5 p-3 justify-between xl:w-[380px] lg:w-[300px] w-fulll">

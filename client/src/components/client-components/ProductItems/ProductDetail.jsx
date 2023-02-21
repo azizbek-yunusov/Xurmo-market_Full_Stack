@@ -32,23 +32,23 @@ const ProductDetail = () => {
       <BottomScoll product={product} />
       <>
         {!isLoading ? (
-          <div className="md:px-10 xl:min-h-screen">
+          <div className="container-full xl:px-10 xl:min-h-screen">
             <Breadcrumbs
-              className="container-full"
+              className="md:flex hidden"
               aria-label="breadcrumb"
               sx={{ marginY: "8px" }}
             >
               <Link to={"/"}>{t("hometitle")}</Link>
               <Link to={"/category"}>Category</Link>
-              <Typography color="text.primary">{product.name}</Typography>
+              <Typography className="text-xs">{product.name}</Typography>
             </Breadcrumbs>
-            <div className="md:grid grid-cols-1 md:grid-cols-3 md:gap-5 border-t  border-r-gray-400 lg:py-5 pb-4">
-              <div className="md:bg-transparent bg-gray-200  rounded-b-[30px]">
+            <div className="md:grid grid-cols-1 lg:grid-cols-3 xl:gap-x-5 border-t border-r-gray-400 lg:py-5 py-3">
+              <div className="md:bg-transparent  bg-gray-200 rounded-2xl">
                 <ImageThumbs images={product.images} />
               </div>
-              <div className="block container-full md:my-0 my-3">
+              <div className="block md:my-0 md:px-3 px-4 my-3">
                 <div className="flex_betwen">
-                  <h1 className="md:text-3xl text-2xl  font-semibold text-zinc-700">
+                  <h1 className="xl:text-3xl md:text-2xl text-2xl  font-semibold text-zinc-700">
                     {product.name}
                   </h1>
                   <div className="is_desktop">
@@ -67,7 +67,7 @@ const ProductDetail = () => {
                   </span>
                 </div>
                 <Stock inStock={product.inStock} />
-                <h1 className="md:text-lg text-sm leading-6 lg:mt-4 mt-2 md:text-zinc-600 text-gray-500">
+                <h1 className="md:text-base text-sm leading-6 lg:mt-4 mt-2 md:text-zinc-600 text-gray-500">
                   {product.descr}
                 </h1>
               </div>
@@ -78,7 +78,7 @@ const ProductDetail = () => {
           <ProductDetailLoader />
         )}
 
-        <div className="container-full md:mt-0 mt-1">
+        <div className="md:mt-0 mt-1">
           <h1 className="md:text-4xl text-2xl text-gray-700 md:mb-5 mb-4">
             {t("reviews")}
           </h1>

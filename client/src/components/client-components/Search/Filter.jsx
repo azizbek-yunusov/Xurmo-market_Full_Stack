@@ -12,9 +12,6 @@ import { BiSearch } from "react-icons/bi";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-function valuetext(value) {
-  return `${value}°C`;
-}
 export const ratings = [
   {
     name: "5",
@@ -55,7 +52,7 @@ const Filter = ({ categories, brands, getFilterUrl, category }) => {
     return searchName.toLowerCase().includes(termBd.toLowerCase());
   });
   const filteredCategories = categories.filter((s) => {
-    const searchName = s.name;
+    const searchName = s.nameUz;
     return searchName.toLowerCase().includes(termCy.toLowerCase());
   });
   const handleChange = (event, newValue) => {

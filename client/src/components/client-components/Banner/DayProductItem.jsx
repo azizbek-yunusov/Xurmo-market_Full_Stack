@@ -1,26 +1,9 @@
-import { Tooltip } from "@mui/material";
 import React from "react";
-import { useTranslation } from "react-i18next";
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { BsFillHeartFill, BsFillStarFill, BsHeart } from "react-icons/bs";
-import { FiShoppingCart } from "react-icons/fi";
-import { useSelector } from "react-redux";
-import { useGlobalApi } from "../../../hooks";
+import { BsFillStarFill } from "react-icons/bs";
+import Price from "../Helpers/Price";
 
 const DayProductItem = ({ _id, name, ratings, discount, images, price }) => {
-  const { t } = useTranslation(["product"]);
-  const { cart, favorites, auth } = useSelector((state) => state);
-  const {
-    addToCartHandle,
-    decrementQtyItem,
-    addToFavorite,
-    deleteFavoriteItem,
-  } = useGlobalApi(auth.access_token);
 
-  const existItem = cart?.find((x) => x.productId?._id === _id);
-  const isCart = existItem === undefined ? false : true;
-  const existItemWish = favorites?.find((x) => x.productId._id === _id);
-  const isFavorite = existItemWish === undefined ? false : true;
   return (
     <div className="overflow-hidden md:pt-0 pt-2 bg-white lg:px-3 px-2 rounded-b-lg flex lg:flex-col justify-around flex-row md:items-center items-start lg:h-[300px] md:h-[170px] h-[140px]">
       <img
@@ -33,12 +16,13 @@ const DayProductItem = ({ _id, name, ratings, discount, images, price }) => {
           <p className="md:text-lg rounded-sm text_color">{name}</p>
         </div>
         <div className="w-full flex md:mt-1 mt-4">
-          <p className="md:text-2xl text-lg mr-2 font-semibold text-gray-700">
-            {price}
-            {"$"}
-          </p>
+          <Price
+            price={price}
+            className="md:text-2xl text-lg mr-2 font-semibold text-gray-700"
+          />
           <p className="md:text-2xl flex items-center font-semibold text-gray-700">
-          {ratings}<BsFillStarFill className="text-orange-400" /> 
+            {ratings}
+            <BsFillStarFill className="text-orange-400" />
           </p>
         </div>
         {/* <div className="w-full flex_betwen hidden md:mt-2 mt-3">
