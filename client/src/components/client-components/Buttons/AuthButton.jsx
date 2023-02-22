@@ -23,7 +23,7 @@ const StyledMenu = styled((props) => (
 ))(({ theme }) => ({
   "& .MuiPaper-root": {
     borderRadius: 6,
-    marginTop: theme.spacing(5),
+    marginTop: theme.spacing(2),
     minWidth: 180,
     color:
       theme.palette.mode === "light"
@@ -72,10 +72,12 @@ const AuthButton = () => {
   return (
     <>
       <div className="md:block hidden text-gray-500">
-        <div className="flex flex-col items-center cursor-pointer">
+        <div
+          onClick={handleClick}
+          className="flex flex-col items-center cursor-pointer"
+        >
           <Avatar
             alt={user.name}
-            onClick={handleClick}
             sx={{ width: 32, height: 32 }}
             className="bg-teal-300"
             src={

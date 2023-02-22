@@ -36,6 +36,7 @@ export const ratings = [
 ];
 
 const Filter = ({ categories, brands, getFilterUrl, category }) => {
+  const { i18n } = useTranslation();
   let { t } = useTranslation(["product"]);
   const [value, setValue] = useState([0, 10000]);
   const [termBd, setTermBd] = useState("");
@@ -140,7 +141,15 @@ const Filter = ({ categories, brands, getFilterUrl, category }) => {
                       size="small"
                       defaultChecked={item === category ? true : false}
                     />
-                    <p className="my-[6px] w-full text-gray-600">{item.name}</p>
+                    <p className="my-[6px] w-full text-gray-600">
+                      {i18n.language === "uz"
+                        ? item.nameUz
+                        : i18n.language === "en"
+                        ? item.nameEn
+                        : i18n.language === "ru"
+                        ? item.nameRu
+                        : null}
+                    </p>
                   </Link>
                 ))}
               </div>

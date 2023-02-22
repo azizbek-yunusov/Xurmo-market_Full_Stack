@@ -61,6 +61,25 @@ const getMyOrders = async (req, res) => {
   }
 };
 
+const deleteSelected = async (req, res) => {
+  try {
+    let selected = [...req.body.selected];
+
+    selected.forEach((id) => {
+      OrderModel.deleteOne({ _id: id }, (err) => {
+        if (err) {
+          console.error(err);
+        } else {
+          console.log("Orders Deleted");
+        }
+      });
+    });
+    res.status(200).json({ msg: "successfully" });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const deleteOrder = async (req, res) => {
   try {
     await OrderModel.findByIdAndDelete(req.params.id);
@@ -72,4 +91,4 @@ const deleteOrder = async (req, res) => {
   }
 };
 
-module.exports = { newOrder, getAllOrders, getOrder, getMyOrders, deleteOrder };
+module.exports = { newOrder, getAllOrders, getOrder, deleteSelected, getMyOrders, deleteOrder };

@@ -54,7 +54,7 @@ const SearchPage = () => {
   };
   const fetchBrand = async () => {
     const { data } = await axios.get("/brands");
-    setBrands(data.brands);
+    setBrands(data);
   };
 
   useEffect(() => {

@@ -32,11 +32,11 @@ const BrandsList = () => {
           Barchasini ko'rish
         </Link>
       </div>
-      <div className="lg:grid lg:grid-cols-6 lg:my-5 my-4 lg:gap-5 flex justify-between">
+      {/* <div className="lg:grid lg:grid-cols-6 lg:my-5 my-4 lg:gap-5 flex justify-between">
         {brands.slice(0, 6).map((brand) => (
           <BrandItem key={brand._id} {...brand} />
         ))}
-      </div>
+      </div> */}
     </div>
     // <>
     //   {loading ? (

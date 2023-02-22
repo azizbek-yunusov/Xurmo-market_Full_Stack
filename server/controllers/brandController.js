@@ -8,6 +8,9 @@ const createBrand = async (req, res) => {
     const result = await cloudinary.uploader.upload(image, {
       folder: "Brands",
     });
+    if (!name || !slug || !image) {
+      return res.status(400).json({ error: "Please add all the feilds" });
+    }
     const brand = await BrandModel.create({
       name,
       slug,
@@ -19,9 +22,7 @@ const createBrand = async (req, res) => {
       createdBy: req.user.id,
     });
     await brand.save();
-    res.status(200).json({
-      brand,
-    });
+    res.status(200).json(brand);
   } catch (err) {
     console.log(err);
   }
@@ -30,9 +31,7 @@ const createBrand = async (req, res) => {
 const getAllBrands = async (req, res) => {
   try {
     const brands = await BrandModel.find().populate("createdBy", "_id name");
-    res.status(201).json({
-      brands,
-    });
+    res.status(201).json(brands);
   } catch (err) {
     console.log(err);
   }
@@ -41,7 +40,7 @@ const getAllBrands = async (req, res) => {
 const getBrand = async (req, res) => {
   try {
     const brand = await BrandModel.findById(req.params.id);
-    res.status(201).json({ brand });
+    res.status(201).json(brand);
   } catch (err) {
     console.log(err);
   }
@@ -49,37 +48,31 @@ const getBrand = async (req, res) => {
 
 const updateBrand = async (req, res) => {
   try {
-    const currentProduct = await Product.findById(req.params.id);
-
-    const data = {
-      name: req.body.name,
-      slug: req.body.slug,
-    };
-
-    if (req.body.image !== "") {
-      const imgId = currentProduct.image.public_id;
-      if (imgId) {
-        await cloudinary.uploader.destroy(imgId);
-      }
-
-      const newImage = await cloudinary.uploader.upload(req.body.image, {
-        folder: "Brands",
-      });
-      data.image = {
-        public_id: newImage.public_id,
-        url: newImage.secure_url,
-      };
-    }
-
-    const productUpdated = await ProductModel.findOneAndUpdate(
-      req.params.id,
-      data,
-      { new: true }
-    );
-    res.status(200).json({
-      msg: "Updated Product",
-      productUpdated,
+    const { name, slug } = req.body;
+    const brand = await BrandModel.findByIdAndUpdate(req.params.id, {
+      name,
+      slug,
     });
+    res.status(200).json(brand);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const deleteSelected = async (req, res) => {
+  try {
+    let selected = [...req.body.selected];
+
+    selected.forEach((id) => {
+      BrandModel.deleteOne({ _id: id }, (err) => {
+        if (err) {
+          console.error(err);
+        } else {
+          console.log("Brands Deleted");
+        }
+      });
+    });
+    res.status(200).json(selected);
   } catch (err) {
     console.log(err);
   }
@@ -87,10 +80,8 @@ const updateBrand = async (req, res) => {
 
 const deleteBrand = async (req, res) => {
   try {
-    await BrandModel.findByIdAndDelete(req.params.id);
-    res.status(201).json({
-      msg: "DELETED",
-    });
+    const brand = await BrandModel.findByIdAndDelete(req.params.id);
+    res.status(201).json(brand);
   } catch (err) {
     console.log(err);
   }
@@ -102,4 +93,5 @@ module.exports = {
   getBrand,
   updateBrand,
   deleteBrand,
+  deleteSelected,
 };

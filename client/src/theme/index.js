@@ -128,6 +128,14 @@ export const theme = createTheme({
         },
       },
     },
+    MuiAvatar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#39fde9",
+          
+        },
+      },
+    },
     MuiSelect: {
       styleOverrides: {
         select: {

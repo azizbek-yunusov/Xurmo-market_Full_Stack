@@ -1,20 +1,28 @@
 import { Button, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { createBrand } from "../../../redux/brand/brandSlice";
 import HelmetTitle from "../../../utils/HelmetTitle";
 import { Layout } from "../Layouts";
 
 const CreateBrand = () => {
+  let { t } = useTranslation(["brand-d"]);
+
   const { access_token } = useSelector((state) => state.auth);
+  const { isLoading, isError } = useSelector((state) => state.brand);
+
+  const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
   const [image, setImage] = useState([]);
-  const [loading, setLoading] = useState(false);
   const goback = useNavigate();
   const navigate = useNavigate();
+
   const handleImage = (e) => {
     const setFileToBase = (file) => {
       const reader = new FileReader();
@@ -26,36 +34,31 @@ const CreateBrand = () => {
     const file = e.target.files[0];
     setFileToBase(file);
   };
-  const createBrand = async (e) => {
-    setLoading(true);
+
+  const createBrandHandle = async (e) => {
     e.preventDefault();
-    fetch("http://localhost:5000/brand", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: access_token,
-      },
-      body: JSON.stringify({
-        name,
-        slug,
-        image,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-        } else {
-          setLoading(false);
-          navigate("/dashboard/brands");
-        }
-      });
+    const brandData = {
+      name,
+      slug,
+      image,
+    };
+    await dispatch(createBrand({ access_token, brandData }));
+    if (!isLoading) {
+      toast.success(t("new-brand-added"));
+      navigate("/dashboard/brands");
+    }
+
+    if (isError) {
+      toast.error("Something Went Wrong!");
+    }
   };
+
   return (
     <>
       <HelmetTitle title={"Create Brand"} />
       <Layout>
         <section className="relative">
-          <div className="bg-indigo-400 w-full h-40 pl-5 pt-4 text-gray-50">
+          <div className="bg-indigo-400 w-full rounded-xl h-40 pl-5 pt-4 text-gray-50">
             <h1 className="text-white text-2xl">Create Brand</h1>
             {/* <ol className="list-reset mt-1 flex text-grey-dark text-sm text-gray-200">
             <li>
@@ -78,7 +81,7 @@ const CreateBrand = () => {
           <div className="-mt-24 rounded-2xl flex mx-4 bg-white shadow-lg">
             <div className="flex w-full p-8 px-16">
               <div className="w-full">
-                <form onSubmit={createBrand}>
+                <form onSubmit={createBrandHandle}>
                   <div className="grid grid-cols-1 gap-6 gap-x-14 md:grid-cols-2">
                     <div className="col-span-1">
                       <TextField
@@ -158,9 +161,9 @@ const CreateBrand = () => {
                       onClick={() => goback(-1)}
                       variant="contained"
                       size="large"
+                      color="info"
                       sx={{
                         width: "150px",
-                        borderRadius: "6px",
                         marginRight: "15px",
                       }}
                     >
@@ -171,13 +174,12 @@ const CreateBrand = () => {
                       type="submit"
                       variant="contained"
                       size="large"
+                      color="primary"
                       sx={{
                         width: "150px",
-                        background: "#AB47BC",
-                        borderRadius: "6px",
                       }}
                     >
-                      {loading ? (
+                      {isLoading ? (
                         <div className="flex items-center justify-center">
                           <svg
                             className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"

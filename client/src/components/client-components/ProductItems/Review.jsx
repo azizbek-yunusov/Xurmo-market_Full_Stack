@@ -18,6 +18,7 @@ import {
 } from "react-icons/ai";
 import { MdAddAPhoto, MdClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import { addReview } from "../../../redux/product";
 
 const style = {
   position: "absolute",
@@ -43,7 +44,7 @@ export const Review = ({ productId }) => {
   const reviewsHandle = async (e) => {
     try {
       e.preventDefault();
-      // dispatch(addReview({ access_token, productId, rating, comment }));
+      dispatch(addReview({ access_token, productId, rating, comment }));
     } catch (err) {
       console.log(err);
     }

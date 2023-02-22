@@ -14,7 +14,6 @@ const TableBody = ({
   deleteCategory,
 }) => {
   const { i18n } = useTranslation();
-  console.log(i18n.language);
   return (
     <table className="min-w-max w-full table-auto rounded-lg ">
       <thead>

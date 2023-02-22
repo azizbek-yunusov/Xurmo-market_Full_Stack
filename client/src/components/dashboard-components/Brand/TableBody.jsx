@@ -1,6 +1,7 @@
 import { Avatar, Checkbox } from "@mui/material";
 import moment from "moment";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { FiEdit } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
@@ -10,8 +11,9 @@ const TableBody = ({
   selectedBrandIds,
   filteredBrands,
   handleSelectOne,
-  deleteBrand,
+  handleDeleteBrand,
 }) => {
+  let { t } = useTranslation(["brand-d"]);
   return (
     <table className="min-w-max w-full table-auto rounded-lg ">
       <thead>
@@ -27,10 +29,10 @@ const TableBody = ({
               onChange={handleSelectAll}
             />
           </th>
-          <th className="px-3">category</th>
-          <th className="px-3">CreatedBy</th>
-          <th className="px-3">CreatedAt</th>
-          <th className="px-3">Actions</th>
+          <th className="px-3">{t("category")}</th>
+          <th className="px-3">{t("created-by")}</th>
+          <th className="px-3">{t("created-at")}</th>
+          <th className="px-3">{t("actions")}</th>
         </tr>
       </thead>
       <tbody className="text-gray-600 dark:text-gray-300 text-sm font-light">
@@ -41,14 +43,14 @@ const TableBody = ({
                 key={index}
                 className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 font-semibold hover:dark:bg-gray-600"
               >
-                <td className="py-3 flex_center">
+                <td className="py-2 flex_center">
                   <Checkbox
                     checked={selectedBrandIds.indexOf(item._id) !== -1}
                     onChange={(event) => handleSelectOne(event, item._id)}
                     value="true"
                   />
                 </td>
-                <td className="py-3 px-3 whitespace-nowrap">
+                <td className="py-2 px-3 whitespace-nowrap">
                   <div className="flex justify-start items-center">
                     <div className="mr-4">
                       <img
@@ -67,7 +69,7 @@ const TableBody = ({
                     </div>
                   </div>
                 </td>
-                <td className="py-3 px-3 text-left">
+                <td className="py-2 px-3 text-left">
                   <div className="flex justify-start items-center">
                     <div className="mr-2">
                       <Avatar
@@ -92,16 +94,16 @@ const TableBody = ({
                     </div>
                   </div>
                 </td>
-                <td className="py-3 px-3 text-left">
+                <td className="py-2 px-3 text-left">
                   <div className="flex justify-start items-center">
                     <span>{moment(item.createdAt).format("lll")}</span>
                   </div>
                 </td>
 
-                <td className="py-3 px-3 text-left">
+                <td className="py-2 px-3 text-left">
                   <div className="flex item-center justify-start">
                     <Link
-                      to={`/category/${item._id}`}
+                      to={`/brand/detail/${item._id}`}
                       className="cursor-pointer w-5 mr-3 transform hover:text-purple-500 hover:scale-110"
                     >
                       <svg
@@ -124,13 +126,13 @@ const TableBody = ({
                         />
                       </svg>
                     </Link>
-                    <Link to={`/category/${item._id}`}>
+                    <Link to={`/brand/${item._id}`}>
                       <div className="cursor-pointer w-5 mr-3 transform hover:text-purple-500 hover:scale-110">
                         <FiEdit className="text-lg" />
                       </div>
                     </Link>
                     <button
-                      onClick={() => deleteBrand(item._id)}
+                      onClick={() => handleDeleteBrand(item._id)}
                       className="cursor-pointer w-5 mr-3 transform hover:text-purple-500 hover:scale-110"
                     >
                       <svg

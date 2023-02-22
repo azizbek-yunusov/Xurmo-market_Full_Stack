@@ -3,6 +3,7 @@ import moment from "moment";
 import React from "react";
 import { FiEdit } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import UserChip from "../../Helpers/UserChip";
 
 const TableBody = ({
   selectedCustomerIds,
@@ -54,11 +55,7 @@ const TableBody = ({
               </td>
               <td className="py-3 text-gray-500 pl-10">{user.email}</td>
               <td className="py-3 px-6 text-left">
-                {user.admin ? (
-                  <Chip label="Admin" size="small" color="primary" />
-                ) : (
-                  <Chip label="Client" size="small" color="success" />
-                )}
+                <UserChip admin={user.admin} />
               </td>
 
               <td className="py-3 px-6 text-left">

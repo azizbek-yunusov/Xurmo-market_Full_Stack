@@ -2,6 +2,7 @@ import React from "react";
 import { configureStore } from "@reduxjs/toolkit";
 import product from "./product";
 import order from "./order/myOrder";
+import brandReducer from "./brand/brandSlice";
 import auth from "./reducers/authReducer";
 import cart from "./reducers/cartReducer";
 import favorites from "./reducers/favoriteReducer";
@@ -14,7 +15,8 @@ const store = configureStore({
     auth,
     cart,
     favorites,
-    order
+    order,
+    brand: brandReducer,
   },
   devTools: true,
 });

@@ -19,7 +19,7 @@ const CabinetTop = () => {
       <div className="flex justify-between">
         <div className="px-8 pb-5">
           <div className="z-40 absolute top-64 left-10 bg-white dark:bg-purple-800/30 dark:backdrop-blur-sm p-[6px] max-w-max rounded-2xl -mt-14">
-            <img src={user.avatar.url || "/images/profile.png"} className="h-36 w-36 object-cover rounded-xl" alt="" />
+            <img src={user.avatar.url || "/images/profile.png"} className="h-36 w-36 object-cover bg-[#39fde9] rounded-xl" alt="" />
           </div>
           <div className="flex flex-col pl-48">
             <h1 className="text-2xl mt-6 mb-3 text-gray-700 dark:text-gray-200 font-semibold">

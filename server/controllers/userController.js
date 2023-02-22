@@ -160,6 +160,25 @@ const deleteUser = async (req, res) => {
   });
 };
 
+const deleteSelected = async (req, res) => {
+  try {
+    let selected = [...req.body.selected];
+
+    selected.forEach((id) => {
+      UserModel.deleteOne({ _id: id }, (err) => {
+        if (err) {
+          console.error(err);
+        } else {
+          console.log("Foydalanuvchilar o'chirildi");
+        }
+      });
+    });
+    res.status(200).json({ msg: "successfully" });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const addAdress = async (req, res) => {
   try {
     const {
@@ -225,6 +244,7 @@ module.exports = {
   updateProfile,
   uploadAvatar,
   deleteUser,
+  deleteSelected,
   getUserInfo,
   addAdress,
   getMyAdresses,

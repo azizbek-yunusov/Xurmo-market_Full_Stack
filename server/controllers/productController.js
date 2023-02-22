@@ -148,8 +148,6 @@ const deleteSelected = async (req, res) => {
   }
 };
 
-
-
 const PAGE_SIZE = 3;
 const getSearch = async (req, res) => {
   try {

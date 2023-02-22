@@ -29,6 +29,7 @@ import {
   BannersList,
 } from "./components/dashboard-components/BannerItems";
 import {
+  BrandDetail,
   BrandsList,
   CreateBrand,
   UpdateBrand,
@@ -134,6 +135,7 @@ function App() {
             <Route path="/dashboard/brands" element={<BrandsList />} />
             <Route path="/brand/create" element={<CreateBrand />} />
             <Route path="/brand/:id" element={<UpdateBrand />} />
+            <Route path="/brand/detail/:id" element={<BrandDetail />} />
             <Route path="/dashboard/categories" element={<CategoriesTable />} />
             <Route path="/category/add" element={<AddCategory />} />
             <Route path="/dashboard/users" element={<UserList />} />

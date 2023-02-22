@@ -78,7 +78,7 @@ const ProductDetail = () => {
           <ProductDetailLoader />
         )}
 
-        <div className="md:mt-0 mt-1">
+        <div className="md:mt-0 mt-1 container-full">
           <h1 className="md:text-4xl text-2xl text-gray-700 md:mb-5 mb-4">
             {t("reviews")}
           </h1>

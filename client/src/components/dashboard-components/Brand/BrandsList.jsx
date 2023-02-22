@@ -9,16 +9,22 @@ import {
   Select,
   TextField,
   Tooltip,
+  useMediaQuery,
 } from "@mui/material";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 import { BiExport, BiSearch, BiTable } from "react-icons/bi";
 import { BsGrid } from "react-icons/bs";
 import { FiPlus } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  deleteBrand,
+  getBrands,
+  selectedDeleteBrand,
+} from "../../../redux/brand/brandSlice";
 import HelmetTitle from "../../../utils/HelmetTitle";
 import { NotData } from "../Helpers";
 import { Layout } from "../Layouts";
@@ -26,17 +32,15 @@ import GridList from "./GridList";
 import TableBody from "./TableBody";
 
 const BrandsList = () => {
-  const { access_token } = useSelector((state) => state.auth);
-  const [brands, setBrands] = useState([]);
+  let { t } = useTranslation(["brand-d"]);
+  const isXl = useMediaQuery("(min-width: 1250px)");
+  const { brand, auth } = useSelector((state) => state);
+  let { isLoading, brands } = brand;
+  let { access_token } = auth;
+  const dispatch = useDispatch();
   const [term, setTerm] = useState("");
   const [selectedBrandIds, setSelectedBrandIds] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [isTable, setIsTable] = useState(false);
-  const fetchData = async () => {
-    const { data } = await axios.get("/brands");
-    setBrands(data.brands);
-    setLoading(false);
-  };
 
   const filteredBrands = brands.filter((frontMatter) => {
     const searchContent = frontMatter.name;
@@ -55,7 +59,7 @@ const BrandsList = () => {
     setSelectedBrandIds(newSelectedBrandIds);
   };
 
-  const handleSelectOne = (e, _id) => {
+  const handleSelectOne = (ed, _id) => {
     const selectedIndex = selectedBrandIds.indexOf(_id);
     let newSelectedBrandIds = [];
 
@@ -79,45 +83,53 @@ const BrandsList = () => {
     setSelectedBrandIds(newSelectedBrandIds);
   };
 
-  const deleteBrand = async (id) => {
+  const handleDeleteBrand = async (id) => {
     try {
-      await axios.delete(`/brand/${id}`, {
-        headers: {
-          Authorization: access_token,
-        },
-      });
-      fetchData();
-      toast.success("Deleted product");
+      await dispatch(deleteBrand({ access_token, id }));
+      toast.success(t("brand-delete"));
     } catch (err) {
-      console.log(err);
+      console.log();
+    }
+  };
+  const handleSelectedDelete = async () => {
+    try {
+      const selectedIds = {
+        selected: selectedBrandIds,
+      };
+      await dispatch(selectedDeleteBrand({ access_token, selectedIds }));
+      dispatch(getBrands());
+      setSelectedBrandIds([]);
+      toast.success(t("brand-selected-deleted"));
+    } catch (err) {
+      console.log();
     }
   };
   useEffect(() => {
-    fetchData();
-  }, []);
+    dispatch(getBrands());
+  }, [dispatch]);
   return (
     <>
       <HelmetTitle title="All brands" />
       <Layout>
-        {loading ? (
+        {isLoading ? (
           <CircularProgress />
         ) : (
           <>
             <div className="bg-white dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border border-gray-300 dark:border-gray-600">
               <h1 className="p-5 text-gray-600 dark:text-gray-200 text-xl font-semibold">
-                Search Filter
+                {t("search-filter")}
               </h1>
               <div className="grid grid-cols-3 gap-x-5 pb-6 mb-3 px-5 border-b border-b-gray-200 dark:border-b-gray-600">
                 <FormControl size="medium" sx={{}}>
                   <InputLabel _id="demo-simple-select-label">
-                    Select brand
+                    {t("select-brand")}
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     _id="demo-simple-select"
                     // value={"all"}
                     // onChange={(e) => setCategory(e.target.value)}
-                    label="Select brand"
+                    label={t("select-brand")}
                   >
                     <MenuItem value={"all"}>All</MenuItem>
                     <MenuItem value={"user"}>brands</MenuItem>
@@ -126,14 +138,14 @@ const BrandsList = () => {
                 </FormControl>
                 <FormControl size="medium" sx={{}}>
                   <InputLabel _id="demo-simple-select-label">
-                    Select Brand
+                    {t("select-brand")}
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     _id="demo-simple-select"
                     // value={"all"}
                     // onChange={(e) => setCategory(e.target.value)}
-                    label="Select Brand"
+                    label={t("select-brand")}
                   >
                     <MenuItem value={"all"}>Date</MenuItem>
                     <MenuItem value={"user"}>Name</MenuItem>
@@ -142,14 +154,14 @@ const BrandsList = () => {
                 </FormControl>
                 <FormControl size="medium" sx={{}}>
                   <InputLabel _id="demo-simple-select-label">
-                    Select Rating
+                    {t("select-brand")}
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     _id="demo-simple-select"
                     // value={"all"}
                     // onChange={(e) => setCategory(e.target.value)}
-                    label="Select Rating"
+                    label={t("select-brand")}
                   >
                     <MenuItem value={"all"}>All</MenuItem>
                     <MenuItem value={"user"}>brands</MenuItem>
@@ -159,11 +171,14 @@ const BrandsList = () => {
               </div>
               {selectedBrandIds.length ? (
                 <div className="flex w-ful items-center justify-between py-[12.5px] px-4">
-                  <h1 className="font-semibold text-gray-700">{`${selectedBrandIds.length} Selected`}</h1>
+                  <h1 className="font-semibold text-gray-700">{`${
+                    selectedBrandIds.length
+                  } ${t("selected")}`}</h1>
                   <Button
                     variant="contained"
                     color="error"
                     size="medium"
+                    onClick={() => handleSelectedDelete(selectedBrandIds)}
                     sx={{
                       marginLeft: "15px",
                       borderRadius: "6px",
@@ -171,12 +186,15 @@ const BrandsList = () => {
                     }}
                     startIcon={<MdDelete />}
                   >
-                    DELETE
+                    {t("delete")}
                   </Button>
                 </div>
               ) : (
                 <div className="flex w-full items-center justify-between py-3 px-4">
-                  <FormControl size="small" sx={{ minWidth: "80px" }}>
+                  <FormControl
+                    size="small"
+                    sx={{ maxWidth: isXl ? "70px" : "80px" }}
+                  >
                     <Select
                       labelId="demo-simple-select-label"
                       _id="demo-simple-select"
@@ -189,7 +207,7 @@ const BrandsList = () => {
                       <MenuItem value={"50"}>50</MenuItem>
                     </Select>
                   </FormControl>
-                  <FormControl sx={{ minWidth: 500 }}>
+                  <FormControl sx={{ minWidth: isXl ? 500 : 250 }}>
                     <TextField
                       size="small"
                       fullWidth
@@ -202,7 +220,7 @@ const BrandsList = () => {
                           </InputAdornment>
                         ),
                       }}
-                      placeholder="Search"
+                      placeholder={t("search")}
                       variant="outlined"
                     />
                   </FormControl>
@@ -210,14 +228,14 @@ const BrandsList = () => {
                     <IconButton
                       onClick={() => setIsTable(false)}
                       aria-label="Table"
-                      color={!isTable ? "secondary" : "default"}
+                      color={!isTable ? "primary" : "default"}
                     >
                       <BiTable />
                     </IconButton>
                     <IconButton
                       onClick={() => setIsTable(true)}
                       aria-label="Table"
-                      color={isTable ? "secondary" : "default"}
+                      color={isTable ? "primary" : "default"}
                     >
                       <BsGrid />
                     </IconButton>
@@ -226,26 +244,23 @@ const BrandsList = () => {
                       variant="outlined"
                       size="medium"
                       sx={{
-                        marginLeft: "25px",
-                        borderRadius: "6px",
+                        marginLeft: isXl ? "25px" : "10px",
                       }}
                       startIcon={<BiExport />}
                     >
-                      EXPORT
+                      {isXl ? "EXPORT" : "EXP"}
                     </Button>
-                    <Link to={"/brand/add"}>
-                      <Tooltip title="Add new user">
+                    <Link to={"/brand/create"}>
+                      <Tooltip title={t("add-brand-title")}>
                         <Button
                           variant="contained"
                           size="medium"
                           sx={{
-                            marginLeft: "25px",
-                            background: "rgb(145, 85, 253)",
-                            borderRadius: "6px",
+                            marginLeft: isXl ? "25px" : "10px",
                           }}
                           startIcon={<FiPlus />}
                         >
-                          ADD NEW brand
+                          {t("add-brand")}
                         </Button>
                       </Tooltip>
                     </Link>
@@ -261,7 +276,7 @@ const BrandsList = () => {
                       selectedBrandIds={selectedBrandIds}
                       filteredBrands={filteredBrands}
                       handleSelectOne={handleSelectOne}
-                      deleteBrand={deleteBrand}
+                      handleDeleteBrand={handleDeleteBrand}
                     />
                   ) : (
                     <GridList
@@ -270,7 +285,7 @@ const BrandsList = () => {
                       selectedBrandIds={selectedBrandIds}
                       filteredBrands={filteredBrands}
                       handleSelectOne={handleSelectOne}
-                      deleteBrand={deleteBrand}
+                      handleDeleteBrand={handleDeleteBrand}
                     />
                   )}
                 </>

@@ -13,6 +13,7 @@ const {
   deleteAddress,
   uploadAvatar,
   updateProfile,
+  deleteSelected,
 } = require("../controllers/userController");
 
 router.put("/update", authMiddleware, updateProfile);
@@ -25,5 +26,6 @@ router.get("/users", authMiddleware, authAdminMiddleware, getAllUsers);
 router.get("/user/:id", authMiddleware, authAdminMiddleware, getUser);
 router.put("/user/:id", authMiddleware, authAdminMiddleware, updateUser);
 router.delete("/user/:id", authMiddleware, authAdminMiddleware, deleteUser);
+router.post("/user/selected", authMiddleware, authAdminMiddleware, deleteSelected);
 
 module.exports = router;
