@@ -1,5 +1,6 @@
 {
   "profile-data": "Shaxsiy ma'lumotlar",
+  "personal": "Shaxsiy kabinet",
   "myorder": "Mening buyurtmalarim",
   "addresses": "Manzillar",
   "favorites": "Sevimlilar",
@@ -10,5 +11,8 @@
   "email": "Elektron pochta",
   "language": "Til",
   "contact": "Telefon raqam",
-  "address": "Manzil"
+  "address": "Manzil",
+  "verify-email-t": "Emailingiz tasdiqlandi",
+  "verify-email-d": "Emailingiz tasdiqlandi",
+  "verify-email-b": "Xaridni boshlash"
 }

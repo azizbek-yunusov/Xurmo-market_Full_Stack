@@ -7,9 +7,7 @@ const getAllCategoris = async (req, res) => {
       "createdBy",
       "_id name avatar email"
     );
-    res.status(201).json({
-      categories,
-    });
+    res.status(201).json(categories);
   } catch (err) {
     console.log(err);
   }
@@ -21,7 +19,7 @@ const getCategory = async (req, res) => {
       "createdBy",
       "_id name avatar email"
     );
-    res.status(201).json({ category });
+    res.status(201).json(category);
   } catch (err) {
     console.log(err);
   }
@@ -33,9 +31,6 @@ const createCategory = async (req, res) => {
     const result = await cloudinary.uploader.upload(image, {
       folder: "Categories",
     });
-    // const resultBanner = await cloudinary.uploader.upload(banner, {
-    //   folder: "Banners",
-    // });
     const category = await CategoryModel.create({
       nameUz,
       nameEn,
@@ -45,17 +40,11 @@ const createCategory = async (req, res) => {
         public_id: result.public_id,
         url: result.secure_url,
       },
-      // banner: {
-      //   public_id: resultBanner.public_id,
-      //   url: resultBanner.secure_url,
-      // },
       createdAt,
       createdBy: req.user.id,
     });
     await category.save();
-    res.status(200).json({
-      category,
-    });
+    res.status(200).json(category);
   } catch (err) {
     console.log(err);
   }
@@ -63,15 +52,15 @@ const createCategory = async (req, res) => {
 
 const updateCategory = async (req, res) => {
   try {
-    const { nameUz, nameEn, nameRu, image } = req.body;
-    const updatedBanner = await CategoryModel.findByIdAndUpdate(req.params.id, {
+    const { nameUz, nameEn, slug, nameRu, image } = req.body;
+    const category = await CategoryModel.findByIdAndUpdate(req.params.id, {
       nameUz,
       nameEn,
       nameRu,
       slug,
       image,
     });
-    res.status(200).json({ updatedBanner });
+    res.status(200).json(category);
   } catch (err) {
     console.log(err);
   }
@@ -79,10 +68,8 @@ const updateCategory = async (req, res) => {
 
 const deleteCategory = async (req, res) => {
   try {
-    await CategoryModel.findByIdAndDelete(req.params.id);
-    res.status(201).json({
-      msg: "DELETED",
-    });
+    const category = await CategoryModel.findByIdAndDelete(req.params.id);
+    res.status(201).json(category);
   } catch (err) {
     console.log(err);
   }

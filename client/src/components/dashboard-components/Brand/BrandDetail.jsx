@@ -10,7 +10,7 @@ import { Layout } from "../Layouts";
 const BrandDetail = () => {
   let { t } = useTranslation(["brand-d"]);
   const { id } = useParams();
-  const isXl = useMediaQuery("(min-width: 1250px)");
+  const isXl = useMediaQuery("(min-width: 1245px)");
   const { currentBrand } = useSelector((state) => state.brand);
   const dispatch = useDispatch();
   useEffect(() => {

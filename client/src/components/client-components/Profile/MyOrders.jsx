@@ -71,10 +71,10 @@ const MyOrders = () => {
                             >
                               {ord.productId.name}
                             </Link>
-                            <p className="mt-3 md:text-lg font-semibold text-gray-7">
-                              {ord.productId.price}
-                              {"$"}
-                            </p>
+                            <Price
+                              price={ord.productId.price}
+                              className="mt-3 md:text-lg font-semibold text-gray-700"
+                            />
                           </div>
                         </div>
                       </div>
@@ -113,10 +113,7 @@ const MyOrders = () => {
                             {moment(item.createdAt).format("lll")}
                           </li>
                           <li className="my-3">
-                            <Price
-                              price={item.totalPrice}
-                              className=""
-                            />
+                            <Price price={item.totalPrice} className="" />
                           </li>
                           <li className="my-3">{item.contact || item.email}</li>
                           <li className="my-3">

@@ -3,6 +3,7 @@ import moment from "moment";
 import React from "react";
 import { FiEdit } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import Price from "../../client-components/Helpers/Price";
 
 const TableBody = ({
   selectedProductIds,
@@ -45,10 +46,7 @@ const TableBody = ({
               </td>
               <td className="py-3 px-3 text-left">
                 <div className="flex justify-start items-center">
-                  <span>
-                    {item.price}
-                    {"$"}
-                  </span>
+                  <Price price={item.price} className="" />
                 </div>
               </td>
               <td className="py-3 px-3 text-left">

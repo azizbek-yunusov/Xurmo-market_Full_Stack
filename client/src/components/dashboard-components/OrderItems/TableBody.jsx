@@ -4,6 +4,7 @@ import React from "react";
 import { BiMoney } from "react-icons/bi";
 import { FiEdit } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import Price from "../../client-components/Helpers/Price";
 
 const TableBody = ({
   selectedOrderIds,
@@ -63,10 +64,7 @@ const TableBody = ({
               </td>
               <td className="py-3 px-2 text-left">
                 <div className="flex justify-start items-center">
-                  <span>
-                    {order.totalPrice}
-                    {"$"}
-                  </span>
+                  <Price price={order.totalPrice} className="" />
                 </div>
               </td>
               <td className="py-3 px-2 text-left">

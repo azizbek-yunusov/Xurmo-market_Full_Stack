@@ -18,7 +18,7 @@ const CabinetTop = () => {
       </div>
       <div className="flex justify-between">
         <div className="px-8 pb-5">
-          <div className="z-40 absolute top-64 left-10 bg-white dark:bg-purple-800/30 dark:backdrop-blur-sm p-[6px] max-w-max rounded-2xl -mt-14">
+          <div className="z-40 absolute top-64 left-10 bg-white dark:bg-[#312d4b] p-[6px] max-w-max rounded-2xl -mt-14">
             <img src={user.avatar.url || "/images/profile.png"} className="h-36 w-36 object-cover bg-[#39fde9] rounded-xl" alt="" />
           </div>
           <div className="flex flex-col pl-48">
@@ -26,15 +26,15 @@ const CabinetTop = () => {
               {user.name}
             </h1>
             <div className="flex items-center">
-              <p className="flex text-gray-400 mr-5">
+              <p className="flex text_color mr-5">
                 <MdVerifiedUser className="text-xl mr-1" />
                 Admin
               </p>
-              <p className="flex text-gray-400 mr-5">
+              <p className="flex text_color mr-5">
                 <MdLocationOn className="text-xl mr-1" />
                 Uzbekistan
               </p>
-              <p className="flex text-gray-400">
+              <p className="flex text_color">
                 <AiFillCalendar className="text-xl mr-1" />
                 {moment(user.createdAt).format("LL")}
               </p>

@@ -41,8 +41,14 @@ app.use(orderRoutes);
 app.use(cartRoutes);
 app.use(brandRoutes);
 
-mongoose.connect(MONGO_URI, () => {
-  console.log("MongoDB is working");
-});
+mongoose
+  .connect(MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("MongoDb connected...");
+  })
+  .catch((err) => console.log(err));
 
 app.listen(PORT, console.log(`Server has a been started on port:${PORT}`));

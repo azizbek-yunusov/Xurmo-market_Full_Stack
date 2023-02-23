@@ -165,7 +165,7 @@ const AllProductList = () => {
             </div>
             {selectedProductIds.length ? (
               <div className="flex w-ful items-center justify-between py-[12.5px] px-4">
-                <h1 className="font-semibold text-gray-700">{`${
+                <h1 className="font-semibold text_color">{`${
                   selectedProductIds.length
                 } ${t("selected")}`}</h1>
                 <Button

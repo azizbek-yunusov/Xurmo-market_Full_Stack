@@ -187,8 +187,8 @@ export const theme = createTheme({
     },
     secondary: {
       main: "#ff8800",
-      light: "#3FC79A",
-      dark: "#0B815A",
+      light: "#ff8800",
+      dark: "#ff8800",
       contrastText: "#FFFFFF",
     },
     success: {
@@ -252,3 +252,4 @@ export const theme = createTheme({
     "0px 25px 50px rgba(100, 116, 139, 0.25)",
   ],
 });
+

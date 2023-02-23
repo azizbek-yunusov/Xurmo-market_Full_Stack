@@ -104,7 +104,7 @@ const CreateProduct = () => {
       <HelmetTitle title={t("add-product-title")} />
       <Layout>
         <section className="relative">
-          <div className="bg-indigo-400 w-full h-40 pl-5 pt-4 text-gray-50">
+          <div className="bg-indigo-400 w-full h-40 pl-5 pt-4 text-gray-50 rounded-xl">
             <h1 className="text-white text-2xl">{t("add-product-title")}</h1>
             {/* <ol className="list-reset mt-1 flex text-grey-dark text-sm text-gray-200">
             <li>
@@ -124,7 +124,7 @@ const CreateProduct = () => {
             </li>
           </ol> */}
           </div>
-          <div className="-mt-24 rounded-2xl flex mx-4 bg-white shadow-lg">
+          <div className="-mt-24 rounded-2xl flex mx-4 bg-white dark:bg-[#312d4b] shadow-lg">
             <div className="flex w-full p-8 px-16">
               <div className="w-full">
                 <form onSubmit={handleSubmit}>
@@ -227,17 +227,17 @@ const CreateProduct = () => {
                       <label htmlFor="file-upload">
                         <label
                           htmlFor="file-upload"
-                          className="block text-base mb-1 text-gray-600"
+                          className="block text-base mb-1 text_color"
                         >
                           {t("upload-images")}
                         </label>
-                        <div className="mr-2 flex bg-white justify-center items-center rounded-md border-2 border-dashed border-gray-300 p-3 py-6 cursor-pointer h-36">
+                        <div className="mr-2 flex bg-white dark:bg-gray-700 justify-center items-center rounded-md border-2 border-dashed border-gray-300 dark:border-gray-500 p-3 py-6 cursor-pointer h-36">
                           <div className="flex justify-center flex-col items-center">
                             <AiOutlineCloudUpload className="text-3xl text-gray-600" />
                             <div className="flex text-sm text-gray-600">
                               <label
                                 htmlFor="file-upload"
-                                className="relative cursor-pointer rounded-md bg-white font-medium"
+                                className="relative cursor-pointer rounded-md bg-white dark:bg-transparent text_color font-medium"
                               >
                                 <span>{t("upload-images")}</span>
                                 <input
@@ -286,23 +286,23 @@ const CreateProduct = () => {
                       onClick={() => goback(-1)}
                       variant="contained"
                       size="large"
+                      color="info"
                       sx={{
                         width: "150px",
                         borderRadius: "6px",
                         marginRight: "15px",
                       }}
                     >
-                      Cancel
+                     {t("cancel")}
                     </Button>
 
                     <Button
                       type="submit"
                       variant="contained"
                       size="large"
+                      color="primary"
                       sx={{
                         width: "150px",
-                        background: "#AB47BC",
-                        borderRadius: "6px",
                       }}
                     >
                       {loading ? (
@@ -327,10 +327,10 @@ const CreateProduct = () => {
                               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                             />
                           </svg>
-                          {"Loading... "}
+                          {t("loading")}
                         </div>
                       ) : (
-                        "Save"
+                        t("save")
                       )}
                     </Button>
                   </div>

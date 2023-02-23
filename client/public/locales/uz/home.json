@@ -1,5 +1,4 @@
 {
-  
   "home": "Asosiy",
   "hometitle": "Bosh sahifa",
   "sign-in-t": "ga Xush Kelibsiz",
@@ -25,5 +24,7 @@
   "cart": "Savatcha",
   "profile": "Profil",
   "sign-out": "Chiqish",
-  "successfully": "Muvaffiqiyatli"
+  "successfully": "Muvaffiqiyatli",
+  "offline-t": "Aloqa o'rnatilmadi",
+  "offline-d": "Internet aloqangiz ulanganiga ishonch hosil qiling va qaytadan urinib ko'ring"
 }

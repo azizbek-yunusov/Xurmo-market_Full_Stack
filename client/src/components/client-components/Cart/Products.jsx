@@ -80,7 +80,7 @@ const Products = ({ cart }) => {
                           </div>
                         </div>
                         <div className="md:col-span-5 col-span-12 w-full flex_betwen">
-                          <div className="w-full flex items-end justify-end">
+                          <div className="md:w-auto w-full flex md:justify-start items-end justify-end">
                             <div className="md:flex hidden items-center w-max md:justify-center justify-between h-min rounded-md border-2 border-gray-300">
                               {item.quantity > 1 ? (
                                 <button
@@ -136,7 +136,7 @@ const Products = ({ cart }) => {
                               </button>
                             </div>
                           </div>
-                          <div className="h-full flex justify-end items-center md:mt-0 mx-1 mt-2">
+                          <div className="h-full flex md:justify-start justify-end items-center md:mt-0 mx-1 mt-2">
                             <Price
                               price={item.quantity * item.productId.price}
                               className="xl:text-2xl md:text-base md:flex hidden font-semibold text-gray-700"

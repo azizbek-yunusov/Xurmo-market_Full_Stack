@@ -1,24 +1,16 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "swiper/css";
+import { getBrands } from "../../../redux/brand/brandSlice";
 import BrandItem from "./BrandItem";
 
 const BrandsList = () => {
-  const [brands, setBrands] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const fetchData = async () => {
-    try {
-      const { data } = await axios.get("/brands");
-      setBrands(data.brands);
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const dispatch = useDispatch();
+  const { brands } = useSelector((state) => state.brand);
   useEffect(() => {
-    fetchData();
-  }, []);
+    dispatch(getBrands());
+  }, [dispatch]);
   return (
     <div className="container-full md:my-5 my-5 md:pt-10 md:pb-5 py-4 bg-[#f2f2f2]">
       <div className="flex_betwen">
@@ -32,11 +24,11 @@ const BrandsList = () => {
           Barchasini ko'rish
         </Link>
       </div>
-      {/* <div className="lg:grid lg:grid-cols-6 lg:my-5 my-4 lg:gap-5 flex justify-between">
+      <div className="lg:grid lg:grid-cols-6 lg:my-5 my-4 lg:gap-5 flex justify-between">
         {brands.slice(0, 6).map((brand) => (
           <BrandItem key={brand._id} {...brand} />
         ))}
-      </div> */}
+      </div>
     </div>
     // <>
     //   {loading ? (

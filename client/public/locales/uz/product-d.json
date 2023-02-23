@@ -25,5 +25,8 @@
   "created-at": "Yaratilgan sana",
   "actions": "Amallar",
   "delete": "O'chirish",
-  "selected": "Tanlandi"
+  "selected": "Tanlandi",
+  "save": "Saqlash",
+  "cancel": "Orqaga",
+  "loading": "Yuklanmoqda"
 }

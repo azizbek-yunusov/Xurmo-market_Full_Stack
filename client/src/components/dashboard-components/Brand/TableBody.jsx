@@ -29,10 +29,10 @@ const TableBody = ({
               onChange={handleSelectAll}
             />
           </th>
-          <th className="px-3">{t("category")}</th>
-          <th className="px-3">{t("created-by")}</th>
-          <th className="px-3">{t("created-at")}</th>
-          <th className="px-3">{t("actions")}</th>
+          <th className="px-2 xl:px-3">{t("brand")}</th>
+          <th className="px-2 xl:px-3">{t("created-by")}</th>
+          <th className="px-2 xl:px-3">{t("created-at")}</th>
+          <th className="px-2 xl:px-3">{t("actions")}</th>
         </tr>
       </thead>
       <tbody className="text-gray-600 dark:text-gray-300 text-sm font-light">
@@ -50,7 +50,7 @@ const TableBody = ({
                     value="true"
                   />
                 </td>
-                <td className="py-2 px-3 whitespace-nowrap">
+                <td className="py-2 px-2 xl:px-3 whitespace-nowrap">
                   <div className="flex justify-start items-center">
                     <div className="mr-4">
                       <img
@@ -69,21 +69,21 @@ const TableBody = ({
                     </div>
                   </div>
                 </td>
-                <td className="py-2 px-3 text-left">
+                <td className="py-2 px-2 xl:px-3 text-left">
                   <div className="flex justify-start items-center">
                     <div className="mr-2">
                       <Avatar
                         src={
-                          item.createdBy?.avatar?.url ||
-                          "https://www.material-tailwind.com/img/face-2.jpg"
+                          item.createdBy?.avatar?.url || "/images/profile.png"
                         }
                         alt="avatar"
                         size="sm"
                       />
                     </div>
+
                     <div className="flex flex-col">
                       <Link
-                        to={`/category/${item.createdBy?._id}`}
+                        to={`/user/view/${item.createdBy?._id}`}
                         className="transition_normal hover:text-purple-500"
                       >
                         {item.createdBy?.name}
@@ -94,13 +94,13 @@ const TableBody = ({
                     </div>
                   </div>
                 </td>
-                <td className="py-2 px-3 text-left">
+                <td className="py-2 px-2 xl:px-3 text-left">
                   <div className="flex justify-start items-center">
                     <span>{moment(item.createdAt).format("lll")}</span>
                   </div>
                 </td>
 
-                <td className="py-2 px-3 text-left">
+                <td className="py-2 px-2 xl:px-3 text-left">
                   <div className="flex item-center justify-start">
                     <Link
                       to={`/brand/detail/${item._id}`}

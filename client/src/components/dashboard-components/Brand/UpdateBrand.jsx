@@ -17,7 +17,7 @@ const UpdateBrand = () => {
   );
   let { t } = useTranslation(["brand-d"]);
   const { id } = useParams();
-  const isXl = useMediaQuery("(min-width: 1250px)");
+  const isXl = useMediaQuery("(min-width: 1245px)");
   const dispatch = useDispatch();
 
   const [name, setName] = useState("");
@@ -62,7 +62,6 @@ const UpdateBrand = () => {
       toast.error("Something Went Wrong!");
     }
   };
-  console.log(brands);
   return (
     <>
       <HelmetTitle title={t("edit-brand")} />

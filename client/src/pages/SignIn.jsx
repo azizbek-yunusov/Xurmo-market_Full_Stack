@@ -121,7 +121,6 @@ const SignIn = () => {
                       variant="outlined"
                       label={t("password")}
                       type={showPassword ? "text" : "password"}
-                      sx={{ borderRadius: "10px" }}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       InputProps={{

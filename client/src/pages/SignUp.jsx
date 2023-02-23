@@ -2,13 +2,31 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import {
+  Backdrop,
+  Box,
   Button,
   Checkbox,
+  Fade,
   FormControlLabel,
+  IconButton,
+  InputAdornment,
+  Modal,
   TextField,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import HelmetTitle from "../utils/HelmetTitle";
+import { MdOutlineMarkEmailUnread } from "react-icons/md";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 500,
+  boxShadow: 24,
+  p: 3,
+};
 
 const SignUp = () => {
   let { t } = useTranslation(["home"]);
@@ -16,10 +34,12 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState({
-    password: "",
-    showPassword: false,
-  });
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
@@ -41,21 +61,18 @@ const SignUp = () => {
         if (data.error) {
           toast.error(data.error);
         } else {
+          setOpen(true);
           toast.success(data.msg);
         }
       });
   };
-
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
-
   const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword });
+    setShowPassword(!showPassword);
   };
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
   return (
     <>
       <HelmetTitle title={t("sign-in")} />
@@ -95,7 +112,7 @@ const SignUp = () => {
                       id="outlined-basic"
                       fullWidth
                       variant="outlined"
-                      label="Name"
+                      label={t("name")}
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                     />
@@ -119,10 +136,26 @@ const SignUp = () => {
                       fullWidth
                       variant="outlined"
                       label={t("password")}
-                      type="password"
-                      sx={{ borderRadius: "10px" }}
+                      type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                              edge="end"
+                            >
+                              {showPassword ? (
+                                <AiOutlineEye />
+                              ) : (
+                                <AiOutlineEyeInvisible />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
                     />
                   </div>
                   <div className="mt-1 flex justify-between items-center text-sm">
@@ -140,7 +173,7 @@ const SignUp = () => {
                       type="submit"
                       className="w-full tracking-wide font-normal"
                       variant="contained"
-                      color="primary"
+                      color="secondary"
                       size="large"
                     >
                       {loading ? (
@@ -230,130 +263,56 @@ const SignUp = () => {
           </div>
         </div>
       </div>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open}>
+          <Box sx={style} className="rounded-xl bg-white">
+            <div className="flex_col w-full items-center">
+              <MdOutlineMarkEmailUnread className="md:text-6xl text-3xl mb-2 text-orange-500" />
+              <h1 className="text-2xl text-gray-800 mb-3 font-semibold">
+                Please verify email
+              </h1>
+              <div className="p-3 bg-blue-200 mb-5 text-gray-800 md:rounded-lg">
+                We've sent an email to azizbekyunusov07@gmail.com with
+                instructions.
+              </div>
+              <div className="w-full flex_end">
+                <Button
+                  className="tracking-wide font-normal"
+                  variant="contained"
+                  color="info"
+                  size="large"
+                  onClick={handleClose}
+                  sx={{ marginRight: "15px" }}
+                >
+                  Close
+                </Button>
+                <Link to={"/signin"}>
+                  <Button
+                    className="w-full tracking-wide font-normal"
+                    variant="contained"
+                    color="secondary"
+                    size="large"
+                    onClick={handleClose}
+                  >
+                    I have clicked the link
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </Box>
+        </Fade>
+      </Modal>
     </>
-    // <>
-    //   <Helmet>
-    //     <title>Sign Up | E-commerce</title>
-    //   </Helmet>
-    //   <div className="bg-white ">
-    //     <div className="grid grid-cols-12 min-h-screen bg-white gap-0">
-    //       <div className="md:col-span-8 relative md:flex hidden justify-center items-center overflow-hidden">
-    //         <img
-    //           src={RegisterBg}
-    //           className="max-w-3xl w-full z-20 object-cover"
-    //           alt=""
-    //         />
-    //         <img
-    //           className="absolute left-0 bottom-0 z-10"
-    //           src={AuthBottomBg}
-    //           alt=""
-    //         />
-    //         <img
-    //           className="absolute left-0 bottom-1 z-20"
-    //           src={TreeBg}
-    //           alt=""
-    //         />
-    //       </div>
-    //       <div className="md:col-span-4 col-span-12 border-l border-l-gray-300 flex items-center justify-center w-full mx-auto">
-    //         <div className="">
-    //           <div className="">
-    //             <h2 className="text-2xl font-bold text-gray-700 ">
-    //               Adventure starts here 🚀
-    //             </h2>
-
-    //             <p className="mt-3 text-gray-500">
-    //               Make your app management easy and fun!
-    //             </p>
-    //           </div>
-
-    //           <div className="mt-8">
-    //             <form onSubmit={signUpHandler}>
-    //               <TextField
-    //                 id="outlined-basic"
-    //                 fullWidth
-    //                 variant="outlined"
-    //                 label="Name"
-    //                 value={name}
-    //                 onChange={(e) => setName(e.target.value)}
-    //               />
-    //               <div className="mt-6">
-    //                 <TextField
-    //                   id="outlined-basic"
-    //                   fullWidth
-    //                   variant="outlined"
-    //                   label="Email"
-    //                   value={email}
-    //                   onChange={(e) => setEmail(e.target.value)}
-    //                 />
-    //               </div>
-    //               <div className="mt-6">
-    //                 <TextField
-    //                   id="outlined-basic"
-    //                   fullWidth
-    //                   variant="outlined"
-    //                   label="Password"
-    //                   value={password}
-    //                   className="rounded-2xl"
-    //                   onChange={(e) => setPassword(e.target.value)}
-    //                 />
-    //               {/* <OutlinedInput
-    //                 fullWidth
-    //                 label='Password'
-    //                 value={values.password}
-    //                 id="auth-login-password"
-    //                 onChange={handleChange("password")}
-    //                 type={values.showPassword ? "text" : "password"}
-    //                 endAdornment={
-    //                   <InputAdornment position="end">
-    //                     <IconButton
-    //                       edge="end"
-    //                       onClick={handleClickShowPassword}
-    //                       onMouseDown={handleMouseDownPassword}
-    //                       aria-label="toggle password visibility"
-    //                     >
-    //                       {values.showPassword ? (
-    //                         <AiOutlineEye />
-    //                       ) : (
-    //                         <AiOutlineEyeInvisible />
-    //                       )}
-    //                     </IconButton>
-    //                   </InputAdornment>
-    //                 }
-    //               /> */}
-    //               </div>
-
-    //               <div className="mt-1 -ml-2 text-sm">
-    //                 <Checkbox className="text-sm" label="s" />
-    //               </div>
-    //               <div className="mt-3">
-    //                 <Button
-    //                   type="submit"
-    //                   className="w-full"
-    //                   variant="contained"
-    //                   color="primary"
-    //                   size="large"
-    //                 >
-    //                   Sign Up
-    //                 </Button>
-    //               </div>
-    //             </form>
-
-    //             <p className="md:mt-5 mt-3 md:text-base text-sm text-center text-gray-400">
-    //               Already have an account?{" "}
-    //               <Link
-    //                 to={"/signin"}
-    //                 className="text-blue-500 focus:outline-none focus:underline hover:underline"
-    //               >
-    //                 Sign up instead
-    //               </Link>
-    //               .
-    //             </p>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </>
   );
 };
 

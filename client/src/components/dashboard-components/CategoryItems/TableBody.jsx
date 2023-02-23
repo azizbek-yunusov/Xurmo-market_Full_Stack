@@ -11,11 +11,12 @@ const TableBody = ({
   selectedCategoryIds,
   filteredCategories,
   handleSelectOne,
-  deleteCategory,
+  handleDeleteCategory,
 }) => {
   const { i18n } = useTranslation();
+  let { t } = useTranslation(["category-d"]);
   return (
-    <table className="min-w-max w-full table-auto rounded-lg ">
+    <table className="min-w-max w-full table-auto rounded-lg overflow-scroll">
       <thead>
         <tr className="bg-gray-100 text-left dark:bg-[#232338] text-gray-500 dark:text-gray-200 text-sm font-light rounded-t-lg uppercase">
           <th className="py-2 text-center">
@@ -29,13 +30,13 @@ const TableBody = ({
               onChange={handleSelectAll}
             />
           </th>
-          <th className="px-3">category</th>
-          <th className="px-3">CreatedBy</th>
-          <th className="px-3">CreatedAt</th>
-          <th className="px-3">Actions</th>
+          <th className="px-2 xl:px-3">{t("category")}</th>
+          <th className="px-2 xl:px-3">{t("created-by")}</th>
+          <th className="px-2 xl:px-3">{t("created-at")}</th>
+          <th className="px-2 xl:px-3">{t("actions")}</th>
         </tr>
       </thead>
-      <tbody className="text-gray-600 dark:text-gray-300 text-sm font-light">
+      <tbody className="text-gray-600 dark:text-gray-300 text-sm font-light ">
         {filteredCategories.length ? (
           filteredCategories
             .map((item, index) => (
@@ -50,7 +51,7 @@ const TableBody = ({
                     value="true"
                   />
                 </td>
-                <td className="py-3 px-3 whitespace-nowrap">
+                <td className="py-3 px-2 xl:px-3 whitespace-nowrap">
                   <div className="flex justify-start items-center">
                     <div className="mr-4">
                       <img
@@ -59,7 +60,7 @@ const TableBody = ({
                         alt=""
                       />
                     </div>
-                    <div className="flex flex-col mr-2">
+                    <div className="flex flex-col xl:mr-2">
                       <Link
                         to={`/item/${item._id}`}
                         className="transition_normal hover:text-purple-500"
@@ -75,7 +76,7 @@ const TableBody = ({
                     </div>
                   </div>
                 </td>
-                <td className="py-3 px-3 text-left">
+                <td className="py-3 px-2 xl:px-3 text-left">
                   <div className="flex justify-start items-center">
                     <div className="mr-2">
                       <Avatar
@@ -100,13 +101,13 @@ const TableBody = ({
                     </div>
                   </div>
                 </td>
-                <td className="py-3 px-3 text-left">
+                <td className="py-3 px-2 xl:px-3 text-left">
                   <div className="flex justify-start items-center">
                     <span>{moment(item.createdAt).format("lll")}</span>
                   </div>
                 </td>
 
-                <td className="py-3 px-3 text-left">
+                <td className="py-3 px-2 xl:px-3 text-left">
                   <div className="flex item-center justify-start">
                     <Link
                       to={`/category/${item._id}`}
@@ -138,7 +139,7 @@ const TableBody = ({
                       </div>
                     </Link>
                     <button
-                      onClick={() => deleteCategory(item._id)}
+                      onClick={() => handleDeleteCategory(item._id)}
                       className="cursor-pointer w-5 mr-3 transform hover:text-purple-500 hover:scale-110"
                     >
                       <svg

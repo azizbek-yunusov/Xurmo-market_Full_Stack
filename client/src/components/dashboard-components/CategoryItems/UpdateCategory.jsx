@@ -1,25 +1,28 @@
 import { Button, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { createCategory } from "../../../redux/category";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { getCategory, updateCategory } from "../../../redux/category";
 import { HelmetTitle } from "../../../utils";
 import { Layout } from "../Layouts";
 
-const AddCategory = () => {
-  const { isLoading, isError } = useSelector((state) => state.category);
+const UpdateCategory = () => {
+  const { isLoading, currentCategory, isError } = useSelector(
+    (state) => state.category
+  );
   const { access_token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const { id } = useParams();
   let { t } = useTranslation(["category-d"]);
   const [nameUz, setNameUz] = useState("");
   const [nameEn, setNameEn] = useState("");
-  const [nameRu, setNameRU] = useState("");
+  const [nameRu, setNameRu] = useState("");
   const [slug, setSlug] = useState("");
-  const [image, setImage] = useState([]);
+  const [image, setImage] = useState(null);
   const goback = useNavigate();
   const navigate = useNavigate();
   const handleImage = (e) => {
@@ -33,34 +36,44 @@ const AddCategory = () => {
     const file = e.target.files[0];
     setFileToBase(file);
   };
-
-  const createCategoryHandle = async (e) => {
+  const updateCategoryHandle = async (e) => {
     e.preventDefault();
     const categoryData = {
       nameUz,
-      nameEn,
       nameRu,
+      nameEn,
       slug,
-      image,
     };
-    await dispatch(createCategory({ access_token, categoryData }));
+    await dispatch(updateCategory({ access_token, id, categoryData }));
     if (!isLoading) {
-      toast.success(t("new-category-added"));
+      toast.success(t("updated-category"));
       navigate("/dashboard/categories");
     }
+
     if (isError) {
       toast.error("Something Went Wrong!");
     }
   };
-
+  useEffect(() => {
+    dispatch(getCategory({ id }));
+  }, [dispatch, id]);
+  useEffect(() => {
+    if (currentCategory) {
+      setNameUz(currentCategory?.nameUz || "");
+      setNameEn(currentCategory?.nameEn || "");
+      setNameRu(currentCategory?.nameRu || "");
+      setSlug(currentCategory?.slug || "");
+      setImage(currentCategory?.image || "");
+    }
+  }, [currentCategory]);
   return (
     <>
-      <HelmetTitle title={t("add-category-title")} />
+      <HelmetTitle title={t("edit-category")} />
       <Layout>
         <section className="relative">
           <div className="bg-gradient-to-r from-cyan-500 to-blue-500 w-full h-40 px-5 pt-4 text-gray-50 rounded-xl">
             <div className="flex_betwen">
-              <h1 className="text-white text-2xl">{t("add-category-title")}</h1>
+              <h1 className="text-white text-2xl">{t("edit-category")}</h1>
               <ol className="list-reset mt-1 flex text-grey-dark text-sm text-gray-100">
                 <li>
                   <Link to={"/dashboard"}>Dashboard</Link>
@@ -69,7 +82,7 @@ const AddCategory = () => {
                   <span className="mx-2">/</span>
                 </li>
                 <li>
-                  <span>{t("add-category-title")}</span>
+                  <span>{t("edit-category")}</span>
                 </li>
               </ol>
             </div>
@@ -77,7 +90,7 @@ const AddCategory = () => {
           <div className="-mt-24 rounded-2xl flex mx-4 bg_color border_primary">
             <div className="flex w-full p-8 px-16">
               <div className="w-full">
-                <form onSubmit={createCategoryHandle}>
+                <form onSubmit={updateCategoryHandle}>
                   <div className="grid grid-cols-1 gap-6 gap-x-14 md:grid-cols-2">
                     <div className="col-span-1">
                       <TextField
@@ -113,7 +126,7 @@ const AddCategory = () => {
                         className="rounded-xl"
                         value={nameRu}
                         sx={{ marginTop: "20px" }}
-                        onChange={(e) => setNameRU(e.target.value)}
+                        onChange={(e) => setNameRu(e.target.value)}
                       />
                     </div>
                     <div className="col-span-1">
@@ -128,7 +141,7 @@ const AddCategory = () => {
                         value={slug}
                         onChange={(e) => setSlug(e.target.value)}
                       />
-                      <div className="flex">
+                      <div className="flex mt-2">
                         <label htmlFor="file-upload">
                           <p className="block text-base mb-1 text_color">
                             {t("upload-image")}
@@ -157,14 +170,14 @@ const AddCategory = () => {
                             </div>
                           </div>
                         </label>
-                        {image.length ? (
+                        {image && (
                           <div className="p-[6px] mx-[2px] relative  md:mt-3">
                             <div
                               className="border border-gray-300 overflow-hidden rounded"
                               id="file_img"
                             >
                               <img
-                                src={image}
+                                src={image.url}
                                 alt="images"
                                 className="img-thumbnail h-32 p-2 w-full"
                               />
@@ -174,7 +187,7 @@ const AddCategory = () => {
                               className="absolute text-gray-600 top-0 p-1 border text-2xl border-gray-300 right-0 cursor-pointer rounded-full bg-white"
                             />
                           </div>
-                        ) : null}
+                        )}
                       </div>
                     </div>
                   </div>
@@ -189,7 +202,7 @@ const AddCategory = () => {
                         marginRight: "15px",
                       }}
                     >
-                     {t("cancel")}
+                      {t("cancel")}
                     </Button>
 
                     <Button
@@ -239,4 +252,4 @@ const AddCategory = () => {
   );
 };
 
-export default AddCategory;
+export default UpdateCategory;

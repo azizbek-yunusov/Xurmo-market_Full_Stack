@@ -9,8 +9,8 @@ import {
   Select,
   TextField,
   Tooltip,
+  useMediaQuery,
 } from "@mui/material";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
@@ -18,8 +18,13 @@ import { BiExport, BiSearch, BiTable } from "react-icons/bi";
 import { BsGrid } from "react-icons/bs";
 import { FiPlus } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  deleteCategory,
+  getCategories,
+  selectedDeleteCategory,
+} from "../../../redux/category";
 import { HelmetTitle } from "../../../utils";
 import { NotData } from "../Helpers";
 import { Layout } from "../Layouts";
@@ -27,24 +32,22 @@ import GridList from "./GridList";
 import TableBody from "./TableBody";
 
 const CategoriesTable = () => {
-  let { t } = useTranslation(["category-d"]);
-  const [categories, setCategories] = useState([]);
-  const [products, setProducts] = useState([]);
+  const { isLoading, categories } = useSelector((state) => state.category);
   const { access_token } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const isXl = useMediaQuery("(min-width: 1245px)");
+  let { t } = useTranslation(["category-d"]);
   const [term, setTerm] = useState("");
-  const [loading, setLoading] = useState(true);
   const [isTable, setIsTable] = useState(false);
-  const [id, setId] = useState("");
-
   const [selectedCategoryIds, setSelectedCategoryIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-
-  const filteredCategories = categories.filter((frontMatter) => {
-    const searchContent = frontMatter.slug;
-    return searchContent.toLowerCase().includes(term.toLowerCase());
-  });
-
+  const filteredCategories = categories?.filter(
+    (value) =>
+      value.nameUz.toLowerCase().includes(term.toLowerCase()) ||
+      value.nameRu.toLowerCase().includes(term.toLowerCase()) ||
+      value.nameEn.toLowerCase().includes(term.toLowerCase())
+  );
   const handleSelectAll = (e) => {
     let newSelectedCategoryIds;
 
@@ -83,49 +86,36 @@ const CategoriesTable = () => {
 
     setSelectedCategoryIds(newSelectedCategoryIds);
   };
-
-  const fetchData = async () => {
+  const handleSelectedDelete = async () => {
     try {
-      const { data } = await axios.get("/categories");
-      setCategories(data.categories);
+      const selectedIds = {
+        selected: selectedCategoryIds,
+      };
+      await dispatch(selectedDeleteCategory({ access_token, selectedIds }));
+      dispatch(getCategories());
+      setSelectedCategoryIds([]);
+      toast.success(t("brand-selected-deleted"));
     } catch (err) {
-      console.log(err);
+      console.log();
     }
   };
-  const fetchProducts = async () => {
+  const handleDeleteCategory = async (id) => {
     try {
-      const { data } = await axios.get("/products");
-      setProducts(data.products);
+      await dispatch(deleteCategory({ access_token, id }));
+      toast.success(t("category-delete"));
     } catch (err) {
-      console.log(err);
-    }
-  };
-  const deleteCategory = async (id) => {
-    try {
-      await axios.delete(`/category/${id}`, {
-        headers: {
-          Authorization: access_token,
-        },
-      });
-      fetchData();
-      toast.success("Deleted category");
-    } catch (err) {
-      console.log(err);
+      console.log();
     }
   };
 
-  // let hisProducts = products?.filter(pro => {
-  //   return pro.category === category
-  // });
   useEffect(() => {
-    fetchProducts();
-    fetchData();
-  }, []);
+    dispatch(getCategories());
+  }, [dispatch]);
   return (
     <>
       <HelmetTitle title={t("all-categories")} />
       <Layout>
-        {!loading ? (
+        {isLoading ? (
           <CircularProgress />
         ) : (
           <>
@@ -192,9 +182,9 @@ const CategoriesTable = () => {
                     variant="contained"
                     color="error"
                     size="medium"
+                    onClick={() => handleSelectedDelete()}
                     sx={{
                       marginLeft: "15px",
-                      borderRadius: "6px",
                       minWidth: "130px",
                     }}
                     startIcon={<MdDelete />}
@@ -204,7 +194,10 @@ const CategoriesTable = () => {
                 </div>
               ) : (
                 <div className="flex w-full items-center justify-between py-3 px-4">
-                  <FormControl size="small" sx={{ minWidth: "80px" }}>
+                  <FormControl
+                    size="small"
+                    sx={{ maxWidth: isXl ? "70px" : "80px" }}
+                  >
                     <Select
                       labelId="demo-simple-select-label"
                       _id="demo-simple-select"
@@ -217,7 +210,7 @@ const CategoriesTable = () => {
                       <MenuItem value={"50"}>50</MenuItem>
                     </Select>
                   </FormControl>
-                  <FormControl sx={{ minWidth: 500 }}>
+                  <FormControl sx={{ minWidth: isXl ? 500 : 250 }}>
                     <TextField
                       size="small"
                       fullWidth
@@ -235,31 +228,45 @@ const CategoriesTable = () => {
                     />
                   </FormControl>
                   <div className="flex items-center">
-                    <IconButton
-                      onClick={() => setIsTable(false)}
-                      aria-label="Table"
-                      color={!isTable ? "secondary" : "default"}
-                    >
-                      <BiTable />
-                    </IconButton>
-                    <IconButton
-                      onClick={() => setIsTable(true)}
-                      aria-label="Table"
-                      color={isTable ? "secondary" : "default"}
-                    >
-                      <BsGrid />
-                    </IconButton>
+                    {isXl ? (
+                      <div className="">
+                        <IconButton
+                          onClick={() => setIsTable(false)}
+                          aria-label="Table"
+                          color={!isTable ? "secondary" : "default"}
+                        >
+                          <BiTable />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => setIsTable(true)}
+                          aria-label="Table"
+                          color={isTable ? "secondary" : "default"}
+                        >
+                          <BsGrid />
+                        </IconButton>
+                      </div>
+                    ) : (
+                      <div className="">
+                        <IconButton
+                          onClick={() => setIsTable(!isTable)}
+                          aria-label="Table"
+                          color="primary"
+                        >
+                          {isTable ? <BiTable /> : <BsGrid />}
+                        </IconButton>
+                      </div>
+                    )}
+
                     <Button
                       disabled
                       variant="outlined"
                       size="medium"
                       sx={{
-                        marginLeft: "25px",
-                        borderRadius: "6px",
+                        marginLeft: isXl ? "25px" : "10px",
                       }}
                       startIcon={<BiExport />}
                     >
-                      EXPORT
+                      {isXl ? "EXPORT" : "EXP"}
                     </Button>
                     <Link to={"/category/add"}>
                       <Tooltip title={t("add-category-title")}>
@@ -289,7 +296,7 @@ const CategoriesTable = () => {
                       selectedCategoryIds={selectedCategoryIds}
                       filteredCategories={filteredCategories}
                       handleSelectOne={handleSelectOne}
-                      deleteCategory={deleteCategory}
+                      handleDeleteCategory={handleDeleteCategory}
                     />
                   ) : (
                     <GridList
@@ -298,7 +305,7 @@ const CategoriesTable = () => {
                       selectedCategoryIds={selectedCategoryIds}
                       filteredCategories={filteredCategories}
                       handleSelectOne={handleSelectOne}
-                      deleteCategory={deleteCategory}
+                      handleDeleteCategory={handleDeleteCategory}
                     />
                   )}
                 </>

@@ -1,7 +1,7 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import "./App.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ActivationEmail, Home, NotFound, SignIn, SignUp } from "./pages";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -37,6 +37,8 @@ import {
 import {
   AddCategory,
   CategoriesTable,
+  CategoryDetail,
+  UpdateCategory,
 } from "./components/dashboard-components/CategoryItems";
 import {
   AccountSetting,
@@ -58,18 +60,21 @@ import {
 } from "./components/client-components/Header";
 import { Basket } from "./components/client-components/Cart";
 import { SearchPage } from "./components/client-components/Search";
-import { useNetworkStatus } from "./hooks";
 import { refreshToken } from "./redux/actions/authAction";
 import { HomeDashboard } from "./components/dashboard-components/Overview";
+import { FetchLoader } from "./components/client-components/SkeletonLoaders";
+import NetworkStatus from "./components/client-components/Helpers/NetworkStatus";
 
 function App() {
+  const [loading, setLoading] = useState(false);
   const pathname = useLocation().pathname;
   const dispatch = useDispatch();
   const { auth } = useSelector((state) => state);
-  const status = useNetworkStatus();
 
   useEffect(() => {
+    setLoading(true);
     dispatch(refreshToken());
+    setLoading(false);
   }, [dispatch]);
   useEffect(() => {
     window.replainSettings = { id: "9ba7af42-4b86-455f-b953-ebe0286ecce7" };
@@ -83,7 +88,9 @@ function App() {
   }, []);
   return (
     <>
+      {loading && <FetchLoader isLoading={loading} />}
       <Toaster position="top-left" reverseOrder={true} />
+      <NetworkStatus />
       <>
         {pathname === "/signup" ||
         pathname === "/signin" ||
@@ -138,6 +145,8 @@ function App() {
             <Route path="/brand/detail/:id" element={<BrandDetail />} />
             <Route path="/dashboard/categories" element={<CategoriesTable />} />
             <Route path="/category/add" element={<AddCategory />} />
+            <Route path="/category/:id" element={<UpdateCategory />} />
+            <Route path="/category/detail/:id" element={<CategoryDetail />} />
             <Route path="/dashboard/users" element={<UserList />} />
             <Route path="/user/create" element={<CreateUser />} />
             <Route path="/dashboard/orders" element={<OrdersList />} />

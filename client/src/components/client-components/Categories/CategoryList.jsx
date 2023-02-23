@@ -1,32 +1,22 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
 import CategoryItem from "./CategoryItem";
 import { Swiper, SwiperSlide } from "swiper/react";
-// Import Swiper styles
 import "swiper/css";
-import { useMediaQuery } from "@mui/material";
 import { CategoryListLoader } from "../SkeletonLoaders";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategories } from "../../../redux/category";
 
 const CategoryList = () => {
-  const matches = useMediaQuery("(min-width: 700px)");
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const fetchData = async () => {
-    try {
-      const { data } = await axios.get("/categories");
-      setCategories(data.categories);
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const { isLoading, categories } = useSelector((state) => state.category);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    fetchData();
-  }, []);
+    dispatch(getCategories());
+  }, [dispatch]);
 
   return (
     <>
-      {loading ? (
+      {isLoading ? (
         <CategoryListLoader />
       ) : (
         <div className="md:my-10 mb-6 container-full">

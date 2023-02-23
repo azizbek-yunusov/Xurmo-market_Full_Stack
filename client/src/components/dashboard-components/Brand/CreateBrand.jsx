@@ -12,10 +12,8 @@ import { Layout } from "../Layouts";
 
 const CreateBrand = () => {
   let { t } = useTranslation(["brand-d"]);
-
   const { access_token } = useSelector((state) => state.auth);
   const { isLoading, isError } = useSelector((state) => state.brand);
-
   const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");

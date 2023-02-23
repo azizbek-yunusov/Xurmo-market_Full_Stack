@@ -33,7 +33,7 @@ import TableBody from "./TableBody";
 
 const BrandsList = () => {
   let { t } = useTranslation(["brand-d"]);
-  const isXl = useMediaQuery("(min-width: 1250px)");
+  const isXl = useMediaQuery("(min-width: 1245px)");
   const { brand, auth } = useSelector((state) => state);
   let { isLoading, brands } = brand;
   let { access_token } = auth;
@@ -109,7 +109,7 @@ const BrandsList = () => {
   }, [dispatch]);
   return (
     <>
-      <HelmetTitle title="All brands" />
+      <HelmetTitle title={t("all-brands")} />
       <Layout>
         {isLoading ? (
           <CircularProgress />
@@ -127,13 +127,15 @@ const BrandsList = () => {
                   <Select
                     labelId="demo-simple-select-label"
                     _id="demo-simple-select"
-                    // value={"all"}
-                    // onChange={(e) => setCategory(e.target.value)}
+                    value={term}
+                    onChange={(e) => setTerm(e.target.value)}
                     label={t("select-brand")}
                   >
-                    <MenuItem value={"all"}>All</MenuItem>
-                    <MenuItem value={"user"}>brands</MenuItem>
-                    <MenuItem value={"admin"}>Admins</MenuItem>
+                    {brands.map((item, index) => (
+                      <MenuItem key={index} value={item.name}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
                 <FormControl size="medium" sx={{}}>
@@ -143,13 +145,15 @@ const BrandsList = () => {
                   <Select
                     labelId="demo-simple-select-label"
                     _id="demo-simple-select"
-                    // value={"all"}
-                    // onChange={(e) => setCategory(e.target.value)}
+                    value={term}
+                    onChange={(e) => setTerm(e.target.value)}
                     label={t("select-brand")}
                   >
-                    <MenuItem value={"all"}>Date</MenuItem>
-                    <MenuItem value={"user"}>Name</MenuItem>
-                    <MenuItem value={"admin"}>Status</MenuItem>
+                    {brands.map((item, index) => (
+                      <MenuItem key={index} value={item.name}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
                 <FormControl size="medium" sx={{}}>
@@ -159,13 +163,15 @@ const BrandsList = () => {
                   <Select
                     labelId="demo-simple-select-label"
                     _id="demo-simple-select"
-                    // value={"all"}
-                    // onChange={(e) => setCategory(e.target.value)}
+                    value={term}
+                    onChange={(e) => setTerm(e.target.value)}
                     label={t("select-brand")}
                   >
-                    <MenuItem value={"all"}>All</MenuItem>
-                    <MenuItem value={"user"}>brands</MenuItem>
-                    <MenuItem value={"admin"}>Admins</MenuItem>
+                    {brands.map((item, index) => (
+                      <MenuItem key={index} value={item.name}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </div>
@@ -181,7 +187,6 @@ const BrandsList = () => {
                     onClick={() => handleSelectedDelete(selectedBrandIds)}
                     sx={{
                       marginLeft: "15px",
-                      borderRadius: "6px",
                       minWidth: "130px",
                     }}
                     startIcon={<MdDelete />}
@@ -225,20 +230,34 @@ const BrandsList = () => {
                     />
                   </FormControl>
                   <div className="flex items-center">
-                    <IconButton
-                      onClick={() => setIsTable(false)}
-                      aria-label="Table"
-                      color={!isTable ? "primary" : "default"}
-                    >
-                      <BiTable />
-                    </IconButton>
-                    <IconButton
-                      onClick={() => setIsTable(true)}
-                      aria-label="Table"
-                      color={isTable ? "primary" : "default"}
-                    >
-                      <BsGrid />
-                    </IconButton>
+                    {isXl ? (
+                      <div className="">
+                        <IconButton
+                          onClick={() => setIsTable(false)}
+                          aria-label="Table"
+                          color={!isTable ? "secondary" : "default"}
+                        >
+                          <BiTable />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => setIsTable(true)}
+                          aria-label="Table"
+                          color={isTable ? "secondary" : "default"}
+                        >
+                          <BsGrid />
+                        </IconButton>
+                      </div>
+                    ) : (
+                      <div className="">
+                        <IconButton
+                          onClick={() => setIsTable(!isTable)}
+                          aria-label="Table"
+                          color="primary"
+                        >
+                          {isTable ? <BiTable /> : <BsGrid />}
+                        </IconButton>
+                      </div>
+                    )}
                     <Button
                       disabled
                       variant="outlined"

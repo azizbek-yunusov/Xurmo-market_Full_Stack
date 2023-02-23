@@ -10,7 +10,7 @@ import { IconButton } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 const LayoutP = ({ children }) => {
-  let { t } = useTranslation(["home"]);
+  let { t } = useTranslation(["profile"]);
   const { user, access_token } = useSelector((state) => state.auth);
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -19,7 +19,7 @@ const LayoutP = ({ children }) => {
   }, []);
   return (
     <>
-      <HelmetTitle title={"My profile"} />
+      <HelmetTitle title={t("personal")} />
       {/* Desktop responsive */}
       <div className="container-full min-h-[560px] md:mb-3 xl:flex flex-col hidden text-gray-800">
         <div className="">
