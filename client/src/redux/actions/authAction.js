@@ -1,10 +1,10 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 
-export const signIn = (email, password) => async (dispatch) => {
+export const signIn = (formState) => async (dispatch) => {
   try {
     const config = { headers: { "Content-Type": "application/json" } };
-    const { data } = await axios.post("/signin", { email, password }, config);
+    const { data } = await axios.post("/signin", formState, config);
     dispatch({
       type: "SIGN_IN",
       payload: {

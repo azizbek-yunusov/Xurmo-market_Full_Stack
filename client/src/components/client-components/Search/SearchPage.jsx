@@ -9,7 +9,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BsGrid, BsViewStacked } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import { getBrands } from "../../../redux/brand/brandSlice";
+import { getCategories } from "../../../redux/category";
 import { HelmetTitle } from "../../../utils";
 import ListProductCard from "../ProductItems/ListProductCard";
 import ProductCard from "../ProductItems/ProductCard";
@@ -17,6 +20,9 @@ import { SearchPageLoader } from "../SkeletonLoaders";
 import Filter from "./Filter";
 
 const SearchPage = () => {
+  const { categories } = useSelector((state) => state.category);
+  const { brands } = useSelector((state) => state.brand);
+  const dispatch = useDispatch();
   let { t } = useTranslation(["product"]);
   const navigate = useNavigate();
   const { search } = useLocation();
@@ -24,15 +30,12 @@ const SearchPage = () => {
   const sp = new URLSearchParams(search); // /search?category=Shirts
   const category = sp.get("category") || "all";
   const brand = sp.get("brand") || "all";
-
   const query = sp.get("query") || "all";
   const price = sp.get("price") || "all";
   const rating = sp.get("rating") || "all";
   const order = sp.get("order") || "newest";
   const page = sp.get("page") || 1;
   const [result, setResult] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [brands, setBrands] = useState([]);
   const [isList, setIsList] = useState(false);
 
   const getFilterUrl = (filter, skipPathname) => {
@@ -47,14 +50,6 @@ const SearchPage = () => {
     return `${
       skipPathname ? "" : "/search?"
     }category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&brand=${filterBrand}&rating=${filterRating}&order=${sortOrder}&page=${filterPage}`;
-  };
-  const fetchCategory = async () => {
-    const { data } = await axios.get("/categories");
-    setCategories(data.categories);
-  };
-  const fetchBrand = async () => {
-    const { data } = await axios.get("/brands");
-    setBrands(data);
   };
 
   useEffect(() => {
@@ -73,12 +68,10 @@ const SearchPage = () => {
   }, [category, brand, order, page, price, query, rating]);
 
   useEffect(() => {
-    fetchCategory();
-    fetchBrand();
-
+    dispatch(getCategories());
+    dispatch(getBrands());
     window.scrollTo(0, 0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
   return (
     <>
       <HelmetTitle title={`${query} - Search`} />

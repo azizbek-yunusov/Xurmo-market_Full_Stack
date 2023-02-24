@@ -1,5 +1,5 @@
 var SpeechRecognition =
-  window.SpeechRecognition || window.webkitSpeechRecognition;
+  window.webkitSpeechRecognition || window.SpeechRecognition;
 export const recognition = new SpeechRecognition();
 
 export const startReco = () => {

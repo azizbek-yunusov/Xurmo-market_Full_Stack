@@ -17,22 +17,31 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 const SignIn = () => {
   let { t } = useTranslation(["home"]);
   const dispatch = useDispatch();
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
-  const [password, setPassword] = useState("");
+  const [formState, setFormState] = useState({
+    email: "",
+    password: "",
+  });
+  const [formErrors, setFormErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const storeDataEl = useRef();
-  const passwordEl = useRef();
-  const emailEl = useRef();
   const navigate = useNavigate();
-  const emailFocus = () => {
-    emailEl.current.focus();
+
+  const handleChange = (e) => {
+    setFormState({
+      ...formState,
+      [e.target.name]: e.target.value,
+    });
+    const errors = {};
+    if (!formState.email) {
+      errors.email = t("email-valid");
+    }
+    if (!formState.password) {
+      errors.password = t("password-valid");
+    }
+    setFormErrors(errors);
   };
-  const passwordFocus = () => {
-    passwordEl.current.focus();
-  };
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -41,31 +50,27 @@ const SignIn = () => {
   };
   const signInSubmit = async (e) => {
     e.preventDefault();
-    try {
-      if (email === "") {
-        toast.error("Enter your email!");
-        setEmailError(true);
-        return;
+
+    const errors = {};
+    if (!formState.email) {
+      errors.email = t("email-valid");
+    } else if (!/\S+@\S+\.\S+/.test(formState.email)) {
+      errors.email = t("email-invalid");
+    }
+    if (!formState.password) {
+      errors.password = t("password-valid");
+    }
+    setFormErrors(errors);
+
+    // submit form if no errors
+    if (Object.keys(errors).length === 0) {
+      try {
+        setLoading(true);
+        dispatch(signIn(formState));
+        navigate("/");
+      } catch (err) {
+        console.log(err);
       }
-      if (password === "") {
-        toast.error("Enter your password!");
-        setPasswordError(true);
-        return;
-      }
-      const { checked: storeData } = storeDataEl.current;
-      setLoading(true);
-      dispatch(signIn(email, password));
-      navigate("/");
-      setLoading(false);
-      if (storeData) {
-        window.localStorage.setItem("email", email);
-        window.localStorage.setItem("password", password);
-      } else {
-        window.localStorage.removeItem("name");
-        window.localStorage.removeItem("email");
-      }
-    } catch (err) {
-      console.log(err);
     }
   };
   return (
@@ -103,15 +108,17 @@ const SignIn = () => {
                   <div className="mt-6">
                     <TextField
                       id="outlined-basic"
+                      name="email"
                       fullWidth
                       variant="outlined"
                       label={t("email")}
                       type="email"
-                      value={email}
-                      className="rounded-xl"
-                      error={emailError ? true : false}
-                      onChange={(e) => setEmail(e.target.value)}
-                      helperText={emailError && "Emailni kiriting"}
+                      autoComplete="email"
+                      autoFocus
+                      value={formState.email}
+                      onChange={handleChange}
+                      error={Boolean(formErrors.email)}
+                      helperText={formErrors.email}
                     />
                   </div>
                   <div className="mt-6">
@@ -119,10 +126,14 @@ const SignIn = () => {
                       id="outlined-basic"
                       fullWidth
                       variant="outlined"
+                      name="password"
                       label={t("password")}
                       type={showPassword ? "text" : "password"}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      autoComplete="current-password"
+                      value={formState.password}
+                      onChange={handleChange}
+                      error={Boolean(formErrors.password)}
+                      helperText={formErrors.password}
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">

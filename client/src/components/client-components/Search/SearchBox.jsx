@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { CgSearch } from "react-icons/cg";
 import { BiMicrophone } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-import { IconButton, useMediaQuery } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 import axios from "axios";
 import AutoComplate from "./AutoComplate";
 import { useTranslation } from "react-i18next";
-import { recognition } from "../../../utils/SpeechRecognition";
 import MobileSearchBox from "./MobileSearchBox";
+import { recognition } from "../../../utils/SpeechRecognition";
 
 const SearchBox = () => {
   const { t } = useTranslation(["product"]);
@@ -16,10 +16,9 @@ const SearchBox = () => {
   const [query, setQuery] = useState("");
   const [products, setProducts] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [showSearch, setShowSearch] = useState(false);
-  const [isVoiceSearch, setIsVoiceSearch] = useState(false);
   const [voiceText, setVoiceText] = useState("");
+  const [listening, setListening] = useState(false);
 
   const handleAutoComplete = (e) => {
     const searchTerm = e.target.value;
@@ -38,32 +37,54 @@ const SearchBox = () => {
   const fetchData = async () => {
     const { data } = await axios.get("/products");
     setProducts(data.products);
-    setLoading(false);
   };
   const clearFilter = () => {
     setFilteredData([]);
     setQuery("");
   };
+  const clearVoiceSearch = () => {
+    setListening(false);
+    recognition.stop();
+  };
   const SearchHandler = (e) => {
     e.preventDefault();
     navigate(query ? `/search/?query=${query}` : "/search");
     setFilteredData([]);
-  };
-  const openVoiceSearch = () => {
-    setIsVoiceSearch(true);
-    recognition.start();
-    recognition.onresult = (event) => {
-      var current = event.resultIndex;
-      var transcript = event.results[current][0].transcript;
-      setVoiceText(voiceText + transcript);
-      setQuery(voiceText + transcript);
-    };
+    recognition.stop();
   };
   useEffect(() => {
     fetchData();
   }, []);
   const toggleMobileSearchBar = () => {
     setShowSearch(!showSearch);
+  };
+
+  // Voice search
+  const openVoiceSearch = () => {
+    const recognition = new window.webkitSpeechRecognition();
+
+    recognition.onstart = () => {
+      setListening(true);
+    };
+
+    recognition.onend = () => {
+      setListening(false);
+    };
+
+    recognition.onresult = (event) => {
+      const { transcript } = event.results[0][0];
+      setQuery(transcript);
+    };
+
+    recognition.start();
+    // setListening(true);
+    // recognition.start();
+    // recognition.onresult = (event) => {
+    //   var current = event.resultIndex;
+    //   var transcript = event.results[current][0].transcript;
+    //   setVoiceText(voiceText + transcript);
+    //   setQuery(voiceText + transcript);
+    // };
   };
   return (
     <div className="relative">
@@ -91,9 +112,13 @@ const SearchBox = () => {
           />
           <div
             onClick={() => openVoiceSearch()}
-            className="flex absolute inset-y-0 right-0 items-center pr-3"
+            className="cursor-pointer flex absolute inset-y-0 right-0 items-center pr-3"
           >
-            <BiMicrophone className="md:text-[22px] text-xl text-gray-500" />
+            <BiMicrophone
+              className={`${
+                listening ? "text-orange-600 text-2xl " : "text-gray-600"
+              } md:text-[22px] text-xl `}
+            />
           </div>
         </div>
         <button
