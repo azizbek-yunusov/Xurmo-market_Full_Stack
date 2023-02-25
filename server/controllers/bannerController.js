@@ -20,9 +20,7 @@ const createBanner = async (req, res) => {
       createdBy: req.user.id,
     });
     await banner.save();
-    res.status(200).json({
-      banner,
-    });
+    res.status(200).json(banner);
   } catch (err) {
     console.log(err);
   }
@@ -31,9 +29,7 @@ const createBanner = async (req, res) => {
 const getAllBanners = async (req, res) => {
   try {
     const banners = await BannerModel.find().populate("createdBy", "_id name");
-    res.status(201).json({
-      banners,
-    });
+    res.status(201).json(banners);
   } catch (err) {
     console.log(err);
   }
@@ -45,7 +41,7 @@ const getBanner = async (req, res) => {
       "createdBy",
       "_id name"
     );
-    res.status(201).json({ banner });
+    res.status(201).json(banner);
   } catch (err) {
     console.log(err);
   }
@@ -54,12 +50,12 @@ const getBanner = async (req, res) => {
 const updateBanner = async (req, res) => {
   try {
     const { name, href, image } = req.body;
-    const updatedBanner = await BannerModel.findByIdAndUpdate(req.params.id, {
+    const banner = await BannerModel.findByIdAndUpdate(req.params.id, {
       name,
       href,
       image,
     });
-    res.status(200).json({ updatedBanner });
+    res.status(200).json(banner);
   } catch (err) {
     console.log(err);
   }
@@ -67,11 +63,11 @@ const updateBanner = async (req, res) => {
 
 const deleteBanner = async (req, res) => {
   try {
-    await BannerModel.findByIdAndDelete(req.params.id);
-    res.status(201).json({
-      msg: "DELETED",
-    });
-  } catch (err) {}
+    const banner = await BannerModel.findByIdAndDelete(req.params.id);
+    res.status(201).json(banner);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const deleteSelected = async (req, res) => {

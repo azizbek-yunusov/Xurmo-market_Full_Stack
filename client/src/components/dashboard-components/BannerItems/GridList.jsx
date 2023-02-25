@@ -11,7 +11,7 @@ const GridList = ({
   selectedBannerIds,
   filteredBanners,
   handleSelectOne,
-  deleteBanner,
+  handleDeleteBanner,
 }) => {
   let { t } = useTranslation(["banner-d"]);
   return (
@@ -60,7 +60,7 @@ const GridList = ({
                 </Link>
                 <Tooltip title="Delete Item">
                   <Button
-                    onClick={() => deleteBanner(item._id)}
+                    onClick={() => handleDeleteBanner(item._id)}
                     variant="contained"
                     size="small"
                     sx={{

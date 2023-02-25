@@ -62,6 +62,7 @@ const SearchBox = () => {
   // Voice search
   const openVoiceSearch = () => {
     const recognition = new window.webkitSpeechRecognition();
+    recognition.lang = 'uz-UZ';
 
     recognition.onstart = () => {
       setListening(true);

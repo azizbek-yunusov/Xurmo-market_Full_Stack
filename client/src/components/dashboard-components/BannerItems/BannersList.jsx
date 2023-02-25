@@ -9,19 +9,29 @@ import {
   Select,
   TextField,
   Tooltip,
+  useMediaQuery,
 } from "@mui/material";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
-import { BiExport, BiSearch, BiTable } from "react-icons/bi";
+import {
+  BiDotsVerticalRounded,
+  BiExport,
+  BiSearch,
+  BiTable,
+} from "react-icons/bi";
 import { BsGrid } from "react-icons/bs";
 import { FiPlus } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  deleteBanner,
+  getBanners,
+  selectedDeleteBanner,
+} from "../../../redux/banner";
 import HelmetTitle from "../../../utils/HelmetTitle";
-import { NotData } from "../Helpers";
+import { MoreMenu, NotData } from "../Helpers";
 import { Layout } from "../Layouts";
 import GridList from "./GridList";
 import TableBody from "./TableBody";
@@ -29,11 +39,12 @@ import TableBody from "./TableBody";
 const BannersList = () => {
   let { t } = useTranslation(["banner-d"]);
   const { access_token } = useSelector((state) => state.auth);
-  const [banners, setBanners] = useState([]);
+  const { isLoading, banners } = useSelector((state) => state.banner);
+  const dispatch = useDispatch();
+  const isXl = useMediaQuery("(min-width: 1245px)");
   const [term, setTerm] = useState("");
-  const [loading, setLoading] = useState(true);
   const [isTable, setIsTable] = useState(false);
-  const [id, setId] = useState("");
+  const [isFilter, setIsFilter] = useState(true);
 
   const [selectedBannerIds, setSelectedBannerIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -83,113 +94,100 @@ const BannersList = () => {
     setSelectedBannerIds(newSelectedBannersIds);
   };
 
-  const fetchData = async () => {
-    const { data } = await axios.get("/banners", {
-      headers: { Authorization: access_token },
-    });
-    setBanners(data.banners);
-    setLoading(false);
-  };
-  const deleteBanner = async (id) => {
+  const handleDeleteBanner = async (id) => {
     try {
-      await axios.delete(`/banner/${id}`, {
-        headers: {
-          Authorization: access_token,
-        },
-      });
-      fetchData();
+      await dispatch(deleteBanner({ access_token, id }));
+      toast.success(t("banner-delete"));
     } catch (err) {
-      console.log(err);
+      console.log();
     }
   };
-  const deleteSelected = async () => {
+  const handleSelectedDelete = async () => {
     try {
-      await fetch("http://localhost:5000/banner/selected", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: access_token,
-        },
-        body: JSON.stringify({
-          selected: selectedBannerIds,
-        }),
-      });
-      fetchData();
-      toast.success("Successfully");
+      const selectedIds = {
+        selected: selectedBannerIds,
+      };
+      await dispatch(selectedDeleteBanner({ access_token, selectedIds }));
+      dispatch(getBanners());
+      setSelectedBannerIds([]);
+      toast.success(t("banner-selected-deleted"));
     } catch (err) {
-      console.log(err);
+      console.log();
     }
   };
 
   useEffect(() => {
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  console.log(selectedBannerIds);
+    dispatch(getBanners());
+  }, [dispatch]);
   return (
     <>
       <HelmetTitle title={t("all-banner")} />
       <Layout>
-        {loading ? (
+        {isLoading ? (
           <CircularProgress />
         ) : (
           <>
-            <div className="bg-white dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border border-gray-300 dark:border-gray-600">
+            <div className="relative bg-white dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border border-gray-300 dark:border-gray-600">
               <h1 className="p-5 text-gray-600 dark:text-gray-200 text-xl font-semibold">
                 {t("search-filter")}
               </h1>
-              <div className="grid grid-cols-3 gap-x-5 pb-6 mb-3 px-5 border-b border-b-gray-200 dark:border-b-gray-600">
-                <FormControl size="medium" sx={{}}>
-                  <InputLabel _id="demo-simple-select-label">
-                    {t("select-category")}
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    _id="demo-simple-select"
-                    // value={"all"}
-                    // onChange={(e) => setCategory(e.target.value)}
-                    label={t("select-category")}
-                  >
-                    <MenuItem value={"all"}>All</MenuItem>
-                    <MenuItem value={"user"}>banners</MenuItem>
-                    <MenuItem value={"admin"}>Admins</MenuItem>
-                  </Select>
-                </FormControl>
-                <FormControl size="medium" sx={{}}>
-                  <InputLabel _id="demo-simple-select-label">
-                    {t("select-banner")}
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    _id="demo-simple-select"
-                    // value={"all"}
-                    // onChange={(e) => setCategory(e.target.value)}
-                    label={t("select-banner")}
-                  >
-                    <MenuItem value={"all"}>Date</MenuItem>
-                    <MenuItem value={"user"}>Name</MenuItem>
-                    <MenuItem value={"admin"}>Status</MenuItem>
-                  </Select>
-                </FormControl>
-                <FormControl size="medium" sx={{}}>
-                  <InputLabel _id="demo-simple-select-label">
-                    {t("select-rating")}
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    _id="demo-simple-select"
-                    // value={"all"}
-                    // onChange={(e) => setCategory(e.target.value)}
-                    label={t("select-rating")}
-                  >
-                    <MenuItem value={"all"}>All</MenuItem>
-                    <MenuItem value={"user"}>banners</MenuItem>
-                    <MenuItem value={"admin"}>Admins</MenuItem>
-                  </Select>
-                </FormControl>
+              <div className="absolute top-3 right-3">
+                <MoreMenu isFilter={isFilter} setIsFilter={setIsFilter} />
               </div>
+              {isFilter && (
+                <div className="grid grid-cols-3 gap-x-5 pb-6 mb-3 px-5 border-b border-b-gray-200 dark:border-b-gray-600">
+                  <FormControl size="medium" sx={{}}>
+                    <InputLabel _id="demo-simple-select-label">
+                      {t("select-category")}
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      _id="demo-simple-select"
+                      // value={"all"}
+                      // onChange={(e) => setCategory(e.target.value)}
+                      label={t("select-category")}
+                    >
+                      <MenuItem value={"all"}>All</MenuItem>
+                      <MenuItem value={"user"}>banners</MenuItem>
+                      <MenuItem value={"admin"}>Admins</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <FormControl size="medium" sx={{}}>
+                    <InputLabel _id="demo-simple-select-label">
+                      {t("select-banner")}
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      _id="demo-simple-select"
+                      // value={"all"}
+                      // onChange={(e) => setCategory(e.target.value)}
+                      label={t("select-banner")}
+                    >
+                      <MenuItem value={"all"}>Date</MenuItem>
+                      <MenuItem value={"user"}>Name</MenuItem>
+                      <MenuItem value={"admin"}>Status</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <FormControl size="medium" sx={{}}>
+                    <InputLabel _id="demo-simple-select-label">
+                      {t("select-rating")}
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      _id="demo-simple-select"
+                      // value={"all"}
+                      // onChange={(e) => setCategory(e.target.value)}
+                      label={t("select-rating")}
+                    >
+                      <MenuItem value={"all"}>All</MenuItem>
+                      <MenuItem value={"user"}>banners</MenuItem>
+                      <MenuItem value={"admin"}>Admins</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+              )}
               {selectedBannerIds.length ? (
-                <div className="flex w-ful items-center justify-between py-[12.5px] px-4">
+                <div className="flex w-ful items-center justify-between  py-[12.5px] px-4">
                   <h1 className="font-semibold text_color">{`(${
                     selectedBannerIds.length
                   }) ${t("selected")}`}</h1>
@@ -197,10 +195,9 @@ const BannersList = () => {
                     variant="contained"
                     color="error"
                     size="medium"
-                    onClick={() => deleteSelected()}
+                    onClick={() => handleSelectedDelete()}
                     sx={{
                       marginLeft: "15px",
-                      borderRadius: "6px",
                       minWidth: "130px",
                     }}
                     startIcon={<MdDelete />}
@@ -210,7 +207,10 @@ const BannersList = () => {
                 </div>
               ) : (
                 <div className="flex w-full items-center justify-between py-3 px-4">
-                  <FormControl size="small" sx={{ minWidth: "80px" }}>
+                  <FormControl
+                    size="small"
+                    sx={{ minWidth: { lg: "40px", xl: "80px" } }}
+                  >
                     <Select
                       labelId="demo-simple-select-label"
                       _id="demo-simple-select"
@@ -223,7 +223,7 @@ const BannersList = () => {
                       <MenuItem value={"50"}>50</MenuItem>
                     </Select>
                   </FormControl>
-                  <FormControl sx={{ minWidth: 500 }}>
+                  <FormControl sx={{ minWidth: { lg: 500, xl: 500 } }}>
                     <TextField
                       size="small"
                       fullWidth
@@ -241,31 +241,45 @@ const BannersList = () => {
                     />
                   </FormControl>
                   <div className="flex items-center">
-                    <IconButton
-                      onClick={() => setIsTable(false)}
-                      aria-label="Table"
-                      color={!isTable ? "secondary" : "default"}
-                    >
-                      <BiTable />
-                    </IconButton>
-                    <IconButton
-                      onClick={() => setIsTable(true)}
-                      aria-label="Table"
-                      color={isTable ? "secondary" : "default"}
-                    >
-                      <BsGrid />
-                    </IconButton>
+                    {isXl ? (
+                      <div className="">
+                        <IconButton
+                          onClick={() => setIsTable(false)}
+                          aria-label="Table"
+                          color={!isTable ? "secondary" : "default"}
+                        >
+                          <BiTable />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => setIsTable(true)}
+                          aria-label="Table"
+                          color={isTable ? "secondary" : "default"}
+                        >
+                          <BsGrid />
+                        </IconButton>
+                      </div>
+                    ) : (
+                      <div className="">
+                        <IconButton
+                          onClick={() => setIsTable(!isTable)}
+                          aria-label="Table"
+                          color="primary"
+                        >
+                          {isTable ? <BiTable /> : <BsGrid />}
+                        </IconButton>
+                      </div>
+                    )}
+
                     <Button
                       disabled
                       variant="outlined"
                       size="medium"
                       sx={{
-                        marginLeft: "25px",
-                        borderRadius: "6px",
+                        marginLeft: { lg: "10px", xl: "25px" },
                       }}
                       startIcon={<BiExport />}
                     >
-                      EXPORT
+                      {isXl ? "EXPORT" : "EXP"}
                     </Button>
                     <Link to={"/banner/add"}>
                       <Tooltip title={t("add-banner-title")}>
@@ -273,9 +287,7 @@ const BannersList = () => {
                           variant="contained"
                           size="medium"
                           sx={{
-                            marginLeft: "25px",
-                            background: "rgb(145, 85, 253)",
-                            borderRadius: "6px",
+                            marginLeft: { lg: "10px", xl: "25px" },
                           }}
                           startIcon={<FiPlus />}
                         >
@@ -295,7 +307,7 @@ const BannersList = () => {
                       selectedBannerIds={selectedBannerIds}
                       filteredBanners={filteredBanners}
                       handleSelectOne={handleSelectOne}
-                      deleteBanner={deleteBanner}
+                      handleDeleteBanner={handleDeleteBanner}
                     />
                   ) : (
                     <GridList
@@ -304,7 +316,7 @@ const BannersList = () => {
                       selectedBannerIds={selectedBannerIds}
                       filteredBanners={filteredBanners}
                       handleSelectOne={handleSelectOne}
-                      deleteBanner={deleteBanner}
+                      handleDeleteBanner={handleDeleteBanner}
                     />
                   )}
                 </>

@@ -11,7 +11,7 @@ const TableBody = ({
   selectedBannerIds,
   filteredBanners,
   handleSelectOne,
-  deleteBanner,
+  handleDeleteBanner,
 }) => {
   let { t } = useTranslation(["banner-d"]);
 
@@ -122,7 +122,7 @@ const TableBody = ({
                       </div>
                     </Link>
                     <button
-                      onClick={() => deleteBanner(item._id)}
+                      onClick={() => handleDeleteBanner(item._id)}
                       className="cursor-pointer w-5 mr-3 transform hover:text-purple-500 hover:scale-110"
                     >
                       <svg

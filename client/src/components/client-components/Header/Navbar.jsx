@@ -10,7 +10,7 @@ function useIsScrollTop() {
 
   useEffect(() => {
     function onScroll() {
-      setIsTop(window.scrollY <= 50);
+      setIsTop(window.scrollY <= 0);
     }
     window.addEventListener("scroll", onScroll, { passive: true });
 
@@ -63,13 +63,13 @@ const Navbar = () => {
             </div>
           </div>
           <div
-            className={`bg-white lg:hidden ${
+            className={`bg-white lg:hidden border-b border-b-transparent ${
               isTop
                 ? ""
-                : "sticky top-0 w-full z-50 border-b  shadow-xl border-b-gray-300"
+                : "sticky top-0 w-full z-50 shadow-md border-b-gray-300"
             }`}
           >
-            <div className="container-full  flex_betwen my-2 py-[2px]">
+            <div className="container-full flex_betwen py-2">
               <Menu />
               <div className="w-full ml-3">
                 <SearchBox />

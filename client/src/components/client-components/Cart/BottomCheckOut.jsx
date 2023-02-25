@@ -13,7 +13,7 @@ const BottomCheckOut = ({ cart }) => {
   cart.length && cart?.reduce((a, c) => a + c.quantity, 0);
   return (
     <>
-      {scroll && (
+      {cart.length > 0 && scroll && (
         <div className="md:hidden flex_betwen fixed bottom-0 left-0 w-full py-2 z-50 bg-white shadow-lg px-4 border-t border-t-gray-100">
           <div className="col-span-1 flex flex-col">
             <p className="text-gray-500 text-xs">{t("total")}{" "}{totalQuantity}{" "}{t("product")}</p>

@@ -15,6 +15,7 @@ import { styled } from "@mui/material/styles";
 import { signOut } from "../../../redux/actions/authAction";
 import { AiOutlineUser } from "react-icons/ai";
 import { FiLogOut } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
 
 // ** Styled Components
 const BadgeContentSpan = styled("span")(({ theme }) => ({
@@ -27,13 +28,14 @@ const BadgeContentSpan = styled("span")(({ theme }) => ({
 
 const UserButton = () => {
   const { user } = useSelector((state) => state.auth);
-  let {avatar, name} = user
+  let { t } = useTranslation(["profile"]);
+  let { avatar, name } = user;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const signOutHandle = () => {
     dispatch(signOut());
     navigate("/signin");
-    toast.success("Sign out ");
+    toast.success(t("sign-out"));
   };
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -121,7 +123,7 @@ const UserButton = () => {
           <Link to={"/dashboard/cabinet"}>
             <Box sx={styles}>
               <AiOutlineUser sx={{ marginRight: 2 }} />
-              Profile
+              {t("profile")}
             </Box>
           </Link>
         </MenuItem>
@@ -134,7 +136,7 @@ const UserButton = () => {
               color: "text.secondary",
             }}
           />
-          Logout
+          {t("sign-out")}
         </MenuItem>
       </Menu>
     </Fragment>

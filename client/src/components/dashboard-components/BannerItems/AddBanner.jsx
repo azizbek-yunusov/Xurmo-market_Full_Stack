@@ -1,20 +1,23 @@
 import { Button, TextField } from "@mui/material";
 import React, { useState } from "react";
+import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { createBanner } from "../../../redux/banner";
 import HelmetTitle from "../../../utils/HelmetTitle";
 import { Layout } from "../Layouts";
 
 const AddBanner = () => {
   let { t } = useTranslation(["banner-d"]);
   const { access_token } = useSelector((state) => state.auth);
+  const { isLoading, isError } = useSelector((state) => state.banner);
+  const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [href, setHref] = useState("");
   const [image, setImage] = useState([]);
-  const [loading, setLoading] = useState(false);
   const goback = useNavigate();
   const navigate = useNavigate();
   const handleImage = (e) => {
@@ -33,59 +36,47 @@ const AddBanner = () => {
     newArr.splice(index, 1);
     setImage(newArr);
   };
-  const createHandler = async (e) => {
-    setLoading(true);
+  const createBannerHandle = async (e) => {
     e.preventDefault();
-    fetch("http://localhost:5000/banner", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: access_token,
-      },
-      body: JSON.stringify({
-        name,
-        href,
-        image,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-        } else {
-          setLoading(false);
-          navigate("/dashboard/banners");
-        }
-      });
+    const bannerData = {
+      name,
+      href,
+      image,
+    };
+    await dispatch(createBanner({ access_token, bannerData }));
+    if (!isLoading) {
+      toast.success(t("new-banner-added"));
+      navigate("/dashboard/banners");
+    }
+    if (isError) {
+      toast.error("Something Went Wrong!");
+    }
   };
   return (
     <>
       <HelmetTitle title={t("add-banner-title")} />
       <Layout>
         <section className="relative">
-          <div className="bg-indigo-400 w-full h-40 pl-5 pt-4 text-gray-50 rounded-xl">
-            <h1 className="text-white text-2xl">{t("add-banner-title")}</h1>
-            {/* <ol className="list-reset mt-1 flex text-grey-dark text-sm text-gray-200">
-            <li>
-              <Link to={"/dashboard"}>Dashboard</Link>
-            </li>
-            <li>
-              <span className="mx-2">/</span>
-            </li>
-            <li>
-              <Link to={"/dashboard/products"}>Create</Link>
-            </li>
-            <li>
-              <span className="mx-2">/</span>
-            </li>
-            <li>
-              <span>Create</span>
-            </li>
-          </ol> */}
+          <div className="bg-gradient-to-r from-cyan-500 to-blue-500 w-full h-40 px-5 pt-4 text-gray-50 rounded-xl">
+            <div className="flex_betwen">
+              <h1 className="text-white text-2xl">{t("add-banner-title")}</h1>
+              <ol className="list-reset mt-1 flex text-grey-dark text-sm text-gray-100">
+                <li>
+                  <Link to={"/dashboard"}>Dashboard</Link>
+                </li>
+                <li>
+                  <span className="mx-2">/</span>
+                </li>
+                <li>
+                  <span>{t("add-banner-title")}</span>
+                </li>
+              </ol>
+            </div>
           </div>
           <div className="-mt-24 rounded-2xl flex mx-4 bg_color backdrop-blur-md dark: border_primary">
             <div className="flex w-full p-8 px-16">
               <div className="w-full">
-                <form onSubmit={createHandler}>
+                <form onSubmit={createBannerHandle}>
                   <div className="flex flex-col">
                     <div className="grid grid-cols-2 gap-x-12">
                       <TextField
@@ -185,7 +176,7 @@ const AddBanner = () => {
                         borderRadius: "6px",
                       }}
                     >
-                      {loading ? (
+                      {isLoading ? (
                         <div className="flex items-center justify-center">
                           <svg
                             className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"

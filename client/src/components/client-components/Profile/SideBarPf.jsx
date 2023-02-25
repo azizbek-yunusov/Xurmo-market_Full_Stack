@@ -2,23 +2,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { MdEmail, MdLocationOn } from "react-icons/md";
-import { Backdrop, Box, Button, Fade, Modal, TextField } from "@mui/material";
+import { MdEmail } from "react-icons/md";
+import { Button} from "@mui/material";
 import { BsFillCalendarFill } from "react-icons/bs";
 import moment from "moment";
 import { signOut } from "../../../redux/actions/authAction";
 import { useTranslation } from "react-i18next";
-
-const style = {
-  position: "absolute",
-
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 800,
-  boxShadow: 24,
-  p: 4,
-};
 
 const SideBarPf = () => {
   let { t } = useTranslation(["profile"]);
@@ -34,7 +23,7 @@ const SideBarPf = () => {
   const signOutHandle = () => {
     dispatch(signOut());
     navigate("/signin");
-    toast.success("Sign out ");
+    toast.success(t("sign-out"));
   };
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -114,22 +103,7 @@ const SideBarPf = () => {
           <h1 className="md:my-3 md:text-2xl text-gray-800 font-semibold my-3 ">
             {user.name} {user.lastName ? user.lastName : ""}
           </h1>
-          {/* {address.length ? (
-
-    
-          
-            
-    
-
-          
-          
-            
-    
-
-          
-    
-    @@ -146,15 +144,15 @@ const SideBarPf = () => {
-  
+          {/* {address.length ? (    
             <div className="flex items-center bg-light-green-100 rounded-md p-1 px-2">
               <MdLocationOn className="text-lg text-gray-600" />
               <p className="text-sm font-semibold text-gray-600">

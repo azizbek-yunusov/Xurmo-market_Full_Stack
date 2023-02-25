@@ -16,14 +16,29 @@ const SearchInput = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleKeyDown = (event) => {
+    if (event.ctrlKey && event.key === '/') {
+      setOpen(true);
+      console.log("Control");
+    }
+  };
+  const handleKeyUp = (event) => {
+    if (event.ctrlKey && event.key === '/') {
+      setOpen(false);
+    }
+  };
+
   return (
     <>
-      <div onClick={handleOpen} className="flex items-center cursor-pointer">
+      <div
+        onClick={handleOpen}
+        onKeyDown={handleKeyDown}
+        tabIndex="0"
+        className="flex items-center cursor-pointer"
+      >
         <BiSearch className="text-2xl text-gray-500" />
         <p className="mx-2 text-base text-gray-400">Search</p>
-        <div className="text-base text-gray-400">
-          ( Ctrl + / )
-        </div>
+        <div className="text-base text-gray-400">( Ctrl + / )</div>
       </div>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -40,7 +55,11 @@ const SearchInput = () => {
           <Box sx={style} className="rounded-lg bg-white">
             <div className="flex items-center pb-4 border-b border-b-gray-300">
               <BiSearch className="text-2xl text-gray-500 mr-3" />
-              <input type="text" autoFocus className="text-lg text-gray-700 outline-none border-none" />
+              <input
+                type="text"
+                autoFocus
+                className="text-lg text-gray-700 outline-none border-none"
+              />
             </div>
             <div className="grid grid-cols-2">
               <div className="">s</div>

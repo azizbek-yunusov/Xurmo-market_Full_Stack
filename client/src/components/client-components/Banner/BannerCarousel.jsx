@@ -9,39 +9,28 @@ import "swiper/css/navigation";
 import BannerItem from "./BannerItem";
 import DayProductList from "./DayProductList";
 import { BannerLoader } from "../SkeletonLoaders";
+import { getBanners } from "../../../redux/banner";
+import { useDispatch, useSelector } from "react-redux";
 
 const BannerCarousel = () => {
-  const [banners, setBanners] = useState([]);
+  const { isLoading, banners } = useSelector((state) => state.banner);
   const [products, setProducts] = useState([]);
-
-  const [loading, setLoading] = useState(false);
-  const fetchBanners = async () => {
-    try {
-      // setLoading(true);
-      const { data } = await axios.get("/banners");
-      setBanners(data.banners);
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const dispatch = useDispatch();
   const fetchProducts = async () => {
     try {
-      setLoading(true);
       const { data } = await axios.get("/products");
       setProducts(data.products);
-      setLoading(false);
     } catch (err) {
       console.log(err);
     }
   };
   useEffect(() => {
-    fetchBanners();
+    dispatch(getBanners());
     fetchProducts();
-  }, []);
+  }, [dispatch]);
   return (
     <>
-      {!loading ? (
+      {!isLoading ? (
         <div className="container-full lg:grid lg:grid-cols-12 block overflow-hidden md:my-4 my-5 gap-0 pb-2">
           <div className="xl:col-span-9 col-span-8 rounded-xl overflow-hidden">
             <Swiper
