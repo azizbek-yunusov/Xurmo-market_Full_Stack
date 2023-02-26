@@ -16,6 +16,7 @@ import {
   AiOutlineCloudUpload,
   AiOutlineStar,
 } from "react-icons/ai";
+import { IoMdClose } from "react-icons/io";
 import { MdAddAPhoto, MdClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { addReview } from "../../../redux/product";
@@ -40,13 +41,32 @@ export const Review = ({ productId }) => {
   const handleClose = () => setOpen(false);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
+  const [pictures, setPictures] = useState([]);
   const reviewsHandle = async (e) => {
     try {
       e.preventDefault();
-      dispatch(addReview({ access_token, productId, rating, comment }));
+      dispatch(
+        addReview({ access_token, productId, rating, comment, pictures })
+      );
     } catch (err) {
       console.log(err);
     }
+  };
+  const handleImage = (e) => {
+    const files = Array.from(e.target.files);
+    files.forEach((file) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setPictures((oldArray) => [...oldArray, reader.result]);
+      };
+    });
+  };
+
+  const deleteImages = (index) => {
+    const newArr = [...pictures];
+    newArr.splice(index, 1);
+    setPictures(newArr);
   };
   return (
     <>
@@ -120,12 +140,35 @@ export const Review = ({ productId }) => {
                         name="file"
                         type="file"
                         className="sr-only"
-                        // onChange={handleImageBanner}
+                        onChange={handleImage}
                       />
                     </label>
                   </div>
                 </div>
               </div>
+              {pictures.length > 0 && (
+                <div className="flex md:mt-2 ">
+                  {pictures.map((img, index) => (
+                    <div key={index} className="p-[6px] mx-[2px] relative">
+                      <div
+                        className="border border-gray-400 overflow-hidden rounded"
+                        id="file_img"
+                      >
+                        <img
+                          src={img}
+                          alt="images"
+                          className="img-thumbnail max-w-[50px] w-full"
+                        />
+                      </div>
+                      <IoMdClose
+                        onClick={() => deleteImages(index)}
+                        className="absolute text-gray-600 top-0 p-1 border text-2xl border-gray-300 right-0 cursor-pointer rounded-full bg-white"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+
               <div className="flex items-center justify-end mt-5">
                 <Button
                   onClick={handleClose}

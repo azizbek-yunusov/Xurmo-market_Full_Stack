@@ -7,9 +7,7 @@ const getAllProducts = async (req, res) => {
       .populate("createdBy", "_id name")
       .populate("category", "_id name");
 
-    res.status(201).json({
-      products,
-    });
+    res.status(201).json(products);
   } catch (err) {
     console.log(err);
   }
@@ -17,16 +15,14 @@ const getAllProducts = async (req, res) => {
 
 const getbestProducts = async (req, res) => {
   try {
-    const products = await ProductModel.find().populate(
+    const allProducts = await ProductModel.find().populate(
       "createdBy",
       "_id name"
     );
-    const bestProducts = products.filter((item) => {
+    const products = allProducts.filter((item) => {
       return item.ratings > 3.5;
     });
-    res.status(201).json({
-      bestProducts,
-    });
+    res.status(201).json(products);
   } catch (err) {
     console.log(err);
   }
@@ -37,6 +33,10 @@ const getProduct = async (req, res) => {
     const product = await ProductModel.findById(req.params.id)
       .populate("createdBy", "_id name avatar")
       .populate("reviews.user", "_id name avatar");
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
     res.status(201).json(product);
   } catch (err) {
     console.log(err);
@@ -64,9 +64,7 @@ const createProduct = async (req, res) => {
 
     const product = await ProductModel.create(req.body);
     await product.save();
-    res.status(200).json({
-      product,
-    });
+    res.status(200).json(product);
   } catch (err) {
     console.log(err);
   }
@@ -74,42 +72,26 @@ const createProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    let product = await ProductModel.findById(req.params.id);
-
-    if (req.body.images !== undefined) {
-      // Deleting Images From Cloudinary
-      for (let i = 0; i < product.images.length; i++) {
-        await cloudinary.v2.uploader.destroy(product.images[i].public_id);
+    const { name, price, descr, brand, discount, inStock, category, isShow } =
+      req.body;
+    const product = await ProductModel.findByIdAndUpdate(
+      req.params.id,
+      {
+        name,
+        price,
+        descr,
+        brand,
+        discount,
+        inStock,
+        category,
+        isShow,
+      },
+      {
+        new: true,
       }
+    );
 
-      const imagesLinks = [];
-
-      for (let i = 0; i < images.length; i++) {
-        const result = await cloudinary.v2.uploader.upload(images[i], {
-          folder: "Products",
-        });
-
-        imagesLinks.push({
-          public_id: result.public_id,
-          url: result.secure_url,
-        });
-      }
-
-      req.body.images = imagesLinks;
-    }
-    if (typeof req.body.images === "string") {
-      images.push(req.body.images);
-    } else {
-      images = req.body.images;
-    }
-    product = await ProductModel.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-
-    res.status(200).json({
-      success: true,
-      product,
-    });
+    res.status(200).json(product);
   } catch (err) {
     console.log(err);
   }
@@ -124,9 +106,7 @@ const deleteProduct = async (req, res) => {
     await cloudinary.uploader.destroy(product.images[i].public_id);
   }
   await product.remove();
-  res.status(201).json({
-    msg: "DELETED",
-  });
+  res.status(201).json(product);
 };
 
 const deleteSelected = async (req, res) => {

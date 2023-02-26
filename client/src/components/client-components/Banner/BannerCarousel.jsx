@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Autoplay, Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
@@ -11,22 +10,15 @@ import DayProductList from "./DayProductList";
 import { BannerLoader } from "../SkeletonLoaders";
 import { getBanners } from "../../../redux/banner";
 import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../../../redux/product";
 
 const BannerCarousel = () => {
   const { isLoading, banners } = useSelector((state) => state.banner);
-  const [products, setProducts] = useState([]);
+  const { products } = useSelector((state) => state.product);
   const dispatch = useDispatch();
-  const fetchProducts = async () => {
-    try {
-      const { data } = await axios.get("/products");
-      setProducts(data.products);
-    } catch (err) {
-      console.log(err);
-    }
-  };
   useEffect(() => {
     dispatch(getBanners());
-    fetchProducts();
+    dispatch(getProducts());
   }, [dispatch]);
   return (
     <>

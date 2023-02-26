@@ -1,23 +1,98 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { baseUrl } from "../../utils/baseUrl";
 
-export const getProduct = createAsyncThunk(
-  "product/getByIdProduct",
-
-  async (id, thunkApi) => {
+export const getProducts = createAsyncThunk(
+  "product/get-products",
+  async (thunkAPI) => {
     try {
-      const response = await fetch(`http://localhost:5000/product/${id}`);
-      return await response.json();
+      const { data } = await axios.get(`${baseUrl}products`);
+      return data;
     } catch (error) {
-      return thunkApi.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.data);
+    }
+  }
+);
+export const getProduct = createAsyncThunk(
+  "product/get-product",
+  async (id) => {
+    try {
+      const { data } = await axios.get(`${baseUrl}product/${id}`);
+      return data;
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+);
+export const createProduct = createAsyncThunk(
+  "product/create-product",
+  async ({ access_token, productData }) => {
+    try {
+      const { data } = await axios.post(`${baseUrl}product`, productData, {
+        headers: {
+          Authorization: access_token,
+        },
+      });
+      return data;
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+);
+export const updateProduct = createAsyncThunk(
+  "product/update-product",
+  async ({ access_token, id, productData }) => {
+    try {
+      const { data } = await axios.put(`${baseUrl}product/${id}`, productData, {
+        headers: {
+          Authorization: access_token,
+        },
+      });
+      return data;
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+);
+
+export const deleteProduct = createAsyncThunk(
+  "product/delete-product",
+  async ({ access_token, id }, thunkApi) => {
+    try {
+      const { data } = await axios.delete(`${baseUrl}product/${id}`, {
+        headers: {
+          Authorization: access_token,
+        },
+      });
+      return data;
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+);
+export const selectedDeleteProduct = createAsyncThunk(
+  "product/selected-delete-product",
+  async ({ access_token, selectedIds }, thunkApi) => {
+    try {
+      const { data } = await axios.post(
+        `${baseUrl}product/selected`,
+        selectedIds,
+        {
+          headers: {
+            Authorization: access_token,
+          },
+        }
+      );
+      return data;
+    } catch (error) {
+      return console.log(error);
     }
   }
 );
 
 export const addReview = createAsyncThunk(
-  "product/addReview",
-  async ({ access_token, productId, rating, comment }, thunkApi) => {
+  "product/add-review",
+  async ({ access_token, productId, rating, comment, pictures }, thunkApi) => {
     try {
       const { data } = await axios.put(
         `${baseUrl}review`,
@@ -25,6 +100,7 @@ export const addReview = createAsyncThunk(
           productId,
           rating,
           comment,
+          pictures
         },
         {
           headers: {
@@ -38,46 +114,131 @@ export const addReview = createAsyncThunk(
     }
   }
 );
+
 const initialState = {
-  product: [],
+  products: [],
+  product: null,
   isLoading: false,
   isError: false,
   isSuccess: false,
+  message: "",
 };
-
 export const productSlice = createSlice({
-  name: "product",
+  name: "products",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(getProducts.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getProducts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.products = action.payload;
+      })
+      .addCase(getProducts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(createProduct.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createProduct.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.products.push(action.payload);
+      })
+      .addCase(createProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
       .addCase(getProduct.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(getProduct.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isError = false;
         state.isSuccess = true;
         state.product = action.payload;
       })
       .addCase(getProduct.rejected, (state, action) => {
         state.isLoading = false;
+        state.isError = true;
         state.isSuccess = false;
-        state.isError = action.payload;
+        state.message = action.error;
       })
       .addCase(addReview.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(addReview.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isError = false;
         state.isSuccess = true;
         state.product = action.payload;
       })
       .addCase(addReview.rejected, (state, action) => {
         state.isLoading = false;
+        state.isError = true;
         state.isSuccess = false;
-        state.isError = action.payload;
+        state.message = action.error;
       })
-      .addDefaultCase(() => {});
+      .addCase(updateProduct.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateProduct.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.updatedProduct = action.payload;
+      })
+      .addCase(updateProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(deleteProduct.pending, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.products = state.products.filter(
+          (item) => item._id !== action.payload._id
+        );
+      })
+      .addCase(deleteProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(selectedDeleteProduct.pending, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(selectedDeleteProduct.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.products = state.products.filter(
+          (item) => item._id !== action.payload._id
+        );
+      })
+      .addCase(selectedDeleteProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(() => {});
   },
 });
 

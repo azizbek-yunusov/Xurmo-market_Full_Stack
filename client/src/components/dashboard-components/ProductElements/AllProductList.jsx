@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FiPlus } from "react-icons/fi";
@@ -15,30 +14,37 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { MdDelete } from "react-icons/md";
 import { BiExport, BiSearch } from "react-icons/bi";
 import TableBody from "./TableBody";
 import { HelmetTitle } from "../../../utils";
-import { NotData } from "../Helpers";
+import { MoreMenu, NotData, SearchInput, TableButton } from "../Helpers";
 import { useTranslation } from "react-i18next";
 import { Layout } from "../Layouts";
+import {
+  deleteProduct,
+  getProducts,
+  selectedDeleteProduct,
+} from "../../../redux/product";
+import GridList from "./GridList";
 
 const AllProductList = () => {
   let { t } = useTranslation(["product-d"]);
+  const { isLoading, products } = useSelector((state) => state.product);
   const { access_token } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const [term, setTerm] = useState("");
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [selectedProductIds, setSelectedProductIds] = useState([]);
-  const [limit, setLimit] = useState(10);
+  const [isTable, setIsTable] = useState(false);
+  const [isFilter, setIsFilter] = useState(true);
   const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const filteredProducts = products.filter((value) => {
     const searchName = value.name;
     return searchName.toLowerCase().includes(term.toLowerCase());
   });
-
   const handleSelectAll = (event) => {
     let newSelectedCustomerIds;
 
@@ -77,92 +83,97 @@ const AllProductList = () => {
 
     setSelectedProductIds(newSelectedCustomerIds);
   };
-  const fetchData = async () => {
-    const { data } = await axios.get("/products", {
-      headers: { Authorization: access_token },
-    });
-    setProducts(data.products);
-    setLoading(false);
-  };
-  const deleteProduct = async (id) => {
+  
+  const handleSelectedDelete = async () => {
     try {
-      await axios.delete(`/product/${id}`, {
-        headers: {
-          Authorization: access_token,
-        },
-      });
-      fetchData();
-      toast.success("Deleted product");
+      const selectedIds = {
+        selected: selectedProductIds,
+      };
+      await dispatch(selectedDeleteProduct({ access_token, selectedIds }));
+      dispatch(getProducts());
+      setSelectedProductIds([]);
+      toast.success(t("product-selected-deleted"));
     } catch (err) {
       console.log(err);
     }
   };
+  const handleDeleteProduct = async (id) => {
+    try {
+      await dispatch(deleteProduct({ access_token, id }));
+      toast.success(t("delete-product"));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  console.log(products);
+    dispatch(getProducts());
+  }, [dispatch]);
   return (
     <>
       <HelmetTitle title={t("all-products")} />
       <Layout>
-        {loading ? (
+        {isLoading ? (
           <CircularProgress />
         ) : (
-          <div className="bg-white dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border border-gray-200 dark:border-gray-600">
+          <div className="bg-white relative dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border border-gray-200 dark:border-gray-600">
             <h1 className="p-5 text-gray-600 dark:text-gray-200 text-xl font-semibold">
               {t("search-filter")}
             </h1>
-            <div className="grid grid-cols-3 gap-x-5 pb-6 mb-3 px-5 border-b border-b-gray-200 dark:border-b-gray-600">
-              <FormControl size="medium" sx={{}}>
-                <InputLabel _id="demo-simple-select-label">
-                  {t("select-category")}
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  _id="demo-simple-select"
-                  // value={"all"}
-                  // onChange={(e) => setCategory(e.target.value)}
-                  label={t("select-category")}
-                >
-                  <MenuItem value={"all"}>All</MenuItem>
-                  <MenuItem value={"user"}>products</MenuItem>
-                  <MenuItem value={"admin"}>Admins</MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl size="medium" sx={{}}>
-                <InputLabel _id="demo-simple-select-label">
-                  {t("select-rating")}
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  _id="demo-simple-select"
-                  // value={"all"}
-                  // onChange={(e) => setCategory(e.target.value)}
-                  label={t("select-brand")}
-                >
-                  <MenuItem value={"all"}>Date</MenuItem>
-                  <MenuItem value={"user"}>Name</MenuItem>
-                  <MenuItem value={"admin"}>Status</MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl size="medium" sx={{}}>
-                <InputLabel _id="demo-simple-select-label">
-                  {t("select-rating")}
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  _id="demo-simple-select"
-                  // value={"all"}
-                  // onChange={(e) => setCategory(e.target.value)}
-                  label={t("select-rating")}
-                >
-                  <MenuItem value={"all"}>All</MenuItem>
-                  <MenuItem value={"user"}>products</MenuItem>
-                  <MenuItem value={"admin"}>Admins</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
+            <MoreMenu isFilter={isFilter} setIsFilter={setIsFilter} />
+            {isFilter && (
+              <div className="grid grid-cols-3 gap-x-5 pb-6 mb-3 px-5 border-b border-b-gray-200 dark:border-b-gray-600">
+                <FormControl size="medium" sx={{}}>
+                  <InputLabel _id="demo-simple-select-label">
+                    {t("select-category")}
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    _id="demo-simple-select"
+                    // value={"all"}
+                    // onChange={(e) => setCategory(e.target.value)}
+                    label={t("select-category")}
+                  >
+                    <MenuItem value={"all"}>All</MenuItem>
+                    <MenuItem value={"user"}>products</MenuItem>
+                    <MenuItem value={"admin"}>Admins</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl size="medium" sx={{}}>
+                  <InputLabel _id="demo-simple-select-label">
+                    {t("select-rating")}
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    _id="demo-simple-select"
+                    // value={"all"}
+                    // onChange={(e) => setCategory(e.target.value)}
+                    label={t("select-brand")}
+                  >
+                    <MenuItem value={"all"}>Date</MenuItem>
+                    <MenuItem value={"user"}>Name</MenuItem>
+                    <MenuItem value={"admin"}>Status</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl size="medium" sx={{}}>
+                  <InputLabel _id="demo-simple-select-label">
+                    {t("select-rating")}
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    _id="demo-simple-select"
+                    // value={"all"}
+                    // onChange={(e) => setCategory(e.target.value)}
+                    label={t("select-rating")}
+                  >
+                    <MenuItem value={"all"}>All</MenuItem>
+                    <MenuItem value={"user"}>products</MenuItem>
+                    <MenuItem value={"admin"}>Admins</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+            )}
+
             {selectedProductIds.length ? (
               <div className="flex w-ful items-center justify-between py-[12.5px] px-4">
                 <h1 className="font-semibold text_color">{`${
@@ -172,6 +183,7 @@ const AllProductList = () => {
                   variant="contained"
                   color="error"
                   size="medium"
+                  onClick={() => handleSelectedDelete()}
                   sx={{
                     marginLeft: "15px",
                     borderRadius: "6px",
@@ -197,24 +209,9 @@ const AllProductList = () => {
                     <MenuItem value={"50"}>50</MenuItem>
                   </Select>
                 </FormControl>
-                <FormControl sx={{ minWidth: 500 }}>
-                  <TextField
-                    size="small"
-                    fullWidth
-                    value={term}
-                    onChange={(e) => setTerm(e.target.value)}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <BiSearch className="text-xl" />
-                        </InputAdornment>
-                      ),
-                    }}
-                    placeholder={t("search")}
-                    variant="outlined"
-                  />
-                </FormControl>
+                <SearchInput term={term} setTerm={setTerm} pl={t("search")} />
                 <div className="flex items-center">
+                  <TableButton isTable={isTable} setIsTable={setIsTable} />
                   <Button
                     disabled
                     variant="outlined"
@@ -245,36 +242,27 @@ const AllProductList = () => {
               </div>
             )}
             {products.length ? (
-              <table className="min-w-max w-full table-auto rounded-lg ">
-                <thead>
-                  <tr className="bg-gray-100 text-left dark:bg-[#232338] text-gray-500 dark:text-gray-200 text-sm font-light rounded-t-lg uppercase">
-                    <th className="py-2 text-center">
-                      <Checkbox
-                        checked={selectedProductIds.length === products.length}
-                        color="primary"
-                        indeterminate={
-                          selectedProductIds.length > 0 &&
-                          selectedProductIds.length < products.length
-                        }
-                        onChange={handleSelectAll}
-                      />
-                    </th>
-                    <th className="px-2.5">{t("product")}</th>
-                    <th className="px-2.5">{t("price")}</th>
-                    <th className="px-2.5">{t("category")}</th>
-                    <th className="px-2.5">{t("rating")}</th>
-                    <th className="px-2.5">{t("created-by")}</th>
-                    <th className="px-2.5">{t("created-at")}</th>
-                    <th className="px-2.5">{t("actions")}</th>
-                  </tr>
-                </thead>
-                <TableBody
-                  selectedProductIds={selectedProductIds}
-                  filteredProducts={filteredProducts}
-                  handleSelectOne={handleSelectOne}
-                  deleteProduct={deleteProduct}
-                />
-              </table>
+              <>
+                {!isTable ? (
+                  <TableBody
+                    products={products}
+                    handleSelectAll={handleSelectAll}
+                    selectedProductIds={selectedProductIds}
+                    filteredProducts={filteredProducts}
+                    handleSelectOne={handleSelectOne}
+                    handleDeleteProduct={handleDeleteProduct}
+                  />
+                ) : (
+                  <GridList
+                    products={products}
+                    handleSelectAll={handleSelectAll}
+                    selectedProductIds={selectedProductIds}
+                    filteredProducts={filteredProducts}
+                    handleSelectOne={handleSelectOne}
+                    handleDeleteProduct={handleDeleteProduct}
+                  />
+                )}{" "}
+              </>
             ) : (
               <NotData />
             )}

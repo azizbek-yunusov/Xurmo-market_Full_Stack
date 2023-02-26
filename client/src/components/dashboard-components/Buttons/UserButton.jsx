@@ -60,7 +60,7 @@ const UserButton = () => {
     },
   };
   return (
-    <Fragment>
+    <>
       <Badge
         overlap="circular"
         onClick={handleDropdownOpen}
@@ -81,9 +81,10 @@ const UserButton = () => {
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={() => handleDropdownClose()}
-        sx={{ "& .MuiMenu-paper": { width: 230, marginTop: 4 } }}
+        sx={{ "& .MuiMenu-paper": { width: 230, marginTop: 2 } }}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
+        
       >
         <Box sx={{ py: 1, px: 3 }}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -139,7 +140,7 @@ const UserButton = () => {
           {t("sign-out")}
         </MenuItem>
       </Menu>
-    </Fragment>
+    </>
   );
 };
 

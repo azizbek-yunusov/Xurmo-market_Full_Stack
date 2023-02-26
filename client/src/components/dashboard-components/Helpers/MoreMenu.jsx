@@ -18,7 +18,7 @@ const MoreMenu = ({ isFilter, setIsFilter }) => {
   const reload = () => {
   };
   return (
-    <>
+    <div className="absolute top-3 right-3">
       <IconButton onClick={handleDropdownOpen}>
         <BiDotsVerticalRounded />
       </IconButton>
@@ -33,7 +33,7 @@ const MoreMenu = ({ isFilter, setIsFilter }) => {
         <MenuItem onClick={reload}>reload</MenuItem>
         <MenuItem onClick={isShowFilterPanel}>filter bar</MenuItem>
       </Menu>
-    </>
+    </div>
   );
 };
 

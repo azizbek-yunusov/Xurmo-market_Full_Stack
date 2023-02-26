@@ -1,22 +1,20 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { AiOutlineShopping, AiOutlineUser } from "react-icons/ai";
 import { BsFolder } from "react-icons/bs";
 import { MdOutlineAttachMoney } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../../../redux/product";
 
 const TopData = () => {
+  const { t } = useTranslation(["product"]);
+  const { isLoading, products } = useSelector((state) => state.product);
+  const dispatch = useDispatch();
   const { access_token } = useSelector((state) => state.auth);
-  const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
   const [users, setUsers] = useState([]);
 
-  const fetchProducts = async () => {
-    const { data } = await axios.get("/products", {
-      headers: { Authorization: access_token },
-    });
-    setProducts(data.products);
-  };
   const fetchOrders = async () => {
     const { data } = await axios.get("/orders", {
       headers: { Authorization: access_token },
@@ -30,11 +28,14 @@ const TopData = () => {
     setUsers(data.users);
   };
   useEffect(() => {
-    fetchProducts();
     fetchOrders();
     fetchUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
   return (
     <div className="w-full xl:px-5 grid grid-cols-4 xl:gap-4 gap-2 md:my-4">
       <div className="flex justify-start items-center bg-white dark:bg-[#2e2d4a] border border-gray-200 dark:border-gray-700  xl:px-6 px-3 xl:py-5 py-3 rounded-lg">

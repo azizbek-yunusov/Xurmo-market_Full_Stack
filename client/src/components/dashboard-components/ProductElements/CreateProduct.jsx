@@ -1,9 +1,8 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   FormControl,
@@ -15,25 +14,29 @@ import {
 import { HelmetTitle } from "../../../utils";
 import { useTranslation } from "react-i18next";
 import { Layout } from "../Layouts";
+import { toast } from "react-hot-toast";
+import { createProduct } from "../../../redux/product";
+import { getCategories } from "../../../redux/category";
+import { getBrands } from "../../../redux/brand/brandSlice";
 
 const CreateProduct = () => {
   let { t } = useTranslation(["product-d"]);
+  const { i18n } = useTranslation();
+  const { isLoading, isError } = useSelector((state) => state.product);
   const { access_token } = useSelector((state) => state.auth);
+  const { brands } = useSelector((state) => state.brand);
+  const { categories } = useSelector((state) => state.category);
+  const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [descr, setDescr] = useState("");
   const [inStock, setInStock] = useState(1);
   const [images, setImages] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [brands, setBrands] = useState([]);
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
   const [discount, setDiscount] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const goback = useNavigate();
   const navigate = useNavigate();
-  //handlde images
+
   const handleImage = (e) => {
     const files = Array.from(e.target.files);
     files.forEach((file) => {
@@ -50,54 +53,30 @@ const CreateProduct = () => {
     newArr.splice(index, 1);
     setImages(newArr);
   };
-  const handleSubmit = async (e) => {
+  const createCategoryHandle = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    await fetch("http://localhost:5000/product", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: access_token,
-      },
-      body: JSON.stringify({
-        name,
-        price,
-        descr,
-        images,
-        category,
-        discount,
-        inStock,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-        } else {
-          setLoading(false);
-          navigate("/dashboard/products");
-        }
-      });
-  };
-  const getCategories = async () => {
-    try {
-      const { data } = await axios.get("/categories");
-      setCategories(data.categories);
-    } catch (err) {
-      console.log(err);
+    const productData = {
+      name,
+      price,
+      descr,
+      images,
+      category,
+      discount,
+      inStock,
+    };
+    await dispatch(createProduct({ access_token, productData }));
+    if (!isLoading) {
+      toast.success(t("new-category-added"));
+      navigate("/dashboard/products");
     }
-  };
-  const getBrands = async () => {
-    try {
-      const { data } = await axios.get("/brands");
-      setBrands(data.brands);
-    } catch (err) {
-      console.log(err);
+    if (isError) {
+      toast.error("Something Went Wrong!");
     }
   };
   useEffect(() => {
-    getBrands();
-    getCategories();
-  }, []);
+    dispatch(getCategories());
+    dispatch(getBrands());
+  }, [dispatch]);
 
   return (
     <>
@@ -127,7 +106,7 @@ const CreateProduct = () => {
           <div className="-mt-24 rounded-2xl flex mx-4 bg-white dark:bg-[#312d4b] shadow-lg">
             <div className="flex w-full p-8 px-16">
               <div className="w-full">
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={createCategoryHandle}>
                   <div className="grid grid-cols-1 gap-6 gap-x-14 md:grid-cols-2">
                     <TextField
                       id="outlined-basic"
@@ -153,8 +132,14 @@ const CreateProduct = () => {
                         onChange={(e) => setCategory(e.target.value)}
                       >
                         {categories?.map((item, index) => (
-                          <MenuItem key={index} value={item.name}>
-                            {item.name}
+                          <MenuItem key={index} value={item.slug}>
+                            {i18n.language === "uz"
+                              ? item.nameUz
+                              : i18n.language === "en"
+                              ? item.nameEn
+                              : i18n.language === "ru"
+                              ? item.nameRu
+                              : null}
                           </MenuItem>
                         ))}
                       </Select>
@@ -283,7 +268,7 @@ const CreateProduct = () => {
                   </div>
                   <div className="w-full mt-10 flex justify-end">
                     <Button
-                      onClick={() => goback(-1)}
+                      onClick={() => navigate(-1)}
                       variant="contained"
                       size="large"
                       color="info"
@@ -293,7 +278,7 @@ const CreateProduct = () => {
                         marginRight: "15px",
                       }}
                     >
-                     {t("cancel")}
+                      {t("cancel")}
                     </Button>
 
                     <Button
@@ -305,7 +290,7 @@ const CreateProduct = () => {
                         width: "150px",
                       }}
                     >
-                      {loading ? (
+                      {isLoading ? (
                         <div className="flex items-center justify-center">
                           <svg
                             className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"

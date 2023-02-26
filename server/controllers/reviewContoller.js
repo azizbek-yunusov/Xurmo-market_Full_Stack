@@ -3,17 +3,16 @@ const cloudinary = require("../utils/cloudinary");
 
 const addReview = async (req, res) => {
   try {
-    const { rating, comment, productId } = req.body;
+    const { rating, comment, productId, pictures } = req.body;
     const review = {
       user: req.user.id,
       name: req.user.id,
       rating: Number(rating),
       comment,
     };
-    let pictures = [...req.body.pictures];
     let picturesBuffer = [];
 
-    for (let i = 0; i < pictures?.length; i++) {
+    for (let i = 0; i < pictures.length; i++) {
       const result = await cloudinary.uploader.upload(pictures[i], {
         folder: "products",
       });
@@ -35,7 +34,7 @@ const addReview = async (req, res) => {
     if (isReviewed) {
       product.reviews.forEach((rev) => {
         if (rev.name.toString() === req.user.id.toString())
-          (rev.rating = rating), (rev.comment = comment);
+          (rev.rating = rating), (rev.comment = comment), (rev.pictures = pictures);
       });
     } else {
       product.reviews.push(review);
@@ -69,31 +68,28 @@ const showReview = async (req, res) => {
 };
 
 const updateReview = async (req, res) => {
-    try {
-      await ProductModel.findByIdAndUpdate(
-        req.body.reviewId,
-        {
-          $push : {likes}
-        }
-      )
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  try {
+    await ProductModel.findByIdAndUpdate(req.body.reviewId, {
+      $push: { likes },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-  const likeReview = async (req, res) => {
-    try {
-    } catch (err) {
-      console.log(err);
-    }
-  };
+const likeReview = async (req, res) => {
+  try {
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-  const disLikeReview = async (req, res) => {
-    try {
-    } catch (err) {
-      console.log(err);
-    }
-  };
+const disLikeReview = async (req, res) => {
+  try {
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 const deleteReview = async (req, res) => {
   try {
@@ -116,5 +112,5 @@ module.exports = {
   likeReview,
   disLikeReview,
   deleteSelect,
-  updateReview
+  updateReview,
 };

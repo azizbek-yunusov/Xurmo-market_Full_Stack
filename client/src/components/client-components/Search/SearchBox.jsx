@@ -62,7 +62,7 @@ const SearchBox = () => {
   // Voice search
   const openVoiceSearch = () => {
     const recognition = new window.webkitSpeechRecognition();
-    recognition.lang = 'uz-UZ';
+    recognition.lang = "uz-UZ";
 
     recognition.onstart = () => {
       setListening(true);
@@ -117,7 +117,7 @@ const SearchBox = () => {
           >
             <BiMicrophone
               className={`${
-                listening ? "text-orange-600 text-2xl " : "text-gray-600"
+                listening ? "text-orange-600 text-2xl " : "text-gray-500"
               } md:text-[22px] text-xl `}
             />
           </div>

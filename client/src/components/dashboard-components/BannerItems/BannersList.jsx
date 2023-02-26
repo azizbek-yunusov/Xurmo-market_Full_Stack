@@ -131,9 +131,7 @@ const BannersList = () => {
               <h1 className="p-5 text-gray-600 dark:text-gray-200 text-xl font-semibold">
                 {t("search-filter")}
               </h1>
-              <div className="absolute top-3 right-3">
-                <MoreMenu isFilter={isFilter} setIsFilter={setIsFilter} />
-              </div>
+              <MoreMenu isFilter={isFilter} setIsFilter={setIsFilter} />
               {isFilter && (
                 <div className="grid grid-cols-3 gap-x-5 pb-6 mb-3 px-5 border-b border-b-gray-200 dark:border-b-gray-600">
                   <FormControl size="medium" sx={{}}>

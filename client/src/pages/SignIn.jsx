@@ -32,14 +32,6 @@ const SignIn = () => {
       ...formState,
       [e.target.name]: e.target.value,
     });
-    const errors = {};
-    if (!formState.email) {
-      errors.email = t("email-valid");
-    }
-    if (!formState.password) {
-      errors.password = t("password-valid");
-    }
-    setFormErrors(errors);
   };
 
   const handleClickShowPassword = () => {

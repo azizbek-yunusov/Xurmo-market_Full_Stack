@@ -11,9 +11,9 @@ const ListBox = () => {
     setProducts(data.products);
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
   return (
     <div className="bg-[#f2f2f2] my-8 pt-8 pb-5 hidden">
       <div className="container-full md:my-5">
@@ -30,9 +30,9 @@ const ListBox = () => {
         </div>
         <div className="grid grid-cols-12 md:gap-x-5">
           <div className="col-span-3 md:mx-2">
-            {products.slice(0, 2).map((item, index) => (
+            {/* {products.slice(0, 2).map((item, index) => (
               <AdaptableCard key={index} index={index} {...item} />
-            ))}
+            ))} */}
           </div>
           <div className="col-span-9">
             <div className="flex_betwen md:mx-2">
