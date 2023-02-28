@@ -9,7 +9,7 @@ const BottomNavigation = () => {
   const { isLogged, isAdmin } = useSelector((state) => state.auth);
   const scroll = useScrollTrigger();
   return (
-    <div className={`${isAdmin ? "hidden" : "block"}`}>
+    <div  transition={{ duration: 0.3, type: "keyframes" }} className={`${isAdmin ? "hidden" : "block"}`}>
       {!scroll ? (
         <div className="lg:hidden block w-full rounded-t-3xl z-50 border-t border-gray-100 bg-white backdrop-blur-md fixed left-0 bottom-0 shadow-xl">
           <div className="flex_betwen px-7 py-[6px] pt-3 sm:py-4  text-gray-700">

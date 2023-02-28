@@ -1,76 +1,32 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
-const initialState = {
-  isLoading: false,
-  isLogged: false,
-  isAdmin: false,
-  access_token: "",
-  user: [],
-};
-const backendURL = "http://localhost:5000";
-const config = {
-  headers: {
-    "Content-Type": "application/json",
-  },
-};
+import { baseUrl } from "../../utils/baseUrl";
 
 export const signIn = createAsyncThunk(
-  "auth/signIn",
-  async ({ email, password }, thunkAPI) => {
+  "auth/sign-in",
+  async ({ formState }) => {
     try {
-      const response = await fetch(`${backendURL}/signin`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
-      let data = await response.json();
-      if (response.status === 200) {
-        localStorage.setItem("firstLogin", true);
-        return { ...data };
-      } else {
-        return thunkAPI.rejectWithValue(data);
-      }
+      const { data } = await axios.post(`${baseUrl}signin`, formState);
+      return data;
     } catch (error) {
-      console.log(error);
+      return console.log(error);
     }
   }
 );
 
-export const refresh = createAsyncThunk("auth/refresh", async (thunkAPI) => {
-  const firstLogin = localStorage.getItem("firstLogin");
-  if (firstLogin) {
-    try {
-      const response = await axios.post(`${backendURL}/refreshtoken`, null);
-      let data = await response.json();
-      if (response.status === 200) {
-        return { ...data };
-      } else {
-        return thunkAPI.rejectWithValue(data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-});
-export const authSlice = createSlice({
+const initialState = {
+  user: [],
+  access_token: "",
+  isLoading: false,
+  isError: false,
+  isAdmin: false,
+  isSuccess: false,
+  message: "",
+};
+export const categorySlice = createSlice({
   name: "auth",
-  initialState: initialState,
-  reducers: {
-    signOut: (state) => {
-      state.isLoading = false;
-      state.isLogged = true;
-      state.isAdmin = false;
-      state.user = [];
-      state.access_token = "";
-    },
-  },
+  initialState,
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(signIn.pending, (state) => {
@@ -78,33 +34,20 @@ export const authSlice = createSlice({
       })
       .addCase(signIn.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isLogged = true;
-        state.isAdmin = action.payload.user.admin ? true : false;
+        state.isError = false;
+        state.isSuccess = true;
         state.user = action.payload.user;
         state.access_token = action.payload.access_token;
+        state.isAdmin = action.payload.user.admin ? true : false;
       })
       .addCase(signIn.rejected, (state, action) => {
         state.isLoading = false;
-        state.isLogged = false;
-        state.error = action.payload.error;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
       })
-      .addCase(refresh.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(refresh.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isLogged = true;
-        state.isAdmin = action.payload.user.admin ? true : false;
-        state.user = action.payload.user;
-        state.access_token = action.payload.access_token;
-      })
-      .addCase(refresh.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isLogged = false;
-        state.error = action.payload.error;
-      })
-      .addDefaultCase(() => {});
+      .addCase(() => {});
   },
 });
 
-export default authSlice.reducer;
+export default categorySlice.reducer;

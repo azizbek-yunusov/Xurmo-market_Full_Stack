@@ -11,21 +11,21 @@ function ActivationEmail() {
   const [err, setErr] = useState("");
   const [success, setSuccess] = useState("");
 
-  // useEffect(() => {
-  //   if (activationtoken) {
-  //     const activationEmail = async () => {
-  //       try {
-  //         const res = await axios.post("/activation", {
-  //           activationtoken,
-  //         });
-  //         setSuccess(res.data.msg);
-  //       } catch (err) {
-  //         err.response.data.msg && setErr(err.response.data.msg);
-  //       }
-  //     };
-  //     activationEmail();
-  //   }
-  // }, [activationtoken]);
+  useEffect(() => {
+    if (activationtoken) {
+      const activationEmail = async () => {
+        try {
+          const res = await axios.post("/activation", {
+            activationtoken,
+          });
+          setSuccess(res.data.msg);
+        } catch (err) {
+          err.response.data.msg && setErr(err.response.data.msg);
+        }
+      };
+      activationEmail();
+    }
+  }, [activationtoken]);
   return (
     <div className="active_page min-h-[550px] flex_center">
       <div className="max-w-[500px] w-full flex_col items-center justify-center border_primary md:p-5 rounded-xl">

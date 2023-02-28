@@ -7,6 +7,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useGlobalApi } from "../../../hooks";
+import Price from "../Helpers/Price";
 
 const BottomScoll = ({ product }) => {
   const scroll = useScrollTrigger();
@@ -21,7 +22,10 @@ const BottomScoll = ({ product }) => {
       {scroll && (
         <div className="md:hidden grid grid-cols-2 fixed bottom-0 left-0 w-full py-2 z-50 bg-white shadow-lg px-4 border-t border-t-gray-100">
           <div className="col-span-1 flex items-center">
-            <p className="text-gray-800 text-base font-bold">100$</p>
+            <Price
+              price={product.price}
+              className="text-gray-800 text-base font-bold"
+            />
           </div>
           <div className="col-span-1">
             {isCart ? (

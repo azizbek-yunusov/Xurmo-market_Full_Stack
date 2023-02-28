@@ -4,15 +4,13 @@ import { BiMicrophone } from "react-icons/bi";
 import { CgSearch } from "react-icons/cg";
 import { MdClose } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
-import { recognition } from "../../../utils/SpeechRecognition";
 
 const MobileSearchBox = ({ products, toggleMobileSearchBar }) => {
   const { t } = useTranslation(["product"]);
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const [isVoiceSearch, setIsVoiceSearch] = useState(false);
-  const [voiceText, setVoiceText] = useState("");
+  const [listening, setListening] = useState(false);
 
   const handleAutoComplete = (e) => {
     const searchTerm = e.target.value;
@@ -42,14 +40,31 @@ const MobileSearchBox = ({ products, toggleMobileSearchBar }) => {
     CloseBar();
   };
   const openVoiceSearch = () => {
-    setIsVoiceSearch(true);
-    recognition.start();
-    recognition.onresult = (event) => {
-      var current = event.resultIndex;
-      var transcript = event.results[current][0].transcript;
-      setVoiceText(voiceText + transcript);
-      setQuery(voiceText + transcript);
+    const recognition = new window.webkitSpeechRecognition();
+    recognition.lang = "uz-UZ";
+
+    recognition.onstart = () => {
+      setListening(true);
     };
+
+    recognition.onend = () => {
+      setListening(false);
+    };
+
+    recognition.onresult = (event) => {
+      const { transcript } = event.results[0][0];
+      setQuery(transcript);
+    };
+
+    recognition.start();
+    // setListening(true);
+    // recognition.start();
+    // recognition.onresult = (event) => {
+    //   var current = event.resultIndex;
+    //   var transcript = event.results[current][0].transcript;
+    //   setVoiceText(voiceText + transcript);
+    //   setQuery(voiceText + transcript);
+    // };
   };
 
   return (
@@ -79,7 +94,11 @@ const MobileSearchBox = ({ products, toggleMobileSearchBar }) => {
                 onClick={() => openVoiceSearch()}
                 className="flex absolute inset-y-0 right-0 items-center pr-3"
               >
-                <BiMicrophone className="md:text-[22px] text-xl text-gray-500" />
+                <BiMicrophone
+                  className={`${
+                    listening ? "text-orange-600 text-2xl " : "text-gray-500"
+                  } md:text-[22px] text-xl `}
+                />
               </div>
             </div>
           </form>

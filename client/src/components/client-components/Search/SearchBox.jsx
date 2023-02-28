@@ -3,22 +3,23 @@ import { CgSearch } from "react-icons/cg";
 import { BiMicrophone } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
-import axios from "axios";
 import AutoComplate from "./AutoComplate";
 import { useTranslation } from "react-i18next";
 import MobileSearchBox from "./MobileSearchBox";
 import { recognition } from "../../../utils/SpeechRecognition";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../../../redux/product";
 
 const SearchBox = () => {
   const { t } = useTranslation(["product"]);
   const navigate = useNavigate();
   const matches = useMediaQuery("(min-width: 700px)");
   const [query, setQuery] = useState("");
-  const [products, setProducts] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [showSearch, setShowSearch] = useState(false);
-  const [voiceText, setVoiceText] = useState("");
   const [listening, setListening] = useState(false);
+  const { products } = useSelector((state) => state.product);
+  const dispatch = useDispatch();
 
   const handleAutoComplete = (e) => {
     const searchTerm = e.target.value;
@@ -34,10 +35,6 @@ const SearchBox = () => {
     }
   };
 
-  const fetchData = async () => {
-    const { data } = await axios.get("/products");
-    setProducts(data.products);
-  };
   const clearFilter = () => {
     setFilteredData([]);
     setQuery("");
@@ -52,9 +49,6 @@ const SearchBox = () => {
     setFilteredData([]);
     recognition.stop();
   };
-  useEffect(() => {
-    fetchData();
-  }, []);
   const toggleMobileSearchBar = () => {
     setShowSearch(!showSearch);
   };
@@ -87,6 +81,9 @@ const SearchBox = () => {
     //   setQuery(voiceText + transcript);
     // };
   };
+  useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
   return (
     <div className="relative">
       <form

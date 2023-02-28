@@ -4,10 +4,11 @@ import { useTranslation } from "react-i18next";
 import Translate from "../Buttons/Translate";
 import { HiOutlinePhone } from "react-icons/hi";
 import TransleteD from "../../dashboard-components/Buttons/TransleteD";
+import { Link } from "@mui/material";
 
 const TopLink = () => {
   const { auth } = useSelector((state) => state);
-  const { t } = useTranslation();
+  const { t } = useTranslation(["shop"]);
 
   return (
     <>
@@ -15,10 +16,16 @@ const TopLink = () => {
         <div>
           <div className="lg:block hidden tranistion_normal w-full bg-gradient-to-r from-purple-500 to-orange-400">
             <div className="container-full py-[6px] flex items-center justify-between">
-              <div className="flex justify-between items-center"></div>
+              <div className="flex justify-between items-center">
+                <Link top={"/products"}>
+                  <button className="rounded-lg px-3 font-semibold py-1 text bg-white text-purple-700">
+                    {"-% "}{t("discount")}
+                  </button>
+                </Link>
+              </div>
               <div className="flex justify-between items-center">
                 <p className="text-base text-white font-semibold mr-2">
-                  {t("shop:contactcenter")}
+                  {t("contactcenter")}
                   {": "}
                 </p>
                 <p className="text-lg mr-5 font-semibold text-white">

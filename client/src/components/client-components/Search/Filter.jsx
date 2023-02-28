@@ -81,6 +81,7 @@ const Filter = ({ categories, brands, getFilterUrl, category }) => {
               valueLabelDisplay="auto"
               aria-labelledby="range-slider"
               min={0}
+              color="secondary"
               max={10000}
             />
             <div className="flex_betwen md:my-5">

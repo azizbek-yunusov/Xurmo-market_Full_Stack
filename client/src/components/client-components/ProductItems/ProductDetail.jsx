@@ -22,6 +22,7 @@ const ProductDetail = () => {
   const { id } = useParams();
   useEffect(() => {
     dispatch(getProduct(id));
+    window.scrollTo(0, 0);
   }, [dispatch, id]);
   console.log(product);
   return (
@@ -44,7 +45,7 @@ const ProductDetail = () => {
               <div className="md:bg-transparent  bg-gray-200 rounded-2xl">
                 <ImageThumbs images={product.images} />
               </div>
-              <div className="block md:my-0 md:px-3 px-4 my-3">
+              <div className="block md:my-0 md:px-3 px-0 my-3">
                 <div className="flex_betwen">
                   <h1 className="xl:text-3xl md:text-2xl text-2xl  font-semibold text-zinc-700">
                     {product.name}

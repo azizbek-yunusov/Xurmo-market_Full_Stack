@@ -5,6 +5,7 @@
   "productonordertxt": "Buyurtmadagi mahsulotlar",
   "quantity": "miqdori",
   "total": "Jami",
+  "discount": "Chegirmalar",
   "ordertxt": "Sizning buyurtmangiz",
   "priceorders": "ta mahsulot narxi",
   "shippingcost": "Yetkazib berish",
@@ -35,5 +36,4 @@
   "contact": "Telofon raqam",
   "address": "Manzil",
   "empty-order": "Buyurtma berilmagan"
-  
 }

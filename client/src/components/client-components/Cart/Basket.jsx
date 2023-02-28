@@ -40,7 +40,7 @@ const Basket = () => {
                 variant="contained"
                 color="secondary"
               >
-                {t("empty-cart")}
+                {t("cart-b")}
               </Button>
             </div>
           </div>

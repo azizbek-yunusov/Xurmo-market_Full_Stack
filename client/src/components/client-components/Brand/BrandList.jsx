@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "swiper/css";
@@ -6,6 +7,7 @@ import { getBrands } from "../../../redux/brand/brandSlice";
 import BrandItem from "./BrandItem";
 
 const BrandsList = () => {
+  let { t } = useTranslation(["home"]);
   const dispatch = useDispatch();
   const { brands } = useSelector((state) => state.brand);
   useEffect(() => {
@@ -14,14 +16,14 @@ const BrandsList = () => {
   return (
     <div className="container-full md:my-5 my-5 md:pt-10 md:pb-5 py-4 bg-[#f2f2f2]">
       <div className="flex_betwen">
-        <h1 className="lg:text-3xl text-sm text-gray-800 text-left font-semibold">
-          Brendlar
+        <h1 className="lg:text-3xl text-xl text-gray-800 text-left font-semibold">
+          {t("brands")}
         </h1>
         <Link
           to={"/manufacturer"}
           className="md:text-lg hover:underline text-xs transition_normal text-orange-500"
         >
-          Barchasini ko'rish
+          {t("all-views")}
         </Link>
       </div>
       <div className="lg:grid lg:grid-cols-6 lg:my-5 my-4 lg:gap-5 flex justify-between">
@@ -30,49 +32,6 @@ const BrandsList = () => {
         ))}
       </div>
     </div>
-    // <>
-    //   {loading ? (
-    //     <CategoryListLoader />
-    //   ) : (
-    //     <div className="md:my-10 my-5 container-full">
-    //       <Swiper
-    //         breakpoints={{
-    //           300: {
-    //             width: 300,
-    //             slidesPerView: 3,
-    //             spaceBetween: 10,
-    //           },
-    //           425: {
-    //             width: 425,
-    //             slidesPerView: 3,
-    //             spaceBetween: 10,
-    //           },
-    //           640: {
-    //             width: 640,
-    //             slidesPerView: 3,
-    //             spaceBetween: 10,
-    //           },
-    //           768: {
-    //             width: 768,
-    //             slidesPerView: 4,
-    //             spaceBetween: 10,
-    //           },
-    //           1024: {
-    //             width: 1024,
-    //             slidesPerView: 5,
-    //             spaceBetween: 40,
-    //           },
-    //         }}
-    //       >
-    //         {brands.map((item, index) => (
-    //           <SwiperSlide key={index}>
-    //             <BrandItem {...item} />
-    //           </SwiperSlide>
-    //         ))}
-    //       </Swiper>
-    //     </div>
-    //   )}
-    // </>
   );
 };
 
