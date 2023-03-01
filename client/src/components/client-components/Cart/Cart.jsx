@@ -11,12 +11,12 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     right: -3,
     top: 2,
     border: `2px solid white`,
-    padding: '0px 4px',
+    padding: "0px 4px",
   },
 }));
 
 const Cart = () => {
-  const { cart } = useSelector((state) => state);
+  const { cart } = useSelector((state) => state.me);
   let { t } = useTranslation(["product"]);
   return (
     <Link
@@ -30,7 +30,7 @@ const Cart = () => {
       >
         <FiShoppingCart className="md:text-2xl text-2xl cursor-pointer text-gray-500" />
       </StyledBadge>
-      <p className="text-xs pt-1 sm:text-sm">{ t("cart")}</p>
+      <p className="text-xs pt-1 sm:text-sm">{t("cart")}</p>
     </Link>
   );
 };

@@ -2,16 +2,16 @@ import { useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
+import { addToCart, getUserInfor } from "../redux/actions/userAction";
+import { useTranslation } from "react-i18next";
 
 function useGlobalApi(access_token) {
   const dispatch = useDispatch();
+  let { t } = useTranslation(["profile"]);
 
-  const fetchCart = async () => {
+  const fetchUser = async () => {
     try {
-      const { data } = await axios.get("/mycart", {
-        headers: { Authorization: access_token },
-      });
-      dispatch({ type: "GET_CART", payload: data });
+      // dispatch(getUserInfor(access_token));
     } catch (err) {
       console.log(err);
     }
@@ -19,24 +19,7 @@ function useGlobalApi(access_token) {
   const addToCartHandle = async (id) => {
     try {
       if (access_token) {
-        // const { data } = await axios.put(`/addcart/${id}`, {
-        //   headers: { Authorization: access_token },
-        // });
-        // // dispatch({ type: "GET_CART", payload: data.client.cart });
-        // toast.success("Add to cart this product");
-        // fetchCart();
-        fetch(`http://localhost:5000/addcart/${id}`, {
-          method: "put",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: access_token,
-          },
-        })
-          .then((res) => res.json())
-          .then((res) => {
-            toast.success("Add to cart this product");
-            fetchCart();
-          });
+        dispatch(addToCart(id, access_token));
       }
       if (access_token === undefined) {
         window.location.reload();
@@ -55,7 +38,7 @@ function useGlobalApi(access_token) {
       if (data.error) {
         toast.error(data.error);
       } else {
-        fetchCart();
+        fetchUser();
       }
     } catch (err) {
       console.log(err);
@@ -69,7 +52,7 @@ function useGlobalApi(access_token) {
       if (data.error) {
         toast.error(data.error);
       } else {
-        fetchCart();
+        fetchUser();
       }
     } catch (err) {
       console.log(err);
@@ -77,16 +60,6 @@ function useGlobalApi(access_token) {
   };
 
   // Wish
-  const fetchFavorites = async () => {
-    try {
-      const res = await axios.get("/favorites", {
-        headers: { Authorization: access_token },
-      });
-      dispatch({ type: "GET_FAVORITES", payload: res.data });
-    } catch (err) {
-      console.log(err);
-    }
-  };
   const addToFavorite = async (id) => {
     try {
       if (access_token) {
@@ -100,7 +73,7 @@ function useGlobalApi(access_token) {
           .then((res) => res.json())
           .then((res) => {
             toast.success("Add to favorites item");
-            fetchFavorites();
+            fetchUser();
           });
       } else {
         toast.error("You must register");
@@ -117,7 +90,7 @@ function useGlobalApi(access_token) {
       if (data.error) {
         toast.error(data.error);
       } else {
-        fetchFavorites();
+        fetchUser();
       }
     } catch (err) {
       console.log(err);
@@ -126,8 +99,7 @@ function useGlobalApi(access_token) {
 
   useEffect(() => {
     if (access_token) {
-      fetchCart();
-      fetchFavorites();
+      fetchUser();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [access_token]);

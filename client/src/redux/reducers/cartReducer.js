@@ -1,6 +1,10 @@
-const cart = [];
+const initialState = {
+  cart: [],
+  isLoading: false,
+  isError: false,
+};
 
-const cartReducer = (state = cart, action) => {
+const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case "GET_CART":
       return action.payload;

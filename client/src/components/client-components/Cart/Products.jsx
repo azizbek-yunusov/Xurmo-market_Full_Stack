@@ -4,19 +4,19 @@ import { useTranslation } from "react-i18next";
 import { AiOutlineHeart, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsHeart } from "react-icons/bs";
 import { HiOutlineTrash } from "react-icons/hi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import useGlobalApi from "../../../hooks/useGlobalApi";
+import {
+  addToCart,
+  decrQtyItemCart,
+  deleteFavoriteItem,
+  deleteFromCart,
+} from "../../../redux/actions/userAction";
 import Price from "../Helpers/Price";
 const Products = ({ cart }) => {
   const { access_token } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   let { t } = useTranslation(["product"]);
-  const {
-    addToCartHandle,
-    decrementQtyItem,
-    deleteHandle,
-    deleteFavoriteItem,
-  } = useGlobalApi(access_token);
   return (
     <>
       <div className="container-full grid md:grid-cols-12 lg:gap-x-5 gap-y-3">
@@ -37,28 +37,35 @@ const Products = ({ cart }) => {
                         <div className="col-span-12 md:col-span-7 flex justify-start">
                           <div className="overflow-hidden border-0 border-gray-300 py-1 rounded-xl">
                             <img
-                              src={item.productId.images[0].url}
+                              src={item.productId?.images[0].url}
                               alt={""}
                               className="object-cover md:h-28 md:w-28 w-20 h-20 object-center"
                             />
                           </div>
                           <div className="md:ml-4 ml-1 flex flex-col md:justify-between justify-around">
                             <p className="text-base text-gray-800 ">
-                              {item.productId.name}
+                              {item.productId?.name}
                             </p>
 
                             <Price
-                              price={item.productId.price}
+                              price={item.productId?.price}
                               className="font-semibold md:flex hidden text-lg text-gray-800"
                             />
                             <Price
-                              price={item.quantity * item.productId.price}
+                              price={item.quantity * item.productId?.price}
                               className="font-semibold md:hidden flex text-sm text-gray-800"
                             />
 
                             <div className="md:flex hidden">
                               <button
-                                onClick={() => deleteHandle(item.productId._id)}
+                                onClick={() =>
+                                  dispatch(
+                                    deleteFromCart(
+                                      item.productId?._id,
+                                      access_token
+                                    )
+                                  )
+                                }
                                 className="flex items-center text-base text-red-500"
                               >
                                 <HiOutlineTrash className="md:text-xl" />
@@ -68,7 +75,12 @@ const Products = ({ cart }) => {
                               <span className="text-gray-600 md:mx-2">|</span>
                               <button
                                 onClick={() =>
-                                  deleteFavoriteItem(item.productId._id)
+                                  dispatch(
+                                    deleteFavoriteItem(
+                                      item.productId?._id,
+                                      access_token
+                                    )
+                                  )
                                 }
                                 className="flex items-center text-base text-blue-500"
                               >
@@ -85,7 +97,10 @@ const Products = ({ cart }) => {
                               {item.quantity > 1 ? (
                                 <button
                                   onClick={() =>
-                                    decrementQtyItem(item.productId._id)
+                                    dispatch(decrQtyItemCart(
+                                      item.productId?._id,
+                                      access_token
+                                    ))
                                   }
                                   className="px-2 py-1"
                                 >
@@ -101,7 +116,9 @@ const Products = ({ cart }) => {
                               </p>
                               <button
                                 onClick={() => {
-                                  addToCartHandle(item.productId._id);
+                                  dispatch(
+                                    addToCart(item.productId?._id, access_token)
+                                  );
                                 }}
                                 className="px-2 py-1"
                               >
@@ -112,7 +129,10 @@ const Products = ({ cart }) => {
                               {item.quantity > 1 ? (
                                 <button
                                   onClick={() =>
-                                    decrementQtyItem(item.productId._id)
+                                    decrQtyItemCart(
+                                      item.productId?._id,
+                                      access_token
+                                    )
                                   }
                                   className="px-2 py-1"
                                 >
@@ -128,7 +148,9 @@ const Products = ({ cart }) => {
                               </p>
                               <button
                                 onClick={() => {
-                                  addToCartHandle(item.productId._id);
+                                  dispatch(
+                                    addToCart(item.productId?._id, access_token)
+                                  );
                                 }}
                                 className="px-2 py-1"
                               >
@@ -138,7 +160,7 @@ const Products = ({ cart }) => {
                           </div>
                           <div className="h-full flex md:justify-start justify-end items-center md:mt-0 mx-1 mt-2">
                             <Price
-                              price={item.quantity * item.productId.price}
+                              price={item.quantity * item.productId?.price}
                               className="xl:text-2xl md:text-base md:flex hidden font-semibold text-gray-700"
                             />
                             <div
@@ -147,14 +169,22 @@ const Products = ({ cart }) => {
                             >
                               <button
                                 onClick={() =>
-                                  deleteFavoriteItem(item.productId._id)
+                                  deleteFavoriteItem(
+                                    item.productId?._id,
+                                    access_token
+                                  )
                                 }
                                 className="flex items-center text-base mx-4 text-gray-400"
                               >
                                 <AiOutlineHeart className="text-[26px]" />
                               </button>
                               <button
-                                onClick={() => deleteHandle(item.productId._id)}
+                                onClick={() =>
+                                  deleteFromCart(
+                                    item.productId?._id,
+                                    access_token
+                                  )
+                                }
                                 className="flex items-center text-base text-red-500"
                               >
                                 <HiOutlineTrash className="text-[26px]" />
@@ -178,7 +208,7 @@ const Products = ({ cart }) => {
 
               <Price
                 price={cart.reduce(
-                  (a, c) => a + c.productId.price * c.quantity,
+                  (a, c) => a + c.productId?.price * c.quantity,
                   0
                 )}
                 className="md:text-2xl mb-5 text-gray-600 font-bold"

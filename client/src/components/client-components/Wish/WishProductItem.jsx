@@ -1,18 +1,25 @@
 import { Rating, Tooltip } from "@mui/material";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsCartCheck } from "react-icons/bs";
 import { CgClose } from "react-icons/cg";
 import { FiShoppingCart } from "react-icons/fi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import useGlobalApi from "../../../hooks/useGlobalApi";
+import {
+  addToCart,
+  decrQtyItemCart,
+  deleteFavoriteItem,
+} from "../../../redux/actions/userAction";
 import Price from "../Helpers/Price";
 const WishProductItem = ({ productId }) => {
   const { _id, name, images, price, ratings, discount } = productId;
-  const { cart, auth } = useSelector((state) => state);
-  const { addToCartHandle, decrementQtyItem, deleteFavoriteItem } =
-    useGlobalApi(auth.access_token);
+  const { t } = useTranslation(["product"]);
+  const { cart, favorites } = useSelector((state) => state.me);
+  const dispatch = useDispatch();
+  const { access_token } = useSelector((state) => state.auth);
+
   const existItem = cart?.find((x) => x.productId._id === _id);
   const isCart = existItem === undefined ? false : true;
   return (
@@ -26,7 +33,7 @@ const WishProductItem = ({ productId }) => {
             </div>
           )}
           <div
-            onClick={() => deleteFavoriteItem(_id)}
+            onClick={() => dispatch(deleteFavoriteItem(_id, access_token))}
             className="md:p-2 p-1 absolute md:top-2 top-1 md:right-2 right-1 text-lg  border border-gray-300 cursor-pointer font-semibold rounded-full bg-white transition_normal hover:scale-105 text-gray-700"
           >
             <CgClose />
@@ -86,7 +93,12 @@ const WishProductItem = ({ productId }) => {
                     <Tooltip title="remove from cart">
                       <button
                         onClick={() =>
-                          decrementQtyItem(existItem.productId._id)
+                          dispatch(
+                            decrQtyItemCart(
+                              existItem.productId._id,
+                              access_token
+                            )
+                          )
                         }
                         className="text-gray-800 md:px-1 pl-3 py-1"
                       >
@@ -98,7 +110,7 @@ const WishProductItem = ({ productId }) => {
                     </p>
                     <Tooltip title="Increase by one">
                       <button
-                        onClick={() => addToCartHandle(_id)}
+                        onClick={() => dispatch(addToCart(_id, access_token))}
                         className=" tranistion_normal text-gray-800 md:px-1 pr-3 py-1"
                       >
                         <AiOutlinePlus />
@@ -109,11 +121,11 @@ const WishProductItem = ({ productId }) => {
               </div>
             ) : (
               <button
-                onClick={() => addToCartHandle(_id)}
+                onClick={() => dispatch(addToCart(_id, access_token))}
                 className="py-2 flex items-center justify-center w-full rounded-lg hover:text-indigo-600 bg_secondary text-lg text-white transition_normal"
               >
                 <FiShoppingCart className="md:text-xl" />
-                <span className="ml-2 text-base">add to cart</span>
+                <span className="ml-2 text-base">{t("addcart")}</span>
               </button>
             )}
           </div>

@@ -14,7 +14,6 @@ const productReviewRoutes = require("./routes/productReviewRoutes");
 const bannerRoutes = require("./routes/bannerRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const orderRoutes = require("./routes/orderRoutes");
-const cartRoutes = require("./routes/cartRoutes");
 const brandRoutes = require("./routes/brandRoutes");
 
 const PORT = process.env.PORT || 5000;
@@ -38,7 +37,6 @@ app.use(userRoutes);
 app.use(bannerRoutes);
 app.use(categoryRoutes);
 app.use(orderRoutes);
-app.use(cartRoutes);
 app.use(brandRoutes);
 
 mongoose

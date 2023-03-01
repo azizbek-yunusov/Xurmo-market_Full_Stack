@@ -66,15 +66,12 @@ import { FetchLoader } from "./components/client-components/SkeletonLoaders";
 import NetworkStatus from "./components/client-components/Helpers/NetworkStatus";
 
 function App() {
-  const [loading, setLoading] = useState(false);
   const pathname = useLocation().pathname;
   const dispatch = useDispatch();
   const { auth } = useSelector((state) => state);
 
   useEffect(() => {
-    setLoading(true);
     dispatch(refreshToken());
-    setLoading(false);
   }, [dispatch]);
   useEffect(() => {
     window.replainSettings = { id: "9ba7af42-4b86-455f-b953-ebe0286ecce7" };
@@ -88,7 +85,6 @@ function App() {
   }, []);
   return (
     <>
-      {loading && <FetchLoader isLoading={loading} />}
       <Toaster position="top-left" reverseOrder={true} />
       <NetworkStatus />
       <>
@@ -158,6 +154,7 @@ function App() {
           </>
         )}
       </Routes>
+      {auth.isLoading && <FetchLoader isLoading={auth.isLoading} />}
 
       {pathname === "/signup" || pathname === "/signin" ? null : <Footer />}
     </>

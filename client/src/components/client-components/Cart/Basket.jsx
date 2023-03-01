@@ -5,25 +5,31 @@ import { Button } from "@mui/material";
 import Products from "./Products";
 import { useTranslation } from "react-i18next";
 import { HelmetTitle } from "../../../utils";
-import MobileTop from "../Helpers/MobileTop";
 import BottomCheckOut from "./BottomCheckOut";
 
 const Basket = () => {
   let { t } = useTranslation(["product"]);
-  const { cart } = useSelector((state) => state);
+  const { cart } = useSelector((state) => state.me);
   const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log(cart);
   return (
     <>
       <HelmetTitle title={t("cart")} />
-      <BottomCheckOut cart={cart} />
       <div className="md:my-5 my-3">
-        <MobileTop name={t("cart")} list={cart} items={t("items")} />
-        {cart.length ? (
-          <Products cart={cart} />
+        {/* <MobileTop
+          name={t("cart")}
+          list={cart?.length ? cart : null}
+          items={t("items")}
+        /> */}
+        {cart?.length > 0 ? (
+          <section>
+            <BottomCheckOut cart={cart} />
+            <Products cart={cart} />
+          </section>
         ) : (
           <div className="md:min-h-[630px] min-h-[450px] flex justify-center items-start">
             <div className="flex justify-start items-center relative flex-col">

@@ -6,16 +6,18 @@ import brand from "./brand/brandSlice";
 import category from "./category";
 import banner from "./banner";
 import auth from "./reducers/authReducer";
-import aut from "./auth";
+import authv from "./auth";
 import cart from "./reducers/cartReducer";
+import me from "./reducers/userReducer";
 import favorites from "./reducers/favoriteReducer";
 import { Provider } from "react-redux";
 
 const store = configureStore({
   reducer: {
-    product,
     auth,
-    aut,
+    me,
+    product,
+    authv,
     cart,
     favorites,
     order,

@@ -1,36 +1,91 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const UserModel = require("../models/UserModel");
-const { google } = require("googleapis");
 const cloudinary = require("../utils/cloudinary");
-const { OAuth2 } = google.auth;
+const ProductModel = require("../models/ProductModel");
 
-const JWT_SECRET = process.env.JWT_SECRET;
-const client = new OAuth2(process.env.MAILING_SERVICE_CLIENT_ID);
-const { CLIENT_URL } = process.env;
-
-const getAllUsers = async (req, res) => {
+// User me
+const addToCart = async (req, res) => {
   try {
-    const users = await UserModel.find();
-    res.status(200).json({
-      users,
-    });
+    const product = await ProductModel.findById(req.params.id);
+    if (!product) {
+      return res.status(500).json({ msg: "Product not found" });
+    }
+    let client = await UserModel.findById(req.user.id);
+    await client.addToCart(product);
+    const user = await UserModel.findById(req.user.id)
+      .select("-password")
+      .populate(
+        "cart.productId favorites.productId",
+        "_id name price images discount inStock numOfReviews reviews ratings"
+      );
+    res.status(200).json(user);
+  } catch (err) {
+    return res.status(500).json({ msg: err.message });
+  }
+};
+
+const deleteCartItems = async (req, res) => {
+  try {
+    let client = await UserModel.findById(req.user.id);
+    await client.removeFromCart(req.params.id);
+    const user = await UserModel.findById(req.user.id)
+      .select("-password")
+      .populate(
+        "cart.productId favorites.productId",
+        "_id name price images discount inStock numOfReviews reviews ratings"
+      );
+    res.status(200).json(user);
   } catch (err) {
     console.log(err);
   }
 };
 
-const getUser = async (req, res) => {
+const decrementQtyItem = async (req, res) => {
   try {
-    const user = await UserModel.findById(req.params.id).populate(
-      "cart.productId",
-      "_id name price images"
-    );
-    if (!user) {
-      res.status(404).json({ message: "User Not Found" });
-    } else {
-      res.status(200).json({ user });
+    let client = await UserModel.findById(req.user.id);
+    await client.decrementQty(req.params.id);
+    const user = await UserModel.findById(req.user.id)
+      .select("-password")
+      .populate(
+        "cart.productId favorites.productId",
+        "_id name price images discount inStock numOfReviews reviews ratings"
+      );
+    res.status(200).json(user);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const addToFavorite = async (req, res) => {
+  try {
+    const product = await ProductModel.findById(req.params.id);
+    if (!product) {
+      return res.status(500).json({ msg: "Product not found" });
     }
+    let client = await UserModel.findById(req.user.id);
+    await client.newFavorite(product);
+    const user = await UserModel.findById(req.user.id)
+      .select("-password")
+      .populate(
+        "cart.productId favorites.productId",
+        "_id name price images discount inStock numOfReviews reviews ratings"
+      );
+    res.status(200).json(user);
+  } catch (err) {
+    return res.status(500).json({ msg: err.message });
+  }
+};
+
+const deleteFavoriteItem = async (req, res) => {
+  try {
+    let client = await UserModel.findById(req.user.id);
+    await client.removeFromFavorite(req.params.id);
+    const user = await UserModel.findById(req.user.id)
+      .select("-password")
+      .populate(
+        "cart.productId favorites.productId",
+        "_id name price images discount inStock numOfReviews reviews ratings"
+      );
+    res.status(200).json(user);
   } catch (err) {
     console.log(err);
   }
@@ -38,62 +93,13 @@ const getUser = async (req, res) => {
 
 const getUserInfo = async (req, res) => {
   try {
-    const userItems = await UserModel.findById(req.user.id).populate(
-      "cart.productId",
-      "_id name images price"
+    const user = await UserModel.findById(req.user.id).populate(
+      "cart.productId favorites.productId",
+      "_id name price images discount inStock numOfReviews reviews ratings"
     );
-    res.status(200).json(userItems);
+    res.status(200).json(user);
   } catch (err) {
     return res.status(500).json({ msg: err.message });
-  }
-};
-
-const updateProfile = async (req, res) => {
-  try {
-    const newUserData = {
-      name: req.body.name,
-      lastName: req.body.lastName,
-      // phoneNumber: req.body.phoneNumber,
-    };
-    if (req.body.avatar !== "") {
-      const user = await UserModel.findById(req.user.id);
-
-      const imageId = user.avatar.public_id;
-
-      await cloudinary.v2.uploader.destroy(imageId);
-
-      const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-        folder: "avatars",
-        crop: "scale",
-      });
-
-      newUserData.avatar = {
-        public_id: myCloud.public_id,
-        url: myCloud.secure_url,
-      };
-    } else {
-      const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-        folder: "avatars",
-        crop: "scale",
-      });
-
-      newUserData.avatar = {
-        public_id: myCloud.public_id,
-        url: myCloud.secure_url,
-      };
-    }
-    const updatedUser = await UserModel.findByIdAndUpdate(
-      req.user.id,
-      newUserData,
-      {
-        new: true,
-      }
-    );
-    res.status(200).json({
-      updatedUser,
-    });
-  } catch (err) {
-    return res.status(500).json({ err });
   }
 };
 
@@ -134,6 +140,7 @@ const uploadAvatar = async (req, res) => {
     console.log(err);
   }
 };
+
 const updateUser = async (req, res) => {
   try {
     const user = await UserModel.findById(req.params.id);
@@ -150,6 +157,83 @@ const updateUser = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
+  }
+};
+
+// Admin Only
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await UserModel.find();
+    res.status(200).json({
+      users,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const getUser = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.params.id).populate(
+      "cart.productId favorites.productId",
+      "_id name price images discount inStock numOfReviews reviews ratings"
+    );
+    if (!user) {
+      res.status(404).json({ message: "User Not Found" });
+    } else {
+      res.status(200).json(user);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const updateProfile = async (req, res) => {
+  try {
+    const newUserData = {
+      name: req.body.name,
+      lastName: req.body.lastName,
+      // phoneNumber: req.body.phoneNumber,
+    };
+    if (req.body.avatar !== "") {
+      const user = await UserModel.findById(req.user.id);
+
+      const imageId = user.avatar.public_id;
+
+      await cloudinary.v2.uploader.destroy(imageId);
+
+      const myCloud = await cloudinary.uploader.upload(req.body.avatar, {
+        folder: "avatars",
+        crop: "scale",
+      });
+
+      newUserData.avatar = {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      };
+    } else {
+      const myCloud = await cloudinary.uploader.upload(req.body.avatar, {
+        folder: "avatars",
+        crop: "scale",
+      });
+
+      newUserData.avatar = {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
+      };
+    }
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      req.user.id,
+      newUserData,
+      {
+        new: true,
+      }
+    );
+    res.status(200).json({
+      updatedUser,
+    });
+  } catch (err) {
+    return res.status(500).json({ err });
   }
 };
 
@@ -238,6 +322,11 @@ const deleteAddress = async (req, res) => {
 };
 
 module.exports = {
+  addToCart,
+  deleteCartItems,
+  decrementQtyItem,
+  addToFavorite,
+  deleteFavoriteItem,
   getAllUsers,
   getUser,
   updateUser,

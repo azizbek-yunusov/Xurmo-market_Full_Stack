@@ -15,7 +15,6 @@ import { BsCreditCard2Back } from "react-icons/bs";
 import { GiMoneyStack } from "react-icons/gi";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import useGlobalApi from "../../../hooks/useGlobalApi";
 import HelmetTitle from "../../../utils/HelmetTitle";
 import Top from "./Top";
 import address from "../../../data/address.json";
@@ -23,15 +22,12 @@ import Price from "../Helpers/Price";
 
 const CheckOut = () => {
   const { t } = useTranslation();
-  const { cart, auth } = useSelector((state) => state);
-  const { addToCartHandle, decrementQtyItem, deleteHandle } = useGlobalApi(
-    auth.access_token
-  );
-
-  const [name, setName] = useState(auth.user.name || "");
+  const { user, cart } = useSelector((state) => state.me);
+  const { access_token } = useSelector((state) => state.auth);
+  const [name, setName] = useState(user.name || "");
   const [lastName, setLastName] = useState("");
   const [contact, setContact] = useState("");
-  const [email, setEmail] = useState(auth.user.email || "");
+  const [email, setEmail] = useState(user.email || "");
   const [region, setRegion] = useState("Toshkent Viloyati");
   const [district, setDistrict] = useState("");
   const [street, setStreet] = useState("");
@@ -67,12 +63,12 @@ const CheckOut = () => {
   const newOrderHandle = (e) => {
     try {
       e.preventDefault();
-      if (auth.access_token) {
+      if (access_token) {
         fetch("http://localhost:5000/order", {
           method: "post",
           headers: {
             "Content-Type": "application/json",
-            Authorization: auth.access_token,
+            Authorization: access_token,
           },
           body: JSON.stringify({
             shippingAddress: {
@@ -303,7 +299,6 @@ const CheckOut = () => {
                       <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        
                         defaultValue={"11"}
                         label={t("shop:region")}
                         onChange={(e) => handleRegion(e)}

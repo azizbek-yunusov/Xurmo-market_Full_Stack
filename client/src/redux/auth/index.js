@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { baseUrl } from "../../utils/baseUrl";
 
-export const signIn = createAsyncThunk(
+export const signInv = createAsyncThunk(
   "auth/sign-in",
   async ({ formState }) => {
     try {
@@ -14,6 +14,16 @@ export const signIn = createAsyncThunk(
   }
 );
 
+export const refreshV = createAsyncThunk("auth/refresh-token", async () => {
+  try {
+    // const response = await axios.post(`${baseUrl}refreshtoken`);
+    const { data } = await axios.post(`${baseUrl}refreshtoken`, null);
+    return data;
+  } catch (error) {
+    return console.log(error);
+  }
+});
+
 const initialState = {
   user: [],
   access_token: "",
@@ -23,16 +33,16 @@ const initialState = {
   isSuccess: false,
   message: "",
 };
-export const categorySlice = createSlice({
+export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(signIn.pending, (state) => {
+      .addCase(signInv.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(signIn.fulfilled, (state, action) => {
+      .addCase(signInv.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
@@ -40,7 +50,24 @@ export const categorySlice = createSlice({
         state.access_token = action.payload.access_token;
         state.isAdmin = action.payload.user.admin ? true : false;
       })
-      .addCase(signIn.rejected, (state, action) => {
+      .addCase(signInv.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(refreshV.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(refreshV.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.user = action.payload.user;
+        state.access_token = action.payload.access_token;
+        state.isAdmin = action.payload.user.admin ? true : false;
+      })
+      .addCase(refreshV.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -50,4 +77,4 @@ export const categorySlice = createSlice({
   },
 });
 
-export default categorySlice.reducer;
+export default authSlice.reducer;

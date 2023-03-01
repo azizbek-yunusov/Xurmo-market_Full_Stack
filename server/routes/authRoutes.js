@@ -10,6 +10,8 @@ const {
   forgotPassword,
   resetPassword,
   logout,
+  googleOauth,
+  getRefresh,
 } = require("../controllers/authController");
 
 router.post("/signup", signUp);
@@ -19,5 +21,6 @@ router.post("/refreshtoken", getAccessToken);
 router.post("/forgot", forgotPassword);
 router.post("/reset", authMiddleware, resetPassword);
 router.get("/logout", logout);
+router.post("/googleauth", googleOauth);
 
 module.exports = router;

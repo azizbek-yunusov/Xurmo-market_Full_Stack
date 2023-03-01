@@ -98,8 +98,8 @@ const userSchema = new Schema({
 // Add to cart product functions
 userSchema.methods.addToCart = function (product) {
   let cart = [...this.cart];
-  const index = cart.findIndex((s) => {
-    return s.productId.toString() === product._id.toString();
+  const index = cart.findIndex((e) => {
+    return e.productId.toString() === product._id.toString();
   });
 
   if (index >= 0) {
@@ -119,7 +119,7 @@ userSchema.methods.addToCart = function (product) {
 
 userSchema.methods.removeFromCart = function (id) {
   let cart = [...this.cart];
-  cart = cart.filter((s) => s.productId.toString() !== id.toString());
+  cart = cart.filter((e) => e.productId.toString() !== id.toString());
 
   const newCart = cart;
   this.cart = newCart;
@@ -128,7 +128,7 @@ userSchema.methods.removeFromCart = function (id) {
 
 userSchema.methods.decrementQty = function (id) {
   let cart = [...this.cart];
-  const index = cart.findIndex((s) => s.productId.toString() === id.toString());
+  const index = cart.findIndex((e) => e.productId.toString() === id.toString());
 
   if (cart[index].quantity === 1) {
     cart = cart.filter((s) => s.productId.toString() !== id.toString());

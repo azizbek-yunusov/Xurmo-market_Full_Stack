@@ -16,7 +16,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 const FavoritesButton = () => {
-  const { favorites } = useSelector((state) => state);
+  const { favorites } = useSelector((state) => state.me);
   let { t } = useTranslation(["product"]);
   return (
     <Link

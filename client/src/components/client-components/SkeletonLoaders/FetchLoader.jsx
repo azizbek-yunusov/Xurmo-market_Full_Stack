@@ -3,9 +3,13 @@ import React from "react";
 
 const FetchLoader = ({ isLoading }) => {
   return (
-    <div className="w-full min-h-screen bg-red-500/50">
+    <div className="w-full min-h-screen">
       <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{
+          color: "#fff",
+          backdropFilter: "blur(3px)",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
         open={isLoading}
       >
         <CircularProgress color="inherit" />

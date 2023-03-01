@@ -10,7 +10,7 @@ import MobileTop from "../Helpers/MobileTop";
 const WishList = () => {
   let { t } = useTranslation(["product"]);
 
-  const { favorites } = useSelector((state) => state);
+  const { favorites } = useSelector((state) => state.me);
   const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);

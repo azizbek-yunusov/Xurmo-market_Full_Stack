@@ -105,7 +105,7 @@ const signIn = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-    res.json({
+    res.status(200).json({
       msg: "Login success!",
       access_token,
       user: {
@@ -120,7 +120,7 @@ const signIn = async (req, res) => {
 
 const getAccessToken = async (req, res) => {
   try {
-    const refreshToken = req.cookies.refreshtoken;
+    const refreshToken = await req.cookies.refreshtoken;
     if (!refreshToken)
       return res.status(400).json({ msg: "Please login now!" });
 
@@ -129,19 +129,24 @@ const getAccessToken = async (req, res) => {
 
       const user = await UserModel.findById(client.id)
         .select("-password")
-        .populate("cart.productId", "_id name images price");
+        .populate(
+          "cart.productId favorites.productId",
+          "_id name price images discount inStock numOfReviews reviews ratings"
+        )
       if (!user) return res.status(400).json({ msg: "This does not exist." });
       const access_token = createAccessToken({ id: client.id });
 
-      res.json({
+      res.status(200).json({
+        msg: "success!",
         access_token,
-        user,
+        user: user,
       });
     });
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }
 };
+
 
 const forgotPassword = async (req, res) => {
   try {
@@ -182,16 +187,66 @@ const resetPassword = async (req, res) => {
 const logout = async (req, res) => {
   try {
     res.clearCookie("refreshtoken", { path: "/" });
-    return res.json({ msg: "Logged out" });
+    return res.json({ msg: "Sign out" });
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }
 };
 
-const googleLogin = async (req, res) => {
+const googleOauth = async (req, res) => {
   try {
+    const { tokenId } = req.body;
+
+    const verify = await client.verifyIdToken({
+      idToken: tokenId,
+      audience: process.env.MAILING_SERVICE_CLIENT_ID,
+    });
+
+    const { email_verified, email, name, picture } = verify.payload;
+
+    const password = email + process.env.GOOGLE_SECRET;
+
+    const passwordHash = await bcrypt.hash(password, 12);
+
+    if (!email_verified)
+      return res.status(400).json({ msg: "Email verification failed." });
+
+    const user = await UserModel.findOne({ email });
+
+    if (user) {
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch)
+        return res.status(400).json({ msg: "Password is incorrect." });
+
+      const refresh_token = createRefreshToken({ id: user._id });
+      res.cookie("refreshtoken", refresh_token, {
+        httpOnly: true,
+        path: "/user/refresh_token",
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      });
+
+      res.json({ msg: "Login success!" });
+    } else {
+      const newUser = new UserModel({
+        name,
+        email,
+        password: passwordHash,
+        avatar: picture,
+      });
+
+      await newUser.save();
+
+      const refresh_token = createRefreshToken({ id: newUser._id });
+      res.cookie("refreshtoken", refresh_token, {
+        httpOnly: true,
+        path: "/user/refresh_token",
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      });
+
+      res.json({ msg: "Login success!" });
+    }
   } catch (err) {
-    console.log(err);
+    return res.status(500).json({ msg: err.message });
   }
 };
 
@@ -201,7 +256,7 @@ const createActivationToken = (payload) => {
 };
 
 const createAccessToken = (payload) => {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: "1d" });
 };
 
 const createRefreshToken = (payload) => {
@@ -211,7 +266,7 @@ module.exports = {
   signUp,
   signIn,
   logout,
-  googleLogin,
+  googleOauth,
   activateEmail,
   getAccessToken,
   forgotPassword,
