@@ -1,7 +1,7 @@
 import React from "react";
 import { configureStore } from "@reduxjs/toolkit";
 import product from "./product";
-import order from "./order/myOrder";
+import order from "./order";
 import brand from "./brand/brandSlice";
 import category from "./category";
 import banner from "./banner";

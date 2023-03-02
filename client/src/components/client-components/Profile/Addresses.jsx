@@ -143,7 +143,7 @@ const Addresses = () => {
                         variant="outlined"
                         label="Last name"
                         type="text"
-                        // value={lastName}
+                        // value={last-name}
                         // onChange={(e) => setLastName(e.target.value)}
                       />
                     </div>

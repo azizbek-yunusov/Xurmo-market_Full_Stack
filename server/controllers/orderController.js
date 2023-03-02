@@ -18,9 +18,6 @@ const newOrder = async (req, res) => {
 
     const order = await newOrder.save();
     await customer.cleanCart();
-    // await sendOrder({
-    //   email: customer.email,
-    // });
     res.status(201).json({ message: "New Order Created", order });
   } catch (err) {
     console.log(err);

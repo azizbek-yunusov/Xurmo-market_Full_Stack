@@ -91,7 +91,7 @@ function App() {
         {pathname === "/signup" ||
         pathname === "/signin" ||
         pathname === "/user/activate/:activationtoken" ||
-        pathname === "/checkout" ? null : (
+        pathname === "/check-out" ? null : (
           <>
             <TopLink />
             <Navbar />
@@ -112,7 +112,7 @@ function App() {
         <Route path="/cart" element={<Basket />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/wishlist" element={<WishList />} />
-        <Route path="/checkout" element={<CheckOut />} />
+        <Route path="/check-out" element={<CheckOut />} />
         <Route
           path="/user/activate/:activationtoken"
           element={<ActivationEmail />}

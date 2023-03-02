@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 const orderSchema = new Schema({
-  name: {
+  firstName: {
     type: String,
   },
   lastName: {
@@ -45,19 +45,38 @@ const orderSchema = new Schema({
   shippingPrice: {
     type: Number,
   },
-  isPaid: { type: Boolean, default: false },
   paymentMethod: {
     type: String,
+    default: "Cash on Delivery",
+    enum: [
+      "Cash on Delivery",
+      "Payme",
+      "UZCARD or XUMO",
+      "Delivery by Card",
+      "Through Card",
+      "Installment",
+    ],
   },
   deliveryType: {
     type: String,
-  },
-  status: {
-    type: String,
-    default: "shipped"
+    default: "Delivery address",
+    enum: ["Delivery address", "Store pickup"],
   },
   isDelivered: { type: Boolean, default: false },
   deliveredAt: { type: Date },
+  orderStatus: {
+    type: String,
+    default: "Not Processed",
+    enum: [
+      "Not Processed",
+      "Shipped",
+      "Cash on Delivery",
+      "Processing",
+      "Dispatched",
+      "Cancelled",
+      "Delivered",
+    ],
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",

@@ -24,7 +24,7 @@ const BottomCheckOut = ({ cart }) => {
           </div>
           <div className="col-span-1">
             <Link
-              to={"/checkout"}
+              to={"/check-out"}
               className="border-2 border-[#ff8800] md:py-2 px-3 py-2 flex items-center justify-center w-full rounded-lg bg_secondary text-lg text-white transition_normal"
             >
               <AiOutlineShopping className="md:text-xl text-xl" />

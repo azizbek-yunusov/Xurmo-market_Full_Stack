@@ -8,12 +8,10 @@ import {
   Rating,
   TextField,
 } from "@mui/material";
-import axios from "axios";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   AiFillStar,
-  AiOutlineCloudUpload,
   AiOutlineStar,
 } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
@@ -123,10 +121,11 @@ export const Review = ({ productId }) => {
                 multiline
                 label={t("review-comment")}
                 minRows={4}
+                color="secondary"
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
               />
-              <div className="md:mt-5 flex min-w-full bg-gray-50 dark:bg-gray-700/50 justify-center items-center rounded-md border-2 border-dashed border-gray-300 p-3 py-8 cursor-pointer">
+              <div className="md:mt-5 mt-3 flex min-w-full bg-gray-50 dark:bg-gray-700/50 justify-center items-center rounded-md border-2 border-dashed border-gray-300 p-3 py-8 cursor-pointer">
                 <div className="flex justify-center flex-col items-center">
                   <MdAddAPhoto className="text-3xl text-gray-500" />
                   <div className="flex text-sm text_color">

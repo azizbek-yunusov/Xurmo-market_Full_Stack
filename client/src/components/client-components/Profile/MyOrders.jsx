@@ -4,20 +4,19 @@ import LayoutP from "./LayoutP";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
 import { Link } from "react-router-dom";
-import { getMyOrder } from "../../../redux/order/myOrder";
 import OrderChip from "../Helpers/OrderChip";
 import { CircularProgress } from "@mui/material";
 import Price from "../Helpers/Price";
+import { getMyOrders } from "../../../redux/order";
 
 const MyOrders = () => {
   let { t } = useTranslation(["shop"]);
   const dispatch = useDispatch();
-  const { auth, order } = useSelector((state) => state);
-  let { access_token } = auth;
-  let { isLoading, orders } = order;
+  const { access_token } = useSelector((state) => state.auth);
+  const { isLoading, myOrders } = useSelector((state) => state.order);
   useEffect(() => {
     if (access_token) {
-      dispatch(getMyOrder(access_token));
+      dispatch(getMyOrders(access_token));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [access_token]);
@@ -29,8 +28,8 @@ const MyOrders = () => {
       </div>
       {!isLoading ? (
         <div className="">
-          {orders?.length ? (
-            orders.map((item, index) => (
+          {myOrders?.length ? (
+            myOrders.map((item, index) => (
               <div
                 key={index}
                 className="border border_l rounded-xl md:p-4 p-3 my-4"
@@ -93,7 +92,7 @@ const MyOrders = () => {
                             {":"}
                           </li>
                           <li className="my-3">
-                            {t("totalpayment")}
+                            {t("total-payment")}
                             {":"}
                           </li>
                           <li className="my-3">

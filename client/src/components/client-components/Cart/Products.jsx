@@ -248,7 +248,7 @@ const Products = ({ cart }) => {
               </ul>
             </div>
             <div className="mt-5">
-              <Link to={"/checkout"}>
+              <Link to={"/check-out"}>
                 <Button
                   className="w-full tracking-wide font-normal"
                   variant="contained"

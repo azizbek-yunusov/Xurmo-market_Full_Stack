@@ -11,35 +11,45 @@ import {
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
-import { BiHomeAlt, BiStoreAlt } from "react-icons/bi";
-import { BsCreditCard2Back } from "react-icons/bs";
-import { GiMoneyStack } from "react-icons/gi";
-import { useSelector } from "react-redux";
+import Payme from "../../../assets/svg/payme.svg";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import HelmetTitle from "../../../utils/HelmetTitle";
 import Top from "./Top";
 import address from "../../../data/address.json";
 import Price from "../Helpers/Price";
+import { deliveryTypeData, paymentMethodData } from "./OrderTypeData";
+import { newOrder } from "../../../redux/order";
 
 const CheckOut = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(["shop"]);
+  const disptach = useDispatch();
+  const { isLoading, isError } = useSelector((state) => state.order);
   const { user, cart } = useSelector((state) => state.me);
   const { access_token } = useSelector((state) => state.auth);
   const [name, setName] = useState(user.name || "");
-  const [lastName, setLastName] = useState("");
+  const [lastname, setLastName] = useState("");
   const [contact, setContact] = useState("");
   const [email, setEmail] = useState(user.email || "");
   const [region, setRegion] = useState("Toshkent Viloyati");
   const [district, setDistrict] = useState("");
   const [street, setStreet] = useState("");
   const [house, setHouse] = useState("");
-  const [payment, setPayment] = useState("plastik");
-  const [delivery, setDelivery] = useState("home");
+  const [payment, setPayment] = useState("Cash on Delivery");
+  const [delivery, setDelivery] = useState("Delivery address");
   const [selectDistricts, setSelectDistricts] = useState([]);
-
   const navigate = useNavigate();
-  const paymentOnChange = (e) => {
+  const handlePaymentChange = (e) => {
     setPayment(e.target.value);
+    if (payment !== "Cash on Delivery") {
+      toast.error("payment-not-status");
+    }
+  };
+  const handleDeliveryChange = (e) => {
+    setDelivery(e.target.value);
+    if (payment !== "Delivery address") {
+      toast.error("delivery-not-status");
+    }
   };
   const defaultDistricts = address.districts.filter((value) => {
     return value.region_id === 11;
@@ -61,37 +71,32 @@ const CheckOut = () => {
     cart?.reduce((a, c) => a + c.productId.price * c.quantity, 0);
   const totalQuantity =
     cart.length && cart?.reduce((a, c) => a + c.quantity, 0);
-  const newOrderHandle = (e) => {
+  const newOrderHandle = async (e) => {
     try {
       e.preventDefault();
-      if (access_token) {
-        fetch("http://localhost:5000/order", {
-          method: "post",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: access_token,
-          },
-          body: JSON.stringify({
-            shippingAddress: {
-              region: region,
-              district: district,
-              street: street,
-              house: house,
-            },
-            name: name,
-            lastName: lastName,
-            email: email,
-            contact: contact,
-            paymentMethod: payment,
-            deliveryType: delivery,
-            totalPrice,
-          }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            navigate("/");
-            toast.success("Your order has been accepted");
-          });
+      const orderData = {
+        shippingAddress: {
+          region: region,
+          district: district,
+          street: street,
+          house: house,
+        },
+        firstName: name,
+        lastName: lastname,
+        email: email,
+        contact: contact,
+        paymentMethod: payment,
+        deliveryType: delivery,
+        totalPrice,
+        orderStatus: "Shipped",
+      };
+      await disptach(newOrder({ access_token, orderData }));
+      if (!isLoading) {
+        toast.success(t("new-order-added"));
+        navigate("/");
+      }
+      if (isError) {
+        toast.error("Something Went Wrong!");
       }
     } catch (err) {
       console.log(err);
@@ -101,37 +106,36 @@ const CheckOut = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
   return (
     <>
-      <HelmetTitle title={t("shop:checkout")} />
+      <HelmetTitle title={t("check-out")} />
       <div className="min-h-screen md:mb-14">
         <Top />
-        <div className="container-full block my-5">
-          <div className="flex items-center md:mb-5">
-            <Breadcrumbs fullWidth>
+        <div className="container-full block my-5 xl:px-20">
+          <div className="flex items-center md:mb-3 mb-2">
+            <Breadcrumbs>
               <Link to={"/"} className="">
-                Home
+                {t("home")}
               </Link>
               <Link to={"/"} className="">
-                Back
+                {t("back")}
               </Link>
             </Breadcrumbs>
           </div>
           <h1 className="md:text-2xl text-xl font-semibold text-gray-800 border-b border-b-gray-300 md:pb-5 pb-2">
-            {t("shop:checkout")}
+            {t("check-out")}
           </h1>
           <form onSubmit={newOrderHandle}>
             <div className="grid md:grid-cols-3 grid-cols-1 md:my-5 my-3">
-              <div className="md:col-span-2 xl:mr-20 lg:mr-10 md:mr-3">
+              <div className="md:col-span-2 xl:mr-20 lg:mr-8 md:mr-3">
                 <div className="md:mb-9 mb-4">
                   <div className="flex items-center mb-8">
-                    <span className="flex_center md:w-8 md:h-8 w-6 h-6 bg-zinc-800 rounded-full md:text-xl text-sm text-white">
+                    <span className="flex_center md:w-[30px] md:h-[30px] w-6 h-6 bg-zinc-800 rounded-full md:text-lg text-sm text-white">
                       1
                     </span>
-                    <h1 className="md:text-xl ml-3">
+                    <h1 className="md:text-lg font-semibold ml-3">
                       {" "}
-                      {t("shop:enteraddress")}
+                      {t("client-info")}
                     </h1>
                   </div>
                   <div className="my-6 grid md:grid-cols-2 grid-cols-1 gap-5">
@@ -140,27 +144,30 @@ const CheckOut = () => {
                       fullWidth
                       variant="outlined"
                       type="text"
+                      color="secondary"
                       className="rounded-xl"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      label={t("shop:name")}
+                      label={t("name")}
                     />
                     <TextField
                       id="outlined-basic"
                       fullWidth
                       variant="outlined"
                       type="text"
+                      color="secondary"
                       className="rounded-xl"
-                      value={lastName}
+                      value={lastname}
                       onChange={(e) => setLastName(e.target.value)}
-                      label={t("shop:lastname")}
+                      label={t("last-name")}
                     />
                     <TextField
                       id="outlined-basic"
                       fullWidth
                       variant="outlined"
-                      label={t("shop:email")}
+                      label={t("email")}
                       type="email"
+                      color="secondary"
                       value={email}
                       className="rounded-xl"
                       onChange={(e) => setEmail(e.target.value)}
@@ -171,137 +178,108 @@ const CheckOut = () => {
                       fullWidth
                       variant="outlined"
                       type="number"
+                      color="secondary"
                       className="rounded-xl"
                       value={contact}
                       onChange={(e) => setContact(e.target.value)}
-                      label={t("shop:number")}
+                      label={t("number")}
                     />
                   </div>
                 </div>
                 <div className="md:mb-10">
                   <div className="flex items-center">
-                    <span className="flex_center md:w-8 md:h-8 w-6 h-6 bg-gray-800 rounded-full md:text-xl text-sm text-white">
+                    <span className="flex_center md:w-[30px] md:h-[30px] w-6 h-6 bg-zinc-800 rounded-full md:text-lg text-sm text-white">
                       2
                     </span>
-                    <h1 className="text-xl ml-3">{t("shop:paymenttype")}</h1>
+                    <h1 className="text-lg font-semibold ml-3">
+                      {t("payment-type")}
+                    </h1>
                   </div>
                   <div className="md:my-6">
-                    <div
-                      onChange={paymentOnChange}
-                      className="grid md:grid-cols-2 grid-cols-1 my-5 gap-6"
-                    >
-                      <label htmlFor="card">
-                        <div
-                          className={`flex justify-start items-center cursor-pointer md:border-2 border-[3px] rounded-lg p-2 p-2 ${
-                            payment === "plastik"
-                              ? "border-orange-300"
-                              : "border-gray-300"
-                          }`}
-                        >
-                          <Radio
-                            value="plastik"
-                            id="card"
-                            color="warning"
-                            name="type"
-                          />
-                          <p className="grow text-gray-800 mx-2">
-                            {t("shop:plasticcard")}
-                          </p>
-                          <GiMoneyStack className="text-2xl text-green-500 mr-3" />
-                        </div>
-                      </label>
-                      <label htmlFor="money">
-                        <div
-                          className={`flex justify-start items-center cursor-pointer md:border-2 border-[3px] rounded-lg p-2 ${
-                            payment === "card"
-                              ? "border-orange-300"
-                              : "border-gray-300"
-                          }`}
-                        >
-                          <Radio
-                            value="card"
-                            id="money"
-                            name="type"
-                            color="warning"
-                          />
-                          <p className="grow text-gray-800 mx-2">
-                            {t("shop:bycash")}
-                          </p>
-                          <BsCreditCard2Back className="text-2xl text-blue-500 mr-3" />
-                        </div>
-                      </label>
+                    <div className="grid xl:grid-cols-2 grid-cols-1 my-5 gap-6">
+                      {paymentMethodData.map((item) => (
+                        <label key={item.id} htmlFor={item.id}>
+                          <div
+                            className={`flex justify-start items-center cursor-pointer md:border-2 border-[3px] rounded-lg p-2 ${
+                              payment === item.value
+                                ? "border-[#ff8800]"
+                                : "border-gray-300"
+                            }`}
+                          >
+                            <Radio
+                              checked={payment === item.value}
+                              disabled={item.id === "1" ? false : true}
+                              value={item.value}
+                              id={item.id}
+                              name="type"
+                              onChange={handlePaymentChange}
+                              color="secondary"
+                            />
+                            <p className="grow text-gray-800 mx-2">
+                              {t(`${item.name}`)}
+                            </p>
+                            {item.id === "2" ? (
+                              <img src={Payme} alt="Icon" className="" />
+                            ) : (
+                              item.icon
+                            )}
+                          </div>
+                        </label>
+                      ))}
                     </div>
                   </div>
                 </div>
                 <div className="">
                   <div className="flex items-center">
-                    <span className="flex_center md:w-8 md:h-8 w-6 h-6 bg-gray-800 rounded-full md:text-xl text-sm text-white">
+                    <span className="flex_center md:w-[30px] md:h-[30px] w-6 h-6 bg-zinc-800 rounded-full md:text-lg text-sm text-white">
                       3
                     </span>
-                    <h1 className="text-xl ml-3">
-                      {t("shop:methodreception")}
+                    <h1 className="text-lg font-semibold ml-3">
+                      {t("methodreception")}
                     </h1>
                   </div>
                   <div className="md:my-6">
-                    <div
-                      onChange={(e) => setDelivery(e.target.value)}
-                      className="grid md:grid-cols-2 grid-cols-1  my-5 gap-6"
-                    >
-                      <label htmlFor="addresses">
-                        <div
-                          className={`flex justify-start items-center cursor-pointer border-2 rounded-lg p-2 ${
-                            delivery === "home"
-                              ? "border-amber-500"
-                              : "border-gray-300"
-                          }`}
-                        >
-                          <Radio
-                            value="home"
-                            id="addresses"
-                            name="address"
-                            color="warning"
-                          />
-                          <p className="grow text-gray-800 mx-2">
-                            {t("shop:deliveryaddress")}
-                          </p>
-                          <BiHomeAlt className="text-2xl text-orange-500 mr-3" />
-                        </div>
-                      </label>
-                      <label htmlFor="store">
-                        <div
-                          className={`flex justify-start items-center cursor-pointer border-2 rounded-lg p-2 ${
-                            delivery === "store"
-                              ? "border-amber-500"
-                              : "border-gray-300"
-                          }`}
-                        >
-                          <Radio
-                            value="store"
-                            id="store"
-                            name="address"
-                            color="warning"
-                          />
-                          <p className="grow text-gray-800 mx-2">
-                            {t("shop:shoppingstore")}
-                          </p>
-                          <BiStoreAlt className="text-2xl text-purple-600 mr-3" />
-                        </div>
-                      </label>
+                    <div className="grid md:grid-cols-2 grid-cols-1  my-5 gap-6">
+                      {deliveryTypeData.map((item) => (
+                        <label key={item.id} htmlFor={item.id}>
+                          <div
+                            className={`flex justify-start items-center cursor-pointer md:border-2 border-[3px] rounded-lg p-2 ${
+                              delivery === item.value
+                                ? "border-[#ff8800]"
+                                : "border-gray-300"
+                            }`}
+                          >
+                            <Radio
+                              checked={delivery === item.value}
+                              disabled={item.id === "1" ? false : true}
+                              value={item.value}
+                              id={item.id}
+                              name="type"
+                              onChange={handleDeliveryChange}
+                              color="secondary"
+                            />
+                            <p className="grow text-gray-800 mx-2">
+                              {t(`${item.name}`)}
+                            </p>
+                          </div>
+                        </label>
+                      ))}
                     </div>
                   </div>
                   <h1 className="md:text-base font-semibold text-gray-800">
-                    {t("shop:enteraddress")}
+                    {t("enteraddress")}
                   </h1>
                   <div className="my-6 grid md:grid-cols-2 grid-cols-1 gap-5">
                     <FormControl fullWidth>
                       <InputLabel id="demo-simple-select-label">
-                        {t("shop:region")}
+                        {t("region")}
                       </InputLabel>
                       <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         defaultValue={"11"}
-                        label={t("shop:region")}
+                        color="secondary"
+                        label={t("region")}
                         onChange={(e) => handleRegion(e)}
                       >
                         {address.regions.map((item, index) => (
@@ -314,13 +292,14 @@ const CheckOut = () => {
 
                     <FormControl fullWidth>
                       <InputLabel id="demo-simple-select-label">
-                        {t("shop:district")}
+                        {t("district")}
                       </InputLabel>
                       <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         placeholder="select"
-                        label={t("shop:district")}
+                        color="secondary"
+                        label={t("district")}
                         value={district || ""}
                         onChange={(e) => setDistrict(e.target.value)}
                       >
@@ -337,22 +316,24 @@ const CheckOut = () => {
                     <TextField
                       id="outlined-basic"
                       fullWidth
+                      color="secondary"
                       variant="outlined"
                       type="text"
                       className="rounded-xl"
                       value={street}
                       onChange={(e) => setStreet(e.target.value)}
-                      label={t("shop:street")}
+                      label={t("street")}
                     />
                     <TextField
                       id="outlined-basic"
                       fullWidth
                       variant="outlined"
                       type="text"
+                      color="secondary"
                       className="rounded-xl"
                       value={house}
                       onChange={(e) => setHouse(e.target.value)}
-                      label={t("shop:housenumber")}
+                      label={t("housenumber")}
                     />
                   </div>
                 </div>
@@ -364,7 +345,7 @@ const CheckOut = () => {
                     color="secondary"
                     size="large"
                   >
-                    {t("shop:checkout")}
+                    {t("check-out")}
                   </Button>
                 </div>
               </div>
@@ -373,7 +354,7 @@ const CheckOut = () => {
                 <div className="sticky top-5">
                   <div className="border border-gray-300 m-1 md:rounded-xl rounded-md md:p-5 p-3">
                     <p className="text-lg font-semibold">
-                      {t("shop:productonordertxt")}
+                      {t("producton-order-txt")}
                     </p>
                     <div className="mt-2">
                       {cart.length
@@ -399,7 +380,7 @@ const CheckOut = () => {
                                     className="text-base font-semibold"
                                   />
                                   <span className="">
-                                    {t("shop:quantity")}
+                                    {t("quantity")}
                                     {":"}
                                     {item.quantity}
                                   </span>
@@ -412,20 +393,20 @@ const CheckOut = () => {
                   </div>
                   <div className=" mt-5 border border-gray-300 m-1 md:rounded-xl rounded-md md:p-5 p-3">
                     <p className="text-lg font-semibold md:mb-4">
-                      {t("shop:ordertxt")}
+                      {t("order-txt")}
                     </p>
                     <div className="flex justify-between items-center text-sm my-2">
                       <p className="">
-                        {totalQuantity} {t("shop:priceorders")}
+                        {totalQuantity} {t("price-orders")}
                       </p>
                       <Price price={totalPrice} className="" />
                     </div>
                     <div className="flex justify-between items-center text-sm my-5 md:pb-5 pb-3 border-b border-b-gray-300">
-                      <p className="">{t("shop:shippingcost")}</p>
-                      <p className="">{t("shop:freeshipping")}</p>
+                      <p className="">{t("shipping-cost")}</p>
+                      <p className="">{t("free-shipping")}</p>
                     </div>
                     <div className="flex justify-between items-center">
-                      <p className="font-semibold">{t("shop:totalpayment")}:</p>
+                      <p className="font-semibold">{t("total-payment")}:</p>
                       <Price
                         price={totalPrice}
                         className="xl:text-2xl text-lg font-semibold"
@@ -442,7 +423,7 @@ const CheckOut = () => {
                   color="secondary"
                   size="large"
                 >
-                  {t("shop:checkout")}
+                  {t("check-out")}
                 </Button>
               </div>
             </div>
