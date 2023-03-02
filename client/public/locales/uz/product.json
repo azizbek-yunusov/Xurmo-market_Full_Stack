@@ -42,6 +42,8 @@
   "bestp": "Ommabop",
   "allviews": "Barchasini ko'rish",
   "empty-cart": "Savatcha bo‘sh",
+  "added-cart": "Mahsulot savatchaga qo'shildi",
+  "product-not": "Sotuvda boshqa qolmagan",
   "cart": "Savatcha",
   "wish-list": "Sevimlilar ro'yhati",
   "cart-b": "Xaridni davom ettirish",
@@ -49,5 +51,10 @@
   "wish-b": "Asosiy sahifaga o'tish",
   "check-out-b": "Rasmiylashtirish",
   "product": "mahsulot",
+  "delete": "O'chish",
+  "destory-wish": "Sevimlilardan olib tashlash",
+  "add-wish": "Sevimlilarga qo'shish",
+  "decr-from-cart": "Bittaga kamaytish",
+  "incr-to-cart": "Bittaga oshirish",
   "empty-wish-t": "Ma'qul kelgan maxsulotlarni keyinroq ko'rish yoki harid qilish uchun sevimlilar ro'yxatiga kiriting."
 }

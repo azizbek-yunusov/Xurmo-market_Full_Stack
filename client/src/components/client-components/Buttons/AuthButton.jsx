@@ -51,13 +51,15 @@ const StyledMenu = styled((props) => (
 }));
 
 const AuthButton = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { user, isLogged } = useSelector((state) => state.auth);
   let { t } = useTranslation(["home"]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const signOutHandle = () => {
-    dispatch(signOut());
-    navigate("/signin");
+  const signOutHandle = async () => {
+    await dispatch(signOut());
+    if (isLogged) {
+      navigate("/signin");
+    }
     toast.success("Sign out ");
   };
   const [anchorEl, setAnchorEl] = useState(null);

@@ -44,18 +44,16 @@ export const addToCart = (id, access_token) => async (dispatch) => {
   try {
     // dispatch({
     //   type: "USER_PENDING",
-    // });
+    // });    
     const { data } = await axios.put(`${baseUrl}addcart/${id}`, null, {
       headers: {
         Authorization: access_token,
       },
     });
-    toast.success("add to cart")
     dispatch({
       type: "USER_FULFILLED",
       payload: data,
     });
-    console.log(data);
   } catch (err) {
     console.log(err);
   }

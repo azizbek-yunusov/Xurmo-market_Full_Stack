@@ -2,7 +2,6 @@ const UserModel = require("../models/UserModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { google } = require("googleapis");
-const cloudinary = require("../utils/cloudinary");
 const { sendEmail } = require("../utils/sendEmail");
 const { OAuth2 } = google.auth;
 
@@ -86,10 +85,12 @@ const signIn = async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({ err: "All fields are required" });
     }
-    const savedUser = await UserModel.findOne({ email }).populate(
-      "cart.productId",
-      "_id name images price"
-    );
+    const savedUser = await UserModel.findOne({ email })
+      .select("-password")
+      .populate(
+        "cart.productId favorites.productId",
+        "_id name price images discount inStock numOfReviews reviews ratings"
+      );
     if (!savedUser) {
       return res.status(400).json({ err: "Your email is incorrect" });
     }
@@ -132,7 +133,7 @@ const getAccessToken = async (req, res) => {
         .populate(
           "cart.productId favorites.productId",
           "_id name price images discount inStock numOfReviews reviews ratings"
-        )
+        );
       if (!user) return res.status(400).json({ msg: "This does not exist." });
       const access_token = createAccessToken({ id: client.id });
 
@@ -146,7 +147,6 @@ const getAccessToken = async (req, res) => {
     return res.status(500).json({ msg: err.message });
   }
 };
-
 
 const forgotPassword = async (req, res) => {
   try {

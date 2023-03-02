@@ -9,17 +9,19 @@ import {
 import { BsBagCheck, BsCartCheck } from "react-icons/bs";
 import { TbTruckDelivery } from "react-icons/tb";
 import { FiShoppingCart } from "react-icons/fi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useGlobalApi } from "../../../hooks";
 import AddToWish from "../Helpers/AddToWish";
 import Price from "../Helpers/Price";
+import { addToCart, decrQtyItemCart } from "../../../redux/actions/userAction";
 
 const ShopBox = ({ product }) => {
   const { t } = useTranslation(["product"]);
   const { _id } = product;
-  const { cart, auth } = useSelector((state) => state);
-  const { addToCartHandle, decrementQtyItem } = useGlobalApi(auth.access_token);
+  const dispatch = useDispatch();
+  const { cart } = useSelector((state) => state.me);
+  const { access_token } = useSelector((state) => state.auth);
 
   const existItem = cart?.find((x) => x.productId?._id === _id);
   const isCart = existItem === undefined ? false : true;
@@ -54,9 +56,7 @@ const ShopBox = ({ product }) => {
                   <div className="border-2 border-[#ff8800] md:py-3 py-3 flex_betwen w-full rounded-lg text-lg text-gray-700 transition_normal">
                     <Tooltip title="remove from cart">
                       <button
-                        onClick={() =>
-                          decrementQtyItem(existItem.productId._id)
-                        }
+                        onClick={() => decrQtyItemCart(existItem.productId._id)}
                         className="text-gray-700 md:px-4 pl-3 py-1 text-2xl"
                       >
                         <AiOutlineMinus />
@@ -67,7 +67,7 @@ const ShopBox = ({ product }) => {
                     </p>
                     <Tooltip title="Increase by one">
                       <button
-                        onClick={() => addToCartHandle(_id)}
+                        onClick={() => addToCart(_id)}
                         className=" tranistion_normal text-gray-700 md:px-4 pl-3 py-1 text-2xl"
                       >
                         <AiOutlinePlus />
@@ -83,7 +83,7 @@ const ShopBox = ({ product }) => {
                 </div>
               ) : (
                 <button
-                  onClick={() => addToCartHandle(_id)}
+                  onClick={() => addToCart(_id)}
                   className="border-2 border-[#ff8800] md:py-3 py-3 flex items-center justify-center w-full rounded-lg bg_secondary text-lg text-white transition_normal"
                 >
                   <FiShoppingCart className="md:text-xl" />
@@ -92,7 +92,7 @@ const ShopBox = ({ product }) => {
               )}
             </div>
             <button
-              onClick={() => addToCartHandle(_id)}
+              onClick={() => addToCart(_id)}
               className="border-2 border-[#ff8800] md:py-3 py-3 flex items-center justify-center w-full rounded-lg text-lg text-gray-700 transition_normal hover:bg-orange-400 hover:text-white"
             >
               <BsBagCheck className="md:text-xl" />

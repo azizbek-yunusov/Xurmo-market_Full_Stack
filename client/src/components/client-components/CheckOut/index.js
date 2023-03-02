@@ -1,4 +1,5 @@
 import {
+  Breadcrumbs,
   Button,
   FormControl,
   InputLabel,
@@ -14,7 +15,7 @@ import { BiHomeAlt, BiStoreAlt } from "react-icons/bi";
 import { BsCreditCard2Back } from "react-icons/bs";
 import { GiMoneyStack } from "react-icons/gi";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import HelmetTitle from "../../../utils/HelmetTitle";
 import Top from "./Top";
 import address from "../../../data/address.json";
@@ -108,14 +109,14 @@ const CheckOut = () => {
         <Top />
         <div className="container-full block my-5">
           <div className="flex items-center md:mb-5">
-            {/* <Breadcrumbs fullWidth>
+            <Breadcrumbs fullWidth>
               <Link to={"/"} className="">
                 Home
               </Link>
               <Link to={"/"} className="">
                 Back
               </Link>
-            </Breadcrumbs> */}
+            </Breadcrumbs>
           </div>
           <h1 className="md:text-2xl text-xl font-semibold text-gray-800 border-b border-b-gray-300 md:pb-5 pb-2">
             {t("shop:checkout")}

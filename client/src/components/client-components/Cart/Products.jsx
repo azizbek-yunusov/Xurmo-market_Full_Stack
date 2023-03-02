@@ -1,5 +1,7 @@
 import { Button } from "@mui/material";
+import axios from "axios";
 import React from "react";
+import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { AiOutlineHeart, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsHeart } from "react-icons/bs";
@@ -12,11 +14,22 @@ import {
   deleteFavoriteItem,
   deleteFromCart,
 } from "../../../redux/actions/userAction";
+import { baseUrl } from "../../../utils/baseUrl";
 import Price from "../Helpers/Price";
 const Products = ({ cart }) => {
   const { access_token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   let { t } = useTranslation(["product"]);
+  const addToCartHandle = async (id, access_token) => {
+    const { data } = await axios.get(`${baseUrl}product/${id}`);
+    const existItem = cart?.find((x) => x.productId?._id === data._id);
+
+    if (data.inStock <= existItem.quantity) {
+      toast.error("Mahsulot tugagan");
+    } else {
+      dispatch(addToCart(id, access_token));
+    }
+  };
   return (
     <>
       <div className="container-full grid md:grid-cols-12 lg:gap-x-5 gap-y-3">
@@ -24,7 +37,7 @@ const Products = ({ cart }) => {
           <div className="md:border border-gray-200 md:p-0 xl:p-5 md:rounded-2xl">
             <div className="md:flex hidden md:p-4 xl:p-0 justify-between items-center font-semibold text-gray-700">
               <h1 className="md:text-2xl">{t("cart")}</h1>
-              <h1 className="md:text-xl font-mono">Items {cart.length}</h1>
+              <h1 className="md:text-xl font-mono">{t("all")} {cart.length}</h1>
             </div>
             <div>
               {cart && cart[0]
@@ -70,7 +83,7 @@ const Products = ({ cart }) => {
                               >
                                 <HiOutlineTrash className="md:text-xl" />
                                 {"  "}
-                                {"remove"}
+                                {t("delete")}
                               </button>
                               <span className="text-gray-600 md:mx-2">|</span>
                               <button
@@ -86,7 +99,7 @@ const Products = ({ cart }) => {
                               >
                                 <BsHeart className="md:text-lg mr-1" />
                                 {"  "}
-                                {"add favorites"}
+                                {t("add-wish")}
                               </button>
                             </div>
                           </div>
@@ -97,10 +110,12 @@ const Products = ({ cart }) => {
                               {item.quantity > 1 ? (
                                 <button
                                   onClick={() =>
-                                    dispatch(decrQtyItemCart(
-                                      item.productId?._id,
-                                      access_token
-                                    ))
+                                    dispatch(
+                                      decrQtyItemCart(
+                                        item.productId?._id,
+                                        access_token
+                                      )
+                                    )
                                   }
                                   className="px-2 py-1"
                                 >
@@ -116,8 +131,9 @@ const Products = ({ cart }) => {
                               </p>
                               <button
                                 onClick={() => {
-                                  dispatch(
-                                    addToCart(item.productId?._id, access_token)
+                                  addToCartHandle(
+                                    item.productId?._id,
+                                    access_token
                                   );
                                 }}
                                 className="px-2 py-1"
@@ -148,8 +164,9 @@ const Products = ({ cart }) => {
                               </p>
                               <button
                                 onClick={() => {
-                                  dispatch(
-                                    addToCart(item.productId?._id, access_token)
+                                  addToCartHandle(
+                                    item.productId?._id,
+                                    access_token
                                   );
                                 }}
                                 className="px-2 py-1"
@@ -201,8 +218,8 @@ const Products = ({ cart }) => {
         </div>
         <div className="lg:col-span-4 col-span-12">
           <div className="lg:sticky lg:top-28 border border-gray-200 p-5 md:rounded-2xl rounded-xl">
-            <div className="flex justify-between md:px-3 items-center mb-5 md:border-b-2 border-b border-b-gray-300">
-              <h1 className="md:text-2xl mb-5 text-gray-600 font-bold">
+            <div className="flex justify-between md:px-2 xl:px-3 items-center mb-5 xl:border-b-2 border-b border-b-gray-200">
+              <h1 className="md:text-xl xl:text-2xl mb-5 text-gray-600 font-bold">
                 {t("total")}
               </h1>
 
@@ -211,7 +228,7 @@ const Products = ({ cart }) => {
                   (a, c) => a + c.productId?.price * c.quantity,
                   0
                 )}
-                className="md:text-2xl mb-5 text-gray-600 font-bold"
+                className="md:text-xl xl:text-2xl mb-5 text-gray-600 font-bold"
               />
             </div>
             <div className="border-2 border-[#ff8400] flex justify-between items-center overflow-hidden rounded-lg">
@@ -226,8 +243,8 @@ const Products = ({ cart }) => {
             </div>
             <div className="mt-6">
               <ul className="flex justify-between items-center text-gray-700">
-                <li className="md:text-lg">Stoimost delivery:</li>
-                <li className="md:text-lg">0$</li>
+                <li className="md:text-lg">{t("deliveriy")}</li>
+                <li className="md:text-lg">{t("free")}</li>
               </ul>
             </div>
             <div className="mt-5">

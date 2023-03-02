@@ -15,7 +15,6 @@ const Basket = () => {
     window.scrollTo(0, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(cart);
   return (
     <>
       <HelmetTitle title={t("cart")} />

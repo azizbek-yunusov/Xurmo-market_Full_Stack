@@ -1,39 +1,11 @@
 import { Breadcrumbs } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
-import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import React from "react";
 import { Link } from "react-router-dom";
 import HelmetTitle from "../../../utils/HelmetTitle";
-import { getFilterProducts } from "../../../redux/actions/productAction";
 
-const ProductsList = ({ match }) => {
+const ProductsList = () => {
   const dispatch = useDispatch();
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [price, setPrice] = useState([0, 25000]);
-  const [category, setCategory] = useState("");
-
-  const [ratings, setRatings] = useState(0);
-
-  // const keyword = match.params.keyword;
-
-  const setCurrentPageNo = (e) => {
-    setCurrentPage(e);
-  };
-
-  const priceHandler = (event, newPrice) => {
-    setPrice(newPrice);
-  };
-  // let count = filteredProductsCount;
-  const state = useSelector((state) => state);
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  useEffect(() => {
-    dispatch(getFilterProducts(currentPage, price, category, ratings));
-  }, [dispatch, currentPage, price, category, ratings]);
-
-  console.log(state);
 
   return (
     <>

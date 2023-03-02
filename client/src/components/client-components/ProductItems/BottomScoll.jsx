@@ -4,17 +4,19 @@ import { useTranslation } from "react-i18next";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsCartCheck } from "react-icons/bs";
 import { FiShoppingCart } from "react-icons/fi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useGlobalApi } from "../../../hooks";
+import { addToCart, decrQtyItemCart } from "../../../redux/actions/userAction";
 import Price from "../Helpers/Price";
 
 const BottomScoll = ({ product }) => {
-  const scroll = useScrollTrigger();
   const { t } = useTranslation(["product"]);
+  const scroll = useScrollTrigger();
+  const dispatch = useDispatch();
+  const { cart } = useSelector((state) => state.me);
+  const { access_token } = useSelector((state) => state.auth);
   const { _id } = product;
-  const { cart, auth } = useSelector((state) => state);
-  const { addToCartHandle, decrementQtyItem } = useGlobalApi(auth.access_token);
+
   const existItem = cart?.find((x) => x.productId?._id === _id);
   const isCart = existItem === undefined ? false : true;
   return (
@@ -33,7 +35,11 @@ const BottomScoll = ({ product }) => {
                 <div className="flex_betwen md:px-3 border-2 border-[#888888] md:py-[6px] py-[6px] w-full md:rounded-xl rounded-lg md:text-lg text-base transition_normal hover:border-blue-500">
                   <Tooltip title="remove from cart">
                     <button
-                      onClick={() => decrementQtyItem(existItem.productId._id)}
+                      onClick={() =>
+                        dispatch(
+                          decrQtyItemCart(existItem.productId._id, access_token)
+                        )
+                      }
                       className="text-gray-800 md:px-1 pl-3 py-1"
                     >
                       <AiOutlineMinus />
@@ -44,7 +50,7 @@ const BottomScoll = ({ product }) => {
                   </p>
                   <Tooltip title="Increase by one">
                     <button
-                      onClick={() => addToCartHandle(_id)}
+                      onClick={() => dispatch(addToCart(_id, access_token))}
                       className=" tranistion_normal text-gray-800 md:px-1 pr-3 py-1"
                     >
                       <AiOutlinePlus />
@@ -60,7 +66,7 @@ const BottomScoll = ({ product }) => {
               </div>
             ) : (
               <button
-                onClick={() => addToCartHandle(_id)}
+                onClick={() => dispatch(addToCart(_id, access_token))}
                 className="border-2 border-[#ff8800] md:py-2 py-[10px] flex items-center justify-center w-full rounded-lg bg_secondary text-lg text-white transition_normal"
               >
                 <FiShoppingCart className="md:text-xl" />

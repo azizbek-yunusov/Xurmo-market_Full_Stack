@@ -7,9 +7,7 @@ import category from "./category";
 import banner from "./banner";
 import auth from "./reducers/authReducer";
 import authv from "./auth";
-import cart from "./reducers/cartReducer";
 import me from "./reducers/userReducer";
-import favorites from "./reducers/favoriteReducer";
 import { Provider } from "react-redux";
 
 const store = configureStore({
@@ -18,8 +16,6 @@ const store = configureStore({
     me,
     product,
     authv,
-    cart,
-    favorites,
     order,
     brand,
     category,

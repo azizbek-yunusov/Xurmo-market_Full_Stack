@@ -1,8 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useGoogleLogin } from "@react-oauth/google";
 import { Link, useNavigate } from "react-router-dom";
-import { signIn } from "../redux/actions/authAction";
+import { clearErrors, signIn } from "../redux/actions/authAction";
 import toast from "react-hot-toast";
 import {
   Button,
@@ -16,7 +16,10 @@ import { useTranslation } from "react-i18next";
 import HelmetTitle from "../utils/HelmetTitle";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 const SignIn = () => {
-  const { isLoading, isLogged } = useSelector((state) => state.auth);
+  const [loader, setLoader] = useState(false);
+  const { isLoading, isLogged, isError, message } = useSelector(
+    (state) => state.auth
+  );
 
   let { t } = useTranslation(["home"]);
   const dispatch = useDispatch();
@@ -44,7 +47,6 @@ const SignIn = () => {
   };
   const signInSubmit = async (e) => {
     e.preventDefault();
-
     const errors = {};
     if (!formState.email) {
       errors.email = t("email-valid");
@@ -59,9 +61,9 @@ const SignIn = () => {
     // submit form if no errors
     if (Object.keys(errors).length === 0) {
       try {
-        dispatch(signIn(formState));
-        navigate("/");
-        toast.success(t("sign-in-succ"));
+        setLoader(true);
+        await dispatch(signIn(formState));
+        
       } catch (err) {
         console.log(err);
       }
@@ -71,6 +73,19 @@ const SignIn = () => {
   const login = useGoogleLogin({
     onSuccess: (tokenResponse) => console.log(tokenResponse),
   });
+
+  useEffect(() => {
+    if (isLogged) {
+      setLoader(false);
+      toast.success(t("sign-in-succ"));
+      navigate("/");
+    }
+    if (isError) {
+      toast.error(message);
+      dispatch(clearErrors());
+      setLoader(false);
+    }
+  },  [isError, isLogged, message]);
   return (
     <>
       <HelmetTitle title={t("sign-in")} />
@@ -175,7 +190,7 @@ const SignIn = () => {
                       color="secondary"
                       size="large"
                     >
-                      {false ? (
+                      {loader ? (
                         <div className="flex items-center justify-center">
                           <svg
                             className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"

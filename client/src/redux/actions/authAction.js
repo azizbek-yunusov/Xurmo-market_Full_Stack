@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const signIn = (formState) => async (dispatch) => {
   try {
-    dispatch({ type: "SIGN_IN_PENDING" });
+    // dispatch({ type: "SIGN_IN_PENDING" });
 
     const config = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.post("/signin", formState, config);
@@ -17,9 +17,14 @@ export const signIn = (formState) => async (dispatch) => {
     localStorage.setItem("firstLogin", true);
     dispatch({ type: "USER_FULFILLED", payload: data.user });
   } catch (err) {
+    dispatch({
+      type: "SIGN_IN_REJECTED",
+      payload: err.response.data.err
+    });
     console.log(err);
   }
 };
+
 
 export const refreshToken = () => async (dispatch) => {
   const firstLogin = localStorage.getItem("firstLogin");
@@ -40,6 +45,10 @@ export const refreshToken = () => async (dispatch) => {
       console.log(err);
     }
   }
+};
+
+export const clearErrors = () => async (dispatch) => {
+  dispatch({ type: "CLEAR_ERRORS" });
 };
 
 export const signOut = () => async (dispatch) => {
