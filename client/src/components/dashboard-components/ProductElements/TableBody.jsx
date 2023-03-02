@@ -2,6 +2,7 @@ import { Avatar, Checkbox, Rating, TablePagination } from "@mui/material";
 import moment from "moment";
 import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { AiFillStar } from "react-icons/ai";
 import { FiEdit } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import Price from "../../client-components/Helpers/Price";
@@ -92,12 +93,13 @@ const TableBody = ({
                   </td>
                   <td className="py-3 px-3 text-left">
                     <div className="flex justify-start items-center">
-                      <Rating
+                      {/* <Rating
                         name="half-rating-read"
                         readOnly
                         size="small"
                         value={item.ratings?.toFixed(1)}
-                      />
+                      /> */}
+                      <AiFillStar className="text-orange-400 text-xl" />
                       <span className="ml-1">{item.ratings}</span>
                     </div>
                   </td>

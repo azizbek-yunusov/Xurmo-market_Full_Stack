@@ -61,6 +61,7 @@ const CreateProduct = () => {
       descr,
       images,
       category,
+      brand,
       discount,
       inStock,
     };
@@ -104,7 +105,7 @@ const CreateProduct = () => {
           </ol> */}
           </div>
           <div className="-mt-24 rounded-2xl flex mx-4 bg-white dark:bg-[#312d4b] shadow-lg">
-            <div className="flex w-full p-8 px-16">
+            <div className="flex w-full p-8 px-10 xl:px-16">
               <div className="w-full">
                 <form onSubmit={createCategoryHandle}>
                   <div className="grid grid-cols-1 gap-6 gap-x-14 md:grid-cols-2">

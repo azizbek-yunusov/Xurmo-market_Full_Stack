@@ -8,7 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../../redux/product";
 
 const TopData = () => {
-  const { t } = useTranslation(["product"]);
+  let { t } = useTranslation(["translation"]);
+
   const { isLoading, products } = useSelector((state) => state.product);
   const dispatch = useDispatch();
   const { access_token } = useSelector((state) => state.auth);
@@ -44,7 +45,7 @@ const TopData = () => {
         </div>
         <div className="ml-2 xl:ml-4">
           <p className="text-xs font-semibold xl:text-sm text-gray-500 dark:text-gray-200">
-            Total products
+            {t("total-products")}
           </p>
           <p className="text-xl xl:text-2xl font-semibold font-mono mr-2 text-gray-700 dark:text-gray-200 ">
             {products.length}
@@ -58,7 +59,7 @@ const TopData = () => {
         </div>
         <div className="ml-2 xl:ml-4">
           <p className="text-xs font-semibold xl:text-sm text-gray-500 dark:text-gray-200">
-            Total Customers
+            {t("total-users")}
           </p>
           <p className="text-xl xl:text-2xl font-semibold font-mono mr-2 text-gray-700 dark:text-gray-200">
             {users.length}
@@ -71,7 +72,7 @@ const TopData = () => {
         </div>
         <div className="ml-2 xl:ml-4">
           <p className="text-xs font-semibold xl:text-sm text-gray-500 dark:text-gray-200">
-            Total Orders
+            {t("total-orders")}
           </p>
           <p className="text-xl xl:text-2xl font-semibold font-mono mr-2 text-gray-700 dark:text-gray-200">
             {orders.length}
@@ -84,7 +85,7 @@ const TopData = () => {
         </div>
         <div className="ml-2 xl:ml-4">
           <p className="text-xs font-semibold xl:text-sm text-gray-500 dark:text-gray-200">
-            Total Revenue
+            {t("total-revenue")}
           </p>
           <p className="text-xl xl:text-2xl font-semibold font-mono mr-2 text-gray-700 dark:text-gray-200">
             {"$9745"}

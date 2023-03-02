@@ -88,10 +88,10 @@ const UpdateCategory = () => {
             </div>
           </div>
           <div className="-mt-24 rounded-2xl flex mx-4 bg_color border_primary">
-            <div className="flex w-full p-8 px-16">
+            <div className="flex w-full p-8 px-10 xl:px-16">
               <div className="w-full">
                 <form onSubmit={updateCategoryHandle}>
-                  <div className="grid grid-cols-1 gap-6 gap-x-14 md:grid-cols-2">
+                  <div className="grid grid-cols-1 gap-6  gap-x-8 xl:gap-x-14 md:grid-cols-2">
                     <div className="col-span-1">
                       <TextField
                         id="outlined-basic"

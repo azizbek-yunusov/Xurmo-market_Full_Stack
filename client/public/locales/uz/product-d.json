@@ -28,5 +28,8 @@
   "selected": "Tanlandi",
   "save": "Saqlash",
   "cancel": "Orqaga",
-  "loading": "Yuklanmoqda"
+  "loading": "Yuklanmoqda",
+  "update-product": "Mahsulotni o'zgartirish",
+  "updated-product": "Mahsulot yangilandi",
+  "home": "Bosh sahifa"
 }

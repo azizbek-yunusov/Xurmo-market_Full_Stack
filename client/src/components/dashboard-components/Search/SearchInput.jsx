@@ -1,7 +1,7 @@
 import { Backdrop, Box, Fade, Modal } from "@mui/material";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { BiSearch } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -9,21 +9,21 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 600,
-  boxShadow: 24,
   p: 4,
 };
 const SearchInput = () => {
+  let { t } = useTranslation(["translation"]);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleKeyDown = (event) => {
-    if (event.ctrlKey && event.key === '/') {
+    if (event.ctrlKey && event.key === "/") {
       setOpen(true);
       console.log("Control");
     }
   };
   const handleKeyUp = (event) => {
-    if (event.ctrlKey && event.key === '/') {
+    if (event.ctrlKey && event.key === "/") {
       setOpen(false);
     }
   };
@@ -37,18 +37,19 @@ const SearchInput = () => {
         className="flex items-center cursor-pointer"
       >
         <BiSearch className="text-2xl text-gray-500" />
-        <p className="mx-2 text-base text-gray-400">Search</p>
+        <p className="mx-2 text-base text-gray-400">{t("search")}</p>
         <div className="text-base text-gray-400">( Ctrl + / )</div>
       </div>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={open}
+        sx={{ backgroundColor: "transparent", backdropFilter: "blur(1px)" }}
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
-          timeout: 500,
+          timeout: 300,
         }}
       >
         <Fade in={open}>
@@ -57,8 +58,9 @@ const SearchInput = () => {
               <BiSearch className="text-2xl text-gray-500 mr-3" />
               <input
                 type="text"
+                placeholder={t("search")}
                 autoFocus
-                className="text-lg text-gray-700 outline-none border-none"
+                className="text-gray-700 outline-none border-none"
               />
             </div>
             <div className="grid grid-cols-2">
@@ -71,34 +73,6 @@ const SearchInput = () => {
         </Fade>
       </Modal>
     </>
-    // <form onSubmit={SearchHandler} className="flex items-center w-full">
-    //   <div className="relative w-full min-w-[500px]">
-    //     <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-    //       <CgSearch className="md:text-xl text-gray-500" />
-    //     </div>
-    //     <input
-    //       type="text"
-    //       id="voice-search"
-    //       required
-    //       onChange={(e) => setQuery(e.target.value)}
-    //       className="bg-white border-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-400 focus:border-purple-400 block w-full pl-10 p-2.5"
-    //       placeholder="Search, Smartphones, Laptop Products..."
-    //     />
-    //     <div
-    //       onClick={() => openVoiceSearch()}
-    //       className="flex absolute inset-y-0 right-0 items-center pr-3"
-    //     >
-    //       <BiMicrophone className="md:text-[22px] text-gray-500" />
-    //     </div>
-    //   </div>
-    //   <button
-    //     type="submit"
-    //     className="inline-flex items-center py-2.5 px-3 ml-2 text-sm font-medium text-white bg- rounded-lg bg-purple-500 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-    //   >
-    //     <CgSearch className="md:text-lg mr-1 text-gray-50" />
-    //     Search
-    //   </button>
-    // </form>
   );
 };
 

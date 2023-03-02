@@ -1,5 +1,11 @@
 {
   "test": "Uzbekcha",
-  "hometitle": "Bosh sahifa"
+  "hometitle": "Bosh sahifa",
+  "overview": "Umumiy",
+  "total-products": "Barcha Mahsulotlar",
+  "total-users": "Barcha Foydalanuvchilar",
+  "total-orders": "Barcha Buyurtmalar",
+  "total-revenue": "Jami daromad",
+  "search": "Qidirish"
 
 }

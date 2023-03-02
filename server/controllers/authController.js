@@ -86,7 +86,6 @@ const signIn = async (req, res) => {
       return res.status(400).json({ err: "All fields are required" });
     }
     const savedUser = await UserModel.findOne({ email })
-      .select("-password")
       .populate(
         "cart.productId favorites.productId",
         "_id name price images discount inStock numOfReviews reviews ratings"
