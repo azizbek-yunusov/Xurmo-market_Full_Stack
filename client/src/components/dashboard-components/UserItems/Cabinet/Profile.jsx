@@ -10,7 +10,8 @@ import CabinetTabs from "./CabinetTabs";
 import CabinetTop from "./CabinetTop";
 
 const Profile = () => {
-  const { access_token, user } = useSelector((state) => state.auth);
+  const { access_token } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.me);
 
   return (
     <>

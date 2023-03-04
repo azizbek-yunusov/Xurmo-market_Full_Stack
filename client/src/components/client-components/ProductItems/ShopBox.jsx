@@ -15,16 +15,34 @@ import { useGlobalApi } from "../../../hooks";
 import AddToWish from "../Helpers/AddToWish";
 import Price from "../Helpers/Price";
 import { addToCart, decrQtyItemCart } from "../../../redux/actions/userAction";
+import axios from "axios";
+import { baseUrl } from "../../../utils/baseUrl";
+import { toast } from "react-hot-toast";
 
 const ShopBox = ({ product }) => {
   const { t } = useTranslation(["product"]);
-  const { _id } = product;
+  const { _id, inStock } = product;
   const dispatch = useDispatch();
-  const { cart } = useSelector((state) => state.me);
-  const { access_token } = useSelector((state) => state.auth);
+  const { cart, favorites } = useSelector((state) => state.me);
+  const { access_token, isLogged } = useSelector((state) => state.auth);
 
   const existItem = cart?.find((x) => x.productId?._id === _id);
   const isCart = existItem === undefined ? false : true;
+  const existItemWish = favorites?.find((x) => x.productId._id === _id);
+  const isFavorite = existItemWish === undefined ? false : true;
+  const addToCartHandle = async (id, access_token) => {
+    if (isLogged) {
+      const existItem = cart?.find((x) => x.productId?._id === _id);
+      if (inStock <= existItem.quantity) {
+        toast.error(t("product-not"));
+      } else {
+        await dispatch(addToCart(id, access_token));
+        toast.success(t("added-cart"));
+      }
+    } else {
+      toast.error(t("error-register"));
+    }
+  };
   return (
     <div className="flex justify-center md:px-4 col-span-1">
       <div className="md:w-auto w-full">
@@ -56,7 +74,7 @@ const ShopBox = ({ product }) => {
                   <div className="border-2 border-[#ff8800] md:py-3 py-3 flex_betwen w-full rounded-lg text-lg text-gray-700 transition_normal">
                     <Tooltip title="remove from cart">
                       <button
-                        onClick={() => decrQtyItemCart(existItem.productId._id)}
+                        onClick={() => decrQtyItemCart(existItem.productId._id, access_token)}
                         className="text-gray-700 md:px-4 pl-3 py-1 text-2xl"
                       >
                         <AiOutlineMinus />
@@ -67,7 +85,7 @@ const ShopBox = ({ product }) => {
                     </p>
                     <Tooltip title="Increase by one">
                       <button
-                        onClick={() => addToCart(_id)}
+                        onClick={() => addToCartHandle(_id, access_token)}
                         className=" tranistion_normal text-gray-700 md:px-4 pl-3 py-1 text-2xl"
                       >
                         <AiOutlinePlus />
@@ -83,7 +101,7 @@ const ShopBox = ({ product }) => {
                 </div>
               ) : (
                 <button
-                  onClick={() => addToCart(_id)}
+                  onClick={() => addToCartHandle(_id, access_token)}
                   className="border-2 border-[#ff8800] md:py-3 py-3 flex items-center justify-center w-full rounded-lg bg_secondary text-lg text-white transition_normal"
                 >
                   <FiShoppingCart className="md:text-xl" />
@@ -92,7 +110,7 @@ const ShopBox = ({ product }) => {
               )}
             </div>
             <button
-              onClick={() => addToCart(_id)}
+              onClick={() => addToCartHandle(_id, access_token)}
               className="border-2 border-[#ff8800] md:py-3 py-3 flex items-center justify-center w-full rounded-lg text-lg text-gray-700 transition_normal hover:bg-orange-400 hover:text-white"
             >
               <BsBagCheck className="md:text-xl" />

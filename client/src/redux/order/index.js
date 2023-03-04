@@ -33,7 +33,7 @@ export const getOrder = createAsyncThunk(
   }
 );
 export const getMyOrders = createAsyncThunk(
-  "order/get-my-order",
+  "order/get-my-orders",
   async (access_token, thunkAPI) => {
     try {
       const response = await axios.get(`${baseUrl}myorders`, {

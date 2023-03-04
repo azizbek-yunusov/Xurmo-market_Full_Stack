@@ -5,18 +5,11 @@ import { BsFillHeartFill, BsHeart } from "react-icons/bs";
 import { FiShoppingCart } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useGlobalApi } from "../../../hooks";
 import Price from "../Helpers/Price";
 
 const AdaptableCard = (props) => {
   const { _id, name, images, price, ratings, discount, index } = props;
   const { cart, favorites, auth } = useSelector((state) => state);
-  const {
-    addToCartHandle,
-    decrementQtyItem,
-    addToFavorite,
-    deleteFavoriteItem,
-  } = useGlobalApi(auth.access_token);
 
   const existItem = cart?.find((x) => x.productId?._id === _id);
   const isCart = existItem === undefined ? false : true;
@@ -34,14 +27,14 @@ const AdaptableCard = (props) => {
         <div className="md:hidden absolute top-1 right-1">
           {isFavorite ? (
             <button
-              onClick={() => deleteFavoriteItem(_id)}
+              // onClick={() => deleteFavoriteItem(_id)}
               className="rounded-full border-none border-gray-400 p-1 flex_center"
             >
               <BsFillHeartFill className="text-2xl text-red-500" />
             </button>
           ) : (
             <button
-              onClick={() => addToFavorite(_id)}
+              // onClick={() => addToFavorite(_id)}
               className="p-1 rounded-full border-none border-gray-400"
             >
               <BsHeart className="text-2xl text-gray-400" />
@@ -88,7 +81,7 @@ const AdaptableCard = (props) => {
             <div className="flex justify-between md:px-3 items-center border-2 border-[#01f736] md:py-[6px] py-1 w-full md:rounded-xl rounded-lg md:text-lg text-base transition_normal hover:border-blue-500">
               <Tooltip title="remove from cart">
                 <button
-                  onClick={() => decrementQtyItem(existItem.productId._id)}
+                  // onClick={() => decrementQtyItem(existItem.productId._id)}
                   className="text-gray-600 px-4 py-1"
                 >
                   <AiOutlineMinus />
@@ -99,7 +92,7 @@ const AdaptableCard = (props) => {
               </p>
               <Tooltip title="Increase by one">
                 <button
-                  onClick={() => addToCartHandle(_id)}
+                  // onClick={() => addToCartHandle(_id)}
                   className=" tranistion_normal  px-4 py-1"
                 >
                   <AiOutlinePlus />
@@ -108,7 +101,7 @@ const AdaptableCard = (props) => {
             </div>
           ) : (
             <button
-              onClick={() => addToCartHandle(_id)}
+              // onClick={() => addToCartHandle(_id)}
               className="border-2 border-[#ff8800] py-2 flex items-center justify-center w-full rounded-xl hover:text-indigo-600 bg-[#ff8800] text-lg text-white hover:bg-white transition_normal  hover:border-indigo-500"
             >
               <FiShoppingCart className="md:text-xl" />
@@ -118,14 +111,14 @@ const AdaptableCard = (props) => {
           <div className="hidden md:block">
             {isFavorite ? (
               <button
-                onClick={() => deleteFavoriteItem(_id)}
+                // onClick={() => deleteFavoriteItem(_id)}
                 className="p-1 rounded-full border-none md:mr-4 border-gray-400"
               >
                 <BsFillHeartFill className="text-lg text-red-500" />
               </button>
             ) : (
               <button
-                onClick={() => addToFavorite(_id)}
+                // onClick={() => addToFavorite(_id)}
                 className="p-1 rounded-full border-none md:mr-4 border-gray-400"
               >
                 <BsHeart className="text-lg text-gray-400" />

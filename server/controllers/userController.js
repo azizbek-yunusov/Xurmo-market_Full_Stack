@@ -124,18 +124,12 @@ const uploadAvatar = async (req, res) => {
         url: newAvatar.secure_url,
       };
     }
-    const updatedAvatar = await UserModel.findByIdAndUpdate(
-      req.user.id,
-      newUserAvatar,
-      {
-        new: true,
-        runValidators: true,
-        useFindAndModify: false,
-      }
-    );
-    res.status(200).json({
-      updatedAvatar,
+    const user = await UserModel.findByIdAndUpdate(req.user.id, newUserAvatar, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
     });
+    res.status(200).json(user);
   } catch (err) {
     console.log(err);
   }
@@ -190,48 +184,17 @@ const getUser = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
-    const newUserData = {
+    const userData = {
       name: req.body.name,
       lastName: req.body.lastName,
-      // phoneNumber: req.body.phoneNumber,
+      email: req.body.email,
+      phoneNumber: req.body.phoneNumber,
     };
-    if (req.body.avatar !== "") {
-      const user = await UserModel.findById(req.user.id);
 
-      const imageId = user.avatar.public_id;
-
-      await cloudinary.v2.uploader.destroy(imageId);
-
-      const myCloud = await cloudinary.uploader.upload(req.body.avatar, {
-        folder: "avatars",
-        crop: "scale",
-      });
-
-      newUserData.avatar = {
-        public_id: myCloud.public_id,
-        url: myCloud.secure_url,
-      };
-    } else {
-      const myCloud = await cloudinary.uploader.upload(req.body.avatar, {
-        folder: "avatars",
-        crop: "scale",
-      });
-
-      newUserData.avatar = {
-        public_id: myCloud.public_id,
-        url: myCloud.secure_url,
-      };
-    }
-    const updatedUser = await UserModel.findByIdAndUpdate(
-      req.user.id,
-      newUserData,
-      {
-        new: true,
-      }
-    );
-    res.status(200).json({
-      updatedUser,
+    const user = await UserModel.findByIdAndUpdate(req.user.id, userData, {
+      new: true,
     });
+    res.status(200).json(user);
   } catch (err) {
     return res.status(500).json({ err });
   }
@@ -265,45 +228,19 @@ const deleteSelected = async (req, res) => {
 
 const addAdress = async (req, res) => {
   try {
-    const {
-      country,
-      region,
-      district,
-      street,
-      house,
-      apartment,
-      isActive,
-      other,
-      postalCode,
-    } = req.body;
+    const { region, district, street, house, isActive } = req.body;
     const address = {
-      country,
       region,
       street,
       district,
       house,
-      apartment,
       isActive,
     };
-    const user = await UserModel.findById(req.user.id);
+    let user = await UserModel.findById(req.user.id);
     user.addresses.push(address);
     await user.save();
 
-    res.status(200).json({
-      user,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const getMyAdresses = async (req, res) => {
-  try {
-    const user = await UserModel.findById(req.user.id);
-    let { addresses } = user;
-    res.status(200).json({
-      addresses,
-    });
+    res.status(200).json(user.addresses);
   } catch (err) {
     console.log(err);
   }
@@ -311,11 +248,11 @@ const getMyAdresses = async (req, res) => {
 
 const deleteAddress = async (req, res) => {
   try {
-    const user = await UserModel.findById(req.user.id);
+    let user = await UserModel.findById(req.user.id);
     await user.removeFromAddress(req.params.id);
-    res.status(200).json({
-      success: true,
-    });
+
+    await user.save();
+    res.status(200).json(user.addresses);
   } catch (err) {
     console.log(err);
   }
@@ -336,6 +273,5 @@ module.exports = {
   deleteSelected,
   getUserInfo,
   addAdress,
-  getMyAdresses,
   deleteAddress,
 };

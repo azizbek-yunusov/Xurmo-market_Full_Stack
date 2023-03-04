@@ -84,7 +84,7 @@
   @apply text-gray-700 dark:text-gray-300;
 }
 .text_color {
-  @apply text-gray-700 dark:text-gray-300;
+  @apply text-gray-700 dark:text-gray-300 dark:bg-[#1F2937];
 }
 .bg_color {
   @apply bg-white dark:bg-[#312d4b];

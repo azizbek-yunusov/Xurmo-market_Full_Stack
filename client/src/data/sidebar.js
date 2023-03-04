@@ -7,89 +7,40 @@ import {
 } from "react-icons/ai";
 import { BsCardImage, BsCart2, BsUiChecksGrid } from "react-icons/bs";
 import {
-  RiAdminLine,
   RiShoppingBag3Line,
-  RiUserFollowLine,
 } from "react-icons/ri";
 import { BiBuildingHouse, BiCategory, BiHomeAlt } from "react-icons/bi";
-import { HiLocationMarker } from "react-icons/hi";
-import { MdFavoriteBorder } from "react-icons/md";
+import { MdFavoriteBorder, MdLocationOn } from "react-icons/md";
 
-export const sidebarProfileEn = [
+export const tabsProfileData = [
   {
     id: 1,
     path: "/myprofile",
-    name: "Overview",
+    name: "overview",
     icon: <BiHomeAlt className="md:text-xl text-xl" />,
   },
   {
     id: 2,
     path: "/myprofile/orders",
-    name: "My orders",
+    name: "my-orders",
     icon: <RiShoppingBag3Line className="md:text-xl text-xl" />,
+  },
+  {
+    id: 3,
+    path: "/myprofile/addresses",
+    name: "addresses",
+    icon: <MdLocationOn className="md:text-xl text-xl" />,
   },
   {
     id: 4,
     path: "/myprofile/favorites",
-    name: "Favorites",
+    name: "favorites",
     icon: <MdFavoriteBorder className="md:text-xl text-xl" />,
   },
   {
     id: 1,
     path: "/myprofile/settings",
-    name: "Settings",
-    icon: <AiOutlineSetting className="md:text-xl text-xl" />,
-  },
-];
-export const sidebarProfileUz = [
-  {
-    id: 1,
-    path: "/myprofile",
-    name: "Umumiy",
-    icon: <BiHomeAlt className="md:text-xl text-xl" />,
-  },
-  {
-    id: 2,
-    path: "/myprofile/orders",
-    name: "Buyurtmalarim",
-    icon: <RiShoppingBag3Line className="md:text-xl text-xl" />,
-  },
-  {
-    id: 4,
-    path: "/myprofile/favorites",
-    name: "Sevimlilar",
-    icon: <MdFavoriteBorder className="md:text-xl text-xl" />,
-  },
-  {
-    id: 1,
-    path: "/myprofile/settings",
-    name: "Sozlamalar",
-    icon: <AiOutlineSetting className="md:text-xl text-xl" />,
-  },
-];
-export const sidebarProfileRu = [
-  {
-    id: 1,
-    path: "/myprofile",
-    name: "Общий",
-    icon: <BiHomeAlt className="md:text-xl text-xl" />,
-  },
-  {
-    id: 2,
-    path: "/myprofile/orders",
-    name: "Мои заказы",
-    icon: <RiShoppingBag3Line className="md:text-xl text-xl" />,
-  },
-  {
-    id: 4,
-    path: "/myprofile/favorites",
-    name: "Избранное",
-    icon: <MdFavoriteBorder className="md:text-xl text-xl" />,
-  },
-  {
-    id: 1,
-    path: "/myprofile/settings",
-    name: "Настройки",
+    name: "settings",
     icon: <AiOutlineSetting className="md:text-xl text-xl" />,
   },
 ];

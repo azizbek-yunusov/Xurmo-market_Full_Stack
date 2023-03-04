@@ -2,15 +2,17 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import LayoutP from "./LayoutP";
 import { useTranslation } from "react-i18next";
-import moment from "moment";
 import { Link } from "react-router-dom";
-import OrderChip from "../Helpers/OrderChip";
 import { CircularProgress } from "@mui/material";
 import Price from "../Helpers/Price";
 import { getMyOrders } from "../../../redux/order";
+import { HelmetTitle } from "../../../utils";
+import { datePicker } from "../Helpers/datePicker";
+import OrderStatus from "../Helpers/OrderStatus";
+import PaymentTypeText from "../Helpers/PaymentTypeText";
 
 const MyOrders = () => {
-  let { t } = useTranslation(["shop"]);
+  let { t } = useTranslation();
   const dispatch = useDispatch();
   const { access_token } = useSelector((state) => state.auth);
   const { isLoading, myOrders } = useSelector((state) => state.order);
@@ -18,12 +20,15 @@ const MyOrders = () => {
     if (access_token) {
       dispatch(getMyOrders(access_token));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [access_token]);
+  }, [access_token, dispatch]);
+  console.log(myOrders);
   return (
     <LayoutP>
+      <HelmetTitle
+        title={`${t("profile:my-orders")} - ${t("profile:personal")}`}
+      />
       <div className="flex justify-between items-center ">
-        {/* <h1 className="md:text-xl font-semibold">{t("myorders")}</h1>
+        {/* <h1 className="md:text-xl font-semibold">{t("shop:myorders")}</h1>
           <h1 className="text-xl">all orders</h1> */}
       </div>
       {!isLoading ? (
@@ -32,12 +37,12 @@ const MyOrders = () => {
             myOrders.map((item, index) => (
               <div
                 key={index}
-                className="border border_l rounded-xl md:p-4 p-3 my-4"
+                className="border border_l rounded-xl md:p-4 p-3"
               >
                 <div className="sm:flex justify-between items-center block border-b border-b-gray-200 md:pb-4 pb-2">
                   <div className="">
                     <p className="md:text-lg font-bold text-gray-700">
-                      {t("order")}
+                      {t("shop:order")}
                       {"-"}
                       <span className="">
                         {"#"}
@@ -45,14 +50,15 @@ const MyOrders = () => {
                       </span>
                       {", "}
                       <span className="">
-                        {moment(item.createdAt).format("lll")}
+                        {/* {moment(item.createdAt).format("lll")} */}
+                        {datePicker(item.createdAt)}
                       </span>{" "}
                     </p>
                   </div>
-                  <OrderChip />
+                  <OrderStatus status={item.orderStatus} />
                 </div>
-                <div className="grid lg:grid-cols-2 grid-cols-1 gap-2">
-                  <div className="mt-3">
+                <div className="grid lg:grid-cols-12 grid-cols-1 gap-2">
+                  <div className="mt-3 lg:col-span-5">
                     {item.orderItems.map((ord) => (
                       <div key={ord._id} className="flex justify-between">
                         <div className="my-2 flex">
@@ -79,52 +85,59 @@ const MyOrders = () => {
                       </div>
                     ))}
                   </div>
-                  <div className="lg:border-l mt-3 border-l-gray-300 lg:text-base text-sm">
-                    <div className="grid grid-cols-2">
-                      <div className="col-span-1">
-                        <ul className="text-gray-500 md:ml-6">
-                          <li className="my-3">
-                            {t("ordertype")}
+                  <div className="mt-3 lg:col-span-7 lg:text-base text-sm">
+                    <table className="border-none w-full">
+                      <tbody>
+                        <tr className="flex text-sm w-full">
+                          <td className="w-full p-3 md:p-1 xl:p-2 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
+                            {t("shop:ordertype")}
                             {":"}
-                          </li>
-                          <li className="my-3">
-                            {t("orderat")}
+                          </td>
+                          <td className="w-full p-3 md:p-1 xl:p-2 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
+                            <PaymentTypeText
+                              paymentMethod={item.paymentMethod}
+                            />
+                          </td>
+                        </tr>
+                        <tr className="flex text-sm w-full">
+                          <td className="w-full p-3 md:p-1 xl:p-2 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
+                            {t("shop:orderat")}
+                          </td>
+                          <td className="w-full p-3 md:p-1 xl:p-2 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
+                            {datePicker(item.createdAt)}
+                          </td>
+                        </tr>
+                        <tr className="flex text-sm w-full">
+                          <td className="w-full p-3 md:p-1 xl:p-2 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
+                            {t("shop:total-payment")}
                             {":"}
-                          </li>
-                          <li className="my-3">
-                            {t("total-payment")}
-                            {":"}
-                          </li>
-                          <li className="my-3">
-                            {t("contact")}
-                            {":"}
-                          </li>
-                          <li className="my-3">
-                            {t("address")}
-                            {":"}
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="col-span-1">
-                        <ul className="font-semibold text-zinc-700">
-                          <li className="my-3">{item.paymentMethod}</li>
-                          <li className="my-3">
-                            {moment(item.createdAt).format("lll")}
-                          </li>
-                          <li className="my-3">
-                            <Price price={item.totalPrice} className="" />
-                          </li>
-                          <li className="my-3">{item.contact || item.email}</li>
-                          <li className="my-3">
-                            {item.shippingAddress.region} {t("region")}
+                          </td>
+                          <td className="w-full p-3 md:p-1 xl:p-2 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
+                            <Price price={item.totalPrice} />
+                          </td>
+                        </tr>
+                        <tr className="flex text-sm w-full">
+                          <td className="w-full p-3 md:p-1 xl:p-2 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
+                            {t("shop:contact")}
+                          </td>
+                          <td className="w-full p-3 md:p-1 xl:p-2 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
+                            {item.contact || item.email}
+                          </td>
+                        </tr>
+                        <tr className="flex text-sm w-full">
+                          <td className="w-full p-3 md:p-1 xl:p-2 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
+                            {t("shop:address")}
+                          </td>
+                          <td className="w-full p-3 md:p-1 xl:p-2 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
+                            {item.shippingAddress.region.slice(0, -5)}
                             {", "}
-                            {item.shippingAddress.district} {t("")}
+                            {item.shippingAddress.district.slice(0, -3)}
                             {", "}
                             {item.shippingAddress.street}
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -133,7 +146,7 @@ const MyOrders = () => {
             <div className="flex flex-col items-center justify-center">
               <img src="/images/order.png" alt="cart" className="h-56" />
               <h1 className="text-2xl font-semibold text-gray-700">
-                {t("empty-order")}
+                {t("shop:empty-order")}
               </h1>
             </div>
           )}

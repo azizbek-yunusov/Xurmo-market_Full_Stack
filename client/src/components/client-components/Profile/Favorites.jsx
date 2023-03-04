@@ -1,18 +1,23 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+import { HelmetTitle } from "../../../utils";
 import WishProductItem from "../Wish/WishProductItem";
 import LayoutP from "./LayoutP";
 
 const Favorites = () => {
-  const { favorites } = useSelector((state) => state);
-  const { t } = useTranslation(["product"]);
+  const { favorites } = useSelector((state) => state.me);
+  const { t } = useTranslation();
 
   return (
     <LayoutP>
+      <HelmetTitle
+        title={`${t("profile:favorites")} - ${t("profile:personal")}`}
+      />
+
       <div className="">
         {favorites.length ? (
-          <div className="grid lg:grid-cols-4 md:gap-4">
+          <div className="grid lg:grid-cols-4 grid-cols-2 md:gap-4 gap-1">
             {favorites.map((item, index) => (
               <WishProductItem key={index} {...item} />
             ))}
@@ -21,7 +26,7 @@ const Favorites = () => {
           <div className="flex justify-center items-center flex-col">
             <img src="/images/wish.png" className="h-52" alt="" />
             <h1 className="text-2xl text-gray-800 font-semibold md:mb-5">
-              {t("empty-wish")}
+              {t("product:empty-wish")}
             </h1>
           </div>
         )}

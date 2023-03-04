@@ -1,32 +1,32 @@
 const initialState = {
-  user: [],
-  cart: [],
-  favorites: [],
+  addresses: [],
+  standart: null,
   isLoading: false,
   isSuccess: false,
   isError: false,
+  message: ""
 };
-const userReducer = (state = initialState, action) => {
+const addressReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "USER_PENDING":
+    case "ADDRESS_PENDING":
       return {
         isLoading: true,
       };
-    case "USER_FULFILLED":
+    case "ADDRESS_FULFILLED":
       return {
         ...state,
         isLoading: false,
         isSuccess: true,
-        user: action.payload,
-        cart: action.payload.cart,
-        favorites: action.payload.favorites,
+        addresses: action.payload,
+        standart: action.payload[0],
       };
-    case "USER_REJECTED":
+    case "ADDRESS_REJECTED":
       return {
         ...state,
         isLoading: false,
-        isError: true,
         isSuccess: false,
+        isError: true,
+        message: action.error
       };
 
     default:
@@ -34,4 +34,4 @@ const userReducer = (state = initialState, action) => {
   }
 };
 
-export default userReducer;
+export default addressReducer;

@@ -27,13 +27,14 @@ const CheckOut = () => {
   const { isLoading, isError } = useSelector((state) => state.order);
   const { user, cart } = useSelector((state) => state.me);
   const { access_token } = useSelector((state) => state.auth);
+  const { standart } = useSelector((state) => state.address);
   const [name, setName] = useState(user.name || "");
   const [lastname, setLastName] = useState("");
   const [contact, setContact] = useState("");
   const [email, setEmail] = useState(user.email || "");
-  const [region, setRegion] = useState("Toshkent Viloyati");
-  const [district, setDistrict] = useState("");
-  const [street, setStreet] = useState("");
+  const [region, setRegion] = useState(standart[0].region || "Toshkent Viloyati");
+  const [district, setDistrict] = useState(standart[0].district || "");
+  const [street, setStreet] = useState(standart[0].street || "");
   const [house, setHouse] = useState("");
   const [payment, setPayment] = useState("Cash on Delivery");
   const [delivery, setDelivery] = useState("Delivery address");
@@ -106,6 +107,7 @@ const CheckOut = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  console.log(standart[0])
   return (
     <>
       <HelmetTitle title={t("check-out")} />

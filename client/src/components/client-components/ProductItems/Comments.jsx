@@ -27,7 +27,7 @@ const Comments = ({ review }) => {
             </h1>
             <p className="text-sm text-gray-600 mx-2">
               {review.createdAt
-                ? moment(review.createdAt).startOf().fromNow()
+                ? moment(review.createdAt).locale("uz-latn").startOf().fromNow()
                 : ""}
             </p>
           </div>

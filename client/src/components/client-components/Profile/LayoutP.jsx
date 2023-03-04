@@ -11,7 +11,8 @@ import { useTranslation } from "react-i18next";
 
 const LayoutP = ({ children }) => {
   let { t } = useTranslation(["profile"]);
-  const { user, access_token } = useSelector((state) => state.auth);
+  const { access_token } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.me);
   useEffect(() => {
     window.scrollTo(0, 0);
 
@@ -21,13 +22,18 @@ const LayoutP = ({ children }) => {
     <>
       <HelmetTitle title={t("personal")} />
       {/* Desktop responsive */}
-      <div className="container-full min-h-[560px] md:mb-3 xl:flex flex-col hidden text-gray-800">
-        <div className="">
+      <div className="container-full min-h-[560px] md:mb-3 md:mt-2 xl:flex flex-col hidden text-gray-800">
+        <div className="relative">
           <img
             src="/images/profilebg.png"
             className="lg:h-[200px] object-cover w-full rounded-t-2xl"
             alt=""
           />
+          <div className="absolute top-1 right-1">
+            <IconButton>
+              <AiOutlineSetting className="text-white" />
+            </IconButton>
+          </div>
         </div>
         <div className="grid grid-cols-12 gap-x-5 justify-between md:my-2 w-full">
           <div className="col-span-3 sticky top-5">
@@ -71,7 +77,7 @@ const LayoutP = ({ children }) => {
               </p>
               <p className="flex text-gray-400 ">
                 <AiFillCalendar className="text-xl" />
-                {moment(user.createdAt).format("LL")}
+                {moment(user.createdAt).locale("uz-latn").format("LL")}
               </p>
             </div>
             <div className="md:flex flex-col hidden lg:ml-2">
@@ -85,15 +91,14 @@ const LayoutP = ({ children }) => {
                 </p>
                 <p className="flex text-gray-400 lg:ml-4">
                   <AiFillCalendar className="text-xl" />
-                  {moment(user.createdAt).format("LL")}
+                  {moment(user.createdAt).locale("uz-latn").format("LL")}
                 </p>
               </div>
             </div>
           </div>
         </div>
-
         <Tabs />
-        <div className="lg:my-5 md:my-3 border-t md:border-none border-t-gray-200">
+        <div className="lg:my-5 md:my-3 pt-3 border-t md:border-none border-t-gray-200">
           {children}
         </div>
       </div>

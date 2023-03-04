@@ -1,37 +1,38 @@
 import React from "react";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
+import { BiEdit } from "react-icons/bi";
 import { MdLogout } from "react-icons/md";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "../../../redux/actions/authAction";
+import { HelmetTitle } from "../../../utils";
 import LayoutP from "./LayoutP";
 
 const Settings = () => {
   let { t } = useTranslation(["profile"]);
+  const {isLogged } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const signOutHandle = () => {
-    dispatch(signOut());
-    navigate("/signin");
-    toast.success(t("sign-out"));
+  const signOutHandle = async () => {
+    await dispatch(signOut());
+    if (isLogged) {
+      navigate("/signin");
+    }
+    toast.success("Sign out ");
   };
   return (
     <LayoutP>
-      <div className="grid grid-cols-2 gap-8 mt-5 md:px-32">
+      <HelmetTitle title={`${t("settings")} - ${t("personal")}`} />
+      <div className="grid grid-cols-2 md:gap-8 gap-4 mt-5 md:px-32 h-full">
         <div className="col-span-1 rounded-xl shadow-lg shadow-indigo-500/50 bg-purple-500 h-32">
           <Link
             to={"/myprofile/update"}
-            className="text-xl w-full h-full flex_center text-gray-50"
+            className="text-xl w-full flex_center h-full flex_center text-gray-50"
           >
-            Edit
+             <BiEdit className="text-2xl mr-2" />
+            {t("edit")}
           </Link>
-        </div>
-        <div className="col-span-1 rounded-xl shadow-lg shadow-indigo-500/50 bg-purple-500 h-32">
-          v
-        </div>
-        <div className="col-span-1 rounded-xl shadow-lg shadow-indigo-500/50 bg-purple-500 h-32">
-          a
         </div>
         <div
           onClick={signOutHandle}

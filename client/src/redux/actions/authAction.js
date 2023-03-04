@@ -16,6 +16,10 @@ export const signIn = (formState) => async (dispatch) => {
     });
     localStorage.setItem("firstLogin", true);
     dispatch({ type: "USER_FULFILLED", payload: data.user });
+    dispatch({
+      type: "ADDRESS_FULFILLED",
+      payload: data.user.addresses,
+    });
   } catch (err) {
     dispatch({
       type: "SIGN_IN_REJECTED",
@@ -41,6 +45,10 @@ export const refreshToken = () => async (dispatch) => {
         },
       });
       dispatch({ type: "USER_FULFILLED", payload: data.user });
+      dispatch({
+        type: "ADDRESS_FULFILLED",
+        payload: data.user.addresses,
+      });
     } catch (err) {
       console.log(err);
     }

@@ -17,17 +17,21 @@ import {
 import { baseUrl } from "../../../utils/baseUrl";
 import Price from "../Helpers/Price";
 const Products = ({ cart }) => {
-  const { access_token } = useSelector((state) => state.auth);
+  const { access_token, isLogged } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   let { t } = useTranslation(["product"]);
   const addToCartHandle = async (id, access_token) => {
-    const { data } = await axios.get(`${baseUrl}product/${id}`);
-    const existItem = cart?.find((x) => x.productId?._id === data._id);
+    if (isLogged) {
+      const { data } = await axios.get(`${baseUrl}product/${id}`);
+      const existItem = cart?.find((x) => x.productId?._id === data._id);
 
-    if (data.inStock <= existItem.quantity) {
-      toast.error("Mahsulot tugagan");
+      if (data.inStock <= existItem.quantity) {
+        toast.error(t("product-not"));
+      } else {
+        dispatch(addToCart(id, access_token));
+      }
     } else {
-      dispatch(addToCart(id, access_token));
+      toast.error(t("error-register"));
     }
   };
   return (
@@ -37,7 +41,9 @@ const Products = ({ cart }) => {
           <div className="md:border border-gray-200 md:p-0 xl:p-5 md:rounded-2xl">
             <div className="md:flex hidden md:p-4 xl:p-0 justify-between items-center font-semibold text-gray-700">
               <h1 className="md:text-2xl">{t("cart")}</h1>
-              <h1 className="md:text-xl font-mono">{t("all")} {cart.length}</h1>
+              <h1 className="md:text-xl font-mono">
+                {t("all")} {cart.length}
+              </h1>
             </div>
             <div>
               {cart && cart[0]

@@ -27,15 +27,17 @@ const BadgeContentSpan = styled("span")(({ theme }) => ({
 }));
 
 const UserButton = () => {
-  const { user } = useSelector((state) => state.auth);
+  const {isLogged, user } = useSelector((state) => state.auth);
   let { t } = useTranslation(["profile"]);
   let { avatar, name } = user;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const signOutHandle = () => {
-    dispatch(signOut());
-    navigate("/signin");
-    toast.success(t("sign-out"));
+  const signOutHandle = async () => {
+    await dispatch(signOut());
+    if (isLogged) {
+      navigate("/signin");
+    }
+    toast.success("Sign out ");
   };
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);

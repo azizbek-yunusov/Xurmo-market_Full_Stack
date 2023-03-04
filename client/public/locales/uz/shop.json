@@ -41,5 +41,6 @@
   "orderat": "Buyurtma qilingan sana",
   "contact": "Telofon raqam",
   "address": "Manzil",
-  "empty-order": "Buyurtma berilmagan"
+  "empty-order": "Buyurtma berilmagan",
+  "shipped": "Buyutma jo'natilgan"
 }

@@ -5,20 +5,26 @@ import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { FiShoppingCart } from "react-icons/fi";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { addToCart, decrQtyItemCart } from "../../../redux/actions/userAction";
 import { baseUrl } from "../../../utils/baseUrl";
 
 const AddCartForCard = ({ isCart, existId, id, quantity, access_token }) => {
   const dispatch = useDispatch();
+  const { isLogged } = useSelector((state) => state.auth);
   const { t } = useTranslation(["product"]);
   const addToCartHandle = async (id, access_token) => {
-    const { data } = await axios.get(`${baseUrl}product/${id}`);
-    if (data.inStock <= quantity) {
-      toast.error(t("product-not"));
+    if (isLogged) {
+      const { data } = await axios.get(`${baseUrl}product/${id}`);
+      if (data.inStock <= quantity) {
+        toast.error(t("product-not"));
+      } else {
+        await dispatch(addToCart(id, access_token));
+        toast.success(t("added-cart"));
+      }
     } else {
-      await dispatch(addToCart(id, access_token));
-      toast.success(t("added-cart"));
+      toast.error(t("error-register"));
     }
   };
   return (
@@ -47,7 +53,7 @@ const AddCartForCard = ({ isCart, existId, id, quantity, access_token }) => {
         </div>
       ) : (
         <button
-          onClick={() => dispatch(addToCart(id, access_token))}
+          onClick={() => addToCartHandle(id, access_token)}
           className="border-2 border-[#ff8800] md:py-2 py-2 flex items-center justify-center w-full rounded-lg bg_secondary text-lg text-white transition_normal"
         >
           <FiShoppingCart className="md:text-xl" />

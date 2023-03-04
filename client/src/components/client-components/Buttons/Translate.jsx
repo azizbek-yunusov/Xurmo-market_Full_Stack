@@ -93,6 +93,17 @@ const Translate = () => {
           onClick={handleClick}
           className="flex items-center cursor-pointer text-gray-100"
         >
+          <img
+                src={i18n.language === "uz"
+                ? UzSvg
+                : i18n.language === "ru"
+                ? RuSvg
+                : i18n.language === "en"
+                ? EnSvg
+                : null}
+                alt="flag"
+                className="h-5 w-5 object-cover rounded-full mr-2"
+              />
           <p className="text-gray-100">
             {i18n.language === "uz"
               ? "O'zbekcha"
@@ -102,7 +113,7 @@ const Translate = () => {
               ? "English"
               : null}
           </p>
-          <MdOutlineKeyboardArrowDown />
+          <MdOutlineKeyboardArrowDown className="text-xl" />
         </div>
       </div>
       <StyledMenu
@@ -116,7 +127,14 @@ const Translate = () => {
       >
         {languages.map((item, index) => (
           <MenuItem key={index} onClick={() => handleLangChange(item.lng)}>
-            {item.name}
+            <div className="flex items-center justify-between">
+              <img
+                src={item.svg}
+                alt={item.name}
+                className="h-5 w-5 object-cover rounded-full mr-2"
+              />
+              {item.name}
+            </div>
           </MenuItem>
         ))}
       </StyledMenu>

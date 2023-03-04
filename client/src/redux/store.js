@@ -6,6 +6,7 @@ import brand from "./brand/brandSlice";
 import category from "./category";
 import banner from "./banner";
 import auth from "./reducers/authReducer";
+import address from "./reducers/addressReducer";
 import authv from "./auth";
 import me from "./reducers/userReducer";
 import { Provider } from "react-redux";
@@ -14,6 +15,7 @@ const store = configureStore({
   reducer: {
     auth,
     me,
+    address,
     product,
     authv,
     order,

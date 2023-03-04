@@ -1,4 +1,4 @@
-import { Avatar, Checkbox, Rating, TablePagination } from "@mui/material";
+import { Avatar, Checkbox, TablePagination } from "@mui/material";
 import moment from "moment";
 import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";

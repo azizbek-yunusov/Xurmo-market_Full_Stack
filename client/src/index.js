@@ -4,6 +4,8 @@ import { BrowserRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import "./i18n";
 import "./index.css";
+import 'moment/locale/uz-latn';
+// import 'moment/locale/ru';
 import App from "./App";
 import "./assets/styles/swipper.css";
 import UserProvider from "./redux/store";
