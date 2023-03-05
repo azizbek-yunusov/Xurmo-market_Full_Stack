@@ -11,16 +11,16 @@ import { Link } from "react-router-dom";
 import {
   addToCart,
   decrQtyItemCart,
-  deleteFavoriteItem,
   deleteFromCart,
-} from "../../../redux/actions/userAction";
+} from "../../../redux/actions/cartAction";
+import { deleteFavoriteItem } from "../../../redux/actions/favoriteAction";
 import { baseUrl } from "../../../utils/baseUrl";
 import Price from "../Helpers/Price";
 const Products = ({ cart }) => {
   const { access_token, isLogged } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   let { t } = useTranslation(["product"]);
-  const addToCartHandle = async (id, access_token) => {
+  const addToCartHandle = async (id) => {
     if (isLogged) {
       const { data } = await axios.get(`${baseUrl}product/${id}`);
       const existItem = cart?.find((x) => x.productId?._id === data._id);
@@ -78,12 +78,7 @@ const Products = ({ cart }) => {
                             <div className="md:flex hidden">
                               <button
                                 onClick={() =>
-                                  dispatch(
-                                    deleteFromCart(
-                                      item.productId?._id,
-                                      access_token
-                                    )
-                                  )
+                                  dispatch(deleteFromCart(item.productId?._id))
                                 }
                                 className="flex items-center text-base text-red-500"
                               >
@@ -95,10 +90,7 @@ const Products = ({ cart }) => {
                               <button
                                 onClick={() =>
                                   dispatch(
-                                    deleteFavoriteItem(
-                                      item.productId?._id,
-                                      access_token
-                                    )
+                                    deleteFavoriteItem(item.productId?._id)
                                   )
                                 }
                                 className="flex items-center text-base text-blue-500"
@@ -117,10 +109,7 @@ const Products = ({ cart }) => {
                                 <button
                                   onClick={() =>
                                     dispatch(
-                                      decrQtyItemCart(
-                                        item.productId?._id,
-                                        access_token
-                                      )
+                                      decrQtyItemCart(item.productId?._id)
                                     )
                                   }
                                   className="px-2 py-1"
@@ -137,10 +126,7 @@ const Products = ({ cart }) => {
                               </p>
                               <button
                                 onClick={() => {
-                                  addToCartHandle(
-                                    item.productId?._id,
-                                    access_token
-                                  );
+                                  addToCartHandle(item.productId?._id);
                                 }}
                                 className="px-2 py-1"
                               >
@@ -151,10 +137,7 @@ const Products = ({ cart }) => {
                               {item.quantity > 1 ? (
                                 <button
                                   onClick={() =>
-                                    decrQtyItemCart(
-                                      item.productId?._id,
-                                      access_token
-                                    )
+                                    decrQtyItemCart(item.productId?._id)
                                   }
                                   className="px-2 py-1"
                                 >
@@ -170,10 +153,7 @@ const Products = ({ cart }) => {
                               </p>
                               <button
                                 onClick={() => {
-                                  addToCartHandle(
-                                    item.productId?._id,
-                                    access_token
-                                  );
+                                  addToCartHandle(item.productId?._id);
                                 }}
                                 className="px-2 py-1"
                               >
@@ -192,10 +172,7 @@ const Products = ({ cart }) => {
                             >
                               <button
                                 onClick={() =>
-                                  deleteFavoriteItem(
-                                    item.productId?._id,
-                                    access_token
-                                  )
+                                  deleteFavoriteItem(item.productId?._id)
                                 }
                                 className="flex items-center text-base mx-4 text-gray-400"
                               >
@@ -203,10 +180,7 @@ const Products = ({ cart }) => {
                               </button>
                               <button
                                 onClick={() =>
-                                  deleteFromCart(
-                                    item.productId?._id,
-                                    access_token
-                                  )
+                                  deleteFromCart(item.productId?._id)
                                 }
                                 className="flex items-center text-base text-red-500"
                               >

@@ -1,27 +1,47 @@
 import { Rating, Tooltip } from "@mui/material";
+import axios from "axios";
 import React from "react";
+import { toast } from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsFillHeartFill, BsHeart } from "react-icons/bs";
 import { FiShoppingCart } from "react-icons/fi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useGlobalApi } from "../../../hooks";
+import { addToCart, decrQtyItemCart } from "../../../redux/actions/cartAction";
+import {
+  addToFavorite,
+  deleteFavoriteItem,
+} from "../../../redux/actions/favoriteAction";
+import { baseUrl } from "../../../utils/baseUrl";
 import Price from "../Helpers/Price";
 
 const ListProductCard = (props) => {
   const { _id, name, images, price, ratings, discount } = props;
-  const { cart, favorites, auth } = useSelector((state) => state);
-  const {
-    addToCartHandle,
-    decrementQtyItem,
-    addToFavorite,
-    deleteFavoriteItem,
-  } = useGlobalApi(auth.access_token);
+  let { t } = useTranslation(["product"]);
+  const { isLogged, access_token } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.cart);
+  const { favorites } = useSelector((state) => state.favorite);
+  const dispatch = useDispatch();
 
   const existItem = cart?.find((x) => x.productId?._id === _id);
   const isCart = existItem === undefined ? false : true;
   const existItemWish = favorites?.find((x) => x.productId._id === _id);
   const isFavorite = existItemWish === undefined ? false : true;
+
+  const addToCartHandle = async (id) => {
+    if (isLogged) {
+      const { data } = await axios.get(`${baseUrl}product/${id}`);
+      if (data.inStock <= existItem.quantity) {
+        toast.error(t("product-not"));
+      } else {
+        await dispatch(addToCart(id, access_token));
+        toast.success(t("added-cart"));
+      }
+    } else {
+      toast.error(t("error-register"));
+    }
+  };
   return (
     <>
       <div className="grid grid-cols-3 overflow-hidden w-full relative tranistion_normal md:my-2 hover:shadow-xl md:h-[200px] h-[200px] md:border border-gray-200 hover:border-gray-50 md:rounded-xl rounded-md md:p-5 p-3 md:px-4">
@@ -34,14 +54,14 @@ const ListProductCard = (props) => {
         <div className="md:hidden absolute top-1 right-1">
           {isFavorite ? (
             <button
-              onClick={() => deleteFavoriteItem(_id)}
+              onClick={() => discount(deleteFavoriteItem(_id, access_token))}
               className="rounded-full border-none border-gray-400 p-1 flex_center"
             >
               <BsFillHeartFill className="text-2xl text-red-500" />
             </button>
           ) : (
             <button
-              onClick={() => addToFavorite(_id)}
+              onClick={() => dispatch(addToFavorite(_id, access_token))}
               className="p-1 rounded-full border-none border-gray-400"
             >
               <BsHeart className="text-2xl text-gray-400" />
@@ -67,19 +87,19 @@ const ListProductCard = (props) => {
               <h1 className="md:text-base font-semibold global-font">{name}</h1>
             </div>
             {discount > 0 ? (
-            <div className="">
-              <Price
-                price={price - (price * discount) / 100}
-                className="md:text-lg font-semibold"
-              />
-              <Price
-                price={price}
-                className="md:text-lg font-semibold line-through text-gray-500 md:ml-3"
-              />
-            </div>
-          ) : (
-            <Price price={price} className="md:text-lg font-semibold" />
-          )}
+              <div className="">
+                <Price
+                  price={price - (price * discount) / 100}
+                  className="md:text-lg font-semibold"
+                />
+                <Price
+                  price={price}
+                  className="md:text-lg font-semibold line-through text-gray-500 md:ml-3"
+                />
+              </div>
+            ) : (
+              <Price price={price} className="md:text-lg font-semibold" />
+            )}
 
             <div className="flex mt-2">
               <h1 className="text-base text-gray-700 mr-2">
@@ -93,7 +113,9 @@ const ListProductCard = (props) => {
               <div className="flex justify-between md:px-3 items-center border-2 border-[#01f736] md:py-[6px] py-1 w-full md:rounded-xl rounded-lg md:text-lg text-base transition_normal hover:border-blue-500">
                 <Tooltip title="remove from cart">
                   <button
-                    onClick={() => decrementQtyItem(existItem.productId._id)}
+                    onClick={() =>
+                      dispatch(decrQtyItemCart(existItem.productId._id))
+                    }
                     className="text-gray-600 px-4 py-1"
                   >
                     <AiOutlineMinus />

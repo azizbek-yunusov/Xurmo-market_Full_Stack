@@ -1,24 +1,40 @@
 import { Tooltip, useScrollTrigger } from "@mui/material";
+import axios from "axios";
 import React from "react";
+import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsCartCheck } from "react-icons/bs";
 import { FiShoppingCart } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { addToCart, decrQtyItemCart } from "../../../redux/actions/userAction";
+import { addToCart, decrQtyItemCart } from "../../../redux/actions/cartAction";
+import { baseUrl } from "../../../utils/baseUrl";
 import Price from "../Helpers/Price";
 
 const BottomScoll = ({ product }) => {
   const { t } = useTranslation(["product"]);
   const scroll = useScrollTrigger();
   const dispatch = useDispatch();
-  const { cart } = useSelector((state) => state.me);
-  const { access_token } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.cart);
+  const { isLogged, access_token } = useSelector((state) => state.auth);
   const { _id } = product;
 
   const existItem = cart?.find((x) => x.productId?._id === _id);
   const isCart = existItem === undefined ? false : true;
+  const addToCartHandle = async (id, access_token) => {
+    if (isLogged) {
+      const { data } = await axios.get(`${baseUrl}product/${id}`);
+      if (data.inStock <= existItem.quantity) {
+        toast.error(t("product-not"));
+      } else {
+        await dispatch(addToCart(id, access_token));
+        toast.success(t("added-cart"));
+      }
+    } else {
+      toast.error(t("error-register"));
+    }
+  };
   return (
     <>
       {scroll && (
@@ -50,7 +66,7 @@ const BottomScoll = ({ product }) => {
                   </p>
                   <Tooltip title="Increase by one">
                     <button
-                      onClick={() => dispatch(addToCart(_id, access_token))}
+                      onClick={() => addToCartHandle(_id)}
                       className=" tranistion_normal text-gray-800 md:px-1 pr-3 py-1"
                     >
                       <AiOutlinePlus />
@@ -66,7 +82,7 @@ const BottomScoll = ({ product }) => {
               </div>
             ) : (
               <button
-                onClick={() => dispatch(addToCart(_id, access_token))}
+                onClick={() => addToCartHandle(_id)}
                 className="border-2 border-[#ff8800] md:py-2 py-[10px] flex items-center justify-center w-full rounded-lg bg_secondary text-lg text-white transition_normal"
               >
                 <FiShoppingCart className="md:text-xl" />

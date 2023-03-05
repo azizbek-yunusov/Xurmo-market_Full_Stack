@@ -14,10 +14,10 @@ const addToCart = async (req, res) => {
     const user = await UserModel.findById(req.user.id)
       .select("-password")
       .populate(
-        "cart.productId favorites.productId",
+        "cart.productId",
         "_id name price images discount inStock numOfReviews reviews ratings"
       );
-    res.status(200).json(user);
+    res.status(200).json(user.cart);
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }
@@ -30,10 +30,10 @@ const deleteCartItems = async (req, res) => {
     const user = await UserModel.findById(req.user.id)
       .select("-password")
       .populate(
-        "cart.productId favorites.productId",
+        "cart.productId",
         "_id name price images discount inStock numOfReviews reviews ratings"
       );
-    res.status(200).json(user);
+    res.status(200).json(user.cart);
   } catch (err) {
     console.log(err);
   }
@@ -46,10 +46,10 @@ const decrementQtyItem = async (req, res) => {
     const user = await UserModel.findById(req.user.id)
       .select("-password")
       .populate(
-        "cart.productId favorites.productId",
+        "cart.productId",
         "_id name price images discount inStock numOfReviews reviews ratings"
       );
-    res.status(200).json(user);
+    res.status(200).json(user.cart);
   } catch (err) {
     console.log(err);
   }
@@ -66,10 +66,10 @@ const addToFavorite = async (req, res) => {
     const user = await UserModel.findById(req.user.id)
       .select("-password")
       .populate(
-        "cart.productId favorites.productId",
+        "favorites.productId",
         "_id name price images discount inStock numOfReviews reviews ratings"
       );
-    res.status(200).json(user);
+    res.status(200).json(user.favorites);
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }
@@ -82,10 +82,26 @@ const deleteFavoriteItem = async (req, res) => {
     const user = await UserModel.findById(req.user.id)
       .select("-password")
       .populate(
-        "cart.productId favorites.productId",
+        "favorites.productId",
         "_id name price images discount inStock numOfReviews reviews ratings"
       );
-    res.status(200).json(user);
+    res.status(200).json(user.favorites);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const cleanWishList = async (req, res) => {
+  try {
+    let client = await UserModel.findById(req.user.id);
+    await client.cleanFavorites();
+    const user = await UserModel.findById(req.user.id)
+      .select("-password")
+      .populate(
+        "favorites.productId",
+        "_id name price images discount inStock numOfReviews reviews ratings"
+      );
+    res.status(200).json(user.favorites);
   } catch (err) {
     console.log(err);
   }
@@ -264,6 +280,7 @@ module.exports = {
   decrementQtyItem,
   addToFavorite,
   deleteFavoriteItem,
+  cleanWishList,
   getAllUsers,
   getUser,
   updateUser,

@@ -9,12 +9,16 @@ import auth from "./reducers/authReducer";
 import address from "./reducers/addressReducer";
 import authv from "./auth";
 import me from "./reducers/userReducer";
+import cart from "./reducers/cartReducer";
+import favorite from "./reducers/favoriteReducer";
 import { Provider } from "react-redux";
 
 const store = configureStore({
   reducer: {
     auth,
     me,
+    cart,
+    favorite,
     address,
     product,
     authv,

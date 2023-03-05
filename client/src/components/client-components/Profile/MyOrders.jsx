@@ -134,6 +134,8 @@ const MyOrders = () => {
                             {item.shippingAddress.district.slice(0, -3)}
                             {", "}
                             {item.shippingAddress.street}
+                            {", "}
+                            {item.shippingAddress.house}
                           </td>
                         </tr>
                       </tbody>

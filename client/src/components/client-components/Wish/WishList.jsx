@@ -1,17 +1,27 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import WishProductItem from "./WishProductItem";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { HelmetTitle } from "../../../utils";
 import MobileTop from "../Helpers/MobileTop";
+import { cleanWishList } from "../../../redux/actions/favoriteAction";
 
 const WishList = () => {
   let { t } = useTranslation(["product"]);
-
-  const { favorites } = useSelector((state) => state.me);
+  const { access_token } = useSelector((state) => state.auth);
+  const { favorites } = useSelector((state) => state.favorite);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const cleanWishListHandle = () => {
+    try {
+      dispatch(cleanWishList(access_token));
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
     window.scrollTo(0, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -24,14 +34,14 @@ const WishList = () => {
         <div className="container-full min-h-[600px]">
           {favorites.length ? (
             <div>
-              <div className="md:flex hidden md:mt-5">
-                <Link to="/">Bosh Sahifa</Link>
-                {"/"}
-                <Link to="/wishlist">Sevimlilar</Link>
-              </div>
               <div className="w-full md:flex hidden justify-between items-center text-lg md:mt-5 border-b pb-3 border-b-gray-200">
-                <h1 className="md:text-2xl font-semibold">Sevimlilar</h1>
-                <div className="font-semibold">Barchasini o'chirish</div>
+                <h1 className="md:text-2xl font-semibold">{t("wish-list")}</h1>
+                <div
+                  onClick={() => cleanWishListHandle()}
+                  className="font-semibold cursor-pointer"
+                >
+                  {t("clean-wish-list")}
+                </div>
               </div>
               <div className="grid md:grid-cols-5 grid-cols-2 md:gap-3 gap-2 md:mt-5 mt-3">
                 {favorites.map((item, index) => (

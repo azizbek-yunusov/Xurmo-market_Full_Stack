@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import Payme from "../../../assets/svg/payme.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import InputMask from "react-input-mask";
 import HelmetTitle from "../../../utils/HelmetTitle";
 import Top from "./Top";
 import address from "../../../data/address.json";
@@ -25,21 +26,23 @@ const CheckOut = () => {
   const { t } = useTranslation(["shop"]);
   const disptach = useDispatch();
   const { isLoading, isError } = useSelector((state) => state.order);
-  const { user, cart } = useSelector((state) => state.me);
+  const { user } = useSelector((state) => state.me);
+  const { cart } = useSelector((state) => state.cart);
   const { access_token } = useSelector((state) => state.auth);
   const { standart } = useSelector((state) => state.address);
-  const [name, setName] = useState(user.name || "");
+  const [name, setName] = useState("");
   const [lastname, setLastName] = useState("");
   const [contact, setContact] = useState("");
-  const [email, setEmail] = useState(user.email || "");
-  const [region, setRegion] = useState(standart[0].region || "Toshkent Viloyati");
-  const [district, setDistrict] = useState(standart[0].district || "");
-  const [street, setStreet] = useState(standart[0].street || "");
+  const [email, setEmail] = useState("");
+  const [region, setRegion] = useState("Toshkent Viloyati");
+  const [district, setDistrict] = useState("");
+  const [street, setStreet] = useState("");
   const [house, setHouse] = useState("");
   const [payment, setPayment] = useState("Cash on Delivery");
   const [delivery, setDelivery] = useState("Delivery address");
   const [selectDistricts, setSelectDistricts] = useState([]);
   const navigate = useNavigate();
+
   const handlePaymentChange = (e) => {
     setPayment(e.target.value);
     if (payment !== "Cash on Delivery") {
@@ -52,8 +55,26 @@ const CheckOut = () => {
       toast.error("delivery-not-status");
     }
   };
+  useEffect(() => {
+    if (user) {
+      setName(user.name || "");
+      setLastName(user.lastName || "");
+      setEmail(user.email || "");
+      setContact(user.phoneNumber || "");
+    }
+    if (standart) {
+      setRegion(standart.region || "");
+      setDistrict(standart.district || "");
+      setStreet(standart.street || "");
+      setHouse(standart.house || "");
+    }
+  }, [user, standart]);
+  // address
+  const findStandartRegionId = address.regions.filter((rg) => {
+    return rg.name === region;
+  });
   const defaultDistricts = address.districts.filter((value) => {
-    return value.region_id === 11;
+    return value.region_id === findStandartRegionId[0]?.id || 11;
   });
   const handleRegion = (e) => {
     const getRegionId = e.target.value;
@@ -103,30 +124,27 @@ const CheckOut = () => {
       console.log(err);
     }
   };
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-  console.log(standart[0])
+  console.log(region);
   return (
     <>
       <HelmetTitle title={t("check-out")} />
       <div className="min-h-screen md:mb-14">
         <Top />
         <div className="container-full block my-5 xl:px-20">
-          <div className="flex items-center md:mb-3 mb-2">
+          <div className="flex items-center justify-between md:pb-5 pb-2 md:mb-3 mb-2 border-b border-b-gray-300">
+            <h1 className="md:text-2xl text-xl font-semibold text-gray-800">
+              {t("check-out")}
+            </h1>
             <Breadcrumbs>
               <Link to={"/"} className="">
                 {t("home")}
               </Link>
-              <Link to={"/"} className="">
-                {t("back")}
+              <Link to={"/check-out"} className="">
+                {t("check-out")}
               </Link>
             </Breadcrumbs>
           </div>
-          <h1 className="md:text-2xl text-xl font-semibold text-gray-800 border-b border-b-gray-300 md:pb-5 pb-2">
-            {t("check-out")}
-          </h1>
+
           <form onSubmit={newOrderHandle}>
             <div className="grid md:grid-cols-3 grid-cols-1 md:my-5 my-3">
               <div className="md:col-span-2 xl:mr-20 lg:mr-8 md:mr-3">
@@ -145,7 +163,6 @@ const CheckOut = () => {
                       id="outlined-basic"
                       fullWidth
                       variant="outlined"
-                      type="text"
                       color="secondary"
                       className="rounded-xl"
                       value={name}
@@ -156,7 +173,6 @@ const CheckOut = () => {
                       id="outlined-basic"
                       fullWidth
                       variant="outlined"
-                      type="text"
                       color="secondary"
                       className="rounded-xl"
                       value={lastname}
@@ -175,17 +191,23 @@ const CheckOut = () => {
                       onChange={(e) => setEmail(e.target.value)}
                     />
 
-                    <TextField
-                      id="outlined-basic"
-                      fullWidth
-                      variant="outlined"
-                      type="number"
-                      color="secondary"
-                      className="rounded-xl"
+                    <InputMask
+                      mask="(99) 999 99 99"
+                      maskChar=" "
                       value={contact}
                       onChange={(e) => setContact(e.target.value)}
-                      label={t("number")}
-                    />
+                    >
+                      {(inputProps) => (
+                        <TextField
+                          color="secondary"
+                          {...inputProps}
+                          fullWidth
+                          variant="outlined"
+                          label={t("number")}
+                          placeholder={t("contact-p")}
+                        />
+                      )}
+                    </InputMask>
                   </div>
                 </div>
                 <div className="md:mb-10">
@@ -279,7 +301,7 @@ const CheckOut = () => {
                       <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        defaultValue={"11"}
+                        value={findStandartRegionId[0]?.id || "11"}
                         color="secondary"
                         label={t("region")}
                         onChange={(e) => handleRegion(e)}

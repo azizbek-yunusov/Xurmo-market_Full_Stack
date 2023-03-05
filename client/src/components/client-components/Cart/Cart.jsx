@@ -16,7 +16,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 const Cart = () => {
-  const { cart } = useSelector((state) => state.me);
+  const { cart } = useSelector((state) => state.cart);
   let { t } = useTranslation(["product"]);
   return (
     <Link

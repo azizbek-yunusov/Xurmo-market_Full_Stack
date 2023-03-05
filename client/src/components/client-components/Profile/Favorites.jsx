@@ -6,7 +6,7 @@ import WishProductItem from "../Wish/WishProductItem";
 import LayoutP from "./LayoutP";
 
 const Favorites = () => {
-  const { favorites } = useSelector((state) => state.me);
+  const { favorites } = useSelector((state) => state.favorite);
   const { t } = useTranslation();
 
   return (

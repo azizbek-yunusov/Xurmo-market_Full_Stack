@@ -1,23 +1,14 @@
 import styled from "@emotion/styled";
 import {
-  Alert,
-  AlertTitle,
   Box,
   Breadcrumbs,
   Button,
-  CardContent,
-  FormControl,
   Grid,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
   TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
-import { MdOutlineClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { HelmetTitle } from "../../../utils";
@@ -63,7 +54,6 @@ const EditMyProfile = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [avatar, setAvatar] = useState("");
   const [avatarPreview, setAvatarPreview] = useState("");
-  const [openAlert, setOpenAlert] = useState(true);
 
   const editProfileHandle = async (e) => {
     e.preventDefault();

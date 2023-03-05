@@ -176,4 +176,9 @@ userSchema.methods.removeFromFavorite = function (id) {
   return this.save();
 };
 
+userSchema.methods.cleanFavorites = function () {
+  this.favorites = [];
+  return this.save();
+};
+
 module.exports = model("User", userSchema);

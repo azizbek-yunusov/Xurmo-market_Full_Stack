@@ -18,6 +18,7 @@ const {
   decrementQtyItem,
   addToFavorite,
   deleteFavoriteItem,
+  cleanWishList,
 } = require("../controllers/userController");
 
 router.put("/addcart/:id", authMiddleware, addToCart);
@@ -25,6 +26,7 @@ router.delete("/cart/:id", authMiddleware, deleteCartItems);
 router.delete("/decr/:id", authMiddleware, decrementQtyItem);
 router.post("/fovorite/:id", authMiddleware, addToFavorite);
 router.delete("/fovorite/:id", authMiddleware, deleteFavoriteItem);
+router.put("/fovorites", authMiddleware, cleanWishList);
 router.put("/update", authMiddleware, updateProfile);
 router.put("/avatar", authMiddleware, uploadAvatar);
 router.post("/address", authMiddleware, addAdress);

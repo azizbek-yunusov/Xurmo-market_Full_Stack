@@ -20,6 +20,14 @@ export const signIn = (formState) => async (dispatch) => {
       type: "ADDRESS_FULFILLED",
       payload: data.user.addresses,
     });
+    dispatch({
+      type: "CART_FULFILLED",
+      payload: data.user.cart,
+    });
+    dispatch({
+      type: "FAVORITE_FULFILLED",
+      payload: data.user.favorites,
+    });
   } catch (err) {
     dispatch({
       type: "SIGN_IN_REJECTED",
@@ -48,6 +56,14 @@ export const refreshToken = () => async (dispatch) => {
       dispatch({
         type: "ADDRESS_FULFILLED",
         payload: data.user.addresses,
+      });
+      dispatch({
+        type: "CART_FULFILLED",
+        payload: data.user.cart,
+      });
+      dispatch({
+        type: "FAVORITE_FULFILLED",
+        payload: data.user.favorites,
       });
     } catch (err) {
       console.log(err);

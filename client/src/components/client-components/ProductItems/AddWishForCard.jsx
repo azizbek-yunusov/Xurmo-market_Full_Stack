@@ -1,10 +1,7 @@
 import React from "react";
 import { BsFillHeartFill, BsHeart } from "react-icons/bs";
 import { useDispatch } from "react-redux";
-import {
-  addToFavorite,
-  deleteFavoriteItem,
-} from "../../../redux/actions/userAction";
+import { addToFavorite, deleteFavoriteItem } from "../../../redux/actions/favoriteAction";
 
 const AddWishForCard = ({ id, isFavorite, access_token }) => {
   const dispatch = useDispatch();

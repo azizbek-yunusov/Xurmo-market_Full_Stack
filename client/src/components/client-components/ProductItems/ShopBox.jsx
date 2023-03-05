@@ -11,26 +11,24 @@ import { TbTruckDelivery } from "react-icons/tb";
 import { FiShoppingCart } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useGlobalApi } from "../../../hooks";
 import AddToWish from "../Helpers/AddToWish";
 import Price from "../Helpers/Price";
-import { addToCart, decrQtyItemCart } from "../../../redux/actions/userAction";
-import axios from "axios";
-import { baseUrl } from "../../../utils/baseUrl";
 import { toast } from "react-hot-toast";
+import { addToCart, decrQtyItemCart } from "../../../redux/actions/cartAction";
 
 const ShopBox = ({ product }) => {
   const { t } = useTranslation(["product"]);
   const { _id, inStock } = product;
   const dispatch = useDispatch();
-  const { cart, favorites } = useSelector((state) => state.me);
+  const { cart } = useSelector((state) => state.cart);
   const { access_token, isLogged } = useSelector((state) => state.auth);
+  const { favorites } = useSelector((state) => state.favorite);
 
   const existItem = cart?.find((x) => x.productId?._id === _id);
   const isCart = existItem === undefined ? false : true;
   const existItemWish = favorites?.find((x) => x.productId._id === _id);
   const isFavorite = existItemWish === undefined ? false : true;
-  const addToCartHandle = async (id, access_token) => {
+  const addToCartHandle = async (id) => {
     if (isLogged) {
       const existItem = cart?.find((x) => x.productId?._id === _id);
       if (inStock <= existItem.quantity) {
@@ -74,7 +72,14 @@ const ShopBox = ({ product }) => {
                   <div className="border-2 border-[#ff8800] md:py-3 py-3 flex_betwen w-full rounded-lg text-lg text-gray-700 transition_normal">
                     <Tooltip title="remove from cart">
                       <button
-                        onClick={() => decrQtyItemCart(existItem.productId._id, access_token)}
+                        onClick={() =>
+                          dispatch(
+                            decrQtyItemCart(
+                              existItem.productId._id,
+                              access_token
+                            )
+                          )
+                        }
                         className="text-gray-700 md:px-4 pl-3 py-1 text-2xl"
                       >
                         <AiOutlineMinus />
@@ -85,7 +90,7 @@ const ShopBox = ({ product }) => {
                     </p>
                     <Tooltip title="Increase by one">
                       <button
-                        onClick={() => addToCartHandle(_id, access_token)}
+                        onClick={() => addToCartHandle(_id)}
                         className=" tranistion_normal text-gray-700 md:px-4 pl-3 py-1 text-2xl"
                       >
                         <AiOutlinePlus />
@@ -101,7 +106,7 @@ const ShopBox = ({ product }) => {
                 </div>
               ) : (
                 <button
-                  onClick={() => addToCartHandle(_id, access_token)}
+                  onClick={() => addToCartHandle(_id)}
                   className="border-2 border-[#ff8800] md:py-3 py-3 flex items-center justify-center w-full rounded-lg bg_secondary text-lg text-white transition_normal"
                 >
                   <FiShoppingCart className="md:text-xl" />
@@ -110,7 +115,7 @@ const ShopBox = ({ product }) => {
               )}
             </div>
             <button
-              onClick={() => addToCartHandle(_id, access_token)}
+              onClick={() => addToCartHandle(_id)}
               className="border-2 border-[#ff8800] md:py-3 py-3 flex items-center justify-center w-full rounded-lg text-lg text-gray-700 transition_normal hover:bg-orange-400 hover:text-white"
             >
               <BsBagCheck className="md:text-xl" />

@@ -1,5 +1,7 @@
 import { Rating, Tooltip } from "@mui/material";
+import axios from "axios";
 import React from "react";
+import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsCartCheck } from "react-icons/bs";
@@ -7,21 +9,35 @@ import { CgClose } from "react-icons/cg";
 import { FiShoppingCart } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-  addToCart,
-  decrQtyItemCart,
-  deleteFavoriteItem,
-} from "../../../redux/actions/userAction";
+import { addToCart, decrQtyItemCart } from "../../../redux/actions/cartAction";
+import { deleteFavoriteItem } from "../../../redux/actions/favoriteAction";
+import { baseUrl } from "../../../utils/baseUrl";
 import Price from "../Helpers/Price";
 const WishProductItem = ({ productId }) => {
   const { _id, name, images, price, ratings, discount } = productId;
-  const { t } = useTranslation(["product"]);
-  const { cart, favorites } = useSelector((state) => state.me);
   const dispatch = useDispatch();
-  const { access_token } = useSelector((state) => state.auth);
+  const { t } = useTranslation(["product"]);
+  const { isLogged, access_token } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.cart);
+  const { favorites } = useSelector((state) => state.favorite);
 
   const existItem = cart?.find((x) => x.productId._id === _id);
   const isCart = existItem === undefined ? false : true;
+
+  const addToCartHandle = async (id) => {
+    if (isLogged) {
+      const { data } = await axios.get(`${baseUrl}product/${id}`);
+      const existItem = cart?.find((x) => x.productId?._id === data._id);
+
+      if (data.inStock <= existItem.quantity) {
+        toast.error(t("product-not"));
+      } else {
+        dispatch(addToCart(id, access_token));
+      }
+    } else {
+      toast.error(t("error-register"));
+    }
+  };
   return (
     <>
       {typeof productId == "object" ? (
@@ -110,7 +126,7 @@ const WishProductItem = ({ productId }) => {
                     </p>
                     <Tooltip title="Increase by one">
                       <button
-                        onClick={() => dispatch(addToCart(_id, access_token))}
+                        onClick={() => addToCartHandle(_id)}
                         className=" tranistion_normal text-gray-800 md:px-1 pr-3 py-1"
                       >
                         <AiOutlinePlus />
@@ -121,7 +137,7 @@ const WishProductItem = ({ productId }) => {
               </div>
             ) : (
               <button
-                onClick={() => dispatch(addToCart(_id, access_token))}
+                onClick={() => addToCartHandle(_id)}
                 className="py-2 flex items-center justify-center w-full rounded-lg hover:text-indigo-600 bg_secondary text-lg text-white transition_normal"
               >
                 <FiShoppingCart className="md:text-xl" />

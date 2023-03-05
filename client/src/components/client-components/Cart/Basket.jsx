@@ -9,7 +9,7 @@ import BottomCheckOut from "./BottomCheckOut";
 
 const Basket = () => {
   let { t } = useTranslation(["product"]);
-  const { cart } = useSelector((state) => state.me);
+  const { cart } = useSelector((state) => state.cart);
   const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);

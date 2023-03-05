@@ -7,10 +7,7 @@ import {
 import { BsFillHeartFill, BsHeart } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-  addToFavorite,
-  deleteFavoriteItem,
-} from "../../../redux/actions/userAction";
+import { addToFavorite, deleteFavoriteItem } from "../../../redux/actions/favoriteAction";
 import Price from "../Helpers/Price";
 import AddCartForCard from "./AddCartForCard";
 import AddWishForCard from "./AddWishForCard";
@@ -18,14 +15,14 @@ import AddWishForCard from "./AddWishForCard";
 const ProductCard = (props) => {
   const dispatch = useDispatch();
   const { _id, name, images, price, ratings, discount } = props;
-  const { cart, favorites } = useSelector((state) => state.me);
   const { access_token } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.cart);
+  const { favorites } = useSelector((state) => state.favorite);
 
   const existItem = cart?.find((x) => x.productId?._id === _id);
   const isCart = existItem === undefined ? false : true;
   const existItemWish = favorites?.find((x) => x.productId._id === _id);
   const isFavorite = existItemWish === undefined ? false : true;
-
   return (
     <>
       <div className="overflow-hidden bg-white relative flex tranistion_normal hover:shadow-xl flex-col justify-between md:h-[400px] h-[330px] md:border border-gray-200 hover:border-gray-50 md:rounded-xl rounded-md md:p-3 p-2 md:px-4">

@@ -7,7 +7,7 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { FiShoppingCart } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { addToCart, decrQtyItemCart } from "../../../redux/actions/userAction";
+import { addToCart, decrQtyItemCart } from "../../../redux/actions/cartAction";
 import { baseUrl } from "../../../utils/baseUrl";
 
 const AddCartForCard = ({ isCart, existId, id, quantity, access_token }) => {
