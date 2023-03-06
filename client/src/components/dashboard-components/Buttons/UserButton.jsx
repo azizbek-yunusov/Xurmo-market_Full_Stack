@@ -27,7 +27,7 @@ const BadgeContentSpan = styled("span")(({ theme }) => ({
 }));
 
 const UserButton = () => {
-  const {isLogged, user } = useSelector((state) => state.auth);
+  const { isLogged, user } = useSelector((state) => state.auth);
   let { t } = useTranslation(["profile"]);
   let { avatar, name } = user;
   const dispatch = useDispatch();
@@ -40,7 +40,6 @@ const UserButton = () => {
     toast.success("Sign out ");
   };
   const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
   const handleDropdownOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -83,10 +82,9 @@ const UserButton = () => {
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={() => handleDropdownClose()}
-        sx={{ "& .MuiMenu-paper": { width: 230, marginTop: 2 } }}
+        sx={{ "& .MuiMenu-paper": { width: 210, marginTop: 2 } }}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
-        
       >
         <Box sx={{ py: 1, px: 3 }}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -125,20 +123,14 @@ const UserButton = () => {
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Link to={"/dashboard/cabinet"}>
             <Box sx={styles}>
-              <AiOutlineUser sx={{ marginRight: 2 }} />
-              {t("profile")}
+              <AiOutlineUser className="mr-2" />
+              {t("personal")}
             </Box>
           </Link>
         </MenuItem>
         <Divider />
         <MenuItem sx={{ py: 2 }} onClick={signOutHandle}>
-          <FiLogOut
-            sx={{
-              marginRight: 2,
-              fontSize: "1.375rem",
-              color: "text.secondary",
-            }}
-          />
+          <FiLogOut className="mr-2 text-xl text-gray-600" />
           {t("sign-out")}
         </MenuItem>
       </Menu>

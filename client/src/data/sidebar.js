@@ -6,9 +6,7 @@ import {
   AiOutlineUser,
 } from "react-icons/ai";
 import { BsCardImage, BsCart2, BsUiChecksGrid } from "react-icons/bs";
-import {
-  RiShoppingBag3Line,
-} from "react-icons/ri";
+import { RiShoppingBag3Line } from "react-icons/ri";
 import { BiBuildingHouse, BiCategory, BiHomeAlt } from "react-icons/bi";
 import { MdFavoriteBorder, MdLocationOn } from "react-icons/md";
 
@@ -46,29 +44,29 @@ export const tabsProfileData = [
 ];
 
 // Admin Sidebar Profile data
-export const sidebarProAdminUz = [
+export const sidebarProAdmin = [
   {
     id: 2,
     path: "/dashboard/cabinet",
-    name: "Umumiy",
+    name: "overview",
     icon: <BiHomeAlt className="md:text-xl text-xl" />,
   },
   {
     id: 3,
     path: "/cabinet/projects",
-    name: "Loyihalar",
+    name: "projects",
     icon: <BsUiChecksGrid className="md:text-xl text-xl" />,
   },
   {
     id: 4,
-    path: "/myprofile/favorites",
-    name: "Jamoa",
+    path: "/cabinet/team",
+    name: "team",
     icon: <AiOutlineTeam className="md:text-xl text-xl" />,
   },
   {
     id: 1,
-    path: "/myprofile/settings",
-    name: "Sozlamalar",
+    path: "/cabinet/settings",
+    name: "settings",
     icon: <AiOutlineSetting className="md:text-xl text-xl" />,
   },
 ];
@@ -126,47 +124,47 @@ export const sidebarProAdminRu = [
 ];
 
 // Admin Sidebar data
-export const sidebarAdminUz = [
+export const sidebarAdmin = [
   {
     id: 1,
     path: "/dashboard",
-    name: "Umumiy",
+    name: "overview",
     icon: <AiOutlineHome className="md:text-lg ml-4" />,
   },
   {
     id: 2,
     path: "/dashboard/products",
-    name: "Mahsulotlar",
+    name: "products",
     icon: <AiOutlineInbox className="md:text-lg ml-4" />,
   },
   {
     id: 3,
     path: "/dashboard/banners",
-    name: "Bannerlar",
+    name: "banners",
     icon: <BsCardImage className="md:text-lg ml-4" />,
   },
   {
     id: 2,
     path: "/dashboard/categories",
-    name: "Categoriylar",
+    name: "categories",
     icon: <BiCategory className="md:text-lg ml-4" />,
   },
   {
     id: 2,
     path: "/dashboard/brands",
-    name: "Brendlar",
+    name: "brands",
     icon: <BiBuildingHouse className="md:text-lg ml-4" />,
   },
   {
     id: 1,
     path: "/dashboard/orders",
-    name: "Buyurtmalar",
+    name: "orders",
     icon: <BsCart2 className="md:text-lg ml-4" />,
   },
   {
     id: 1,
     path: "/dashboard/users",
-    name: "Foydalanuvchilar",
+    name: "users",
     icon: <AiOutlineUser className="md:text-lg ml-4" />,
   },
 ];

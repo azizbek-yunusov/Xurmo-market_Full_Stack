@@ -1,7 +1,7 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import "./App.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { ActivationEmail, Home, NotFound, SignIn, SignUp } from "./pages";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -64,6 +64,7 @@ import { refreshToken } from "./redux/actions/authAction";
 import { HomeDashboard } from "./components/dashboard-components/Overview";
 import { FetchLoader } from "./components/client-components/SkeletonLoaders";
 import NetworkStatus from "./components/client-components/Helpers/NetworkStatus";
+import { EditCabinet, Projects, Team } from "./components/dashboard-components/UserItems/Cabinet";
 
 function App() {
   const pathname = useLocation().pathname;
@@ -148,6 +149,9 @@ function App() {
             <Route path="/dashboard/orders" element={<OrdersList />} />
             <Route path="/dashboard/order/:id" element={<OrderItem />} />
             <Route path="/dashboard/cabinet" element={<Profile />} />
+            <Route path="/cabinet/edit" element={<EditCabinet />} />
+            <Route path="/cabinet/team" element={<Team />} />
+            <Route path="/cabinet/projects" element={<Projects />} />
             <Route path="/cabinet/settings" element={<AccountSetting />} />
             <Route path="/user/:id" element={<UserProfile />} />
             <Route path="/users/update/:id" element={<UpdateUser />} />

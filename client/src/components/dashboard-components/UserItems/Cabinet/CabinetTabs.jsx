@@ -1,26 +1,18 @@
 import { Button } from "@mui/material";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
-import {
-  sidebarProAdminEn,
-  sidebarProAdminRu,
-  sidebarProAdminUz,
-} from "../../../../data/sidebar";
+import { sidebarProAdmin } from "../../../../data/sidebar";
 
 const CabinetTabs = () => {
-  let pathUz =
-    localStorage.getItem("i18nextLng") === "uz" ? sidebarProAdminUz : false;
-  let pathEn =
-    localStorage.getItem("i18nextLng") === "en" ? sidebarProAdminRu : false;
-  let pathRu =
-    localStorage.getItem("i18nextLng") === "ru" ? sidebarProAdminEn : false;
+  let { t } = useTranslation(["profile"]);
   const pathname = useLocation().pathname;
 
   return (
     <div className="flex my-4 rounded-xl bg-white dark:bg-transparent border_primary">
       <div className="flex justify-center items-center rounded-xl py-3 md:px-7">
         <div className="w-full flex justify-between items-center ">
-          {(pathUz || pathEn || pathRu).map((item, index) => (
+          {sidebarProAdmin.map((item, index) => (
             <Link key={index} to={`${item.path}`}>
               <Button
                 variant={pathname === item.path ? "contained" : "text"}
@@ -33,7 +25,7 @@ const CabinetTabs = () => {
                   }`}
                 >
                   {item.icon}
-                  <p className="ml-1">{item.name}</p>
+                  <p className="ml-1">{t(item.name)}</p>
                 </div>
               </Button>
             </Link>

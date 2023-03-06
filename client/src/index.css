@@ -5,6 +5,9 @@
   -webkit-tap-highlight-color: transparent;
   outline: 0 none !important;
 }
+html {
+  scroll-behavior: smooth;
+}
 /* Tailwind directives to your CSS */
 @tailwind base;
 @tailwind components;
@@ -56,7 +59,7 @@
   @apply text-xl text-gray-800 font-semibold;
 }
 .border_l {
-  @apply border border-gray-200;
+  @apply border border-gray-200 dark:border-gray-600;
 }
 .tranistion_normal {
   @apply transition duration-200 ease-linear;
