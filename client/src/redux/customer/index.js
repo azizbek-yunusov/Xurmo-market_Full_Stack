@@ -4,12 +4,12 @@ import { baseUrl } from "../../utils/baseUrl";
 
 export const getUsers = createAsyncThunk(
   "user/get-users",
-  async (access_token ,thunkAPI) => {
+  async (access_token, thunkAPI) => {
     try {
       const { data } = await axios.get(`${baseUrl}users`, {
         headers: {
-          Authorization: access_token
-        }
+          Authorization: access_token,
+        },
       });
       return data;
     } catch (error) {
@@ -19,12 +19,12 @@ export const getUsers = createAsyncThunk(
 );
 export const getUser = createAsyncThunk(
   "user/get-user",
-  async (id, access_token) => {
+  async ({ id, access_token }) => {
     try {
       const { data } = await axios.get(`${baseUrl}user/${id}`, {
         headers: {
-          Authorization: access_token
-        }
+          Authorization: access_token,
+        },
       });
       return data;
     } catch (error) {

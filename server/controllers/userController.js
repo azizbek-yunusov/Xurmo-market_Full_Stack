@@ -120,6 +120,24 @@ const getUserInfo = async (req, res) => {
   }
 };
 
+const updateProfile = async (req, res) => {
+  try {
+    const userData = {
+      name: req.body.name,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      phoneNumber: req.body.phoneNumber,
+    };
+
+    const user = await UserModel.findByIdAndUpdate(req.user.id, userData, {
+      new: true,
+    });
+    res.status(200).json(user);
+  } catch (err) {
+    return res.status(500).json({ err });
+  }
+};
+
 const uploadAvatar = async (req, res) => {
   try {
     let newUserAvatar = {};
@@ -152,25 +170,6 @@ const uploadAvatar = async (req, res) => {
   }
 };
 
-const updateUser = async (req, res) => {
-  try {
-    const user = await UserModel.findById(req.params.id);
-    if (user) {
-      user.name = req.body.name || user.name;
-      user.admin = req.body.admin || user.admin;
-      const updatedUser = await user.save();
-      res.json({
-        name: updatedUser.name,
-        admin: updatedUser.admin,
-      });
-    } else {
-      res.status(404).send({ message: "User not found" });
-    }
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 // Admin Only
 const getAllUsers = async (req, res) => {
   try {
@@ -183,12 +182,9 @@ const getAllUsers = async (req, res) => {
 
 const getUser = async (req, res) => {
   try {
-    const user = await UserModel.findById(req.params.id).populate(
-      "cart.productId favorites.productId",
-      "_id name price images discount inStock numOfReviews reviews ratings"
-    );
+    const user = await UserModel.findById(req.params.id)
     if (!user) {
-      res.status(404).json({ message: "User Not Found" });
+      return res.status(404).json({ message: "User Not Found" });
     } else {
       res.status(200).json(user);
     }
@@ -199,7 +195,8 @@ const getUser = async (req, res) => {
 
 const createUser = async (req, res) => {
   try {
-    const { name, lastName, email, phoneNumber, password, avatar, admin } = req.body;
+    const { name, lastName, email, phoneNumber, password, avatar, admin } =
+      req.body;
     if (!name || !email || !password) {
       return res.status(400).json({ error: "Please add all the feilds" });
     }
@@ -222,7 +219,7 @@ const createUser = async (req, res) => {
         public_id: result.public_id,
         url: result.secure_url,
       },
-      admin
+      admin,
     });
     await user.save();
     res.status(200).json(user);
@@ -230,27 +227,52 @@ const createUser = async (req, res) => {
     console.log(err);
   }
 };
-const updateProfile = async (req, res) => {
-  try {
-    const userData = {
-      name: req.body.name,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      phoneNumber: req.body.phoneNumber,
-    };
 
-    const user = await UserModel.findByIdAndUpdate(req.user.id, userData, {
-      new: true,
+const updateUser = async (req, res) => {
+  try {
+    const { name, lastName, email, phoneNumber, password, avatar, admin } =
+      req.body;
+    if (!name || !email || !password) {
+      return res.status(400).json({ error: "Please add all the feilds" });
+    }
+    const userExists = await UserModel.findOne({ email });
+    if (userExists) {
+      return res.status(400).json({ error: "This email already exists" });
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const result = await cloudinary.uploader.upload(avatar, {
+      folder: "Avatar",
     });
+    const user = await UserModel.create({
+      name,
+      lastName,
+      phoneNumber,
+      email,
+      password: hashedPassword,
+      avatar: {
+        public_id: result.public_id,
+        url: result.secure_url,
+      },
+      admin,
+    });
+    await user.save();
     res.status(200).json(user);
   } catch (err) {
-    return res.status(500).json({ err });
+    console.log(err);
   }
 };
 
 const deleteUser = async (req, res) => {
-  const user = await UserModel.findByIdAndDelete(req.params.id);
-  res.status(201).json(user);
+  try {
+    const user = await UserModel.findByIdAndDelete(req.params.id);
+    if (!user) {
+      res.status(404).json({ message: "User Not Found" });
+    }
+    res.status(201).json(user);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const deleteSelected = async (req, res) => {

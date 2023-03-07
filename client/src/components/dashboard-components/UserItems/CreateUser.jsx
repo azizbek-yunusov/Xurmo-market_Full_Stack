@@ -16,7 +16,6 @@ import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { uploadAvatar } from "../../../redux/actions/userAction";
 import { createUser } from "../../../redux/customer";
 import { HelmetTitle } from "../../../utils";
 import { Layout } from "../Layouts";
@@ -62,7 +61,7 @@ const CreateUser = () => {
   const [avatar, setAvatar] = useState([]);
   const [avatarPreview, setAvatarPreview] = useState("/images/profile.png");
 
-  const editProfileHandle = async (e) => {
+  const createUserHandle = async (e) => {
     e.preventDefault();
     try {
       let userData = {
@@ -102,12 +101,12 @@ const CreateUser = () => {
   };
   return (
     <>
-      <HelmetTitle title={`${t("create-user")} - ${t("users")}`} />
+      <HelmetTitle title={`${t("add-user")} - ${t("users")}`} />
       <Layout>
         <section className="relative">
           <div className="bg-gradient-to-r from-cyan-500 to-blue-500 w-full h-40 px-5 pt-4 text-gray-50 rounded-xl">
             <div className="flex_betwen">
-              <h1 className="text-white text-2xl">{t("create-user")}</h1>
+              <h1 className="text-white text-2xl">{t("add-user")}</h1>
               <Breadcrumbs sx={{ color: "#ffff" }}>
                 <Link to={"/"} className="">
                   {t("home")}
@@ -116,7 +115,7 @@ const CreateUser = () => {
                   {t("users")}
                 </Link>
                 <Link to={"/myprofile/update"} className="">
-                  {t("create-user")}
+                  {t("add-user")}
                 </Link>
               </Breadcrumbs>
             </div>
@@ -124,7 +123,7 @@ const CreateUser = () => {
           <div className="-mt-24 rounded-2xl flex mx-4 bg_color border_primary">
             <div className="flex w-full p-8 px-8 xl:px-16">
               <div className="w-full">
-                <form onSubmit={editProfileHandle}>
+                <form onSubmit={createUserHandle}>
                   <Grid container spacing={4}>
                     <Grid item xs={12}>
                       <Box sx={{ display: "flex", alignItems: "center" }}>

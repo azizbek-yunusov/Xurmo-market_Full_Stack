@@ -154,7 +154,7 @@ function App() {
             <Route path="/cabinet/projects" element={<Projects />} />
             <Route path="/cabinet/settings" element={<AccountSetting />} />
             <Route path="/user/:id" element={<UserProfile />} />
-            <Route path="/users/update/:id" element={<UpdateUser />} />
+            <Route path="/user/update/:id" element={<UpdateUser />} />
           </>
         )}
       </Routes>

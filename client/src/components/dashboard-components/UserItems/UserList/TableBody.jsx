@@ -110,7 +110,7 @@ const TableBody = ({
                         />
                       </svg>
                     </Link>
-                    <Link to={`/user/${item._id}`}>
+                    <Link to={`/user/update/${item._id}`}>
                       <div className="cursor-pointer w-5 mr-3 transform hover:text-purple-500 hover:scale-110">
                         <FiEdit className="text-lg" />
                       </div>
