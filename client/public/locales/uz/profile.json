@@ -50,5 +50,16 @@
   "reset": "Qaytarish",
   "verify-email-t": "Emailingiz tasdiqlandi",
   "verify-email-d": "Emailingiz tasdiqlandi",
-  "verify-email-b": "Xaridni boshlash"
+  "verify-email-b": "Xaridni boshlash",
+
+  "all-users": "Barcha Foydalanuvchilar",
+  "user": "Foydalanuvchi",
+  "add-user": "Yangi Foydalanuvchi qo'shish",
+  "search-filter": "Qidiruv filteri",
+  "search": "Qidirish",
+  "client": "Mijoz",
+  "actions": "Amallar",
+  "update": "Yangilash",
+  "view": "Ko'rish",
+  "selected": "ta Tanlandi"
 }

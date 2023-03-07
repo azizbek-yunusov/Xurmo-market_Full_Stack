@@ -1,6 +1,7 @@
 const UserModel = require("../models/UserModel");
 const cloudinary = require("../utils/cloudinary");
 const ProductModel = require("../models/ProductModel");
+const bcrypt = require("bcryptjs");
 
 // User me
 const addToCart = async (req, res) => {
@@ -174,9 +175,7 @@ const updateUser = async (req, res) => {
 const getAllUsers = async (req, res) => {
   try {
     const users = await UserModel.find();
-    res.status(200).json({
-      users,
-    });
+    res.status(200).json(users);
   } catch (err) {
     console.log(err);
   }
@@ -198,6 +197,39 @@ const getUser = async (req, res) => {
   }
 };
 
+const createUser = async (req, res) => {
+  try {
+    const { name, lastName, email, phoneNumber, password, avatar, admin } = req.body;
+    if (!name || !email || !password) {
+      return res.status(400).json({ error: "Please add all the feilds" });
+    }
+    const userExists = await UserModel.findOne({ email });
+    if (userExists) {
+      return res.status(400).json({ error: "This email already exists" });
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const result = await cloudinary.uploader.upload(avatar, {
+      folder: "Avatar",
+    });
+    const user = await UserModel.create({
+      name,
+      lastName,
+      phoneNumber,
+      email,
+      password: hashedPassword,
+      avatar: {
+        public_id: result.public_id,
+        url: result.secure_url,
+      },
+      admin
+    });
+    await user.save();
+    res.status(200).json(user);
+  } catch (err) {
+    console.log(err);
+  }
+};
 const updateProfile = async (req, res) => {
   try {
     const userData = {
@@ -217,10 +249,8 @@ const updateProfile = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
-  await UserModel.findByIdAndDelete(req.params.id);
-  res.status(201).json({
-    msg: "DELETED USER",
-  });
+  const user = await UserModel.findByIdAndDelete(req.params.id);
+  res.status(201).json(user);
 };
 
 const deleteSelected = async (req, res) => {
@@ -283,6 +313,7 @@ module.exports = {
   cleanWishList,
   getAllUsers,
   getUser,
+  createUser,
   updateUser,
   updateProfile,
   uploadAvatar,

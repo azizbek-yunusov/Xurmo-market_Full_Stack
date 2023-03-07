@@ -10,7 +10,6 @@ const UserProfile = () => {
   const { access_token } = useSelector((state) => state.auth);
   const [loading, setLoading] = useState(true);
 
-
   const params = useParams();
   const { id: userId } = params;
   const [user, setUser] = useState(null);

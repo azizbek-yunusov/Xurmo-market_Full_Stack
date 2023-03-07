@@ -18,6 +18,7 @@ const CabinetTop = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  console.log(user);
   return (
     <div className="bg-white dark:bg-transparent border_primary rounded-xl p-2 relative">
       <div className="-z-20">
@@ -62,7 +63,7 @@ const CabinetTop = () => {
           </div>
           <div className="flex flex-col pl-48">
             <h1 className="text-2xl mt-6 mb-3 text-gray-700 dark:text-gray-200 font-semibold">
-              {user.name}
+              {user.lastName ? `${user.name} ${user.lastName}` : user.name}
             </h1>
             <div className="flex items-center">
               <p className="flex text-gray-600 dark:text-gray-200 bg-transparent mr-5">

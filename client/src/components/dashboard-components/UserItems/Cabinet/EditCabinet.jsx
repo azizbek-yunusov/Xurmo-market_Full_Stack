@@ -12,6 +12,8 @@ import {
 import { HelmetTitle } from "../../../../utils";
 import { Layout } from "../../Layouts";
 import InputMask from "react-input-mask";
+import CabinetTop from "./CabinetTop";
+import CabinetTabs from "./CabinetTabs";
 
 // ** Icons Imports
 const ImgStyled = styled("img")(({ theme }) => ({
@@ -56,6 +58,7 @@ const EditCabinet = () => {
     e.preventDefault();
     try {
       let userData = { name, lastName, email, phoneNumber };
+      console.log(userData);
       dispatch(editProfile(userData, access_token));
       if (!isLoading) {
         toast.success(t("success-edited"));
@@ -98,7 +101,9 @@ const EditCabinet = () => {
     <>
       <HelmetTitle title={`${t("edit-profile")} - ${t("personal")}`} />
       <Layout>
-        <section className="relative">
+        <section className="my-4">
+          <CabinetTop />
+          <CabinetTabs />
           <div className="flex justify-between items-center md:mb-4 mb-2">
             <h1 className="md:text-2xl text-xl font-semibold">
               {t("edit-profile")}

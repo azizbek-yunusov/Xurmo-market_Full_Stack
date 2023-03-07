@@ -29,7 +29,7 @@ const BadgeContentSpan = styled("span")(({ theme }) => ({
 const UserButton = () => {
   const { isLogged, user } = useSelector((state) => state.auth);
   let { t } = useTranslation(["profile"]);
-  let { avatar, name } = user;
+  let { avatar, lastName, name } = user;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const signOutHandle = async () => {
@@ -86,38 +86,32 @@ const UserButton = () => {
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
-        <Box sx={{ py: 1, px: 3 }}>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Badge
-              overlap="circular"
-              badgeContent={<BadgeContentSpan />}
-              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            >
-              <Avatar
-                alt="John Doe"
-                src={
-                  avatar?.url ||
-                  "https://www.ihp.ie/wp-content/uploads/profile-img.jpg"
-                }
-              />
-            </Badge>
+        <Box sx={{ py: 1, px: 1 }}>
+          <div className="flex_betwen">
+            <img
+              className="h-10 w-10 rounded-full bg-teal-300"
+              src={avatar?.url}
+              alt=""
+            />
             <Box
               sx={{
                 display: "flex",
-                marginLeft: 3,
+                marginLeft: "5px",
                 alignItems: "flex-start",
                 flexDirection: "column",
               }}
             >
-              <p className="font-semibold text-gray-800 text-lg">{name}</p>
+              <p className="font-semibold text-gray-800">
+                {lastName ? `${name} ${lastName}` : name}
+              </p>
               <Typography
                 variant="body2"
                 sx={{ fontSize: "0.8rem", color: "text.disabled" }}
               >
-                Admin
+                {t("admin")}
               </Typography>
             </Box>
-          </Box>
+          </div>
         </Box>
         <Divider sx={{ mt: 0, mb: 1 }} />
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>

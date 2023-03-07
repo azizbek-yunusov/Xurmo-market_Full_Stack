@@ -1,4 +1,4 @@
-import { Button, Tooltip } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { BiEdit } from "react-icons/bi";
@@ -6,81 +6,64 @@ import { BsEye, BsTrash } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
 const GridList = ({
-  categories,
+  users,
   handleSelectAll,
-  selectedCategoryIds,
-  filteredCategories,
+  selectedCustomerIds,
+  filteredUsers,
   handleSelectOne,
-  handleDeleteCategory,
+  handleDeleteUser,
 }) => {
-  const { i18n } = useTranslation();
   let { t } = useTranslation(["category-d"]);
+
   return (
     <div className="grid grid-cols-3 xl:grid-cols-4 gap-5 p-5">
-      {filteredCategories.length ? (
-        filteredCategories.map((item, index) => (
+      {filteredUsers.length ? (
+        filteredUsers.map((item, index) => (
           <div
             key={index}
             className="col-span-1 rounded-lg border border-gray-200 dark:border-gray-600 p-2"
           >
-            <div className="w-full flex_center">
+            <div className="w-full flex_center py-2">
               <img
-                src={item.image.url}
-                className="h-40 object-cover rounded-xl"
+                src={item.avatar.url}
+                className="h-28 object-cover rounded-full bg-teal-300"
                 alt=""
               />
             </div>
-            <h1 className="text_color xl:text-lg mb-5 mt-3">
-              {i18n.language === "uz"
-                ? item.nameUz
-                : i18n.language === "en"
-                ? item.nameEn
-                : i18n.language === "ru"
-                ? item.nameRu
-                : null}
+            <h1 className="text_color text-center xl:text-lg mb-5 mt-3">
+              {item.lastName ? `${item.name} ${item.lastName}` : item.name}
             </h1>
             <div className="flex justify-end">
-              <Link to={`/banner/${item._id}`}>
+              <Link to={`/user/view/${item._id}`}>
                 <Tooltip title="View">
-                  <Button
-                    variant="contained"
-                    size="small"
-                    sx={{
-                      background: "green",
-                    }}
-                    startIcon={<BsEye />}
-                  >
-                    {t("view")}
-                  </Button>
+                  <IconButton variant="contained" size="small">
+                    <BsEye />
+                  </IconButton>
                 </Tooltip>
               </Link>
-              <Link to={`/banner/${item._id}`}>
+              <Link to={`/user/update/${item._id}`}>
                 <Tooltip title="Update Item">
-                  <Button
+                  <IconButton
                     fullWidth
                     variant="contained"
                     size="small"
-                    sx={{
-                      background: "blue",
-                    }}
+                    color="info"
                     startIcon={<BiEdit />}
                   >
                     {t("update")}
-                  </Button>
+                  </IconButton>
                 </Tooltip>
               </Link>
               <Tooltip title="Delete Item">
-                <Button
-                  onClick={() => handleDeleteCategory(item._id)}
+                <IconButton
+                  onClick={() => handleDeleteUser(item._id)}
                   variant="contained"
                   size="small"
-                  sx={{
-                    background: "red",
-                  }}
+                  color="error"
                   startIcon={<BsTrash />}
                 >
                   {t("delete")}
-                </Button>
+                </IconButton>
               </Tooltip>
             </div>
           </div>

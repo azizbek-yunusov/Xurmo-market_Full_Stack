@@ -9,6 +9,7 @@ const {
   deleteUser,
   getUserInfo,
   addAdress,
+  createUser,
   deleteAddress,
   uploadAvatar,
   updateProfile,
@@ -32,6 +33,7 @@ router.put("/avatar", authMiddleware, uploadAvatar);
 router.post("/address", authMiddleware, addAdress);
 router.delete("/address/:id", authMiddleware, deleteAddress);
 router.get("/user", authMiddleware, getUserInfo);
+router.post("/user", authMiddleware, createUser);
 router.get("/users", authMiddleware, authAdminMiddleware, getAllUsers);
 router.get("/user/:id", authMiddleware, authAdminMiddleware, getUser);
 router.put("/user/:id", authMiddleware, authAdminMiddleware, updateUser);

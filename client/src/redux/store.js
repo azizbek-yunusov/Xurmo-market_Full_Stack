@@ -10,6 +10,7 @@ import address from "./reducers/addressReducer";
 import authv from "./auth";
 import me from "./reducers/userReducer";
 import cart from "./reducers/cartReducer";
+import customer from "./customer";
 import favorite from "./reducers/favoriteReducer";
 import { Provider } from "react-redux";
 
@@ -22,6 +23,7 @@ const store = configureStore({
     address,
     product,
     authv,
+    customer,
     order,
     brand,
     category,

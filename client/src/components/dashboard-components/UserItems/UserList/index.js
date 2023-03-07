@@ -2,39 +2,54 @@ import {
   Button,
   Checkbox,
   Chip,
+  CircularProgress,
   FormControl,
+  IconButton,
   InputAdornment,
   InputLabel,
   MenuItem,
   Select,
   TextField,
   Tooltip,
+  useMediaQuery,
 } from "@mui/material";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { BiExport, BiSearch } from "react-icons/bi";
+import { useTranslation } from "react-i18next";
+import { BiExport, BiSearch, BiTable } from "react-icons/bi";
+import { BsGrid } from "react-icons/bs";
 import { FiPlus } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  deleteUser,
+  getUsers,
+  selectedDeleteUser,
+} from "../../../../redux/customer";
 import { HelmetTitle } from "../../../../utils";
+import NotData from "../../Helpers/NotData";
 import { Layout } from "../../Layouts";
+import GridList from "./GridList";
 import TableBody from "./TableBody";
 
 const UsersTable = () => {
+  const { isLoading, users } = useSelector((state) => state.customer);
   const { access_token } = useSelector((state) => state.auth);
-  const [term, setTerm] = useState("");
-  const [users, setUsers] = useState([]);
+  const dispatch = useDispatch();
+  const isXl = useMediaQuery("(min-width: 1245px)");
+  let { t } = useTranslation(["profile"]);
+
+  const [isTable, setIsTable] = useState(false);
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+  const [term, setTerm] = useState("");
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-
-  const filteredUsers = users.filter((frontMatter) => {
-    const searchContent = frontMatter.name || frontMatter.email;
-    return searchContent.toLowerCase().includes(term.toLowerCase());
-  });
-
+  const filteredUsers = users.filter(
+    (value) =>
+      value.name.toLowerCase().includes(term.toLowerCase()) ||
+      value.email.toLowerCase().includes(term.toLowerCase())
+  );
   const handleSelectAll = (event) => {
     let newSelectedCustomerIds;
 
@@ -73,224 +88,234 @@ const UsersTable = () => {
 
     setSelectedCustomerIds(newSelectedCustomerIds);
   };
-
-  const handleLimitChange = (event) => {
-    setLimit(event.target.value);
-  };
-
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const fetchUsers = async () => {
+  const handleSelectedDelete = async () => {
     try {
-      fetch("http://localhost:5000/users", {
-        headers: {
-          Authorization: access_token,
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => setUsers(data.users));
-      // const { data } = axios.get("/users", {
-      //   headers: {
-      //     Authorization: access_token,
-      //   },
-      // });
-      // setUsers(data.users);
+      const selectedIds = {
+        selected: selectedCustomerIds,
+      };
+      await dispatch(selectedDeleteUser({ access_token, selectedIds }));
+      dispatch(getUsers());
+      setSelectedCustomerIds([]);
+      toast.success(t("user-selected-deleted"));
     } catch (err) {
-      console.log(err);
+      console.log();
     }
   };
-  const deleteUser = async (_id) => {
+  const handleDeleteUser = async (id) => {
     try {
-      await axios.delete(`/user/${_id}`, {
-        headers: {
-          Authorization: access_token,
-        },
-      });
-      fetchUsers();
-      toast.success("Deleted user");
+      await dispatch(deleteUser({ access_token, id }));
+      toast.success(t("user-delete"));
     } catch (err) {
-      console.log(err);
+      console.log();
     }
   };
+
   useEffect(() => {
-    fetchUsers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+    dispatch(getUsers(access_token));
+  }, [access_token, dispatch]);
+  console.log(users);
   return (
     <>
-      <HelmetTitle title={"All Users"} />
+      <HelmetTitle title={t("all-users")} />
       <Layout>
-        <div className="bg-white dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border_primary">
-          <h1 className="p-5 text-gray-600 text-xl font-semibold">
-            Search Filter
-          </h1>
-          <div className="grid grid-cols-3 gap-x-5 pb-6 mb-3 px-5 border-b border-b-gray-200">
-            <FormControl size="medium" sx={{}}>
-              <InputLabel _id="demo-simple-select-label">
-                Select Role
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                _id="demo-simple-select"
-                // value={"all"}
-                // onChange={(e) => setCategory(e.target.value)}
-                label="Select Role"
-              >
-                <MenuItem value={"all"}>All</MenuItem>
-                <MenuItem value={"user"}>Users</MenuItem>
-                <MenuItem value={"admin"}>Admins</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl size="medium" sx={{}}>
-              <InputLabel _id="demo-simple-select-label">Sorting</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                _id="demo-simple-select"
-                // value={"all"}
-                // onChange={(e) => setCategory(e.target.value)}
-                label="Sorting"
-              >
-                <MenuItem value={"all"}>Date</MenuItem>
-                <MenuItem value={"user"}>Name</MenuItem>
-                <MenuItem value={"admin"}>Status</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl size="medium" sx={{}}>
-              <InputLabel _id="demo-simple-select-label">
-                Select Role
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                _id="demo-simple-select"
-                // value={"all"}
-                // onChange={(e) => setCategory(e.target.value)}
-                label="Select Role"
-              >
-                <MenuItem value={"all"}>All</MenuItem>
-                <MenuItem value={"user"}>Users</MenuItem>
-                <MenuItem value={"admin"}>Admins</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-          {selectedCustomerIds.length ? (
-            <div className="flex w-full items-center justify-between py-3 px-4">
-              <Chip
-                label={`${selectedCustomerIds.length} Selected`}
-                size="medium"
-                color="success"
-              />
+        {isLoading ? (
+          <CircularProgress />
+        ) : (
+          <>
+            <div className="bg-white dark:bg-[#2e2d4a] rounded-lg overflow-hidden my-6 border border-gray-300 dark:border-gray-600">
+              <h1 className="p-5 text-gray-600 dark:text-gray-200 text-xl font-semibold">
+                {t("search-filter")}
+              </h1>
+              <div className="grid grid-cols-3 gap-x-5 pb-6 mb-3 px-5 border-b border-b-gray-200 dark:border-b-gray-600">
+                <FormControl size="medium" sx={{}}>
+                  <InputLabel _id="demo-simple-select-label">
+                    {t("select-category")}
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    _id="demo-simple-select"
+                    // value={"all"}
+                    // onChange={(e) => setCategory(e.target.value)}
+                    label={t("select-category")}
+                  >
+                    <MenuItem value={"all"}>All</MenuItem>
+                    <MenuItem value={"user"}>users</MenuItem>
+                    <MenuItem value={"admin"}>Admins</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl size="medium" sx={{}}>
+                  <InputLabel _id="demo-simple-select-label">
+                    {t("select-brand")}
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    _id="demo-simple-select"
+                    // value={"all"}
+                    // onChange={(e) => setCategory(e.target.value)}
+                    label={t("select-brand")}
+                  >
+                    <MenuItem value={"all"}>Date</MenuItem>
+                    <MenuItem value={"user"}>Name</MenuItem>
+                    <MenuItem value={"admin"}>Status</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl size="medium" sx={{}}>
+                  <InputLabel _id="demo-simple-select-label">
+                    {t("select-rating")}
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    _id="demo-simple-select"
+                    // value={"all"}
+                    // onChange={(e) => setCategory(e.target.value)}
+                    label={t("select-rating")}
+                  >
+                    <MenuItem value={"all"}>All</MenuItem>
+                    <MenuItem value={"user"}>users</MenuItem>
+                    <MenuItem value={"admin"}>Admins</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+              {selectedCustomerIds.length ? (
+                <div className="flex w-ful items-center justify-between py-[12.5px] px-4">
+                  <h1 className="font-semibold text-gray-700">{`${
+                    selectedCustomerIds.length
+                  } ${t("selected")}`}</h1>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    size="medium"
+                    onClick={() => handleSelectedDelete()}
+                    sx={{
+                      marginLeft: "15px",
+                      minWidth: "130px",
+                    }}
+                    startIcon={<MdDelete />}
+                  >
+                    {t("delete")}
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex w-full items-center justify-between py-3 px-4">
+                  <FormControl
+                    size="small"
+                    sx={{ maxWidth: isXl ? "70px" : "80px" }}
+                  >
+                    <Select
+                      labelId="demo-simple-select-label"
+                      _id="demo-simple-select"
+                      value={"10"}
+                      // onChange={(e) => setCategory(e.target.value)}
+                    >
+                      <MenuItem value={"10"}>10</MenuItem>
+                      <MenuItem value={"20"}>20</MenuItem>
+                      <MenuItem value={"30"}>30</MenuItem>
+                      <MenuItem value={"50"}>50</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <FormControl sx={{ minWidth: isXl ? 500 : 250 }}>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      value={term}
+                      onChange={(e) => setTerm(e.target.value)}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <BiSearch className="text-xl" />
+                          </InputAdornment>
+                        ),
+                      }}
+                      placeholder={t("search")}
+                      variant="outlined"
+                    />
+                  </FormControl>
+                  <div className="flex items-center">
+                    {isXl ? (
+                      <div className="">
+                        <IconButton
+                          onClick={() => setIsTable(false)}
+                          aria-label="Table"
+                          color={!isTable ? "secondary" : "default"}
+                        >
+                          <BiTable />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => setIsTable(true)}
+                          aria-label="Table"
+                          color={isTable ? "secondary" : "default"}
+                        >
+                          <BsGrid />
+                        </IconButton>
+                      </div>
+                    ) : (
+                      <div className="">
+                        <IconButton
+                          onClick={() => setIsTable(!isTable)}
+                          aria-label="Table"
+                          color="primary"
+                        >
+                          {isTable ? <BiTable /> : <BsGrid />}
+                        </IconButton>
+                      </div>
+                    )}
 
-              <Button
-                variant="contained"
-                color="error"
-                size="medium"
-                sx={{
-                  marginLeft: "15px",
-                  borderRadius: "6px",
-                  minWidth: "130px",
-                }}
-                startIcon={<MdDelete />}
-              >
-                DELETE
-              </Button>
-            </div>
-          ) : (
-            <div className="flex w-full items-center justify-between py-3 px-4">
-              <FormControl size="small" sx={{ minWidth: "80px" }}>
-                <Select
-                  labelId="demo-simple-select-label"
-                  _id="demo-simple-select"
-                  value={"10"}
-                  // onChange={(e) => setCategory(e.target.value)}
-                >
-                  <MenuItem value={"10"}>10</MenuItem>
-                  <MenuItem value={"20"}>20</MenuItem>
-                  <MenuItem value={"30"}>30</MenuItem>
-                  <MenuItem value={"50"}>50</MenuItem>
-                </Select>
-              </FormControl>
-              <FormControl sx={{ minWidth: 500 }}>
-                <TextField
-                  size="small"
-                  fullWidth
-                  value={term}
-                  onChange={(e) => setTerm(e.target.value)}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <BiSearch className="text-xl" />
-                      </InputAdornment>
-                    ),
-                  }}
-                  placeholder="Search"
-                  variant="outlined"
-                />
-              </FormControl>
-              <div className="flex items-center">
-                <Button
-                  disabled
-                  variant="outlined"
-                  size="medium"
-                  sx={{
-                    marginLeft: "25px",
-                    borderRadius: "6px",
-                  }}
-                  startIcon={<BiExport />}
-                >
-                  EXPORT
-                </Button>
-                <Link to={"/user/create"}>
-                  <Tooltip content="Add new user">
                     <Button
-                      variant="contained"
+                      disabled
+                      variant="outlined"
                       size="medium"
                       sx={{
-                        marginLeft: "25px",
-                        background: "rgb(145, 85, 253)",
-                        borderRadius: "6px",
+                        marginLeft: isXl ? "25px" : "10px",
                       }}
-                      startIcon={<FiPlus />}
+                      startIcon={<BiExport />}
                     >
-                      ADD NEW USER
+                      {isXl ? "EXPORT" : "EXP"}
                     </Button>
-                  </Tooltip>
-                </Link>
-              </div>
+                    <Link to={"/user/create"}>
+                      <Tooltip title={t("add-user-title")}>
+                        <Button
+                          variant="contained"
+                          size="medium"
+                          sx={{
+                            marginLeft: "25px",
+                          }}
+                          startIcon={<FiPlus />}
+                        >
+                          {t("add-user")}
+                        </Button>
+                      </Tooltip>
+                    </Link>
+                  </div>
+                </div>
+              )}
+              {users.length ? (
+                <>
+                  {!isTable ? (
+                    <TableBody
+                      users={users}
+                      handleSelectAll={handleSelectAll}
+                      selectedCustomerIds={selectedCustomerIds}
+                      filteredUsers={filteredUsers}
+                      handleSelectOne={handleSelectOne}
+                      handleDeleteUser={handleDeleteUser}
+                    />
+                  ) : (
+                    <GridList
+                      users={users}
+                      handleSelectAll={handleSelectAll}
+                      selectedCustomerIds={selectedCustomerIds}
+                      filteredUsers={filteredUsers}
+                      handleSelectOne={handleSelectOne}
+                      handleDeleteUser={handleDeleteUser}
+                    />
+                  )}
+                </>
+              ) : (
+                <NotData />
+              )}
             </div>
-          )}
-
-          <table className="min-w-max w-full table-auto rounded-lg ">
-            <thead>
-              <tr className="bg-gray-100 text-left dark:bg-[#373755] text-gray-500 dark:text-gray-200 text-sm font-light rounded-t-lg uppercase">
-                <th className="py-2 text-center">
-                  <Checkbox
-                    checked={selectedCustomerIds.length === users.length}
-                    color="primary"
-                    indeterminate={
-                      selectedCustomerIds.length > 0 &&
-                      selectedCustomerIds.length < users.length
-                    }
-                    onChange={handleSelectAll}
-                  />
-                </th>
-                <th className="px-6">User</th>
-                <th className="pl-10">Email</th>
-                <th className="px-6">Role</th>
-                <th className="px-6">Joined</th>
-                <th className="px-6">Actions</th>
-              </tr>
-            </thead>
-            <TableBody
-              selectedCustomerIds={selectedCustomerIds}
-              filteredUsers={filteredUsers}
-              handleSelectOne={handleSelectOne}
-              deleteUser={deleteUser}
-            />
-          </table>
-        </div>
+          </>
+        )}
       </Layout>
     </>
   );

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { AiOutlineSetting, AiOutlineUser } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
 import { sidebarAdmin } from "../../../data/sidebar";
+import Logo from "../../client-components/Helpers/Logo";
 
 const SideBar = () => {
   let { t } = useTranslation(["profile"]);
@@ -12,7 +13,9 @@ const SideBar = () => {
       <div className="flex flex-col justify-between flex-grow">
         <ul className="flex flex-col py-4 space-y-1 overflow-hidden">
           <li className="my-4 px-4 text-xl font-bold global-font">
-            <Link to={"/dashboard"}>texnoroom</Link>
+            <Link to={"/dashboard"}>
+              <Logo className="text-2xl dark:text-gray-100" />
+            </Link>
           </li>
           <li className="px-5 hidden md:block overflow-hidden">
             <div className="flex flex-row items-center h-8">

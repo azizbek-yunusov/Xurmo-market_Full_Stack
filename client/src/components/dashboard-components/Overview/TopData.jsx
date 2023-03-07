@@ -5,16 +5,17 @@ import { AiOutlineShopping, AiOutlineUser } from "react-icons/ai";
 import { BsFolder } from "react-icons/bs";
 import { MdOutlineAttachMoney } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import { getUsers } from "../../../redux/customer";
 import { getProducts } from "../../../redux/product";
 
 const TopData = () => {
   let { t } = useTranslation(["translation"]);
 
-  const { isLoading, products } = useSelector((state) => state.product);
+  const { products } = useSelector((state) => state.product);
+  const { users } = useSelector((state) => state.customer);
   const dispatch = useDispatch();
   const { access_token } = useSelector((state) => state.auth);
   const [orders, setOrders] = useState([]);
-  const [users, setUsers] = useState([]);
 
   const fetchOrders = async () => {
     const { data } = await axios.get("/orders", {
@@ -22,20 +23,14 @@ const TopData = () => {
     });
     setOrders(data.orders);
   };
-  const fetchUsers = async () => {
-    const { data } = await axios.get("/users", {
-      headers: { Authorization: access_token },
-    });
-    setUsers(data.users);
-  };
   useEffect(() => {
     fetchOrders();
-    fetchUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     dispatch(getProducts());
+    dispatch(getUsers(access_token));
   }, [dispatch]);
   return (
     <div className="w-full xl:px-5 grid grid-cols-4 xl:gap-4 gap-2 md:my-4">
