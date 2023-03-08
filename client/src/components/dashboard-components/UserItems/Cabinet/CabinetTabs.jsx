@@ -5,7 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import { sidebarProAdmin } from "../../../../data/sidebar";
 
 const CabinetTabs = () => {
-  let { t } = useTranslation(["profile"]);
+  let { t } = useTranslation(["user"]);
   const pathname = useLocation().pathname;
 
   return (

@@ -13,7 +13,7 @@ const TableBody = ({
   handleSelectOne,
   handleDeleteBrand,
 }) => {
-  let { t } = useTranslation(["brand-d"]);
+  let { t } = useTranslation(["brand"]);
   return (
     <table className="min-w-max w-full table-auto rounded-lg ">
       <thead>

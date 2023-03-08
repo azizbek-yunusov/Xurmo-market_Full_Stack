@@ -17,7 +17,7 @@ const UpdateCategory = () => {
   const { access_token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const { id } = useParams();
-  let { t } = useTranslation(["category-d"]);
+  let { t } = useTranslation(["category"]);
   const [nameUz, setNameUz] = useState("");
   const [nameEn, setNameEn] = useState("");
   const [nameRu, setNameRu] = useState("");

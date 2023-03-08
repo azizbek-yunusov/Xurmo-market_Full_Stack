@@ -32,7 +32,7 @@ import GridList from "./GridList";
 import TableBody from "./TableBody";
 
 const BrandsList = () => {
-  let { t } = useTranslation(["brand-d"]);
+  let { t } = useTranslation(["brand"]);
   const isXl = useMediaQuery("(min-width: 1245px)");
   const { brand, auth } = useSelector((state) => state);
   let { isLoading, brands } = brand;

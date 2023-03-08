@@ -11,7 +11,7 @@ import HelmetTitle from "../../../utils/HelmetTitle";
 import { Layout } from "../Layouts";
 
 const CreateBrand = () => {
-  let { t } = useTranslation(["brand-d"]);
+  let { t } = useTranslation(["brand"]);
   const { access_token } = useSelector((state) => state.auth);
   const { isLoading, isError } = useSelector((state) => state.brand);
   const dispatch = useDispatch();

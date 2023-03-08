@@ -47,6 +47,7 @@ export const createUser = createAsyncThunk(
     }
   }
 );
+
 export const updateUser = createAsyncThunk(
   "user/update-user",
   async ({ access_token, id, userData }) => {
@@ -97,31 +98,6 @@ export const selectedDeleteUser = createAsyncThunk(
     }
   }
 );
-
-// export const addReview = createAsyncThunk(
-//   "user/add-review",
-//   async ({ access_token, productId, rating, comment, pictures }, thunkApi) => {
-//     try {
-//       const { data } = await axios.put(
-//         `${baseUrl}review`,
-//         {
-//           productId,
-//           rating,
-//           comment,
-//           pictures
-//         },
-//         {
-//           headers: {
-//             Authorization: access_token,
-//           },
-//         }
-//       );
-//       return data.user;
-//     } catch (error) {
-//       return console.log(error);
-//     }
-//   }
-// );
 
 const initialState = {
   users: [],
@@ -189,7 +165,6 @@ export const customerSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.updatedProduct = action.payload;
       })
       .addCase(updateUser.rejected, (state, action) => {
         state.isLoading = false;

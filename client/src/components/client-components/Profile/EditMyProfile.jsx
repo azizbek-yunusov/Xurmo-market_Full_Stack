@@ -43,7 +43,7 @@ const ResetButtonStyled = styled(Button)(({ theme }) => ({
 }));
 
 const EditMyProfile = () => {
-  const { t } = useTranslation(["profile"]);
+  const { t } = useTranslation(["user"]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLoading, user } = useSelector((state) => state.me);

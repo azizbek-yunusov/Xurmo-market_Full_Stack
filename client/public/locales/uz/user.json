@@ -32,6 +32,7 @@
   "save": "Saqlash",
   "cancel": "Yopish",
   "sign-out": "Chiqish",
+  "logged-out": "Tizimdan chiqildi",
   "edit": "Tahrirlash",
   "edit-profile": "Profilni tahrirlash",
   "success-edited": "Profilni yangilandi",
@@ -51,7 +52,8 @@
   "verify-email-t": "Emailingiz tasdiqlandi",
   "verify-email-d": "Emailingiz tasdiqlandi",
   "verify-email-b": "Xaridni boshlash",
-
+  
+  "all": "Barchasi",
   "all-users": "Barcha Foydalanuvchilar",
   "user": "Foydalanuvchi",
   "add-user": "Yangi Foydalanuvchi qo'shish",
@@ -62,5 +64,18 @@
   "actions": "Amallar",
   "update": "Yangilash",
   "view": "Ko'rish",
-  "selected": "ta Tanlandi"
+  "selected": "ta Tanlandi",
+  "select-role": "Mavqeyini tanglang",
+  "select-sort": "Saralang",
+  "new-user": "Yangi qo'shilganlar",
+  "old-user": "Oldin qo'shilaganlar",
+  "name-a-z": "Nomi A-Z",
+  "password-change": "Parolni o'zgartirish",
+  "password": "Parol",
+  "current-password": "Joriy parol",
+  "new-password": "Yangi parol",
+  "confirm-new-password": "Yangi parolni tasdiqlang",
+  "password-required": "Sizning yangi parolingiz ushu talablarga javob berish kerak",
+  "password-req-first": "Kamida 8 ta belgi bo'lishi shart!",
+  "password-req-two": "Kamida bitta raqam va bitta maxsus belgi boʻlishi kerak (!@#$%^&*)!"
 }

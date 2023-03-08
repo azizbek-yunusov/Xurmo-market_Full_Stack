@@ -23,7 +23,7 @@ const TableBody = ({
   const handleRowsPerPageChange = useCallback((event) => {
     setRowsPerPage(event.target.value);
   }, []);
-  let { t } = useTranslation(["product-d"]);
+  let { t } = useTranslation(["product"]);
   return (
     <section>
       <table className="min-w-max w-full table-auto rounded-lg ">

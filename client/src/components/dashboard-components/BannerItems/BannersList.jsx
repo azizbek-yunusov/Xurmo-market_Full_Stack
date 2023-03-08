@@ -37,7 +37,7 @@ import GridList from "./GridList";
 import TableBody from "./TableBody";
 
 const BannersList = () => {
-  let { t } = useTranslation(["banner-d"]);
+  let { t } = useTranslation(["banner"]);
   const { access_token } = useSelector((state) => state.auth);
   const { isLoading, banners } = useSelector((state) => state.banner);
   const dispatch = useDispatch();

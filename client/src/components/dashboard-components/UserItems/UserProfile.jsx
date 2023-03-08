@@ -9,7 +9,7 @@ import { HelmetTitle } from "../../../utils";
 import { Layout } from "../Layouts";
 
 const UserProfile = () => {
-  let { t } = useTranslation(["profile"]);
+  let { t } = useTranslation(["user"]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { access_token } = useSelector((state) => state.auth);

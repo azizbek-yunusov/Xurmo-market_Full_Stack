@@ -10,7 +10,7 @@ import { IconButton } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 const LayoutP = ({ children }) => {
-  let { t } = useTranslation(["profile"]);
+  let { t } = useTranslation(["user"]);
   const { access_token } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.me);
   useEffect(() => {

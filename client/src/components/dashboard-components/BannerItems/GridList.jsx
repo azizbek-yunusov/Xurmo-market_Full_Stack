@@ -13,7 +13,7 @@ const GridList = ({
   handleSelectOne,
   handleDeleteBanner,
 }) => {
-  let { t } = useTranslation(["banner-d"]);
+  let { t } = useTranslation(["banner"]);
   return (
     <div className="grid grid-cols-3 gap-5 p-5">
       {filteredBanners.length ? (

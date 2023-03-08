@@ -10,7 +10,7 @@ import { signOut } from "../../../redux/actions/authAction";
 import { useTranslation } from "react-i18next";
 
 const SideBarPf = () => {
-  let { t } = useTranslation(["profile"]);
+  let { t } = useTranslation(["user"]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLogged } = useSelector((state) => state.auth);

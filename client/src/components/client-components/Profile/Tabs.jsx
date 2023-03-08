@@ -5,7 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import { tabsProfileData } from "../../../data/sidebar";
 
 const Tabs = () => {
-  let { t } = useTranslation(["profile"]);
+  let { t } = useTranslation(["user"]);
   const pathname = useLocation().pathname;
   return (
     <div className="flex justify-center">

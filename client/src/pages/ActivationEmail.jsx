@@ -6,7 +6,7 @@ import { Button } from "@mui/material";
 
 function ActivationEmail() {
   const { activationtoken } = useParams();
-  let { t } = useTranslation(["profile"]);
+  let { t } = useTranslation(["user"]);
 
   const [err, setErr] = useState("");
   const [success, setSuccess] = useState("");

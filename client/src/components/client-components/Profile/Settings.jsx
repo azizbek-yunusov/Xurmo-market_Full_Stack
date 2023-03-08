@@ -10,7 +10,7 @@ import { HelmetTitle } from "../../../utils";
 import LayoutP from "./LayoutP";
 
 const Settings = () => {
-  let { t } = useTranslation(["profile"]);
+  let { t } = useTranslation(["user"]);
   const {isLogged } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();

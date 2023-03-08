@@ -11,7 +11,7 @@ import HelmetTitle from "../../../utils/HelmetTitle";
 import { Layout } from "../Layouts";
 
 const AddBanner = () => {
-  let { t } = useTranslation(["banner-d"]);
+  let { t } = useTranslation(["banner"]);
   const { access_token } = useSelector((state) => state.auth);
   const { isLoading, isError } = useSelector((state) => state.banner);
   const dispatch = useDispatch();

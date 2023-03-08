@@ -30,7 +30,7 @@ import {
 import GridList from "./GridList";
 
 const AllProductList = () => {
-  let { t } = useTranslation(["product-d"]);
+  let { t } = useTranslation(["product"]);
   const { isLoading, products } = useSelector((state) => state.product);
   const { access_token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();

@@ -1,15 +1,19 @@
 import { Fade, IconButton, Menu, MenuItem } from "@mui/material";
 import moment from "moment";
 import React, { useState } from "react";
+import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { AiFillCalendar, AiOutlineSetting } from "react-icons/ai";
 import { MdLocationOn, MdVerifiedUser } from "react-icons/md";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { signOut } from "../../../../redux/actions/authAction";
 
 const CabinetTop = () => {
-  let { t } = useTranslation(["profile"]);
-  const { user } = useSelector((state) => state.auth);
+  const { isLogged, user } = useSelector((state) => state.auth);
+  let { t } = useTranslation(["user"]);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -18,13 +22,19 @@ const CabinetTop = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  console.log(user);
+  const signOutHandle = async () => {
+    await dispatch(signOut());
+    if (isLogged) {
+      navigate("/signin");
+    }
+    toast.success(t("sign-out"));
+  };
   return (
     <div className="bg-white dark:bg-transparent border_primary rounded-xl p-2 relative">
       <div className="-z-20">
         <img
           src="/images/profilebg.png"
-          className="h-60 rounded-md w-full "
+          className="h-60 rounded-md w-full bg-pink-500"
           alt="Bg"
         />
         <div className="absolute top-2 right-2">
@@ -47,9 +57,7 @@ const CabinetTop = () => {
           <MenuItem onClick={handleClose}>
             <Link to={"/cabinet/edit"}>{t("edit-profile")}</Link>
           </MenuItem>
-          <MenuItem onClick={handleClose}>
-            <Link to={"/cabinet/edit"}>{t("sign-out")}</Link>
-          </MenuItem>
+          <MenuItem onClick={signOutHandle}>{t("sign-out")}</MenuItem>
         </Menu>
       </div>
       <div className="flex justify-between">

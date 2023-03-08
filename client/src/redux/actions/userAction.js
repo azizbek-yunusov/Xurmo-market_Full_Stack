@@ -37,6 +37,22 @@ export const editProfile = (userData, access_token) => async (dispatch) => {
   }
 };
 
+export const changePassword = (passwords, access_token) => async (dispatch) => {
+  try {
+    const { data } = await axios.put(`${baseUrl}change-password`, passwords, {
+      headers: {
+        Authorization: access_token,
+      },
+    });
+    dispatch({
+      type: "USER_FULFILLED",
+      payload: data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const uploadAvatar = (avatar, access_token) => async (dispatch) => {
   try {
     const config = {

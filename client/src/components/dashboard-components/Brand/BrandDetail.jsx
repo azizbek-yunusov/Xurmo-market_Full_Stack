@@ -8,7 +8,7 @@ import { HelmetTitle } from "../../../utils";
 import { Layout } from "../Layouts";
 
 const BrandDetail = () => {
-  let { t } = useTranslation(["brand-d"]);
+  let { t } = useTranslation(["brand"]);
   const { id } = useParams();
   const isXl = useMediaQuery("(min-width: 1245px)");
   const { currentBrand } = useSelector((state) => state.brand);

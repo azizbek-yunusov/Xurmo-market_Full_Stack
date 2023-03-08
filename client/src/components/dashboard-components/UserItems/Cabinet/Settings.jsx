@@ -4,7 +4,7 @@ import { HelmetTitle } from "../../../../utils";
 import { Layout } from "../../Layouts";
 
 const Settings = () => {
-  let { t } = useTranslation(["profile"]);
+  let { t } = useTranslation(["user"]);
 
   return (
     <>

@@ -20,7 +20,7 @@ import { HelmetTitle } from "../../../utils";
 import { Layout } from "../Layouts";
 
 const UpdateProduct = () => {
-  let { t } = useTranslation(["product-d"]);
+  let { t } = useTranslation(["product"]);
   const { i18n } = useTranslation();
   const { access_token } = useSelector((state) => state.auth);
   const { isLoading, product, isError } = useSelector((state) => state.product);

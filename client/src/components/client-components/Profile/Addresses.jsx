@@ -11,7 +11,7 @@ import HelmetTitle from "../../../utils/HelmetTitle";
 import { deleteAddress } from "../../../redux/actions/addressAction";
 
 const Addresses = () => {
-  let { t } = useTranslation(["profile"]);
+  let { t } = useTranslation(["user"]);
   const dispatch = useDispatch();
   const { access_token } = useSelector((state) => state.auth);
   const { isLoading, addresses } = useSelector((state) => state.address);

@@ -1,11 +1,21 @@
 import styled from "@emotion/styled";
-import { Box, Breadcrumbs, Button, Grid, TextField } from "@mui/material";
+import {
+  Box,
+  Breadcrumbs,
+  Button,
+  Checkbox,
+  IconButton,
+  InputAdornment,
+  Tab,
+  TextField,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import {
+  changePassword,
   editProfile,
   uploadAvatar,
 } from "../../../../redux/actions/userAction";
@@ -14,6 +24,12 @@ import { Layout } from "../../Layouts";
 import InputMask from "react-input-mask";
 import CabinetTop from "./CabinetTop";
 import CabinetTabs from "./CabinetTabs";
+import {
+  AiOutlineEye,
+  AiOutlineEyeInvisible,
+  AiOutlineUser,
+} from "react-icons/ai";
+import { BiLockAlt } from "react-icons/bi";
 
 // ** Icons Imports
 const ImgStyled = styled("img")(({ theme }) => ({
@@ -42,7 +58,7 @@ const ResetButtonStyled = styled(Button)(({ theme }) => ({
 }));
 
 const EditCabinet = () => {
-  let { t } = useTranslation(["profile"]);
+  let { t } = useTranslation(["user"]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLoading, user } = useSelector((state) => state.me);
@@ -53,13 +69,31 @@ const EditCabinet = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [avatar, setAvatar] = useState("");
   const [avatarPreview, setAvatarPreview] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [conNewPassword, setConNewpassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [disabledPass, setDisabledPass] = useState(true);
+  const [passwordError, setPasswordError] = useState("");
 
   const editProfileHandle = async (e) => {
     e.preventDefault();
     try {
       let userData = { name, lastName, email, phoneNumber };
-      console.log(userData);
       dispatch(editProfile(userData, access_token));
+      if (oldPassword && newPassword && conNewPassword) {
+        if (newPassword.length < 8) {
+          setPasswordError("Password must be at least 8 characters long");
+        } else if (!/\d/.test(newPassword) || !/[!@#$%^&*]/.test(newPassword)) {
+          setPasswordError(
+            "Password must contain at least one number and one special character (!@#$%^&*)"
+          );
+        } else {
+          setPasswordError("");
+          let passwords = { oldPassword, newPassword, conNewPassword };
+          dispatch(changePassword(passwords, access_token));
+        }
+      }
       if (!isLoading) {
         toast.success(t("success-edited"));
         navigate("/dashboard/cabinet");
@@ -88,6 +122,12 @@ const EditCabinet = () => {
 
     reader.readAsDataURL(e.target.files[0]);
   };
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   useEffect(() => {
     if (user) {
       setName(user?.name || "");
@@ -105,7 +145,7 @@ const EditCabinet = () => {
           <CabinetTop />
           <CabinetTabs />
           <div className="flex justify-between items-center md:mb-4 mb-2">
-            <h1 className="md:text-2xl text-xl font-semibold">
+            <h1 className="md:text-2xl text-xl text-gray-800 font-semibold">
               {t("edit-profile")}
             </h1>
             <Breadcrumbs>
@@ -122,8 +162,8 @@ const EditCabinet = () => {
           </div>
 
           <form onSubmit={editProfileHandle}>
-            <Grid container spacing={4}>
-              <Grid item xs={12}>
+            <div className="grid grid-cols-12 gap-x-8 px-5">
+              <div className="col-span-12 mb-4">
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <ImgStyled src={avatarPreview} alt="Profile Pic" />
                   <Box>
@@ -131,7 +171,6 @@ const EditCabinet = () => {
                       component="label"
                       variant="contained"
                       htmlFor="account-settings-upload-image"
-                      color="secondary"
                     >
                       {t("upload-avatar")}
                       <input
@@ -154,40 +193,43 @@ const EditCabinet = () => {
                     </p>
                   </Box>
                 </Box>
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
+              </div>
+              <div className="col-span-6">
+                <div className="flex items-center text-gray-700">
+                  <AiOutlineUser className="text-xl mr-1" />
+                  <p className="text-xl">{t("profile-data")}</p>
+                </div>
                 <TextField
-                  color="secondary"
                   fullWidth
+                  sx={{ marginY: 2 }}
+                  required
                   label={t("name")}
                   placeholder={t("name-p")}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
-              </Grid>
-              <Grid item xs={12} sm={6}>
+
                 <TextField
-                  color="secondary"
                   fullWidth
+                  sx={{ marginY: 2 }}
+                  required
                   label={t("last-name")}
                   placeholder={t("last-name-p")}
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                 />
-              </Grid>
-              <Grid item xs={12} sm={6}>
+
                 <TextField
-                  color="secondary"
                   fullWidth
+                  sx={{ marginY: 2 }}
+                  required
                   type="email"
                   label={t("email")}
                   placeholder={t("email-p")}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-              </Grid>
-              <Grid item xs={12} sm={6}>
+
                 <InputMask
                   mask="(99) 999 99 99"
                   maskChar=" "
@@ -196,36 +238,139 @@ const EditCabinet = () => {
                 >
                   {(inputProps) => (
                     <TextField
-                      color="secondary"
-                      {...inputProps}
                       fullWidth
+                      sx={{ marginY: 2 }}
+                      required
+                      {...inputProps}
                       variant="outlined"
                       label={t("contact")}
                       placeholder={t("contact-p")}
                     />
                   )}
                 </InputMask>
-              </Grid>
-              <Grid item xs={12}>
-                <div className="flex_end">
-                  <Button
-                    variant="contained"
-                    color="info"
-                    sx={{ marginRight: 2 }}
-                  >
-                    {t("cancel")}
-                  </Button>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => uploadAvatarHandle()}
-                  >
-                    {t("save")}
-                  </Button>
+              </div>
+              <div className="col-span-6">
+                <label htmlFor="disabled">
+                  <div className="flex items-center text-gray-700">
+                    <BiLockAlt className="text-xl mr-1" />
+                    <p className="text-xl">{t("password-change")}</p>
+                    <Checkbox
+                      value={disabledPass}
+                      onChange={() => setDisabledPass(!disabledPass)}
+                      sx={{ paddingY: 0 }}
+                    />
+                  </div>
+                </label>
+
+                <TextField
+                  fullWidth
+                  sx={{ marginY: 2 }}
+                  required
+                  disabled={disabledPass}
+                  type={showPassword ? "text" : "password"}
+                  label={t("current-password")}
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? (
+                            <AiOutlineEye />
+                          ) : (
+                            <AiOutlineEyeInvisible />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <div>
+                  <TextField
+                    fullWidth
+                    disabled={disabledPass}
+                    sx={{ marginY: 2 }}
+                    required
+                    type={showPassword ? "text" : "password"}
+                    label={t("new-password")}
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    error={!!passwordError}
+                    helperText={passwordError}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showPassword ? (
+                              <AiOutlineEye />
+                            ) : (
+                              <AiOutlineEyeInvisible />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <div>
+                    <p className="mb-2 text-gray-600">
+                      {t("password-required")}
+                    </p>
+                    <ul className="list-disc text-gray-400 list-inside">
+                      <li className="my-1">{t("password-req-first")}</li>
+                      <li className="my-1">{t("password-req-two")}</li>
+                    </ul>
+                  </div>
                 </div>
-              </Grid>
-            </Grid>
+                <TextField
+                  fullWidth
+                  sx={{ marginY: 2 }}
+                  required
+                  disabled={disabledPass}
+                  type={showPassword ? "text" : "password"}
+                  label={t("confirm-new-password")}
+                  value={conNewPassword}
+                  onChange={(e) => setConNewpassword(e.target.value)}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? (
+                            <AiOutlineEye />
+                          ) : (
+                            <AiOutlineEyeInvisible />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="flex_center my-5">
+              <Button variant="contained" color="info" sx={{ marginRight: 2 }}>
+                {t("cancel")}
+              </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                onClick={() => uploadAvatarHandle()}
+              >
+                {t("save")}
+              </Button>
+            </div>
           </form>
         </section>
       </Layout>

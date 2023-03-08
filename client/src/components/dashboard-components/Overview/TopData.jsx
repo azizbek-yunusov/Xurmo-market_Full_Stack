@@ -9,7 +9,7 @@ import { getUsers } from "../../../redux/customer";
 import { getProducts } from "../../../redux/product";
 
 const TopData = () => {
-  let { t } = useTranslation(["translation"]);
+  let { t } = useTranslation(["home"]);
 
   const { products } = useSelector((state) => state.product);
   const { users } = useSelector((state) => state.customer);

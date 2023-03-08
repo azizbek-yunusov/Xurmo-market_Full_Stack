@@ -6,7 +6,7 @@ import OrderStatistic from "./OrderStatistic";
 import { useTranslation } from "react-i18next";
 
 const HomeDashboard = () => {
-  let { t } = useTranslation(["translation"]);
+  let { t } = useTranslation(["home"]);
   return (
     <>
       <HelmetTitle title="Admin Panel" />

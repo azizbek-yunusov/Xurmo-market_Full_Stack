@@ -47,7 +47,7 @@ const ResetButtonStyled = styled(Button)(({ theme }) => ({
 }));
 
 const CreateUser = () => {
-  let { t } = useTranslation(["profile"]);
+  let { t } = useTranslation(["user"]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLoading } = useSelector((state) => state.customer);

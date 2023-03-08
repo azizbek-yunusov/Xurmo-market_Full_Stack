@@ -21,7 +21,7 @@ const NewAddress = ({ open, setOpen }) => {
   const { access_token } = useSelector((state) => state.auth);
   const { isLoading, addresses } = useSelector((state) => state.address);
   const matches = useMediaQuery("(min-width:600px)");
-  const { t } = useTranslation(["profile"]);
+  const { t } = useTranslation(["user"]);
   const [region, setRegion] = useState("Toshkent Viloyati");
   const [district, setDistrict] = useState("");
   const [street, setStreet] = useState("");

@@ -3,10 +3,9 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 
 const HelmetTitle = ({title}) => {
-  let { t } = useTranslation(["translation"]);
   return (
     <Helmet>
-      <title data-rh="true">{`${title} — ${t("e-commerce")}`}</title>
+      <title data-rh="true">{`${title} — `}</title>
     </Helmet>
   );
 };

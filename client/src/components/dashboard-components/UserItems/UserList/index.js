@@ -38,7 +38,7 @@ const UsersTable = () => {
   const { access_token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const isXl = useMediaQuery("(min-width: 1245px)");
-  let { t } = useTranslation(["profile"]);
+  let { t } = useTranslation(["user"]);
 
   const [isTable, setIsTable] = useState(false);
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
@@ -129,30 +129,30 @@ const UsersTable = () => {
               <div className="grid grid-cols-3 gap-x-5 pb-6 mb-3 px-5 border-b border-b-gray-200 dark:border-b-gray-600">
                 <FormControl size="medium" sx={{}}>
                   <InputLabel _id="demo-simple-select-label">
-                    {t("select-category")}
+                    {t("select-role")}
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     _id="demo-simple-select"
                     // value={"all"}
                     // onChange={(e) => setCategory(e.target.value)}
-                    label={t("select-category")}
+                    label={t("select-role")}
                   >
-                    <MenuItem value={"all"}>All</MenuItem>
-                    <MenuItem value={"user"}>users</MenuItem>
-                    <MenuItem value={"admin"}>Admins</MenuItem>
+                    <MenuItem value={null}>{t("all")}</MenuItem>
+                    <MenuItem value={true}>{t("admin")}</MenuItem>
+                    <MenuItem value={false}>{t("client")}</MenuItem>
                   </Select>
                 </FormControl>
                 <FormControl size="medium" sx={{}}>
                   <InputLabel _id="demo-simple-select-label">
-                    {t("select-brand")}
+                    {t("select-sort")}
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     _id="demo-simple-select"
                     // value={"all"}
                     // onChange={(e) => setCategory(e.target.value)}
-                    label={t("select-brand")}
+                    label={t("select-sort")}
                   >
                     <MenuItem value={"all"}>Date</MenuItem>
                     <MenuItem value={"user"}>Name</MenuItem>

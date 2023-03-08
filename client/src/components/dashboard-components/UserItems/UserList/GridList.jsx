@@ -13,7 +13,7 @@ const GridList = ({
   handleSelectOne,
   handleDeleteUser,
 }) => {
-  let { t } = useTranslation(["category-d"]);
+  let { t } = useTranslation(["category"]);
 
   return (
     <div className="grid grid-cols-3 xl:grid-cols-4 gap-5 p-5">

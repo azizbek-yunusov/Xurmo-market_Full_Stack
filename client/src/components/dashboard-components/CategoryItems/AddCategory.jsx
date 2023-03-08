@@ -14,7 +14,7 @@ const AddCategory = () => {
   const { isLoading, isError } = useSelector((state) => state.category);
   const { access_token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  let { t } = useTranslation(["category-d"]);
+  let { t } = useTranslation(["category"]);
   const [nameUz, setNameUz] = useState("");
   const [nameEn, setNameEn] = useState("");
   const [nameRu, setNameRU] = useState("");

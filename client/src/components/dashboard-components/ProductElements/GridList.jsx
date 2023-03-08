@@ -23,7 +23,7 @@ const GridList = ({
   handleSelectOne,
   handleDeleteProduct,
 }) => {
-  let { t } = useTranslation(["product-d"]);
+  let { t } = useTranslation(["product"]);
 
   return (
     <div className="grid grid-cols-3 xl:grid-cols-4 gap-5 p-5">

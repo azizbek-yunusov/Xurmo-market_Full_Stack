@@ -6,7 +6,7 @@ import { sidebarAdmin } from "../../../data/sidebar";
 import Logo from "../../client-components/Helpers/Logo";
 
 const SideBar = () => {
-  let { t } = useTranslation(["profile"]);
+  let { t } = useTranslation(["user"]);
   const pathname = useLocation().pathname;
   return (
     <div className="min-h-screen fixed top-0 left-0 flex flex-col w-14 hover:w-64 md:w-64 h-full text-white transition-all duration-300 border-none z-10 sidebar px-3">

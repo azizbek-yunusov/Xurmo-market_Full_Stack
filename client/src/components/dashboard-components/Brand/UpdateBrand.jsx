@@ -15,7 +15,7 @@ const UpdateBrand = () => {
   const { brands, currentBrand, isSuccess, isError, isLoading } = useSelector(
     (state) => state.brand
   );
-  let { t } = useTranslation(["brand-d"]);
+  let { t } = useTranslation(["brand"]);
   const { id } = useParams();
   const isXl = useMediaQuery("(min-width: 1245px)");
   const dispatch = useDispatch();

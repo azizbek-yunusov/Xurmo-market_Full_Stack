@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 const OverView = () => {
   const { user } = useSelector((state) => state.me);
   const { standart } = useSelector((state) => state.address);
-  let { t } = useTranslation(["profile"]);
+  let { t } = useTranslation(["user"]);
   return (
     <>
       <LayoutP>

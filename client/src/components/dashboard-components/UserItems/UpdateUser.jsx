@@ -47,7 +47,7 @@ const ResetButtonStyled = styled(Button)(({ theme }) => ({
 }));
 
 const UpdateUser = () => {
-  let { t } = useTranslation(["profile"]);
+  let { t } = useTranslation(["user"]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -66,16 +66,14 @@ const UpdateUser = () => {
     e.preventDefault();
     try {
       let userData = {
+        id,
         name,
         lastName,
-        password,
         email,
         phoneNumber,
-        avatar,
         admin,
       };
-      dispatch(updateUser({ userData, access_token }));
-      console.log(userData);
+      dispatch(updateUser({ access_token, id, userData }));
       if (!isLoading) {
         toast.success(t("success-update"));
         navigate("/dashboard/users");
@@ -102,7 +100,7 @@ const UpdateUser = () => {
   };
 
   useEffect(() => {
-    dispatch(getUser({id, access_token}));
+    dispatch(getUser({ id, access_token }));
   }, [dispatch, id]);
   useEffect(() => {
     if (user) {
@@ -223,11 +221,9 @@ const UpdateUser = () => {
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <TextField
-                        required
                         fullWidth
                         type="text"
                         label={t("password")}
-                        placeholder={t("password-p")}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                       />

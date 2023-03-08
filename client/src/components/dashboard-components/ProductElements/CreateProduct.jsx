@@ -20,7 +20,7 @@ import { getCategories } from "../../../redux/category";
 import { getBrands } from "../../../redux/brand/brandSlice";
 
 const CreateProduct = () => {
-  let { t } = useTranslation(["product-d"]);
+  let { t } = useTranslation(["product"]);
   const { i18n } = useTranslation();
   const { isLoading, isError } = useSelector((state) => state.product);
   const { access_token } = useSelector((state) => state.auth);

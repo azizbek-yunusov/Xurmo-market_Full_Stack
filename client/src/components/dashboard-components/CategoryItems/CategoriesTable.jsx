@@ -36,7 +36,7 @@ const CategoriesTable = () => {
   const { access_token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const isXl = useMediaQuery("(min-width: 1245px)");
-  let { t } = useTranslation(["category-d"]);
+  let { t } = useTranslation(["category"]);
   const [term, setTerm] = useState("");
   const [isTable, setIsTable] = useState(false);
   const [selectedCategoryIds, setSelectedCategoryIds] = useState([]);

@@ -11,7 +11,7 @@ import CabinetTabs from "./CabinetTabs";
 import CabinetTop from "./CabinetTop";
 
 const Profile = () => {
-  let { t } = useTranslation(["profile"]);
+  let { t } = useTranslation(["user"]);
   const { access_token } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.me);
   const { standart } = useSelector((state) => state.address);

@@ -20,6 +20,7 @@ const {
   addToFavorite,
   deleteFavoriteItem,
   cleanWishList,
+  changePassword,
 } = require("../controllers/userController");
 
 router.put("/addcart/:id", authMiddleware, addToCart);
@@ -32,8 +33,9 @@ router.put("/update", authMiddleware, updateProfile);
 router.put("/avatar", authMiddleware, uploadAvatar);
 router.post("/address", authMiddleware, addAdress);
 router.delete("/address/:id", authMiddleware, deleteAddress);
+router.put("/change-password", authMiddleware, changePassword);
 router.get("/user", authMiddleware, getUserInfo);
-router.post("/user", authMiddleware, createUser);
+router.post("/user", authMiddleware, authAdminMiddleware, createUser);
 router.get("/users", authMiddleware, authAdminMiddleware, getAllUsers);
 router.get("/user/:id", authMiddleware, authAdminMiddleware, getUser);
 router.put("/user/:id", authMiddleware, authAdminMiddleware, updateUser);

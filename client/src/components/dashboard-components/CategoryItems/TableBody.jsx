@@ -14,7 +14,7 @@ const TableBody = ({
   handleDeleteCategory,
 }) => {
   const { i18n } = useTranslation();
-  let { t } = useTranslation(["category-d"]);
+  let { t } = useTranslation(["category"]);
   return (
     <table className="min-w-max w-full table-auto rounded-lg overflow-scroll">
       <thead>

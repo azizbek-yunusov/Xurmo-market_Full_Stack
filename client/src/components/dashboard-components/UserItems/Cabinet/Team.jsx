@@ -6,7 +6,7 @@ import CabinetTabs from "./CabinetTabs";
 import CabinetTop from "./CabinetTop";
 
 const Team = () => {
-  let { t } = useTranslation(["profile"]);
+  let { t } = useTranslation(["user"]);
 
   return (
     <>

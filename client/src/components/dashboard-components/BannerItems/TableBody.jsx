@@ -13,7 +13,7 @@ const TableBody = ({
   handleSelectOne,
   handleDeleteBanner,
 }) => {
-  let { t } = useTranslation(["banner-d"]);
+  let { t } = useTranslation(["banner"]);
 
   return (
     <table className="min-w-max w-full table-auto rounded-lg ">

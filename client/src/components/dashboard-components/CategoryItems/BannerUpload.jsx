@@ -4,7 +4,7 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
 
 const BannerUpload = ({ banner, setBanner }) => {
-  let { t } = useTranslation(["category-d"]);
+  let { t } = useTranslation(["category"]);
   const handleImageBanner = (e) => {
     const setFileToBase = (file) => {
       const reader = new FileReader();
