@@ -5,6 +5,7 @@ import { SearchBox } from "../Search";
 import { FavoritesButton } from "../Wish";
 import { Cart } from "../Cart";
 import { AuthButton, CatalogButton, Menu, UserButton } from "../Buttons";
+import Logo from "../Helpers/Logo";
 function useIsScrollTop() {
   const [isTop, setIsTop] = useState(true);
 
@@ -38,9 +39,9 @@ const Navbar = () => {
               <div className="col-span-3 flex justify-between items-center">
                 <Link
                   to="/"
-                  className="text-red-600 lg:block hidden md:text-3xl text-xl font-bold global-font"
+                  className="text-gray-700 lg:block hidden md:text-[26px] text-xl font-bold global-font"
                 >
-                  logo
+                  <Logo />
                 </Link>
                 <CatalogButton />
               </div>

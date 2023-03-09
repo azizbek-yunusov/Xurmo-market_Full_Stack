@@ -8,6 +8,7 @@ import { BsFillCalendarFill } from "react-icons/bs";
 import moment from "moment";
 import { signOut } from "../../../redux/actions/authAction";
 import { useTranslation } from "react-i18next";
+import { BiEdit, BiLogIn } from "react-icons/bi";
 
 const SideBarPf = () => {
   let { t } = useTranslation(["user"]);
@@ -22,7 +23,7 @@ const SideBarPf = () => {
     if (isLogged) {
       navigate("/signin");
     }
-    toast.success("Sign out ");
+    toast.success(t("logged-out"));
   };
   return (
     <div className="flex flex-col justify-between sticky top-56">
@@ -65,6 +66,7 @@ const SideBarPf = () => {
               variant="contained"
               color="secondary"
               sx={{ marginRight: "8px" }}
+              startIcon={<BiEdit />}
             >
               {t("edit")}
             </Button>
@@ -73,6 +75,7 @@ const SideBarPf = () => {
             color="error"
             onClick={() => signOutHandle()}
             variant="contained"
+            startIcon={<BiLogIn />}
           >
             {t("sign-out")}
           </Button>
