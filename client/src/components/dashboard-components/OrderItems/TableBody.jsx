@@ -2,10 +2,10 @@ import { Avatar, Checkbox, TablePagination } from "@mui/material";
 import moment from "moment";
 import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { BiMoney } from "react-icons/bi";
 import { FiEdit } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import Price from "../../client-components/Helpers/Price";
+import { OrderStatus } from "../Helpers";
 
 const TableBody = ({
   orders,
@@ -14,8 +14,9 @@ const TableBody = ({
   filteredOrders,
   handleSelectOne,
   handleDeleteOrder,
+  tableRef,
 }) => {
-  let { t } = useTranslation(["shop"]);
+  let { t } = useTranslation(["order"]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const handlePageChange = useCallback((event, value) => {
@@ -26,7 +27,7 @@ const TableBody = ({
   }, []);
   return (
     <section>
-      <table className="min-w-max w-full table-auto rounded-lg ">
+      <table className="min-w-max w-full table-auto rounded-lg" ref={tableRef}>
         <thead>
           <tr className="bg-gray-100 text-left dark:bg-[#232338] text-gray-500 dark:text-gray-200 text-xs font-light rounded-t-lg uppercase">
             <th className="py-2 text-center">
@@ -41,10 +42,10 @@ const TableBody = ({
               />
             </th>
             <th className="px-2">{t("order")}</th>
-            <th className="px-2">{t("orders")}</th>
-            <th className="px-2">{t("payment-status")}</th>
+            <th className="px-2">{t("product")}</th>
+            {/* <th className="px-2">{t("payment-status")}</th> */}
             <th className="px-2">{t("date")}</th>
-            <th className="px-2">{t("toal")}</th>
+            <th className="px-2">{t("total")}</th>
             <th className="px-2">{t("order-status")}</th>
             <th className="px-2">{t("client")}</th>
             <th className="px-2">{t("actions")}</th>
@@ -89,14 +90,12 @@ const TableBody = ({
                       ))}
                     </div>
                   </td>
-                  <td className="py-3 px-2 text-left">
+                  {/* <td className="py-3 px-2 text-left">
                     <div className="flex justify-start items-center text-blue-500">
-                      <div className="flex items-center text-xs px-1 py-[2px] rounded-[4px] bg-blue-200">
-                        <BiMoney />
-                        <span className="text-xs">{"Cash on Delivery"}</span>
-                      </div>
+                      
+                      <PaymentStatus status={order.paymentMethod} />
                     </div>
-                  </td>
+                  </td> */}
                   <td className="py-3 px-2 text-left">
                     <div className="flex justify-start items-center text-sm">
                       <span>{moment(order.createdAt).format("lll")}</span>
@@ -110,9 +109,10 @@ const TableBody = ({
 
                   <td className="py-3 px-2 text-left">
                     <div className="flex justify-start items-center">
-                      <div className="flex items-center text-xs px-1 py-[2px]  bg-blue-500 rounded-[4px] text-blue-50">
+                      {/* <div className="flex items-center text-xs px-1 py-[2px]  bg-blue-500 rounded-[4px] text-blue-50">
                         <span className="text-xs">{"shipped"}</span>
-                      </div>
+                      </div> */}
+                      <OrderStatus status={order.orderStatus} />
                     </div>
                   </td>
                   <td className="py-3 px-2 text-left">
@@ -132,10 +132,10 @@ const TableBody = ({
                           to={`/user/${order.user?._id}`}
                           className="transition_normal hover:text-purple-500"
                         >
-                          {order.user?.name}
+                          {order.firstName} {order.lastName}
                         </Link>
                         <span className="text-gray-500 text-[12px]">
-                          {order.user?.email}
+                          {order.email}
                         </span>
                       </div>
                     </div>
@@ -166,7 +166,7 @@ const TableBody = ({
                           />
                         </svg>
                       </Link>
-                      <Link to={`/product/update/${order._id}`}>
+                      <Link to={`/dashboard/order/${order._id}`}>
                         <div className="cursor-pointer w-5 mr-3 transform hover:text-purple-500 hover:scale-110">
                           <FiEdit className="text-lg" />
                         </div>

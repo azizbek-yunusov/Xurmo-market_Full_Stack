@@ -28,7 +28,7 @@ const MyOrders = () => {
         title={`${t("profile:my-orders")} - ${t("profile:personal")}`}
       />
       <div className="flex justify-between items-center ">
-        {/* <h1 className="md:text-xl font-semibold">{t("shop:myorders")}</h1>
+        {/* <h1 className="md:text-xl font-semibold">{t("order:myorders")}</h1>
           <h1 className="text-xl">all orders</h1> */}
       </div>
       {!isLoading ? (
@@ -42,7 +42,7 @@ const MyOrders = () => {
                 <div className="sm:flex justify-between items-center block border-b border-b-gray-200 md:pb-4 pb-2">
                   <div className="">
                     <p className="md:text-lg font-bold text-gray-700">
-                      {t("shop:order")}
+                      {t("order:order")}
                       {"-"}
                       <span className="">
                         {"#"}
@@ -90,7 +90,7 @@ const MyOrders = () => {
                       <tbody>
                         <tr className="flex text-sm w-full">
                           <td className="w-full p-3 md:p-1 xl:p-2 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
-                            {t("shop:ordertype")}
+                            {t("order:order-type")}
                             {":"}
                           </td>
                           <td className="w-full p-3 md:p-1 xl:p-2 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
@@ -101,7 +101,7 @@ const MyOrders = () => {
                         </tr>
                         <tr className="flex text-sm w-full">
                           <td className="w-full p-3 md:p-1 xl:p-2 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
-                            {t("shop:orderat")}
+                            {t("order:order-date")}
                           </td>
                           <td className="w-full p-3 md:p-1 xl:p-2 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
                             {datePicker(item.createdAt)}
@@ -109,7 +109,7 @@ const MyOrders = () => {
                         </tr>
                         <tr className="flex text-sm w-full">
                           <td className="w-full p-3 md:p-1 xl:p-2 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
-                            {t("shop:total-payment")}
+                            {t("order:total-payment")}
                             {":"}
                           </td>
                           <td className="w-full p-3 md:p-1 xl:p-2 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
@@ -118,7 +118,7 @@ const MyOrders = () => {
                         </tr>
                         <tr className="flex text-sm w-full">
                           <td className="w-full p-3 md:p-1 xl:p-2 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
-                            {t("shop:contact")}
+                            {t("order:contact")}
                           </td>
                           <td className="w-full p-3 md:p-1 xl:p-2 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
                             {item.contact || item.email}
@@ -126,7 +126,7 @@ const MyOrders = () => {
                         </tr>
                         <tr className="flex text-sm w-full">
                           <td className="w-full p-3 md:p-1 xl:p-2 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
-                            {t("shop:address")}
+                            {t("order:address")}
                           </td>
                           <td className="w-full p-3 md:p-1 xl:p-2 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
                             {item.shippingAddress.region.slice(0, -5)}
@@ -148,7 +148,7 @@ const MyOrders = () => {
             <div className="flex flex-col items-center justify-center">
               <img src="/images/order.png" alt="cart" className="h-56" />
               <h1 className="text-2xl font-semibold text-gray-700">
-                {t("shop:empty-order")}
+                {t("order:empty-order")}
               </h1>
             </div>
           )}

@@ -39,7 +39,7 @@ const getOrder = async (req, res) => {
   try {
     const order = await OrderModel.findById(req.params.id).populate(
       "orderItems.productId",
-      "name"
+      "_id name price images"
     );
     res.status(200).json(order);
   } catch (err) {

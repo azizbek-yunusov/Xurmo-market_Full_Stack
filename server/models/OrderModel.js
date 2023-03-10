@@ -68,6 +68,7 @@ const orderSchema = new Schema({
     type: String,
     default: "Not Processed",
     enum: [
+      "Order Placed",
       "Not Processed",
       "Shipped",
       "Cash on Delivery",

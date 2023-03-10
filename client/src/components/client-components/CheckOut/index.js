@@ -19,11 +19,11 @@ import HelmetTitle from "../../../utils/HelmetTitle";
 import Top from "./Top";
 import address from "../../../data/address.json";
 import Price from "../Helpers/Price";
-import { deliveryTypeData, paymentMethodData } from "./OrderTypeData";
+import { deliveryTypeData, paymentMethodData } from "../../../data/OrderTypeData";
 import { newOrder } from "../../../redux/order";
 
 const CheckOut = () => {
-  const { t } = useTranslation(["shop"]);
+  const { t } = useTranslation(["order"]);
   const disptach = useDispatch();
   const { isLoading, isError } = useSelector((state) => state.order);
   const { user } = useSelector((state) => state.me);
@@ -357,7 +357,7 @@ const CheckOut = () => {
                       className="rounded-xl"
                       value={house}
                       onChange={(e) => setHouse(e.target.value)}
-                      label={t("housenumber")}
+                      label={t("house-number")}
                     />
                   </div>
                 </div>

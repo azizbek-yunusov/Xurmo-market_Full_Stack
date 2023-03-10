@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { BsBagCheckFill, BsCartCheckFill } from "react-icons/bs";
 
 const OrderStatus = ({ status }) => {
-  let { t } = useTranslation(["shop"]);
+  let { t } = useTranslation(["order"]);
   return (
     <div className="">
       {status === "Shipped" ? (

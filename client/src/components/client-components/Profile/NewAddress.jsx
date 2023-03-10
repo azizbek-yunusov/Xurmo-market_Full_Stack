@@ -147,7 +147,7 @@ const NewAddress = ({ open, setOpen }) => {
                 className="rounded-xl"
                 value={house}
                 onChange={(e) => setHouse(e.target.value)}
-                label={t("housenumber")}
+                label={t("house-number")}
               />
             </div>
             <div className="flex items-center justify-end mt-5">

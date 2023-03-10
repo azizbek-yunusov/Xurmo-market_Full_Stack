@@ -8,7 +8,7 @@ import { Link } from "@mui/material";
 
 const TopLink = () => {
   const { auth } = useSelector((state) => state);
-  const { t } = useTranslation(["shop"]);
+  const { t } = useTranslation(["order"]);
 
   return (
     <>
@@ -25,7 +25,7 @@ const TopLink = () => {
               </div>
               <div className="flex justify-between items-center">
                 <p className="text-base text-white font-semibold mr-2">
-                  {t("contactcenter")}
+                  {t("contact-center")}
                   {": "}
                 </p>
                 <p className="text-lg mr-5 font-semibold text-white">

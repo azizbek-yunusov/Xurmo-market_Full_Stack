@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import { BiDotsVerticalRounded } from "react-icons/bi";
+import { useTranslation } from "react-i18next";
 
 const MoreMenu = ({ isFilter, setIsFilter }) => {
+  let { t } = useTranslation(["home"]);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleDropdownOpen = (event) => {
@@ -16,6 +18,7 @@ const MoreMenu = ({ isFilter, setIsFilter }) => {
     setAnchorEl(null);
   };
   const reload = () => {
+    window.location.reload()
   };
   return (
     <div className="absolute top-3 right-3">
@@ -30,8 +33,8 @@ const MoreMenu = ({ isFilter, setIsFilter }) => {
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
-        <MenuItem onClick={reload}>reload</MenuItem>
-        <MenuItem onClick={isShowFilterPanel}>filter bar</MenuItem>
+        <MenuItem onClick={reload}>{t("refresh")}</MenuItem>
+        <MenuItem onClick={isShowFilterPanel}>{t("filter-bar")} </MenuItem>
       </Menu>
     </div>
   );

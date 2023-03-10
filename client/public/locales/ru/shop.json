@@ -22,13 +22,13 @@
   "region": "Region",
   "district": "District",
   "street": "Street",
-  "housenumber": "House number",
-  "contactcenter": "Contact center",
+  "house-number": "House number",
+  "contact-center": "Contact center",
   "myorders": "My orders",
   "order": "order",
   "client": "client",
-  "ordertype": "Order type",
-  "orderat": "Order time",
+  "order-type": "Order type",
+  "order-date": "Order time",
   "contact": "Contact",
   "address": "Assdreess"
 }

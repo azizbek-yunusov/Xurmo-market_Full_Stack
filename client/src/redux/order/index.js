@@ -19,7 +19,7 @@ export const getOrders = createAsyncThunk(
 );
 export const getOrder = createAsyncThunk(
   "order/get-order",
-  async (access_token, id, thunkAPI) => {
+  async ({ access_token, id }, thunkAPI) => {
     try {
       const response = await axios.get(`${baseUrl}order/${id}`, {
         headers: {
@@ -49,7 +49,7 @@ export const getMyOrders = createAsyncThunk(
 );
 export const newOrder = createAsyncThunk(
   "order/new-order",
-  async ({access_token, orderData}) => {
+  async ({ access_token, orderData }) => {
     try {
       const { data } = await axios.post(`${baseUrl}order`, orderData, {
         headers: {

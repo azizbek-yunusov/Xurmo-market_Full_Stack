@@ -1,5 +1,6 @@
 {
   "home": "Asosiy",
+  "e-commerce": "Internet do'kon",
   "hometitle": "Bosh sahifa",
   "sign-in-t": "ga Xush Kelibsiz",
   "sign-in-p": "Iltimos, hisobingizga kiring va xaridni boshlang!",
@@ -32,5 +33,13 @@
   "offline-t": "Aloqa o'rnatilmadi",
   "offline-d": "Internet aloqangiz ulanganiga ishonch hosil qiling va qaytadan urinib ko'ring",
   "brands": "Brendlar",
-  "all-views": "Barchasini ko'rish"
+  "all-views": "Barchasini ko'rish",
+  "refresh": "yangilash",
+  "filter-bar": "Qidiruv filteri",
+  "overview": "Umumiy",
+  "total-products": "Barcha Mahsulotlar",
+  "total-users": "Barcha Foydalanuvchilar",
+  "total-orders": "Barcha Buyurtmalar",
+  "total-revenue": "Umumiy Daromad",
+  "search": "Qidirish"
 }
