@@ -15,7 +15,6 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import {
-  BiDotsVerticalRounded,
   BiExport,
   BiSearch,
   BiTable,
@@ -207,7 +206,7 @@ const BannersList = () => {
                 <div className="flex w-full items-center justify-between py-3 px-4">
                   <FormControl
                     size="small"
-                    sx={{ minWidth: { lg: "40px", xl: "80px" } }}
+                    sx={{ maxWidth: isXl ? "70px" : "80px" }}
                   >
                     <Select
                       labelId="demo-simple-select-label"

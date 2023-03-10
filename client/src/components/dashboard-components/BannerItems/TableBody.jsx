@@ -3,6 +3,7 @@ import moment from "moment";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { FiEdit } from "react-icons/fi";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const TableBody = ({
@@ -14,6 +15,7 @@ const TableBody = ({
   handleDeleteBanner,
 }) => {
   let { t } = useTranslation(["banner"]);
+  const { user } = useSelector((state) => state.auth);
 
   return (
     <table className="min-w-max w-full table-auto rounded-lg ">
@@ -74,14 +76,29 @@ const TableBody = ({
                   <div className="flex justify-start items-center">
                     <div className="mr-2">
                       <Avatar
-                        src="https://www.material-tailwind.com/img/face-2.jpg"
+                        src={
+                          item.createdBy.avatar?.url ||
+                          "https://www.material-tailwind.com/img/face-2.jpg"
+                        }
                         alt="avatar"
                         size="sm"
                       />
                     </div>
-                    <span className="mr-2">
-                      {item.createdBy ? item.createdBy.name : "deleted account"}
-                    </span>
+                    <div className="flex flex-col">
+                      <Link
+                        to={
+                          user._id !== item.createdBy._id
+                            ? `/user/${item.createdBy?._id}`
+                            : `/dashboard/cabinet`
+                        }
+                        className="transition_normal hover:text-purple-500"
+                      >
+                        {item.createdBy.name} {item.createdBy.lastName}
+                      </Link>
+                      <span className="text-gray-500 text-[12px]">
+                        {item.createdBy.email}
+                      </span>
+                    </div>
                   </div>
                 </td>
                 <td className="py-3 px-6 text-left">

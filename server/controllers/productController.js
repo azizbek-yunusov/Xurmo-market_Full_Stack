@@ -4,7 +4,7 @@ const cloudinary = require("../utils/cloudinary");
 const getAllProducts = async (req, res) => {
   try {
     const products = await ProductModel.find()
-      .populate("createdBy", "_id name")
+      .populate("createdBy", "_id name lastName email avatar")
       .populate("category", "_id name");
 
     res.status(201).json(products);
@@ -31,8 +31,8 @@ const getbestProducts = async (req, res) => {
 const getProduct = async (req, res) => {
   try {
     const product = await ProductModel.findById(req.params.id)
-      .populate("createdBy", "_id name avatar")
-      .populate("reviews.user", "_id name avatar");
+      .populate("createdBy", "_id name lastName email avatar")
+      .populate("reviews.user", "_id name lastName email avatar");
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }

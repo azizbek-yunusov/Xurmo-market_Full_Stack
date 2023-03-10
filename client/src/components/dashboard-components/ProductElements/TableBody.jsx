@@ -4,6 +4,7 @@ import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AiFillStar } from "react-icons/ai";
 import { FiEdit } from "react-icons/fi";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Price from "../../client-components/Helpers/Price";
 
@@ -24,9 +25,11 @@ const TableBody = ({
     setRowsPerPage(event.target.value);
   }, []);
   let { t } = useTranslation(["product"]);
+  const { user } = useSelector((state) => state.auth);
+
   return (
-    <section>
-      <table className="min-w-max w-full table-auto rounded-lg ">
+    <section className="overflow-x-scroll">
+      <table className="min-w-max w-full table-auto rounded-lg">
         <thead>
           <tr className="bg-gray-100 text-left dark:bg-[#232338] text-gray-500 dark:text-gray-200 text-sm font-light rounded-t-lg uppercase">
             <th className="py-2 text-center">
@@ -42,7 +45,6 @@ const TableBody = ({
             </th>
             <th className="px-2.5">{t("product")}</th>
             <th className="px-2.5">{t("price")}</th>
-            <th className="px-2.5">{t("category")}</th>
             <th className="px-2.5">{t("rating")}</th>
             <th className="px-2.5">{t("created-by")}</th>
             <th className="px-2.5">{t("created-at")}</th>
@@ -88,17 +90,6 @@ const TableBody = ({
                   </td>
                   <td className="py-3 px-3 text-left">
                     <div className="flex justify-start items-center">
-                      <span>{item.category}</span>
-                    </div>
-                  </td>
-                  <td className="py-3 px-3 text-left">
-                    <div className="flex justify-start items-center">
-                      {/* <Rating
-                        name="half-rating-read"
-                        readOnly
-                        size="small"
-                        value={item.ratings?.toFixed(1)}
-                      /> */}
                       <AiFillStar className="text-orange-400 text-xl" />
                       <span className="ml-1">{item.ratings}</span>
                     </div>
@@ -112,16 +103,29 @@ const TableBody = ({
                     <div className="flex justify-start items-center">
                       <div className="mr-2">
                         <Avatar
-                          src="https://www.material-tailwind.com/img/face-2.jpg"
+                          src={
+                            item.createdBy.avatar?.url ||
+                            "https://www.material-tailwind.com/img/face-2.jpg"
+                          }
                           alt="avatar"
                           size="sm"
                         />
                       </div>
-                      <span className="mr-2">
-                        {item.createdBy
-                          ? item.createdBy.name
-                          : "deleted account"}
-                      </span>
+                      <div className="flex flex-col">
+                        <Link
+                          to={
+                            user._id !== item.createdBy._id
+                              ? `/user/${item.createdBy?._id}`
+                              : `/dashboard/cabinet`
+                          }
+                          className="transition_normal hover:text-purple-500"
+                        >
+                          {item.createdBy.name} {item.createdBy.lastName}
+                        </Link>
+                        <span className="text-gray-500 text-[12px]">
+                          {item.createdBy.email}
+                        </span>
+                      </div>
                     </div>
                   </td>
                   <td className="py-3 px-3 text-left">

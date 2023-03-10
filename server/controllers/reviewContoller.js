@@ -26,7 +26,7 @@ const addReview = async (req, res) => {
     req.body.pictures = picturesBuffer;
     let product = await ProductModel.findById(productId)
       .populate("createdBy", "_id name avatar")
-      .populate("reviews.user", "_id name avatar");
+      .populate("reviews.user", "_id name lastName email avatar");
 
     const isReviewed = product.reviews.find(
       (rev) => rev.name.toString() === req.user.id.toString()

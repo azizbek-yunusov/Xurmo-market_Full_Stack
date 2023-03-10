@@ -47,11 +47,15 @@ const TableBody = ({
                 className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 font-semibold hover:dark:bg-gray-600"
               >
                 <td className="py-3 flex_center">
-                  <Checkbox
-                    checked={selectedCustomerIds.indexOf(item._id) !== -1}
-                    onChange={(event) => handleSelectOne(event, item._id)}
-                    value="true"
-                  />
+                  {item._id !== user._id ? (
+                    <Checkbox
+                      checked={selectedCustomerIds.indexOf(item._id) !== -1}
+                      onChange={(event) => handleSelectOne(event, item._id)}
+                      value="true"
+                    />
+                  ) : (
+                    <Checkbox disabled />
+                  )}
                 </td>
                 <td className="py-3 px-2 xl:px-3 whitespace-nowrap">
                   <div className="flex justify-start items-center">

@@ -26,7 +26,7 @@ const productSchema = new Schema(
         },
       },
     ],
-    brand: { type: String },
+    brand: { type: String, required: true, },
     discount: {
       type: Number,
       default: 0,
@@ -37,6 +37,7 @@ const productSchema = new Schema(
     },
     category: {
       type: String,
+      required: true,
     },
     ratings: {
       type: Number,

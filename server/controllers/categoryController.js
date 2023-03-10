@@ -5,7 +5,7 @@ const getAllCategoris = async (req, res) => {
   try {
     const categories = await CategoryModel.find().populate(
       "createdBy",
-      "_id name avatar email"
+      "_id name lastName avatar email"
     );
     res.status(201).json(categories);
   } catch (err) {
@@ -17,7 +17,7 @@ const getCategory = async (req, res) => {
   try {
     const category = await CategoryModel.findById(req.params.id).populate(
       "createdBy",
-      "_id name avatar email"
+      "_id name lastName avatar email"
     );
     res.status(201).json(category);
   } catch (err) {

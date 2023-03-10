@@ -145,7 +145,7 @@ const EditCabinet = () => {
           <CabinetTop />
           <CabinetTabs />
           <div className="flex justify-between items-center md:mb-4 mb-2">
-            <h1 className="md:text-2xl text-xl text-gray-800 font-semibold">
+            <h1 className="md:text-2xl text-xl text-gray-800 dark:text-gray-200 font-semibold">
               {t("edit-profile")}
             </h1>
             <Breadcrumbs>
@@ -188,14 +188,14 @@ const EditCabinet = () => {
                     >
                       {t("reset")}
                     </ResetButtonStyled>
-                    <p className="text-gray-500 text-sm mt-5">
+                    <p className="text-gray-500 dark:text-gray-200 text-sm mt-5">
                       {t("upload-avatar-t")}
                     </p>
                   </Box>
                 </Box>
               </div>
               <div className="col-span-6">
-                <div className="flex items-center text-gray-700">
+                <div className="flex items-center text-gray-700 dark:text-gray-200">
                   <AiOutlineUser className="text-xl mr-1" />
                   <p className="text-xl">{t("profile-data")}</p>
                 </div>
@@ -251,7 +251,7 @@ const EditCabinet = () => {
               </div>
               <div className="col-span-6">
                 <label htmlFor="disabled">
-                  <div className="flex items-center text-gray-700">
+                  <div className="flex items-center text-gray-700 dark:text-gray-200">
                     <BiLockAlt className="text-xl mr-1" />
                     <p className="text-xl">{t("password-change")}</p>
                     <Checkbox
@@ -320,10 +320,10 @@ const EditCabinet = () => {
                     }}
                   />
                   <div>
-                    <p className="mb-2 text-gray-600">
+                    <p className="mb-2 text-gray-600 dark:text-gray-200">
                       {t("password-required")}
                     </p>
-                    <ul className="list-disc text-gray-400 list-inside">
+                    <ul className="list-disc text-gray-400 dark:text-gray-300 list-inside">
                       <li className="my-1">{t("password-req-first")}</li>
                       <li className="my-1">{t("password-req-two")}</li>
                     </ul>

@@ -3,6 +3,7 @@ import moment from "moment";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { FiEdit } from "react-icons/fi";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const TableBody = ({
@@ -14,6 +15,8 @@ const TableBody = ({
   handleDeleteBrand,
 }) => {
   let { t } = useTranslation(["brand"]);
+  const { user } = useSelector((state) => state.auth);
+
   return (
     <table className="min-w-max w-full table-auto rounded-lg ">
       <thead>
@@ -70,26 +73,30 @@ const TableBody = ({
                   </div>
                 </td>
                 <td className="py-2 px-2 xl:px-3 text-left">
-                  <div className="flex justify-start items-center">
+                <div className="flex justify-start items-center">
                     <div className="mr-2">
                       <Avatar
                         src={
-                          item.createdBy?.avatar?.url || "/images/profile.png"
+                          item.createdBy.avatar?.url ||
+                          "https://www.material-tailwind.com/img/face-2.jpg"
                         }
                         alt="avatar"
                         size="sm"
                       />
                     </div>
-
                     <div className="flex flex-col">
                       <Link
-                        to={`/user/view/${item.createdBy?._id}`}
+                        to={
+                          user._id !== item.createdBy._id
+                            ? `/user/${item.createdBy?._id}`
+                            : `/dashboard/cabinet`
+                        }
                         className="transition_normal hover:text-purple-500"
                       >
-                        {item.createdBy?.name}
+                        {item.createdBy.name} {item.createdBy.lastName}
                       </Link>
                       <span className="text-gray-500 text-[12px]">
-                        {item.createdBy?.email}
+                        {item.createdBy.email}
                       </span>
                     </div>
                   </div>

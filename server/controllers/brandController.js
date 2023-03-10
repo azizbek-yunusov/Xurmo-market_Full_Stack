@@ -30,7 +30,7 @@ const createBrand = async (req, res) => {
 
 const getAllBrands = async (req, res) => {
   try {
-    const brands = await BrandModel.find().populate("createdBy", "_id avatar email name");
+    const brands = await BrandModel.find().populate("createdBy", "_id avatar lastName email name");
     res.status(201).json(brands);
   } catch (err) {
     console.log(err);
@@ -39,7 +39,7 @@ const getAllBrands = async (req, res) => {
 
 const getBrand = async (req, res) => {
   try {
-    const brand = await BrandModel.findById(req.params.id).populate("createdBy", "_id avatar email name");
+    const brand = await BrandModel.findById(req.params.id).populate("createdBy", "_id avatar lastName email name");
     res.status(201).json(brand);
   } catch (err) {
     console.log(err);

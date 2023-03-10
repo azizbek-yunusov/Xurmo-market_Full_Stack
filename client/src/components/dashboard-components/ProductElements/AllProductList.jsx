@@ -1,22 +1,20 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FiPlus } from "react-icons/fi";
 import {
   Button,
-  Checkbox,
   CircularProgress,
   FormControl,
-  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
-  TextField,
   Tooltip,
+  useMediaQuery,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { MdDelete } from "react-icons/md";
-import { BiExport, BiSearch } from "react-icons/bi";
+import { BiExport } from "react-icons/bi";
 import TableBody from "./TableBody";
 import { HelmetTitle } from "../../../utils";
 import { MoreMenu, NotData, SearchInput, TableButton } from "../Helpers";
@@ -28,13 +26,19 @@ import {
   selectedDeleteProduct,
 } from "../../../redux/product";
 import GridList from "./GridList";
+import { getCategories } from "../../../redux/category";
+import { getBrands } from "../../../redux/brand/brandSlice";
 
 const AllProductList = () => {
+  const { i18n } = useTranslation();
   let { t } = useTranslation(["product"]);
   const { isLoading, products } = useSelector((state) => state.product);
+  const { brands } = useSelector((state) => state.brand);
+  const { categories } = useSelector((state) => state.category);
   const { access_token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [term, setTerm] = useState("");
+  const isXl = useMediaQuery("(min-width: 1245px)");
   const [selectedProductIds, setSelectedProductIds] = useState([]);
   const [isTable, setIsTable] = useState(false);
   const [isFilter, setIsFilter] = useState(true);
@@ -83,7 +87,7 @@ const AllProductList = () => {
 
     setSelectedProductIds(newSelectedCustomerIds);
   };
-  
+
   const handleSelectedDelete = async () => {
     try {
       const selectedIds = {
@@ -108,6 +112,8 @@ const AllProductList = () => {
 
   useEffect(() => {
     dispatch(getProducts());
+    dispatch(getCategories());
+    dispatch(getBrands());
   }, [dispatch]);
   return (
     <>
@@ -134,14 +140,23 @@ const AllProductList = () => {
                     // onChange={(e) => setCategory(e.target.value)}
                     label={t("select-category")}
                   >
-                    <MenuItem value={"all"}>All</MenuItem>
-                    <MenuItem value={"user"}>products</MenuItem>
-                    <MenuItem value={"admin"}>Admins</MenuItem>
+                    <MenuItem value={"all"}>{t("all")}</MenuItem>
+                    {categories.map((item) => (
+                      <MenuItem key={item._id} value={item.slug}>
+                        {i18n.language === "uz"
+                          ? item.nameUz
+                          : i18n.language === "en"
+                          ? item.nameEn
+                          : i18n.language === "ru"
+                          ? item.nameRu
+                          : null}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
                 <FormControl size="medium" sx={{}}>
                   <InputLabel _id="demo-simple-select-label">
-                    {t("select-rating")}
+                    {t("select-brand")}
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
@@ -150,23 +165,26 @@ const AllProductList = () => {
                     // onChange={(e) => setCategory(e.target.value)}
                     label={t("select-brand")}
                   >
-                    <MenuItem value={"all"}>Date</MenuItem>
-                    <MenuItem value={"user"}>Name</MenuItem>
-                    <MenuItem value={"admin"}>Status</MenuItem>
+                    <MenuItem value={"all"}>{t("all")}</MenuItem>
+                    {brands.map((item) => (
+                      <MenuItem key={item._id} value={item.slug}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
                 <FormControl size="medium" sx={{}}>
                   <InputLabel _id="demo-simple-select-label">
-                    {t("select-rating")}
+                    {t("sorting")}
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     _id="demo-simple-select"
                     // value={"all"}
                     // onChange={(e) => setCategory(e.target.value)}
-                    label={t("select-rating")}
+                    label={t("sorting")}
                   >
-                    <MenuItem value={"all"}>All</MenuItem>
+                    <MenuItem value={"all"}>{t("all")}</MenuItem>
                     <MenuItem value={"user"}>products</MenuItem>
                     <MenuItem value={"admin"}>Admins</MenuItem>
                   </Select>
@@ -201,6 +219,7 @@ const AllProductList = () => {
                     labelId="demo-simple-select-label"
                     _id="demo-simple-select"
                     value={"10"}
+                    sx={{ maxWidth: isXl ? "70px" : "80px" }}
                     // onChange={(e) => setCategory(e.target.value)}
                   >
                     <MenuItem value={"10"}>10</MenuItem>

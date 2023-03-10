@@ -28,7 +28,10 @@ const createBanner = async (req, res) => {
 
 const getAllBanners = async (req, res) => {
   try {
-    const banners = await BannerModel.find().populate("createdBy", "_id name");
+    const banners = await BannerModel.find().populate(
+      "createdBy",
+      "_id name lastName avatar email"
+    );
     res.status(201).json(banners);
   } catch (err) {
     console.log(err);
@@ -39,7 +42,7 @@ const getBanner = async (req, res) => {
   try {
     const banner = await BannerModel.findById(req.params.id).populate(
       "createdBy",
-      "_id name"
+      "_id name lastName avatar email"
     );
     res.status(201).json(banner);
   } catch (err) {

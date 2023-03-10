@@ -23,7 +23,7 @@ const GridList = ({
               key={index}
               className="col-span-1 rounded-lg border border-gray-200 dark:border-gray-600 p-2"
             >
-              <img src={item.image.url} className="h-40 rounded-xl" alt="" />
+              <img src={item.image.url} className="h-40 rounded-xl object-cover" alt="" />
               <h1 className="text_color text-lg mb-5 mt-3">{item.name}</h1>
               <div className="flex justify-end">
                 <Link to={`/banner/${item._id}`}>

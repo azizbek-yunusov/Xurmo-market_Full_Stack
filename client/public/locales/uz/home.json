@@ -41,5 +41,10 @@
   "total-users": "Barcha Foydalanuvchilar",
   "total-orders": "Barcha Buyurtmalar",
   "total-revenue": "Umumiy Daromad",
-  "search": "Qidirish"
+  "search": "Qidirish",
+  "products": "Mahsulotlar",
+  "users": "Foydalanuvchilar",
+  "orders": "Buyurtmalar",
+  "cabinet": "Kabinet",
+  "popular-search-list": "Eng kop qidiruvlar"
 }

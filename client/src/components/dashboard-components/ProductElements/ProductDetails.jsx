@@ -1,11 +1,18 @@
-import { Breadcrumbs, Button, Tooltip, Typography } from "@mui/material";
-import axios from "axios";
+import {
+  Breadcrumbs,
+  Button,
+  CircularProgress,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { BiEditAlt } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { getProduct } from "../../../redux/product";
 import { HelmetTitle } from "../../../utils";
 import Comments from "../../client-components/ProductItems/Comments";
 import ImageThumbs from "../../client-components/ProductItems/ImageThumbs";
@@ -13,41 +20,29 @@ import { ReviewsBox } from "../../client-components/ProductItems/ReviewsBox";
 import { Layout } from "../Layouts";
 
 const ProductDetails = () => {
-  const goback = useNavigate();
+  let { t } = useTranslation(["product"]);
+  const { product, isLoading } = useSelector((state) => state.product);
   const dispatch = useDispatch();
-  const { product } = useSelector((state) => state);
-
-  const [loading, setLoading] = useState(true);
   const { id } = useParams();
-
-  const productDetail = async () => {
-    try {
-      const { data } = await axios.get(`/product/${id}`);
-      dispatch({ type: "GET_PRODUCT", payload: data.product });
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
-    }
-  };
   useEffect(() => {
-    productDetail();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  const {_id, name, images, price, inStock, category, brand, createdAt, createdBy, reviews } = product
+    dispatch(getProduct(id));
+    window.scrollTo(0, 0);
+  }, [dispatch, id]);
+  console.log(product);
   return (
     <>
-      <HelmetTitle title={`${name}`} />
+      <HelmetTitle title={`${product?.name}`} />
       <Layout>
-        {!loading ? (
+        {(!isLoading && product) ? (
           <div className="container-full md:px-5">
             <Breadcrumbs aria-label="breadcrumb" sx={{ marginY: "8px" }}>
               <Link to={"/dashboard"}>Dashboard</Link>
               <Link to={"/dashboard/products"}>All Products</Link>
-              <Typography color="blue">{name}</Typography>
+              <Typography color="blue">{product.name}</Typography>
             </Breadcrumbs>
             <div className="grid grid-cols-3 gap-x-5 border-t  border-r-gray-400 lg:py-5 py-4">
               <div className="col-span-1">
-                <ImageThumbs images={images} />
+                <ImageThumbs images={product.images} />
               </div>
               <div className="col-span-1 block">
                 <table className="border-collapse w-full shadow-md rounded-lg overflow-hidden">
@@ -67,7 +62,7 @@ const ProductDetails = () => {
                         Object Id
                       </td>
                       <td className="w-full lg:w-auto p-3 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
-                        {_id}
+                        {product._id}
                       </td>
                     </tr>
                     <tr className="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0 text-sm">
@@ -75,7 +70,7 @@ const ProductDetails = () => {
                         Name
                       </td>
                       <td className="w-full lg:w-auto p-3 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
-                        {name}
+                        {product.name}
                       </td>
                     </tr>
                     <tr className="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0 text-sm">
@@ -83,7 +78,7 @@ const ProductDetails = () => {
                         Price
                       </td>
                       <td className="w-full lg:w-auto p-3 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
-                        {price}
+                        {product.price}
                       </td>
                     </tr>
                     <tr className="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0 text-sm">
@@ -91,7 +86,7 @@ const ProductDetails = () => {
                         Category
                       </td>
                       <td className="w-full lg:w-auto p-3 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
-                        {category}
+                        {/* {product.category} */}
                       </td>
                     </tr>
                     <tr className="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0 text-sm">
@@ -99,7 +94,7 @@ const ProductDetails = () => {
                         Brand
                       </td>
                       <td className="w-full lg:w-auto p-3 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
-                        {brand || "-------"}
+                        {product.brand || "-------"}
                       </td>
                     </tr>
                     <tr className="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0 text-sm">
@@ -107,7 +102,7 @@ const ProductDetails = () => {
                         Stock
                       </td>
                       <td className="w-full lg:w-auto p-3 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
-                        {inStock}
+                        {product.inStock}
                       </td>
                     </tr>
                     <tr className="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0 text-sm">
@@ -115,7 +110,7 @@ const ProductDetails = () => {
                         Created At
                       </td>
                       <td className="w-full lg:w-auto p-3 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
-                        {moment(createdAt).format("lll")}
+                        {moment(product.createdAt).format("lll")}
                       </td>
                     </tr>
                     <tr className="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0 text-sm">
@@ -123,8 +118,8 @@ const ProductDetails = () => {
                         Created At
                       </td>
                       <td className="w-full lg:w-auto p-3 text-gray-800 border border-b text-center block lg:table-cell relative lg:static">
-                        {createdBy
-                          ? createdBy.name
+                        {product.createdBy
+                          ? product.createdBy.name
                           : "deleted account"}
                       </td>
                     </tr>
@@ -172,12 +167,12 @@ const ProductDetails = () => {
               </h1>
               <div className="grid grid-cols-12 gap-9">
                 <div className="w-full col-span-6">
-                  {reviews && reviews[0] ? (
+                  {product.reviews && product.reviews[0] ? (
                     <div className="reviews">
-                      {reviews &&
-                        reviews
+                      {product.reviews &&
+                        product.reviews
                           .map((review) => (
-                            <Comments key={review._id} review={review} />
+                            <Comments key={review?._id} review={review} />
                           ))
                           .reverse()}
                     </div>
@@ -192,8 +187,7 @@ const ProductDetails = () => {
             </div>
           </div>
         ) : (
-          <div className="">s</div>
-          // <ProductDetailLoader />
+          <CircularProgress />
         )}
       </Layout>
     </>

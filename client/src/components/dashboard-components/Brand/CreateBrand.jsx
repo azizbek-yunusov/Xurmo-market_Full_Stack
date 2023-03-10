@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createBrand } from "../../../redux/brand/brandSlice";
 import HelmetTitle from "../../../utils/HelmetTitle";
 import { Layout } from "../Layouts";
@@ -56,25 +56,21 @@ const CreateBrand = () => {
       <HelmetTitle title={"Create Brand"} />
       <Layout>
         <section className="relative">
-          <div className="bg-indigo-400 w-full rounded-xl h-40 pl-5 pt-4 text-gray-50">
-            <h1 className="text-white text-2xl">Create Brand</h1>
-            {/* <ol className="list-reset mt-1 flex text-grey-dark text-sm text-gray-200">
-            <li>
-              <Link to={"/dashboard"}>Dashboard</Link>
-            </li>
-            <li>
-              <span className="mx-2">/</span>
-            </li>
-            <li>
-              <Link to={"/dashboard/products"}>Create</Link>
-            </li>
-            <li>
-              <span className="mx-2">/</span>
-            </li>
-            <li>
-              <span>Create</span>
-            </li>
-          </ol> */}
+        <div className="bg-gradient-to-r from-cyan-500 to-blue-500 w-full h-40 px-5 pt-4 text-gray-50 rounded-xl">
+            <div className="flex_betwen">
+              <h1 className="text-white text-2xl">{t("add-brand-title")}</h1>
+              <ol className="list-reset mt-1 flex text-grey-dark text-sm text-gray-100">
+                <li>
+                  <Link to={"/dashboard"}>Dashboard</Link>
+                </li>
+                <li>
+                  <span className="mx-2">/</span>
+                </li>
+                <li>
+                  <span>{t("add-brand-title")}</span>
+                </li>
+              </ol>
+            </div>
           </div>
           <div className="-mt-24 rounded-2xl flex mx-4 bg-white shadow-lg">
             <div className="flex w-full p-8 px-16">
@@ -86,7 +82,7 @@ const CreateBrand = () => {
                         id="outlined-basic"
                         fullWidth
                         variant="outlined"
-                        label="Name"
+                        label={t("name")}
                         type="text"
                         className="rounded-xl"
                         value={name}
@@ -96,7 +92,7 @@ const CreateBrand = () => {
                         id="outlined-basic"
                         fullWidth
                         variant="outlined"
-                        label="Slug"
+                        label={t("href")}
                         type="text"
                         className="rounded-xl"
                         value={slug}
@@ -108,7 +104,7 @@ const CreateBrand = () => {
                     <div className="flex">
                       <label htmlFor="file-upload">
                         <p className="block text-base mb-1 text-gray-700">
-                          Upload image
+                        {t("upload-image")}
                         </p>
                         <div className="mr-2 flex bg-white justify-center items-center rounded-md border-2 border-dashed border-gray-300 p-3 py-6 cursor-pointer">
                           <div className="flex justify-center flex-col items-center">
@@ -118,7 +114,7 @@ const CreateBrand = () => {
                                 htmlFor="file-upload"
                                 className="relative cursor-pointer rounded-md bg-white font-medium"
                               >
-                                <span>Upload image</span>
+                                <span> {t("upload-image")}</span>
                                 <input
                                   id="file-upload"
                                   name="file"
@@ -165,7 +161,7 @@ const CreateBrand = () => {
                         marginRight: "15px",
                       }}
                     >
-                      Cancel
+                     {t("cancel")}
                     </Button>
 
                     <Button
@@ -199,10 +195,10 @@ const CreateBrand = () => {
                               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                             />
                           </svg>
-                          {"Loading... "}
+                          {t("loading")}
                         </div>
                       ) : (
-                        "Save"
+                        t("save")
                       )}
                     </Button>
                   </div>
