@@ -75,7 +75,7 @@ const ProductCard = (props) => {
               />
               <Price
                 price={price}
-                className="md:text-lg font-semibold line-through text-gray-500 md:ml-3"
+                className="md:text-lg line-through text-gray-400"
               />
             </div>
           ) : (

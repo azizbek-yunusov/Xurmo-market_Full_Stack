@@ -1,7 +1,10 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 const AutoComplate = ({ filteredData, clearFilter, query }) => {
+  let { t } = useTranslation(["product"]);
+
   return (
     <>
       {filteredData.length !== 0 && (
@@ -12,7 +15,7 @@ const AutoComplate = ({ filteredData, clearFilter, query }) => {
               onClick={clearFilter}
               className="cursor-pointer py-2 w-full px-5 hover:bg-gray-100 flex items-center"
             >
-              <p className="ml-5">"{query}" qidirish </p>
+              <p className="ml-5">"{query}" {t("search")} </p>
             </Link>
             {filteredData.slice(0, 20).map((value, key) => {
               return (

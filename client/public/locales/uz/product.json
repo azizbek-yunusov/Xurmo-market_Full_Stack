@@ -1,5 +1,5 @@
 {
-  "hometitle": "Bosh sahifa",
+  "home-title": "Bosh sahifa",
   "search-succ": "so'rov bo'yicha mahsulot topildi",
   "search-reject": "so'rov bo'yicha hech nima topilmadi",
   "search": "Qidirish",
@@ -41,7 +41,7 @@
   "sorting": "Saralash",
   "check-out-btn": "Xaridni amalga oshirish",
   "bestp": "Ommabop",
-  "allviews": "Barchasini ko'rish",
+  "all-views": "Barchasini ko'rish",
   "empty-cart": "Savatcha bo‘sh",
   "added-cart": "Mahsulot savatchaga qo'shildi",
   "product-not": "Sotuvda boshqa qolmagan",
@@ -86,5 +86,8 @@
   "loading": "Yuklanmoqda",
   "update-product": "Mahsulotni o'zgartirish",
   "updated-product": "Mahsulot yangilandi",
-  "home": "Bosh sahifa"
+  "home": "Bosh sahifa",
+  "clean-wish-list": "Barchasini o'chirish",
+  "from": "dan",
+  "up-to": "gacha"
 }

@@ -111,6 +111,7 @@ const SignUp = () => {
                     <TextField
                       id="outlined-basic"
                       fullWidth
+                      color="secondary"
                       variant="outlined"
                       label={t("name")}
                       value={name}
@@ -121,6 +122,7 @@ const SignUp = () => {
                     <TextField
                       id="outlined-basic"
                       fullWidth
+                      color="secondary"
                       variant="outlined"
                       label={t("email")}
                       type="email"

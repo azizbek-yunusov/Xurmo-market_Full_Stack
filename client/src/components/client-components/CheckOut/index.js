@@ -19,7 +19,10 @@ import HelmetTitle from "../../../utils/HelmetTitle";
 import Top from "./Top";
 import address from "../../../data/address.json";
 import Price from "../Helpers/Price";
-import { deliveryTypeData, paymentMethodData } from "../../../data/OrderTypeData";
+import {
+  deliveryTypeData,
+  paymentMethodData,
+} from "../../../data/OrderTypeData";
 import { newOrder } from "../../../redux/order";
 
 const CheckOut = () => {
@@ -124,7 +127,6 @@ const CheckOut = () => {
       console.log(err);
     }
   };
-  console.log(region);
   return (
     <>
       <HelmetTitle title={t("check-out")} />
@@ -259,7 +261,7 @@ const CheckOut = () => {
                       3
                     </span>
                     <h1 className="text-lg font-semibold ml-3">
-                      {t("methodreception")}
+                      {t("method-reception")}
                     </h1>
                   </div>
                   <div className="md:my-6">
@@ -291,10 +293,10 @@ const CheckOut = () => {
                     </div>
                   </div>
                   <h1 className="md:text-base font-semibold text-gray-800">
-                    {t("enteraddress")}
+                    {t("enter-address")}
                   </h1>
                   <div className="my-6 grid md:grid-cols-2 grid-cols-1 gap-5">
-                    <FormControl fullWidth>
+                    <FormControl color="secondary" fullWidth>
                       <InputLabel id="demo-simple-select-label">
                         {t("region")}
                       </InputLabel>
@@ -314,7 +316,7 @@ const CheckOut = () => {
                       </Select>
                     </FormControl>
 
-                    <FormControl fullWidth>
+                    <FormControl color="secondary" fullWidth>
                       <InputLabel id="demo-simple-select-label">
                         {t("district")}
                       </InputLabel>

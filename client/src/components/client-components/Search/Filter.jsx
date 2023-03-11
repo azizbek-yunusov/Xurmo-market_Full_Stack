@@ -14,10 +14,6 @@ import { Link } from "react-router-dom";
 
 export const ratings = [
   {
-    name: "5",
-    rating: 5,
-  },
-  {
     name: "4",
     rating: 4,
   },
@@ -89,16 +85,18 @@ const Filter = ({ categories, brands, getFilterUrl, category }) => {
                 size="small"
                 // value={term}
                 // onChange={(e) => setTerm(e.target.value)}
-                placeholder="dan"
+                placeholder={t("from")}
                 variant="outlined"
+                color="secondary"
                 sx={{ marginRight: "15px" }}
               />
               <TextField
                 size="small"
                 // value={term}
                 // onChange={(e) => setTerm(e.target.value)}
-                placeholder="gacha"
+                placeholder={t("up-to")}
                 variant="outlined"
+                color="secondary"
               />
             </div>
           </div>
@@ -115,6 +113,7 @@ const Filter = ({ categories, brands, getFilterUrl, category }) => {
             <div className="">
               <FormControl>
                 <TextField
+                  color="secondary"
                   size="small"
                   fullWidth
                   value={termCy}
@@ -169,6 +168,7 @@ const Filter = ({ categories, brands, getFilterUrl, category }) => {
             <div className="">
               <FormControl>
                 <TextField
+                  color="secondary"
                   size="small"
                   fullWidth
                   value={termBd}
@@ -188,7 +188,7 @@ const Filter = ({ categories, brands, getFilterUrl, category }) => {
               <div className="block mt-1">
                 {filteredBrands.map((item, index) => (
                   <div key={index} className="flex items-center">
-                    <Checkbox size="small" />
+                    <Checkbox size="small" color="secondary" />
                     <p className="my-[6px] w-full uppercase font-semibold text-gray-600">
                       {item.name}
                     </p>
@@ -214,7 +214,7 @@ const Filter = ({ categories, brands, getFilterUrl, category }) => {
                   key={index}
                   className="flex items-center md:my-1"
                 >
-                  <Checkbox size="small" color="warning" />
+                  <Checkbox size="small" color="secondary" />
                   <Rating defaultValue={item.rating} readOnly />
                   <span className="ml-2 text-gray-800">{item.name}</span>
                 </Link>

@@ -123,6 +123,7 @@ const SignIn = () => {
                       id="outlined-basic"
                       name="email"
                       fullWidth
+                      color="secondary"
                       variant="outlined"
                       label={t("email")}
                       type="email"
@@ -138,6 +139,7 @@ const SignIn = () => {
                     <TextField
                       id="outlined-basic"
                       fullWidth
+                      color="secondary"
                       variant="outlined"
                       name="password"
                       label={t("password")}

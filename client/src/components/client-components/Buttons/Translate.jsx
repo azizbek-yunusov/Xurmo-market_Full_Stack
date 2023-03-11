@@ -50,7 +50,7 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-const Translate = () => {
+const Translate = ({ color }) => {
   const { i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -94,17 +94,19 @@ const Translate = () => {
           className="flex items-center cursor-pointer text-gray-100"
         >
           <img
-                src={i18n.language === "uz"
+            src={
+              i18n.language === "uz"
                 ? UzSvg
                 : i18n.language === "ru"
                 ? RuSvg
                 : i18n.language === "en"
                 ? EnSvg
-                : null}
-                alt="flag"
-                className="h-5 w-5 object-cover rounded-full mr-2"
-              />
-          <p className="text-gray-100">
+                : null
+            }
+            alt="flag"
+            className="h-5 w-5 object-cover rounded-full mr-2"
+          />
+          <p className={`${color}`}>
             {i18n.language === "uz"
               ? "O'zbekcha"
               : i18n.language === "ru"

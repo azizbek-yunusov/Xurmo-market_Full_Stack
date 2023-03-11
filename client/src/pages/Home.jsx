@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { BannerCarousel } from "../components/client-components/Banner";
@@ -7,9 +8,9 @@ import { BestProductsList } from "../components/client-components/ProductItems";
 import { ListBox } from "../components/client-components/TopBrand";
 import { HelmetTitle } from "../utils";
 
-
 const Home = () => {
   const { auth } = useSelector((state) => state);
+  let { t } = useTranslation(["home"]);
 
   return (
     <>
@@ -17,8 +18,7 @@ const Home = () => {
         <Navigate to={"/dashboard"} />
       ) : (
         <>
-      <HelmetTitle title={"Bosh sahifa"} />
-
+          <HelmetTitle title={t("home")} />
         </>
       )}
       <BannerCarousel />

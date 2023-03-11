@@ -3,7 +3,7 @@ import axios from "axios";
 import React from "react";
 import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { AiFillStar, AiOutlineMinus, AiOutlinePlus, AiOutlineStar } from "react-icons/ai";
 import { BsCartCheck } from "react-icons/bs";
 import { CgClose } from "react-icons/cg";
 import { FiShoppingCart } from "react-icons/fi";
@@ -80,18 +80,23 @@ const WishProductItem = ({ productId }) => {
                 />
                 <Price
                   price={price}
-                  className="md:text-lg font-semibold line-through text-gray-500 md:ml-3"
+                  className="md:text-lg line-through text-gray-400"
                 />
               </div>
             ) : (
               <Price price={price} className="md:text-lg font-semibold" />
             )}
 
-            <div className="flex mt-2">
+            <div className="flex items-center md:mt-2 mt-1">
               <h1 className="text-base text-gray-700 mr-2">
                 {ratings?.toFixed(1)}
               </h1>
-              <Rating defaultValue={ratings} readOnly />
+              <Rating
+                icon={<AiFillStar fontSize="20px" />}
+                emptyIcon={<AiOutlineStar fontSize="20px" />}
+                readOnly
+                value={ratings || 0}
+              />
             </div>
           </div>
           <div className="w-full flex_betwen md:px-2">
@@ -105,7 +110,7 @@ const WishProductItem = ({ productId }) => {
                 </Link>
 
                 <div className="flex_betwen w-full">
-                  <div className="flex_betwen md:px-3 border-2 border-[#888888] md:py-[6px] py-[6px] w-full md:rounded-xl rounded-lg md:text-lg text-base transition_normal hover:border-blue-500">
+                  <div className="flex_betwen md:px-3 border-2 border-[#888888] md:py-[6px] py-[6px] w-full md:rounded-lg md:text-lg text-base transition_normal hover:border-orange-500">
                     <Tooltip title="remove from cart">
                       <button
                         onClick={() =>
@@ -138,7 +143,7 @@ const WishProductItem = ({ productId }) => {
             ) : (
               <button
                 onClick={() => addToCartHandle(_id)}
-                className="py-2 flex items-center justify-center w-full rounded-lg hover:text-indigo-600 bg_secondary text-lg text-white transition_normal"
+                className="py-2 flex items-center justify-center w-full rounded-lg bg_secondary text-lg text-white transition_normal hover:opacity-80"
               >
                 <FiShoppingCart className="md:text-xl" />
                 <span className="ml-2 text-base">{t("addcart")}</span>

@@ -76,7 +76,5 @@
   "processing": "Qayta ishlash",
   "dispatched": "Yuborilgan",
   "cancelled": "Bekor qilingan",
-  "delivered": "Yetkazilgan",
-  "new-order-added": "Buyutmangiz qabul qilindi",
-  "enter-address": "Yetkazib berish manzilini kiriting"
+  "delivered": "Yetkazilgan"
 }

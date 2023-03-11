@@ -25,7 +25,7 @@ const MyOrders = () => {
   return (
     <LayoutP>
       <HelmetTitle
-        title={`${t("profile:my-orders")} - ${t("profile:personal")}`}
+        title={`${t("user:my-orders")} - ${t("user:personal")}`}
       />
       <div className="flex justify-between items-center ">
         {/* <h1 className="md:text-xl font-semibold">{t("order:myorders")}</h1>
@@ -154,7 +154,7 @@ const MyOrders = () => {
           )}
         </div>
       ) : (
-        <CircularProgress />
+        <CircularProgress color="secondary" />
       )}
     </LayoutP>
   );

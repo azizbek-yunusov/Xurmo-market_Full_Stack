@@ -12,7 +12,7 @@ const Favorites = () => {
   return (
     <LayoutP>
       <HelmetTitle
-        title={`${t("profile:favorites")} - ${t("profile:personal")}`}
+        title={`${t("user:favorites")} - ${t("user:personal")}`}
       />
 
       <div className="">

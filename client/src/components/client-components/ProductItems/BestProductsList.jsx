@@ -22,7 +22,7 @@ const BestProductsList = () => {
           className="text-red-600 md:text-lg text-xs font-semibold"
           to={"/products"}
         >
-          {t("allviews")}
+          {t("all-views")}
         </Link>
       </div>
       <div className="">

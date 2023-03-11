@@ -104,9 +104,13 @@ const SearchPage = () => {
               <div className="md:col-span-9 col-span-12">
                 <div className="flex_betwen md:mb-6 mb-4">
                   <div className="">
-                    <FormControl size="small" sx={{ minWidth: "150px" }}>
+                    <FormControl
+                      color="secondary"
+                      size="small"
+                      sx={{ minWidth: "150px" }}
+                    >
                       <InputLabel _id="demo-simple-select-label">
-                        Sort By
+                        {t("sorting")}
                       </InputLabel>
                       <Select
                         labelId="demo-simple-select-label"
@@ -116,7 +120,7 @@ const SearchPage = () => {
                         }}
                         value={"all"}
                         // onChange={(e) => setCategory(e.target.value)}
-                        label="Sort By"
+                        label={t("sorting")}
                       >
                         <MenuItem value={"all"}>All</MenuItem>
                         <MenuItem value={"user"}>products</MenuItem>
@@ -181,7 +185,11 @@ const SearchPage = () => {
           ) : (
             <div className="flex_center w-full min-h-[480px] md:mt-0 -mt-10">
               <div className="md:max-w-sm max-w-full flex_center w-full flex-col">
-                <img src="/images/search.png" className="md:h-60 h-56 md:mb-5" alt="" />
+                <img
+                  src="/images/search.png"
+                  className="md:h-60 h-56 md:mb-5"
+                  alt=""
+                />
                 <h1 className="md:text-2xl text-xl text-gray-700 font-semibold mb-2">
                   {t("search-rejected")}
                 </h1>

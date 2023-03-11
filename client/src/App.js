@@ -65,6 +65,8 @@ import { HomeDashboard } from "./components/dashboard-components/Overview";
 import { FetchLoader } from "./components/client-components/SkeletonLoaders";
 import NetworkStatus from "./components/client-components/Helpers/NetworkStatus";
 import { EditCabinet, Projects, Team } from "./components/dashboard-components/UserItems/Cabinet";
+import { CurrentCategory } from "./components/client-components/Categories";
+import { CurrentBrand } from "./components/client-components/Brand";
 
 function App() {
   const pathname = useLocation().pathname;
@@ -110,6 +112,8 @@ function App() {
         <Route path="/myprofile/favorites" element={<Favorites />} />
         <Route path="/product/view/:id" element={<ProductDetail />} />
         <Route path="/products" element={<ProductsList />} />
+        <Route path="/category/:slug" element={<CurrentCategory />} />
+        <Route path="/brand/:slug" element={<CurrentBrand />} />
         <Route path="/cart" element={<Basket />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/wishlist" element={<WishList />} />

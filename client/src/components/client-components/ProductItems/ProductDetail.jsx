@@ -24,7 +24,6 @@ const ProductDetail = () => {
     dispatch(getProduct(id));
     window.scrollTo(0, 0);
   }, [dispatch, id]);
-  console.log(product);
   return (
     <>
       {!isLoading && product ? (
@@ -37,8 +36,8 @@ const ProductDetail = () => {
               aria-label="breadcrumb"
               sx={{ marginY: "8px" }}
             >
-              <Link to={"/"}>{t("hometitle")}</Link>
-              <Link to={"/category"}>Category</Link>
+              <Link to={"/"}>{t("home-title")}</Link>
+              <Link to={"/category"}>{product?.category}</Link>
               <Typography className="text-xs">{product?.name}</Typography>
             </Breadcrumbs>
             <div className="md:grid grid-cols-1 lg:grid-cols-3 xl:gap-x-5 border-t border-r-gray-400 lg:py-5 py-3">
