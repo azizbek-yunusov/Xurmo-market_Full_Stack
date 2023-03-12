@@ -40,7 +40,6 @@ const SideBar = () => {
               </Link>
             </li>
           ))}
-
           <li className="px-5 hidden md:block">
             <div className="flex flex-row items-center mt-5 h-8">
               <div className="text-sm font-light tracking-wide text-gray-400 uppercase">

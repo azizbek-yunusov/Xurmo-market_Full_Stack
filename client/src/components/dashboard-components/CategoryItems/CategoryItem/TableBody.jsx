@@ -6,12 +6,12 @@ import { FiEdit } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 const TableBody = ({
-  categories,
+  categoryItems,
   handleSelectAll,
   selectedCategoryIds,
   filteredCategories,
   handleSelectOne,
-  handleDeleteCategory,
+  handleDeleteCategoryItem,
 }) => {
   const { i18n } = useTranslation();
   let { t } = useTranslation(["category"]);
@@ -21,15 +21,16 @@ const TableBody = ({
         <tr className="bg-gray-100 text-left dark:bg-[#232338] text-gray-500 dark:text-gray-200 text-sm font-light rounded-t-lg uppercase">
           <th className="py-2 text-center">
             <Checkbox
-              checked={selectedCategoryIds.length === categories.length}
+              checked={selectedCategoryIds.length === categoryItems.length}
               color="primary"
               indeterminate={
                 selectedCategoryIds.length > 0 &&
-                selectedCategoryIds.length < categories.length
+                selectedCategoryIds.length < categoryItems.length
               }
               onChange={handleSelectAll}
             />
           </th>
+          <th className="px-2 xl:px-3">{t("name")}</th>
           <th className="px-2 xl:px-3">{t("category")}</th>
           <th className="px-2 xl:px-3">{t("created-by")}</th>
           <th className="px-2 xl:px-3">{t("created-at")}</th>
@@ -62,15 +63,33 @@ const TableBody = ({
                     </div>
                     <div className="flex flex-col xl:mr-2">
                       <Link
-                        to={`/category/detail/${item._id}`}
+                        to={`/item/${item._id}`}
                         className="transition_normal hover:text-purple-500"
                       >
                         {i18n.language === "uz"
-                          ? item.nameUz
+                          ? item.titleUz
                           : i18n.language === "en"
-                          ? item.nameEn
+                          ? item.titleEn
                           : i18n.language === "ru"
-                          ? item.nameRu
+                          ? item.titleRu
+                          : null}
+                      </Link>
+                    </div>
+                  </div>
+                </td>
+                <td className="py-3 px-2 xl:px-3 whitespace-nowrap">
+                  <div className="flex justify-start items-center">
+                    <div className="flex flex-col xl:mr-2">
+                      <Link
+                        to={`/item/${item.categoryId._id}`}
+                        className="transition_normal hover:text-purple-500"
+                      >
+                        {i18n.language === "uz"
+                          ? item.categoryId.nameUz
+                          : i18n.language === "en"
+                          ? item.categoryId.nameEn
+                          : i18n.language === "ru"
+                          ? item.categoryId.nameRu
                           : null}
                       </Link>
                     </div>
@@ -133,13 +152,13 @@ const TableBody = ({
                         />
                       </svg>
                     </Link>
-                    <Link to={`/category/update/${item._id}`}>
+                    <Link to={`/category/${item._id}`}>
                       <div className="cursor-pointer w-5 mr-3 transform hover:text-purple-500 hover:scale-110">
                         <FiEdit className="text-lg" />
                       </div>
                     </Link>
                     <button
-                      onClick={() => handleDeleteCategory(item._id)}
+                      onClick={() => handleDeleteCategoryItem(item._id)}
                       className="cursor-pointer w-5 mr-3 transform hover:text-purple-500 hover:scale-110"
                     >
                       <svg

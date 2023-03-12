@@ -67,6 +67,7 @@ import NetworkStatus from "./components/client-components/Helpers/NetworkStatus"
 import { EditCabinet, Projects, Team } from "./components/dashboard-components/UserItems/Cabinet";
 import { CurrentCategory } from "./components/client-components/Categories";
 import { CurrentBrand } from "./components/client-components/Brand";
+import { CategoryItemsList, CreateCategoryItem } from "./components/dashboard-components/CategoryItems/CategoryItem";
 
 function App() {
   const pathname = useLocation().pathname;
@@ -146,8 +147,10 @@ function App() {
             <Route path="/brand/detail/:id" element={<BrandDetail />} />
             <Route path="/dashboard/categories" element={<CategoriesTable />} />
             <Route path="/category/add" element={<AddCategory />} />
-            <Route path="/category/:id" element={<UpdateCategory />} />
+            <Route path="/category/update/:id" element={<UpdateCategory />} />
             <Route path="/category/detail/:id" element={<CategoryDetail />} />
+            <Route path="/categories/category/items" element={<CategoryItemsList />} />
+            <Route path="/category/item/create" element={<CreateCategoryItem />} />
             <Route path="/dashboard/users" element={<UserList />} />
             <Route path="/user/create" element={<CreateUser />} />
             <Route path="/dashboard/orders" element={<OrdersList />} />

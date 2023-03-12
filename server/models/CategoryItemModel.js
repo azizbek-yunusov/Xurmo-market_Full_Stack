@@ -1,16 +1,21 @@
 const { Schema, model } = require("mongoose");
 
-const categorySchema = new Schema(
+const categoryItemSchema = new Schema(
   {
-    nameUz: {
+    categoryId: {
+      type: Schema.Types.ObjectId,
+      ref: "Category",
+      required: true,
+    },
+    titleUz: {
       type: String,
       required: true,
     },
-    nameEn: {
+    titleEn: {
       type: String,
       required: true,
     },
-    nameRu: {
+    titleRu: {
       type: String,
       required: true,
     },
@@ -28,12 +33,6 @@ const categorySchema = new Schema(
         required: true,
       },
     },
-    items: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "CategoryItem",
-      },
-    ],
     createdAt: {
       type: Date,
       default: new Date(),
@@ -48,4 +47,4 @@ const categorySchema = new Schema(
   }
 );
 
-module.exports = model("Category", categorySchema);
+module.exports = model("CategoryItem", categoryItemSchema);

@@ -144,13 +144,25 @@ export const sidebarAdmin = [
     icon: <BsCardImage className="md:text-lg ml-4" />,
   },
   {
-    id: 2,
+    id: 4,
     path: "/dashboard/categories",
     name: "categories",
     icon: <BiCategory className="md:text-lg ml-4" />,
   },
   {
-    id: 2,
+    id: 5,
+    path: "/categories/category/items",
+    name: "category-item",
+    icon: <BiCategory className="md:text-lg ml-4" />,
+  },
+  {
+    id: 8,
+    path: "/category/item/create",
+    name: "category-item-create",
+    icon: <BiCategory className="md:text-lg ml-4" />,
+  },
+  {
+    id: 6,
     path: "/dashboard/brands",
     name: "brands",
     icon: <BiBuildingHouse className="md:text-lg ml-4" />,

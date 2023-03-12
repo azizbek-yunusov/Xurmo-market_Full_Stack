@@ -90,6 +90,7 @@ export const selectedDeleteCategory = createAsyncThunk(
 const initialState = {
   categories: [],
   currentCategory: null,
+  items: [],
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -138,7 +139,8 @@ export const categorySlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.currentCategory = action.payload;
+        state.currentCategory = action.payload.category;
+        state.items = action.payload.categoryItems;
       })
       .addCase(getCategory.rejected, (state, action) => {
         state.isLoading = false;
