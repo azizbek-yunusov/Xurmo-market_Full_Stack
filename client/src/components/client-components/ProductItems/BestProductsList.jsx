@@ -9,13 +9,13 @@ const BestProductsList = () => {
   const { t } = useTranslation(["product"]);
   const { isLoading, products } = useSelector((state) => state.product);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getProducts());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getProducts());
+  // }, [dispatch]);
   return (
     <div className="container-full md:my-5">
       <div className="flex_betwen md:mb-8 mb-5">
-        <h1 className="lg:text-4xl text-sm font-semibold text-gray-800">
+        <h1 className="lg:text-4xl text-xl font-semibold text-zinc-800">
           {t("bestp")}
         </h1>
         <Link

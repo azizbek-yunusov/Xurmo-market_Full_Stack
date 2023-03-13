@@ -71,6 +71,8 @@ const CheckOut = () => {
       setStreet(standart.street || "");
       setHouse(standart.house || "");
     }
+    window.scrollTo(0, 0);
+
   }, [user, standart]);
   // address
   const findStandartRegionId = address.regions.filter((rg) => {
@@ -387,7 +389,7 @@ const CheckOut = () => {
                         ? cart.map((item) => (
                             <div
                               key={item._id}
-                              className="flex justify-between"
+                              className="flex my-2 justify-between"
                             >
                               <div className="w-[25%]">
                                 <img

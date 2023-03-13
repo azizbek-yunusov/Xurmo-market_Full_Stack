@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Breadcrumbs, Rating, Typography } from "@mui/material";
+import { Breadcrumbs, Rating, Tab, Tabs, Typography } from "@mui/material";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { ProductDetailLoader } from "../SkeletonLoaders";
 import { HelmetTitle } from "../../../utils";
@@ -14,23 +14,43 @@ import Stock from "../Helpers/Stock";
 import AddToWish from "../Helpers/AddToWish";
 import { useTranslation } from "react-i18next";
 import ShopBox from "./ShopBox";
+import { features } from "../../../data/features";
+import NoReviews from "./NoReviews";
+import SimilarProducts from "./SimilarProducts";
 
 const ProductDetail = () => {
   let { t } = useTranslation(["product"]);
   const { product, isLoading } = useSelector((state) => state.product);
   const dispatch = useDispatch();
+  const [activeTab, setActiveTab] = useState(0);
   const { id } = useParams();
+  const descrRef = useRef(null);
+
+  const handleTabsChange = (event, newValue) => {
+    setActiveTab(newValue);
+  };
+  const handleScrollToReviews = async () => {
+    if (activeTab === 0) {
+      setActiveTab(1);
+    }
+    await descrRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+  const handleScrollToDescr = async () => {
+    setActiveTab(0);
+    descrRef.current.scrollIntoView({ behavior: "smooth" });
+  };
   useEffect(() => {
     dispatch(getProduct(id));
     window.scrollTo(0, 0);
   }, [dispatch, id]);
+
   return (
     <>
       {!isLoading && product ? (
         <section>
           <HelmetTitle title={`${product?.name}`} />
           <BottomScoll product={product} />
-          <div className="container-full xl:px-10 xl:min-h-screen">
+          <div className="container-full xl:px-10">
             <Breadcrumbs
               className="md:flex hidden"
               aria-label="breadcrumb"
@@ -53,7 +73,10 @@ const ProductDetail = () => {
                     <AddToWish productId={product._id} />
                   </div>
                 </div>
-                <div className="flex items-center mt-2 mb-2">
+                <div
+                  onClick={handleScrollToReviews}
+                  className="cursor-pointer flex items-center mt-2 mb-2"
+                >
                   <Rating
                     icon={<AiFillStar fontSize="20px" />}
                     emptyIcon={<AiOutlineStar fontSize="20px" />}
@@ -65,37 +88,90 @@ const ProductDetail = () => {
                   </span>
                 </div>
                 <Stock inStock={product.inStock} />
-                <h1 className="md:text-base text-sm leading-6 lg:mt-4 mt-2 md:text-zinc-600 text-gray-500">
-                  {product.descr}
-                </h1>
+                <div className="main_features w-full lg:mt-4 my-3 lg:px-5">
+                  <h1 className="text-gray-600 font-semibold mb-3">
+                    {t("main-features")}
+                  </h1>
+                  <div className="w-full">
+                    <ul className="leaders w-full">
+                      <li className="text-gray-400 mb-3">
+                        <span>{t("brand")}</span>
+                        <span className="text-gray-700">{product.brand}</span>
+                      </li>
+                      {features.slice(0, 6).map((item, index) => (
+                        <li key={index} className="text-gray-400 mb-3">
+                          <span>{t(`${item.feature}`)}</span>
+                          <span className="text-gray-700">null</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <h1
+                    onClick={handleScrollToDescr}
+                    className=" text-blue-600 cursor-pointer font-semibold"
+                  >
+                    {t("detail-features")}
+                  </h1>
+                </div>
               </div>
               <ShopBox product={product} />
             </div>
           </div>
-          <div className="md:mt-0 mt-1 container-full">
-            <h1 className="md:text-4xl text-2xl text-gray-700 md:mb-5 mb-4">
-              {t("reviews")}
-            </h1>
-            <div className="lg:grid md:grid-cols-12 md:gap-9 flex flex-col-reverse">
-              <div className="w-full col-span-7">
-                {product.reviews && product.reviews[0] ? (
-                  <div className="reviews">
-                    {product.reviews &&
-                      product.reviews
-                        .map((review) => (
-                          <Comments key={review._id} review={review} />
-                        ))
-                        .reverse()}
+          <div className="md:mt-8 mt-3 container-full">
+            <Tabs
+              textColor="secondary"
+              value={activeTab}
+              onChange={handleTabsChange}
+              aria-label="product details"
+              TabIndicatorProps={{
+                style: {
+                  backgroundColor: "#ff8800",
+                },
+              }}
+            >
+              <Tab color="secondary" label={t("descr")} />
+              <Tab color="secondary" label={t("reviews")} />
+            </Tabs>
+            <div>
+              {activeTab === 0 && (
+                <div ref={descrRef} className="md:my-5 my-4 w-10/12">
+                  <h1 className="text-lg text-center font-semibold text-gray-700 md:mb-3 mb-2">
+                    {product.name}
+                  </h1>
+                  <p className="md:text-base text-sm leading-6 md:text-zinc-600 text-gray-500">
+                    {product.descr}
+                  </p>
+                </div>
+              )}
+              {activeTab === 1 && (
+                <div className="md:my-5 my-4">
+                  <h1 className="text-xl font-semibold text-zinc-700 mb-3">
+                    {t("reviews")}
+                  </h1>
+                  <div className="lg:grid md:grid-cols-12 md:gap-x-9 flex flex-col-reverse">
+                    <div className="w-full col-span-7">
+                      {product.reviews && product.reviews[0] ? (
+                        <div className="reviews">
+                          {product.reviews &&
+                            product.reviews
+                              .map((review) => (
+                                <Comments key={review._id} review={review} />
+                              ))
+                              .reverse()}
+                        </div>
+                      ) : (
+                        <NoReviews />
+                      )}
+                    </div>
+                    <div className="w-full col-span-5 flex justify-end">
+                      <ReviewsBox />
+                    </div>
                   </div>
-                ) : (
-                  <p className="noReviews">{t("no-reviews")}</p>
-                )}
-              </div>
-              <div className="w-full col-span-5 flex justify-end">
-                <ReviewsBox />
-              </div>
+                </div>
+              )}
             </div>
           </div>
+          <SimilarProducts />
         </section>
       ) : (
         <ProductDetailLoader />

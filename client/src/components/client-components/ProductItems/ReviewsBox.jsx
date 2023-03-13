@@ -95,7 +95,7 @@ export const ReviewsBox = () => {
             <Box sx={{ width: "100%", marginX: "6px" }}>
               <LinearProgress
                 variant="determinate"
-                color="warning"
+                color="secondary"
                 sx={{ borderRadius: "5px" }}
                 value={fivePercentage}
               />
@@ -117,7 +117,7 @@ export const ReviewsBox = () => {
             <Box sx={{ width: "100%", marginX: "6px" }}>
               <LinearProgress
                 variant="determinate"
-                color="warning"
+                color="secondary"
                 sx={{ borderRadius: "5px" }}
                 value={fourPercentage}
               />
@@ -139,7 +139,7 @@ export const ReviewsBox = () => {
             <Box sx={{ width: "100%", marginX: "6px" }}>
               <LinearProgress
                 variant="determinate"
-                color="warning"
+                color="secondary"
                 sx={{ borderRadius: "5px" }}
                 value={threePercentage}
               />
@@ -161,7 +161,7 @@ export const ReviewsBox = () => {
             <Box sx={{ width: "100%", marginX: "6px" }}>
               <LinearProgress
                 variant="determinate"
-                color="warning"
+                color="secondary"
                 sx={{ borderRadius: "5px" }}
                 value={twoPercentage}
               />
@@ -183,7 +183,7 @@ export const ReviewsBox = () => {
             <Box sx={{ width: "100%", marginX: "6px" }}>
               <LinearProgress
                 variant="determinate"
-                color="warning"
+                color="secondary"
                 sx={{ borderRadius: "5px" }}
                 value={onePercentage}
               />
@@ -202,7 +202,7 @@ export const ReviewsBox = () => {
               <Button
                 variant="contained"
                 size="large"
-                color="warning"
+                color="secondary"
                 fullWidth
                 // onClick={handleOpen}
               >

@@ -49,7 +49,7 @@ const ShopBox = ({ product }) => {
             <div className="flex_betwen mb-2">
               <Price
                 price={product.price}
-                className="md:text-2xl text-lg font-semibold text-gray-600"
+                className="md:text-2xl text-xl font-semibold text-gray-600"
               />
               <AddToWish productId={product._id} />
             </div>
@@ -62,7 +62,7 @@ const ShopBox = ({ product }) => {
                 <TbTruckDelivery className="text-4xl mr-2 -mt-2" />
                 <div>
                   <p className="font-semibold mb-1">{t("standard-delivery")}</p>
-                  <p className="">{t("standard-delivery-d")}</p>
+                  <p className="text-zinc-400">{t("standard-delivery-d")}</p>
                 </div>
               </div>
             </div>

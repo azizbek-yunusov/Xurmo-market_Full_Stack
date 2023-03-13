@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 
 const CategoryItem = ({ nameUz, nameEn, nameRu, slug, image }) => {
   const { i18n } = useTranslation();
+  
   return (
     <Link
       to={`/category/${slug}`}
       className="cursor-pointer flex flex-col items-center"
     >
-      <div className="p-3 md:p-2 md:px-4 px-3 md:rounded-xl rounded-xl bg-gradient-to-r from-violet-500 to-fuchsia-500 mb-2">
+      <div className="p-3 md:p-2 md:px-4 px-3 md:rounded-xl rounded-xl bg-gradient-to-r from-violet-400 to-fuchsia-400 mb-2">
         <img
           className="md:h-32 md:w-32 h-20 w-20 object-cover"
           src={image.url}

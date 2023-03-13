@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 import { BannerCarousel } from "../components/client-components/Banner";
 import BrandsList from "../components/client-components/Brand/BrandList";
 import { CategoryList } from "../components/client-components/Categories";
+import MobileApp from "../components/client-components/Footer/MobileApp";
 import { BestProductsList } from "../components/client-components/ProductItems";
 import { ListBox } from "../components/client-components/TopBrand";
 import { HelmetTitle } from "../utils";
@@ -26,6 +27,7 @@ const Home = () => {
       <BestProductsList />
       <BrandsList />
       <ListBox />
+      <MobileApp />
     </>
   );
 };

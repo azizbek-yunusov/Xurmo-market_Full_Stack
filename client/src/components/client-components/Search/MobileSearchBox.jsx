@@ -41,7 +41,7 @@ const MobileSearchBox = ({ products, toggleMobileSearchBar }) => {
   };
   const openVoiceSearch = () => {
     const recognition = new window.webkitSpeechRecognition();
-    recognition.lang = "uz-UZ";
+    recognition.lang = "en-US";
 
     recognition.onstart = () => {
       setListening(true);
@@ -57,14 +57,6 @@ const MobileSearchBox = ({ products, toggleMobileSearchBar }) => {
     };
 
     recognition.start();
-    // setListening(true);
-    // recognition.start();
-    // recognition.onresult = (event) => {
-    //   var current = event.resultIndex;
-    //   var transcript = event.results[current][0].transcript;
-    //   setVoiceText(voiceText + transcript);
-    //   setQuery(voiceText + transcript);
-    // };
   };
 
   return (

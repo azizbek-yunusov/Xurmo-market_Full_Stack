@@ -22,7 +22,7 @@ export const features = [
   {
     id: "1",
     type: "smartpones",
-    feature: "memory ",
+    feature: "memory",
   },
   {
     id: "1",
@@ -32,16 +32,16 @@ export const features = [
   {
     id: "1",
     type: "smartpones",
-    feature: "battery ",
+    feature: "battery",
   },
   {
     id: "1",
     type: "smartpones",
-    feature: "main-camera ",
+    feature: "main-camera",
   },
   {
     id: "1",
     type: "smartpones",
-    feature: "front-camera ",
+    feature: "front-camera",
   },
 ];

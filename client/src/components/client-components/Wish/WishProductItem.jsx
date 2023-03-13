@@ -110,7 +110,7 @@ const WishProductItem = ({ productId }) => {
                 </Link>
 
                 <div className="flex_betwen w-full">
-                  <div className="flex_betwen md:px-3 border-2 border-[#888888] md:py-[6px] py-[6px] w-full md:rounded-lg md:text-lg text-base transition_normal hover:border-orange-500">
+                  <div className="flex_betwen md:px-3 border-2 border-[#888888] md:py-[6px] py-[6px] w-full rounded-lg md:text-lg text-base transition_normal hover:border-orange-500">
                     <Tooltip title="remove from cart">
                       <button
                         onClick={() =>

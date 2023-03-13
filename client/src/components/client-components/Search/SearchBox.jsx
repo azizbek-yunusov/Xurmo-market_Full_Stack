@@ -72,14 +72,6 @@ const SearchBox = () => {
     };
 
     recognition.start();
-    // setListening(true);
-    // recognition.start();
-    // recognition.onresult = (event) => {
-    //   var current = event.resultIndex;
-    //   var transcript = event.results[current][0].transcript;
-    //   setVoiceText(voiceText + transcript);
-    //   setQuery(voiceText + transcript);
-    // };
   };
   useEffect(() => {
     dispatch(getProducts());

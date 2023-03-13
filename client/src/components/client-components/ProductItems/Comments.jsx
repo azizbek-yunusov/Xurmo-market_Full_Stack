@@ -7,10 +7,13 @@ import {
   AiOutlineLike,
   AiOutlineStar,
 } from "react-icons/ai";
+import { useTranslation } from "react-i18next";
 
 const Comments = ({ review }) => {
+  let { t } = useTranslation(["user"]);
+
   return (
-    <div className="rounded-lg md:my-5 my-4 border_primary md:p-5 p-3 pb-2 w-full">
+    <div className="rounded-lg my-4 border_primary md:p-5 p-3 pb-2 w-full">
       <div className="flex justify-between md:pb-3">
         <div className="flex items-center">
           <img
@@ -22,12 +25,12 @@ const Comments = ({ review }) => {
             alt="Avatar"
           />
           <div className="ml-1">
-            <h1 className="md:text-xl text-gray-700 mx-2 font-semibold">
-              {review.user ? review.user.name : "deleted account"}
+            <h1 className="font-semibold mx-2">
+              {review.user ? review.user.name : t("deleted-user")}
             </h1>
-            <p className="text-sm text-gray-600 mx-2">
+            <p className="text-sm text-zinc-500 mx-2">
               {review.createdAt
-                ? moment(review.createdAt).locale("uz-latn").startOf().fromNow()
+                ? moment(review.createdAt).locale("uz-latn").format("LLL")
                 : ""}
             </p>
           </div>
@@ -42,10 +45,11 @@ const Comments = ({ review }) => {
           <p className="md:text-xl mx-2">{review.rating}</p>
         </div>
       </div>
-      <div className="mt-4 md:ml-[60px] md:mr-9">
+      <div className="mt-4 md:ml-[60px] text-zinc-700 md:mr-9">
         <p className="">{review.comment}</p>
       </div>
       <div className="md:mt-3 mt-2 flex justify-end items-center">
+
         <IconButton size="small">
           <AiOutlineLike />
           <span>0</span>
