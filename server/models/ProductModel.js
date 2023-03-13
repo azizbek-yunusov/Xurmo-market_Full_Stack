@@ -26,7 +26,7 @@ const productSchema = new Schema(
         },
       },
     ],
-    brand: { type: String, required: true, },
+    brand: { type: String, required: true },
     discount: {
       type: Number,
       default: 0,
@@ -36,6 +36,10 @@ const productSchema = new Schema(
       default: 1,
     },
     category: {
+      type: String,
+      required: true,
+    },
+    categoryChild: {
       type: String,
       required: true,
     },
@@ -96,7 +100,16 @@ const productSchema = new Schema(
         },
       },
     ],
-
+    features: [
+      {
+        feature: {
+          type: String,
+        },
+        value: {
+          type: String,
+        },
+      },
+    ],
     isShow: {
       type: Boolean,
       default: true,

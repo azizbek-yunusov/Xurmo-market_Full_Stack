@@ -72,8 +72,17 @@ const createProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    const { name, price, descr, brand, discount, inStock, category, isShow } =
-      req.body;
+    const {
+      name,
+      price,
+      descr,
+      brand,
+      discount,
+      inStock,
+      category,
+      categoryChild,
+      isShow,
+    } = req.body;
     const product = await ProductModel.findByIdAndUpdate(
       req.params.id,
       {
@@ -84,6 +93,7 @@ const updateProduct = async (req, res) => {
         discount,
         inStock,
         category,
+        categoryChild,
         isShow,
       },
       {

@@ -17,7 +17,7 @@ const router = Router();
 
 router.get("/categories", getAllCategoris);
 router.get("/category/:id", getCategory);
-router.get("/category/:slug", getSlugCategory);
+router.get("/category/slug/:slug", getSlugCategory);
 router.post("/category", authMiddleware, authAdminMiddleware, createCategory);
 router.put(
   "/category/:id",

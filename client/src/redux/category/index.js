@@ -13,14 +13,17 @@ export const getCategories = createAsyncThunk(
     }
   }
 );
-export const getCategory = createAsyncThunk("category/get-category", async ({ id }) => {
-  try {
-    const { data } = await axios.get(`${baseUrl}category/${id}`);
-    return data;
-  } catch (error) {
-    return console.log(error);
+export const getCategory = createAsyncThunk(
+  "category/get-category",
+  async ({id}) => {
+    try {
+      const { data } = await axios.get(`${baseUrl}category/${id}`);
+      return data;
+    } catch (error) {
+      return console.log(error);
+    }
   }
-});
+);
 export const createCategory = createAsyncThunk(
   "category/create-category",
   async ({ access_token, categoryData }) => {
@@ -40,11 +43,15 @@ export const updateCategory = createAsyncThunk(
   "category/update-category",
   async ({ access_token, id, categoryData }) => {
     try {
-      const { data } = await axios.put(`${baseUrl}category/${id}`, categoryData, {
-        headers: {
-          Authorization: access_token,
-        },
-      });
+      const { data } = await axios.put(
+        `${baseUrl}category/${id}`,
+        categoryData,
+        {
+          headers: {
+            Authorization: access_token,
+          },
+        }
+      );
       return data;
     } catch (error) {
       return console.log(error);

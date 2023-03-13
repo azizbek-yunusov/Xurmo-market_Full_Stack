@@ -31,8 +31,9 @@ const getCategory = async (req, res) => {
 
 const getSlugCategory = async (req, res) => {
   try {
-    const category = await CategoryModel.findOne({ slug });
-    res.status(201).json(category);
+    const slug = req.params
+    // const category = await CategoryModel.findOne({ slug });
+    // res.status(201).json(category);
   } catch (err) {
     console.log(err);
   }
