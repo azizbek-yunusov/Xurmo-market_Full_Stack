@@ -15,6 +15,7 @@ const bannerRoutes = require("./routes/bannerRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const brandRoutes = require("./routes/brandRoutes");
+const postRoutes = require("./routes/postRoutes");
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
@@ -38,6 +39,7 @@ app.use(bannerRoutes);
 app.use(categoryRoutes);
 app.use(orderRoutes);
 app.use(brandRoutes);
+app.use(postRoutes);
 
 mongoose
   .connect(MONGO_URI, {

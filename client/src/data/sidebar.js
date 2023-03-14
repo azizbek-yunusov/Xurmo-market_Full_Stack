@@ -7,7 +7,7 @@ import {
 } from "react-icons/ai";
 import { BsCardImage, BsCart2, BsUiChecksGrid } from "react-icons/bs";
 import { RiShoppingBag3Line } from "react-icons/ri";
-import { BiBuildingHouse, BiCategory, BiHomeAlt } from "react-icons/bi";
+import { BiBuildingHouse, BiCategory, BiHomeAlt, BiNews } from "react-icons/bi";
 import { MdFavoriteBorder, MdLocationOn } from "react-icons/md";
 
 export const tabsProfileData = [
@@ -172,6 +172,12 @@ export const sidebarAdmin = [
     path: "/dashboard/orders",
     name: "orders",
     icon: <BsCart2 className="md:text-lg ml-4" />,
+  },
+  {
+    id: 1,
+    path: "/dashboard/posts",
+    name: "posts",
+    icon: <BiNews className="md:text-lg ml-4" />,
   },
   {
     id: 1,

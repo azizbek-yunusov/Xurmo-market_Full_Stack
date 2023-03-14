@@ -5,6 +5,7 @@ import { BannerCarousel } from "../components/client-components/Banner";
 import BrandsList from "../components/client-components/Brand/BrandList";
 import { CategoryList } from "../components/client-components/Categories";
 import MobileApp from "../components/client-components/Footer/MobileApp";
+import { PostList } from "../components/client-components/Post";
 import { BestProductsList } from "../components/client-components/ProductItems";
 import { ListBox } from "../components/client-components/TopBrand";
 import { HelmetTitle } from "../utils";
@@ -27,6 +28,7 @@ const Home = () => {
       <BestProductsList />
       <BrandsList />
       <ListBox />
+      <PostList />
       <MobileApp />
     </>
   );

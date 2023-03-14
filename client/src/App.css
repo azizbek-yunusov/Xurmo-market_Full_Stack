@@ -137,3 +137,26 @@ ul.leaders li span + span {
   transform: perspective(900px) rotateY(-15deg) rotateX(0deg) rotate(15deg) ;
   transform-style: preserve-3d;
 }
+.app .ql-container {
+  border-bottom-left-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+  background: #fefcfc;
+}
+
+/* Snow Theme */
+.app .ql-snow.ql-toolbar {
+  display: block;
+  background: #eaecec;
+  border-top-left-radius: 0.5em;
+  border-top-right-radius: 0.5em;
+}
+
+/* Bubble Theme */
+.app .ql-bubble .ql-editor {
+  border: 1px solid #ccc;
+  border-radius: 0.5em;
+}
+
+.app .ql-editor {
+  min-height: 18em;
+}

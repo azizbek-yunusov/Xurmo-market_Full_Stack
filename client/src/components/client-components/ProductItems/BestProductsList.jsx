@@ -19,7 +19,7 @@ const BestProductsList = () => {
           {t("bestp")}
         </h1>
         <Link
-          className="text-red-600 md:text-lg text-xs font-semibold"
+          className="text-orange-600 md:text-lg text-xs font-semibold"
           to={"/products"}
         >
           {t("all-views")}

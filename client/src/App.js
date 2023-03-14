@@ -64,10 +64,24 @@ import { refreshToken } from "./redux/actions/authAction";
 import { HomeDashboard } from "./components/dashboard-components/Overview";
 import { FetchLoader } from "./components/client-components/SkeletonLoaders";
 import NetworkStatus from "./components/client-components/Helpers/NetworkStatus";
-import { EditCabinet, Projects, Team } from "./components/dashboard-components/UserItems/Cabinet";
+import {
+  EditCabinet,
+  Projects,
+  Team,
+} from "./components/dashboard-components/UserItems/Cabinet";
 import { CurrentCategory } from "./components/client-components/Categories";
 import { CurrentBrand } from "./components/client-components/Brand";
-import { CategoryItemsList, CreateCategoryItem } from "./components/dashboard-components/CategoryItems/CategoryItem";
+import {
+  CategoryItemsList,
+  CreateCategoryItem,
+} from "./components/dashboard-components/CategoryItems/CategoryItem";
+import {
+  CreatePost,
+  PostDetail,
+  PostsList,
+  UpdatePost,
+} from "./components/dashboard-components/Post";
+import { PostPage } from "./components/client-components/Post";
 
 function App() {
   const pathname = useLocation().pathname;
@@ -87,6 +101,7 @@ function App() {
       x.parentNode.insertBefore(s, x);
     })("https://widget.replain.cc/dist/client.js");
   }, []);
+
   return (
     <>
       <Toaster position="top-left" reverseOrder={true} />
@@ -119,6 +134,7 @@ function App() {
         <Route path="/search" element={<SearchPage />} />
         <Route path="/wishlist" element={<WishList />} />
         <Route path="/check-out" element={<CheckOut />} />
+        <Route path="/post/view/:id" element={<PostPage />} />
         <Route
           path="/user/activate/:activationtoken"
           element={<ActivationEmail />}
@@ -149,8 +165,14 @@ function App() {
             <Route path="/category/add" element={<AddCategory />} />
             <Route path="/category/update/:id" element={<UpdateCategory />} />
             <Route path="/category/detail/:id" element={<CategoryDetail />} />
-            <Route path="/categories/category/items" element={<CategoryItemsList />} />
-            <Route path="/category/item/create" element={<CreateCategoryItem />} />
+            <Route
+              path="/categories/category/items"
+              element={<CategoryItemsList />}
+            />
+            <Route
+              path="/category/item/create"
+              element={<CreateCategoryItem />}
+            />
             <Route path="/dashboard/users" element={<UserList />} />
             <Route path="/user/create" element={<CreateUser />} />
             <Route path="/dashboard/orders" element={<OrdersList />} />
@@ -162,6 +184,10 @@ function App() {
             <Route path="/cabinet/settings" element={<AccountSetting />} />
             <Route path="/user/:id" element={<UserProfile />} />
             <Route path="/user/update/:id" element={<UpdateUser />} />
+            <Route path="/dashboard/posts" element={<PostsList />} />
+            <Route path="/post/create" element={<CreatePost />} />
+            <Route path="/post/update/:id" element={<UpdatePost />} />
+            <Route path="/post/detail/:id" element={<PostDetail />} />
           </>
         )}
       </Routes>

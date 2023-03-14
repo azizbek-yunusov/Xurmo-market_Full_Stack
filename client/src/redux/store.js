@@ -5,6 +5,7 @@ import order from "./order";
 import brand from "./brand/brandSlice";
 import category from "./category";
 import banner from "./banner";
+import post from "./post";
 import auth from "./reducers/authReducer";
 import address from "./reducers/addressReducer";
 import authv from "./auth";
@@ -28,6 +29,7 @@ const store = configureStore({
     brand,
     category,
     banner,
+    post,
   },
   devTools: true,
 });
