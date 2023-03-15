@@ -16,10 +16,10 @@ const PostCard = ({
 }) => {
   return (
     <div className="p-3">
-      <Link to={`/post/view/${_id}`} className="w-full flex_center tranistion_normal">
+      <Link to={`/post/view/${_id}`} className="w-full flex_center tranistion_normal rounded-lg overflow-hidden">
         <img
           src={image?.url}
-          className="h-40 w-full object-cover rounded-lg"
+          className="h-40 w-full object-cover rounded-lg hover:scale-105 transition duration-100 ease-linear"
           alt={title}
         />
       </Link>

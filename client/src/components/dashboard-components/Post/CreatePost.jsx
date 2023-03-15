@@ -10,12 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { HelmetTitle } from "../../../utils";
 import { Layout } from "../Layouts";
-import axios from "axios";
 import { createPost } from "../../../redux/post";
 
-// const modules = {
-//   toolbar: [[{ headers: [1, 2, 3, 4, 5, 6, false], font: [], size: [] }]],
-// };
 
 const modules = {
   toolbar: [
@@ -79,6 +75,12 @@ const CreatePost = () => {
     newArr.splice(index, 1);
     setImage(newArr);
   };
+  const handleTitleSlugChange = async (e) => {
+    let value = e.target.value
+    let slugy = await value.toLowerCase().replace(/\s+/g, "-")
+    setTitle(value)
+    setSlug(slugy)
+  }
   const createBannerHandle = async (e) => {
     e.preventDefault();
     const postData = {
@@ -99,7 +101,7 @@ const CreatePost = () => {
   };
   return (
     <>
-      <HelmetTitle title={t("add-post=title")} />
+      <HelmetTitle title={t("add-post-title")} />
       <Layout>
         <section className="relative">
           <div className="bg-gradient-to-r from-cyan-500 to-blue-500 w-full h-40 px-5 pt-4 text-gray-50 rounded-xl">
@@ -133,7 +135,7 @@ const CreatePost = () => {
                         type="text"
                         className="rounded-xl"
                         value={title}
-                        onChange={(e) => setTitle(e.target.value)}
+                        onChange={handleTitleSlugChange}
                       />
                       <TextField
                         id="outlined-basic"

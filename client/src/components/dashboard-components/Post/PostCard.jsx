@@ -28,7 +28,7 @@ const PostCard = ({
           alt={title}
         />
       </Link>
-      <div className="flex_betwen my-2 text-gray-500">
+      <div className="flex_betwen my-2 text-gray-500 dark:text-zinc-300">
         <div className="flex_center">
           <BsCalendarDate className="mr-1" />
           <span>{moment(createdAt).format("lll")}</span>
@@ -40,11 +40,11 @@ const PostCard = ({
       </div>
       <Link
         to={`/post/detail/${_id}`}
-        className=" to-zinc-700 font-semibold text-lg hover:text-purple-600 transition_normal"
+        className=" text-zinc-700 dark:text-zinc-100 font-semibold text-lg hover:text-purple-600 transition_normal"
       >
         <p className="mb-2">{title}</p>
       </Link>
-      <p className="text-zinc-500 mb-2">{excerpt.slice(0, 150)}...</p>
+      <p className="text-zinc-500 dark:text-zinc-300 mb-3">{excerpt.slice(0, 150)}...</p>
       <div className="flex_betwen">
         <Link to={`/post/detail/${_id}`}>
           <Tooltip title="View">

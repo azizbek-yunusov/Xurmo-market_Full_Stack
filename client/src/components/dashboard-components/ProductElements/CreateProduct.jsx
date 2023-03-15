@@ -19,6 +19,44 @@ import { createProduct } from "../../../redux/product";
 import { getCategories, getCategory } from "../../../redux/category";
 import { getBrands } from "../../../redux/brand/brandSlice";
 import { features } from "../../../data/features";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+
+const modules = {
+  toolbar: [
+    [{ header: "1" }, { header: "2" }, { font: [] }],
+    [{ size: [] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    ["link", "image", "video"],
+    ["clean"],
+  ],
+  clipboard: {
+    // toggle to add extra line breaks when pasting HTML:
+    matchVisual: false,
+  },
+};
+const formats = [
+  "header",
+  "font",
+  "size",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "indent",
+  "link",
+  "image",
+  "video",
+];
 
 const CreateProduct = () => {
   let { t } = useTranslation(["product"]);
@@ -275,78 +313,79 @@ const CreateProduct = () => {
                         ))}
                       </Select>
                     </FormControl>
-                    <div className="mt-4">
-                      <TextField
-                        fullWidth
-                        multiline
-                        minRows={5}
-                        label={t("descr")}
-                        placeholder={t("descr-pl")}
-                        value={descr}
-                        onChange={(e) => setDescr(e.target.value)}
-                      />
-                    </div>
-                    <div className="w-full">
-                      <div className="grid grid-cols-6">
-                        <div className="col-span-2">
-                          <label htmlFor="file-upload">
-                            <label
-                              htmlFor="file-upload"
-                              className="block text-base mb-1 text_color"
-                            >
-                              {t("upload-images")}
-                            </label>
-                            <div className="mr-2 flex bg-white dark:bg-gray-700 justify-center items-center rounded-md border-2 border-dashed border-gray-300 dark:border-gray-500 p-3 py-6 cursor-pointer h-36">
-                              <div className="flex justify-center flex-col items-center">
-                                <AiOutlineCloudUpload className="text-3xl text-gray-600" />
-                                <div className="flex text-sm text-gray-600">
-                                  <label
-                                    htmlFor="file-upload"
-                                    className="relative cursor-pointer rounded-md bg-white dark:bg-transparent text_color font-medium"
-                                  >
-                                    <span>{t("upload-images")}</span>
-                                    <input
-                                      id="file-upload"
-                                      name="file"
-                                      type="file"
-                                      className="sr-only"
-                                      onChange={handleImage}
-                                    />
-                                  </label>
-                                </div>
-                                <p className="text-xs text-gray-500">
-                                  PNG, JPG up to 10MB
-                                </p>
-                              </div>
-                            </div>
+                  </div>
+                  <div className="w-full mt-3">
+                    <div className="">
+                      <div className="">
+                        <label htmlFor="file-upload">
+                          <label
+                            htmlFor="file-upload"
+                            className="block text-base mb-1 text_color"
+                          >
+                            {t("upload-images")}
                           </label>
-                        </div>
-
-                        <div className="col-span-4 grid grid-cols-3 items-center">
-                          {images.map((img, index) => (
-                            <div
-                              key={index}
-                              className="p-[6px] flex_center relative"
-                            >
-                              <div
-                                className="border border-gray-300 overflow-hidden rounded"
-                                id="file_img"
-                              >
-                                <img
-                                  src={img}
-                                  alt="images"
-                                  className="img-thumbnail max-w-[80px] w-full"
-                                />
+                          <div className="mr-2 flex bg-white dark:bg-gray-700 justify-center items-center rounded-md border-2 border-dashed border-gray-300 dark:border-gray-500 p-3 py-6 cursor-pointer h-36">
+                            <div className="flex justify-center flex-col items-center">
+                              <AiOutlineCloudUpload className="text-3xl text-gray-600" />
+                              <div className="flex text-sm text-gray-600">
+                                <label
+                                  htmlFor="file-upload"
+                                  className="relative cursor-pointer rounded-md bg-white dark:bg-transparent text_color font-medium"
+                                >
+                                  <span>{t("upload-images")}</span>
+                                  <input
+                                    id="file-upload"
+                                    name="file"
+                                    type="file"
+                                    className="sr-only"
+                                    onChange={handleImage}
+                                  />
+                                </label>
                               </div>
-                              <IoMdClose
-                                onClick={() => deleteImages(index)}
-                                className="absolute text-gray-600 top-0 p-1 border text-2xl border-gray-300 right-0 cursor-pointer rounded-full bg-white"
+                              <p className="text-xs text-gray-500">
+                                PNG, JPG up to 10MB
+                              </p>
+                            </div>
+                          </div>
+                        </label>
+                      </div>
+
+                      <div className="my-2 grid grid-cols-4 items-center">
+                        {images.map((img, index) => (
+                          <div
+                            key={index}
+                            className="p-[6px] max-w-max flex_center relative"
+                          >
+                            <div
+                              className="border border-gray-300 overflow-hidden rounded"
+                              id="file_img"
+                            >
+                              <img
+                                src={img}
+                                alt="images"
+                                className="img-thumbnail h-32 w-32 object-cover"
                               />
                             </div>
-                          ))}
-                        </div>
+                            <IoMdClose
+                              onClick={() => deleteImages(index)}
+                              className="absolute text-gray-600 top-0 p-2 border text-4xl border-gray-300 right-0 cursor-pointer rounded-full bg-white"
+                            />
+                          </div>
+                        ))}
                       </div>
                     </div>
+                  </div>
+                  <div className="mt-5">
+                    <p className="mb-2">{t("descr")}</p>
+
+                    <ReactQuill
+                      theme="snow"
+                      value={descr}
+                      onChange={setDescr}
+                      className="app editor-markdown w-full h-full min-[100px]"
+                      modules={modules}
+                      formats={formats}
+                    />
                   </div>
                   <div className="w-full mt-10 flex justify-end">
                     <Button

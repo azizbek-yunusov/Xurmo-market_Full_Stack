@@ -1,6 +1,7 @@
 {
   "all-categories": "Barcha kategoriyalar",
   "all-posts": "Barcha maqolalar",
+  "add-post-title": "Yangi maqola qo'shish",
   "search-filter": "Qidiruv filteri",
   "select-brand": "Brendni tanlang",
   "select-category": "Kategoriyani tanlang",
@@ -41,6 +42,9 @@
   "brand-delete": "Ushbu brend butunlay o'chirildi",
   "brand-selected-deleted": "Tanlangan brendlar o'chirildi",
   "name": "Nomi",
+  "title": "Maqola nomi",
+  "slug": "Href",
+  "excerpt": "Maqola haqida qisqacha",
   "name-pl": "Acer",
   "href-pl-b": "acer (kichik harflarda kiriting)",
   "brand": "Brend",

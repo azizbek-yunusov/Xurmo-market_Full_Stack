@@ -36,6 +36,12 @@ const AddBanner = () => {
     newArr.splice(index, 1);
     setImage(newArr);
   };
+  const handleNameSlugChange = async (e) => {
+    let value = e.target.value
+    let slug = await value.toLowerCase().replace(/\s+/g, "-")
+    setName(value)
+    setHref(slug)
+  }
   const createBannerHandle = async (e) => {
     e.preventDefault();
     const bannerData = {
@@ -52,6 +58,8 @@ const AddBanner = () => {
       toast.error("Something Went Wrong!");
     }
   };
+
+  console.log(href);
   return (
     <>
       <HelmetTitle title={t("add-banner-title")} />
@@ -88,7 +96,7 @@ const AddBanner = () => {
                         type="text"
                         className="rounded-xl"
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={handleNameSlugChange}
                       />
                       <TextField
                         id="outlined-basic"

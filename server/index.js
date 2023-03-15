@@ -32,7 +32,7 @@ app.use(
 );
 
 app.use(authRoutes);
-app.use(productRoutes);
+app.use("/api/v1", productRoutes);
 app.use(productReviewRoutes);
 app.use(userRoutes);
 app.use(bannerRoutes);

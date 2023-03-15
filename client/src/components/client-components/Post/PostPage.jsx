@@ -20,7 +20,7 @@ const PostPage = () => {
   }, [dispatch, id]);
 
   return (
-    <>
+    <main className="flex_center min-h-screen">
       <HelmetTitle title={`${post?.title}`} />
       {!isLoading && post ? (
         <div className="container-full md:my-5 my-2 relative lg:px-40 md:px-20">
@@ -47,7 +47,7 @@ const PostPage = () => {
       ) : (
         <CircularProgress />
       )}
-    </>
+    </main>
   );
 };
 
