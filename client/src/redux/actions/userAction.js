@@ -1,5 +1,5 @@
 import axios from "axios";
-import { baseUrl } from "../../utils/baseUrl";
+import { userUrl } from "../../utils/baseUrls";
 
 export const getUserInfor = (access_token) => async (dispatch) => {
   try {
@@ -11,7 +11,7 @@ export const getUserInfor = (access_token) => async (dispatch) => {
         Authorization: access_token,
       },
     };
-    const { data } = await axios.get(`${baseUrl}user`, config);
+    const { data } = await axios.get(`${userUrl}user`, config);
     dispatch({
       type: "USER_FULFILLED",
       payload: data,
@@ -23,7 +23,7 @@ export const getUserInfor = (access_token) => async (dispatch) => {
 
 export const editProfile = (userData, access_token) => async (dispatch) => {
   try {
-    const { data } = await axios.put(`${baseUrl}update`, userData, {
+    const { data } = await axios.put(`${userUrl}update`, userData, {
       headers: {
         Authorization: access_token,
       },
@@ -39,7 +39,7 @@ export const editProfile = (userData, access_token) => async (dispatch) => {
 
 export const changePassword = (passwords, access_token) => async (dispatch) => {
   try {
-    const { data } = await axios.put(`${baseUrl}change-password`, passwords, {
+    const { data } = await axios.put(`${userUrl}change-password`, passwords, {
       headers: {
         Authorization: access_token,
       },
@@ -60,7 +60,7 @@ export const uploadAvatar = (avatar, access_token) => async (dispatch) => {
         Authorization: access_token,
       },
     };
-    const { data } = await axios.put(`${baseUrl}avatar`, { avatar }, config);
+    const { data } = await axios.put(`${userUrl}avatar`, { avatar }, config);
     dispatch({
       type: "USER_FULFILLED",
       payload: data,

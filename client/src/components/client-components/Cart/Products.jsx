@@ -14,7 +14,7 @@ import {
   deleteFromCart,
 } from "../../../redux/actions/cartAction";
 import { deleteFavoriteItem } from "../../../redux/actions/favoriteAction";
-import { baseUrl } from "../../../utils/baseUrl";
+import { productUrl } from "../../../utils/baseUrls";
 import Price from "../Helpers/Price";
 const Products = ({ cart }) => {
   const { access_token, isLogged } = useSelector((state) => state.auth);
@@ -22,7 +22,7 @@ const Products = ({ cart }) => {
   let { t } = useTranslation(["product"]);
   const addToCartHandle = async (id) => {
     if (isLogged) {
-      const { data } = await axios.get(`${baseUrl}product/${id}`);
+      const { data } = await axios.get(`${productUrl}product/${id}`);
       const existItem = cart?.find((x) => x.productId?._id === data._id);
 
       if (data.inStock <= existItem.quantity) {

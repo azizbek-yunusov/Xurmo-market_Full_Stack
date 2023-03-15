@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { baseUrl } from "../../utils/baseUrl";
+import { postUrl } from "../../utils/baseUrls";
 
 export const getPosts = createAsyncThunk("post/get-posts", async (thunkAPI) => {
   try {
-    const response = await axios.get(`${baseUrl}posts`);
+    const response = await axios.get(postUrl);
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data);
@@ -12,7 +12,7 @@ export const getPosts = createAsyncThunk("post/get-posts", async (thunkAPI) => {
 });
 export const getPost = createAsyncThunk("post/get-post", async ({ id }) => {
   try {
-    const { data } = await axios.get(`${baseUrl}post/${id}`);
+    const { data } = await axios.get(`${postUrl}${id}`);
     return data;
   } catch (error) {
     return console.log(error);
@@ -22,7 +22,7 @@ export const createPost = createAsyncThunk(
   "post/create-post",
   async ({ access_token, postData }) => {
     try {
-      const { data } = await axios.post(`${baseUrl}post`, postData, {
+      const { data } = await axios.post(postUrl, postData, {
         headers: {
           Authorization: access_token,
         },
@@ -37,7 +37,7 @@ export const updatePost = createAsyncThunk(
   "post/update-post",
   async ({ access_token, id, postData }) => {
     try {
-      const { data } = await axios.put(`${baseUrl}post/${id}`, postData, {
+      const { data } = await axios.put(`${postUrl}${id}`, postData, {
         headers: {
           Authorization: access_token,
         },
@@ -53,7 +53,7 @@ export const deletePost = createAsyncThunk(
   "post/delete-post",
   async ({ access_token, id }, thunkApi) => {
     try {
-      const { data } = await axios.delete(`${baseUrl}post/${id}`, {
+      const { data } = await axios.delete(`${postUrl}${id}`, {
         headers: {
           Authorization: access_token,
         },
@@ -68,15 +68,11 @@ export const selectedDeletePost = createAsyncThunk(
   "post/selected-delete-post",
   async ({ access_token, selectedIds }, thunkApi) => {
     try {
-      const { data } = await axios.post(
-        `${baseUrl}post/selected`,
-        selectedIds,
-        {
-          headers: {
-            Authorization: access_token,
-          },
-        }
-      );
+      const { data } = await axios.post(`${postUrl}selected`, selectedIds, {
+        headers: {
+          Authorization: access_token,
+        },
+      });
       return data;
     } catch (error) {
       return console.log(error);

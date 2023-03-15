@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { baseUrl } from "../../utils/baseUrl";
+import { brandUrl } from "../../utils/baseUrls";
 
 export const getBrands = createAsyncThunk(
   "brand/get-brands",
   async (thunkAPI) => {
     try {
-      const response = await axios.get(`${baseUrl}brands`);
+      const response = await axios.get(`${brandUrl}brands`);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -15,7 +15,7 @@ export const getBrands = createAsyncThunk(
 );
 export const getBrand = createAsyncThunk("brand/get-brand", async ({ id }) => {
   try {
-    const { data } = await axios.get(`${baseUrl}brand/${id}`);
+    const { data } = await axios.get(`${brandUrl}brand/${id}`);
     return data;
   } catch (error) {
     return console.log(error);
@@ -25,7 +25,7 @@ export const createBrand = createAsyncThunk(
   "brand/create-brand",
   async ({ access_token, brandData }) => {
     try {
-      const { data } = await axios.post(`${baseUrl}brand`, brandData, {
+      const { data } = await axios.post(`${brandUrl}brand`, brandData, {
         headers: {
           Authorization: access_token,
         },
@@ -40,7 +40,7 @@ export const updateBrand = createAsyncThunk(
   "brand/update-brand",
   async ({ access_token, id, brandData }) => {
     try {
-      const { data } = await axios.put(`${baseUrl}brand/${id}`, brandData, {
+      const { data } = await axios.put(`${brandUrl}brand/${id}`, brandData, {
         headers: {
           Authorization: access_token,
         },
@@ -56,7 +56,7 @@ export const deleteBrand = createAsyncThunk(
   "brand/delete-brand",
   async ({ access_token, id }, thunkApi) => {
     try {
-      const { data } = await axios.delete(`${baseUrl}brand/${id}`, {
+      const { data } = await axios.delete(`${brandUrl}brand/${id}`, {
         headers: {
           Authorization: access_token,
         },
@@ -72,7 +72,7 @@ export const selectedDeleteBrand = createAsyncThunk(
   async ({ access_token, selectedIds }, thunkApi) => {
     try {
       const { data } = await axios.post(
-        `${baseUrl}brand/selected`,
+        `${brandUrl}brand/selected`,
         selectedIds,
         {
           headers: {

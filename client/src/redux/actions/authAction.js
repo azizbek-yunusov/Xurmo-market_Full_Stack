@@ -1,11 +1,12 @@
 import axios from "axios";
+import { authUrl } from "../../utils/baseUrls";
 
 export const signIn = (formState) => async (dispatch) => {
   try {
     // dispatch({ type: "SIGN_IN_PENDING" });
 
     const config = { headers: { "Content-Type": "application/json" } };
-    const { data } = await axios.post("/signin", formState, config);
+    const { data } = await axios.post(`${authUrl}signin`, formState, config);
     dispatch({
       type: "SIGN_IN_FULFILLED",
       payload: {
@@ -14,7 +15,9 @@ export const signIn = (formState) => async (dispatch) => {
         isAdmin: data.user.admin ? true : false,
       },
     });
-    localStorage.setItem("firstLogin", true);
+    if (data.access_token) {
+      localStorage.setItem("firstLogin", true);
+    }
     dispatch({ type: "USER_FULFILLED", payload: data.user });
     dispatch({
       type: "ADDRESS_FULFILLED",
@@ -31,19 +34,18 @@ export const signIn = (formState) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: "SIGN_IN_REJECTED",
-      payload: err.response.data.err
+      payload: err.response.data.err,
     });
     console.log(err);
   }
 };
-
 
 export const refreshToken = () => async (dispatch) => {
   const firstLogin = localStorage.getItem("firstLogin");
   if (firstLogin) {
     dispatch({ type: "REFRESH_PENDING" });
     try {
-      const { data } = await axios.post("/refreshtoken", null);
+      const { data } = await axios.post(`${authUrl}refreshtoken`, null);
       dispatch({
         type: "REFRESH_FULFILLED",
         payload: {
@@ -76,7 +78,7 @@ export const clearErrors = () => async (dispatch) => {
 };
 
 export const signOut = () => async (dispatch) => {
-  await axios.get("/logout");
+  await axios.get(`${authUrl}logout`);
   localStorage.removeItem("firstLogin");
   dispatch({ type: "SIGN_OUT" });
 };

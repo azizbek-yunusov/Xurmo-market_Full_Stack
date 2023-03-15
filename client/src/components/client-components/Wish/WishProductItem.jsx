@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { addToCart, decrQtyItemCart } from "../../../redux/actions/cartAction";
 import { deleteFavoriteItem } from "../../../redux/actions/favoriteAction";
-import { baseUrl } from "../../../utils/baseUrl";
+import { productUrl } from "../../../utils/baseUrls";
 import Price from "../Helpers/Price";
 const WishProductItem = ({ productId }) => {
   const { _id, name, images, price, ratings, discount } = productId;
@@ -19,14 +19,13 @@ const WishProductItem = ({ productId }) => {
   const { t } = useTranslation(["product"]);
   const { isLogged, access_token } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
-  const { favorites } = useSelector((state) => state.favorite);
 
   const existItem = cart?.find((x) => x.productId._id === _id);
   const isCart = existItem === undefined ? false : true;
 
   const addToCartHandle = async (id) => {
     if (isLogged) {
-      const { data } = await axios.get(`${baseUrl}product/${id}`);
+      const { data } = await axios.get(`${productUrl}product/${id}`);
       const existItem = cart?.find((x) => x.productId?._id === data._id);
 
       if (data.inStock <= existItem.quantity) {

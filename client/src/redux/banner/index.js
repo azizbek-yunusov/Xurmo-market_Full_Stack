@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { baseUrl } from "../../utils/baseUrl";
+import { bannerUrl } from "../../utils/baseUrls";
 
 export const getBanners = createAsyncThunk(
   "banner/get-banners",
   async (thunkAPI) => {
     try {
-      const response = await axios.get(`${baseUrl}banners`);
+      const response = await axios.get(bannerUrl);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -15,7 +15,7 @@ export const getBanners = createAsyncThunk(
 );
 export const getBanner = createAsyncThunk("banner/get-banner", async ({ id }) => {
   try {
-    const { data } = await axios.get(`${baseUrl}banner/${id}`);
+    const { data } = await axios.get(`${bannerUrl}${id}`);
     return data;
   } catch (error) {
     return console.log(error);
@@ -25,7 +25,7 @@ export const createBanner = createAsyncThunk(
   "banner/create-banner",
   async ({ access_token, bannerData }) => {
     try {
-      const { data } = await axios.post(`${baseUrl}banner`, bannerData, {
+      const { data } = await axios.post(bannerUrl, bannerData, {
         headers: {
           Authorization: access_token,
         },
@@ -40,7 +40,7 @@ export const updateBanner = createAsyncThunk(
   "banner/update-banner",
   async ({ access_token, id, bannerData }) => {
     try {
-      const { data } = await axios.put(`${baseUrl}banner/${id}`, bannerData, {
+      const { data } = await axios.put(`${bannerUrl}${id}`, bannerData, {
         headers: {
           Authorization: access_token,
         },
@@ -56,7 +56,7 @@ export const deleteBanner = createAsyncThunk(
   "banner/delete-banner",
   async ({ access_token, id }, thunkApi) => {
     try {
-      const { data } = await axios.delete(`${baseUrl}banner/${id}`, {
+      const { data } = await axios.delete(`${bannerUrl}${id}`, {
         headers: {
           Authorization: access_token,
         },
@@ -72,7 +72,7 @@ export const selectedDeleteBanner = createAsyncThunk(
   async ({ access_token, selectedIds }, thunkApi) => {
     try {
       const { data } = await axios.post(
-        `${baseUrl}banner/selected`,
+        `${bannerUrl}/selected`,
         selectedIds,
         {
           headers: {

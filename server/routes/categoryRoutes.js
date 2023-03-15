@@ -15,41 +15,44 @@ const authAdminMiddleware = require("../middleware/authAdminMiddleware");
 const authMiddleware = require("../middleware/authMiddleware");
 const router = Router();
 
-router.get("/categories", getAllCategoris);
-router.get("/category/:id", getCategory);
-router.get("/category/slug/:slug", getSlugCategory);
-router.post("/category", authMiddleware, authAdminMiddleware, createCategory);
+// path - /category
+router.get("/", getAllCategoris);
+router.get("/:id", getCategory);
+router.get("/slug/:slug", getSlugCategory);
+
+// admin only
+router.post("/", authMiddleware, authAdminMiddleware, createCategory);
 router.put(
-  "/category/:id",
+  "/:id",
   authMiddleware,
   authAdminMiddleware,
   updateCategory
 );
 router.delete(
-  "/category/:id",
+  "/:id",
   authMiddleware,
   authAdminMiddleware,
   deleteCategory
 );
 router.post(
-  "/category/selected",
+  "/selected",
   authMiddleware,
   authAdminMiddleware,
   deleteSelected
 );
 
 router.post(
-  "/category/item",
+  "/item",
   authMiddleware,
   authAdminMiddleware,
   createCategoryItem
 );
 router.delete(
-  "/category/item/:id",
+  "/item/:id",
   authMiddleware,
   authAdminMiddleware,
   deleteCategoryItem
 );
-router.get("/categories/category/items", getCategoryItems);
+router.get("/items", getCategoryItems);
 
 module.exports = router;

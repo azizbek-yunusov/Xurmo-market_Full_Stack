@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { baseUrl } from "../../utils/baseUrl";
+import { categoryUrl } from "../../utils/baseUrls";
 
 export const getCategories = createAsyncThunk(
   "category/get-categories",
   async (thunkAPI) => {
     try {
-      const response = await axios.get(`${baseUrl}categories`);
+      const response = await axios.get(categoryUrl);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -15,9 +15,9 @@ export const getCategories = createAsyncThunk(
 );
 export const getCategory = createAsyncThunk(
   "category/get-category",
-  async ({id}) => {
+  async ({ id }) => {
     try {
-      const { data } = await axios.get(`${baseUrl}category/${id}`);
+      const { data } = await axios.get(`${categoryUrl}${id}`);
       return data;
     } catch (error) {
       return console.log(error);
@@ -28,7 +28,7 @@ export const createCategory = createAsyncThunk(
   "category/create-category",
   async ({ access_token, categoryData }) => {
     try {
-      const { data } = await axios.post(`${baseUrl}category`, categoryData, {
+      const { data } = await axios.post(categoryUrl, categoryData, {
         headers: {
           Authorization: access_token,
         },
@@ -43,15 +43,11 @@ export const updateCategory = createAsyncThunk(
   "category/update-category",
   async ({ access_token, id, categoryData }) => {
     try {
-      const { data } = await axios.put(
-        `${baseUrl}category/${id}`,
-        categoryData,
-        {
-          headers: {
-            Authorization: access_token,
-          },
-        }
-      );
+      const { data } = await axios.put(`${categoryUrl}${id}`, categoryData, {
+        headers: {
+          Authorization: access_token,
+        },
+      });
       return data;
     } catch (error) {
       return console.log(error);
@@ -63,7 +59,7 @@ export const deleteCategory = createAsyncThunk(
   "category/delete-category",
   async ({ access_token, id }, thunkApi) => {
     try {
-      const { data } = await axios.delete(`${baseUrl}category/${id}`, {
+      const { data } = await axios.delete(`${categoryUrl}${id}`, {
         headers: {
           Authorization: access_token,
         },
@@ -78,15 +74,11 @@ export const selectedDeleteCategory = createAsyncThunk(
   "category/selected-delete-category",
   async ({ access_token, selectedIds }, thunkApi) => {
     try {
-      const { data } = await axios.post(
-        `${baseUrl}category/selected`,
-        selectedIds,
-        {
-          headers: {
-            Authorization: access_token,
-          },
-        }
-      );
+      const { data } = await axios.post(`${categoryUrl}selected`, selectedIds, {
+        headers: {
+          Authorization: access_token,
+        },
+      });
       return data;
     } catch (error) {
       return console.log(error);

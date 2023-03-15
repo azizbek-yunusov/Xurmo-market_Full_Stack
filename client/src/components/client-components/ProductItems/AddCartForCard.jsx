@@ -8,7 +8,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { addToCart, decrQtyItemCart } from "../../../redux/actions/cartAction";
-import { baseUrl } from "../../../utils/baseUrl";
+import { productUrl } from "../../../utils/baseUrls";
 
 const AddCartForCard = ({ isCart, existId, id, quantity, access_token }) => {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const AddCartForCard = ({ isCart, existId, id, quantity, access_token }) => {
   const { t } = useTranslation(["product"]);
   const addToCartHandle = async (id, access_token) => {
     if (isLogged) {
-      const { data } = await axios.get(`${baseUrl}product/${id}`);
+      const { data } = await axios.get(`${productUrl}product/${id}`);
       if (data.inStock <= quantity) {
         toast.error(t("product-not"));
       } else {

@@ -1,7 +1,6 @@
 const { Router } = require("express");
 const router = Router();
 const authMiddleware = require("../middleware/authMiddleware");
-const authAdminMiddleware = require("../middleware/authAdminMiddleware");
 const {
   signUp,
   activateEmail,
@@ -11,7 +10,6 @@ const {
   resetPassword,
   logout,
   googleOauth,
-  getRefresh,
 } = require("../controllers/authController");
 
 router.post("/signup", signUp);

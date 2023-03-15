@@ -1,12 +1,12 @@
 import axios from "axios";
-import { baseUrl } from "../../utils/baseUrl";
+import { userUrl } from "../../utils/baseUrls";
 
 export const addToFavorite = (id, access_token) => async (dispatch) => {
   try {
     // dispatch({
     //   type: "USER_PENDING",
     // });
-    const { data } = await axios.post(`${baseUrl}fovorite/${id}`, null, {
+    const { data } = await axios.post(`${userUrl}fovorite/${id}`, null, {
       headers: {
         Authorization: access_token,
       },
@@ -25,7 +25,7 @@ export const deleteFavoriteItem = (id, access_token) => async (dispatch) => {
     // dispatch({
     //   type: "USER_PENDING",
     // });
-    const { data } = await axios.delete(`${baseUrl}fovorite/${id}`, {
+    const { data } = await axios.delete(`${userUrl}fovorite/${id}`, {
       headers: {
         Authorization: access_token,
       },
@@ -44,7 +44,7 @@ export const cleanWishList = (access_token) => async (dispatch) => {
     // dispatch({
     //   type: "USER_PENDING",
     // });
-    const { data } = await axios.put(`${baseUrl}fovorites`, null, {
+    const { data } = await axios.put(`${userUrl}fovorites`, null, {
       headers: {
         Authorization: access_token,
       },

@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { baseUrl } from "../../utils/baseUrl";
+import { userUrl } from "../../utils/baseUrls";
 
 export const getUsers = createAsyncThunk(
   "user/get-users",
   async (access_token, thunkAPI) => {
     try {
-      const { data } = await axios.get(`${baseUrl}users`, {
+      const { data } = await axios.get(userUrl, {
         headers: {
           Authorization: access_token,
         },
@@ -21,7 +21,7 @@ export const getUser = createAsyncThunk(
   "user/get-user",
   async ({ id, access_token }) => {
     try {
-      const { data } = await axios.get(`${baseUrl}user/${id}`, {
+      const { data } = await axios.get(`${userUrl}${id}`, {
         headers: {
           Authorization: access_token,
         },
@@ -36,7 +36,7 @@ export const createUser = createAsyncThunk(
   "user/create-user",
   async ({ access_token, userData }) => {
     try {
-      const { data } = await axios.post(`${baseUrl}user`, userData, {
+      const { data } = await axios.post(userUrl, userData, {
         headers: {
           Authorization: access_token,
         },
@@ -52,7 +52,7 @@ export const updateUser = createAsyncThunk(
   "user/update-user",
   async ({ access_token, id, userData }) => {
     try {
-      const { data } = await axios.put(`${baseUrl}user/${id}`, userData, {
+      const { data } = await axios.put(`${userUrl}${id}`, userData, {
         headers: {
           Authorization: access_token,
         },
@@ -68,7 +68,7 @@ export const deleteUser = createAsyncThunk(
   "user/delete-user",
   async ({ access_token, id }, thunkApi) => {
     try {
-      const { data } = await axios.delete(`${baseUrl}user/${id}`, {
+      const { data } = await axios.delete(`${userUrl}${id}`, {
         headers: {
           Authorization: access_token,
         },
@@ -83,15 +83,11 @@ export const selectedDeleteUser = createAsyncThunk(
   "user/selected-delete-user",
   async ({ access_token, selectedIds }, thunkApi) => {
     try {
-      const { data } = await axios.post(
-        `${baseUrl}user/selected`,
-        selectedIds,
-        {
-          headers: {
-            Authorization: access_token,
-          },
-        }
-      );
+      const { data } = await axios.post(`${userUrl}selected`, selectedIds, {
+        headers: {
+          Authorization: access_token,
+        },
+      });
       return data;
     } catch (error) {
       return console.log(error);

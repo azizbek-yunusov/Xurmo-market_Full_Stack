@@ -1,4 +1,4 @@
-const { Router } = require("express");
+const router = require("express").Router();
 const {
   getAllProducts,
   getbestProducts,
@@ -11,26 +11,27 @@ const {
 } = require("../controllers/productController");
 const authAdminMiddleware = require("../middleware/authAdminMiddleware");
 const authMiddleware = require("../middleware/authMiddleware");
-const router = Router();
 
-router.get("/products", getAllProducts);
+// path - /banner
+router.get("/", getAllProducts);
 router.get("/best", getbestProducts);
-router.get("/product/:id", getProduct);
-router.post("/product", authMiddleware, authAdminMiddleware, createProduct);
-router.put("/product/:id", authMiddleware, authAdminMiddleware, updateProduct);
+router.get("/:id", getProduct);
+router.get("/search", getSearch)
+// admin only
+router.post("/", authMiddleware, authAdminMiddleware, createProduct);
+router.put("/:id", authMiddleware, authAdminMiddleware, updateProduct);
 router.delete(
-  "/product/:id",
+  "/:id",
   authMiddleware,
   authAdminMiddleware,
   deleteProduct
 );
 router.post(
-  "/product/selected",
+  "/selected",
   authMiddleware,
   authAdminMiddleware,
   deleteSelected
 );
-router.get("/search", getSearch)
 
 
 module.exports = router;

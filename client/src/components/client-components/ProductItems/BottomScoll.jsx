@@ -9,7 +9,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { addToCart, decrQtyItemCart } from "../../../redux/actions/cartAction";
-import { baseUrl } from "../../../utils/baseUrl";
+import { productUrl } from "../../../utils/baseUrls";
 import Price from "../Helpers/Price";
 
 const BottomScoll = ({ product }) => {
@@ -24,7 +24,7 @@ const BottomScoll = ({ product }) => {
   const isCart = existItem === undefined ? false : true;
   const addToCartHandle = async (id, access_token) => {
     if (isLogged) {
-      const { data } = await axios.get(`${baseUrl}product/${id}`);
+      const { data } = await axios.get(`${productUrl}product/${id}`);
       if (data.inStock <= existItem.quantity) {
         toast.error(t("product-not"));
       } else {

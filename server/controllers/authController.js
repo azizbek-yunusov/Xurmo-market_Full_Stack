@@ -13,7 +13,7 @@ const signUp = async (req, res) => {
   try {
     const { name, email, password } = req.body;
     if (!name || !email || !password) {
-      return res.status(400).json({ error: "Please add all the feilds" });
+      return res.status(400).json({ error: "Please add all the feilds!!!" });
     }
     const userExists = await UserModel.findOne({ email });
     if (userExists) {

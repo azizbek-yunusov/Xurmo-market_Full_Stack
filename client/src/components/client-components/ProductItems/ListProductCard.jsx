@@ -13,7 +13,7 @@ import {
   addToFavorite,
   deleteFavoriteItem,
 } from "../../../redux/actions/favoriteAction";
-import { baseUrl } from "../../../utils/baseUrl";
+import { productUrl } from "../../../utils/baseUrls";
 import Price from "../Helpers/Price";
 
 const ListProductCard = (props) => {
@@ -31,7 +31,7 @@ const ListProductCard = (props) => {
 
   const addToCartHandle = async (id) => {
     if (isLogged) {
-      const { data } = await axios.get(`${baseUrl}product/${id}`);
+      const { data } = await axios.get(`${productUrl}product/${id}`);
       if (data.inStock <= existItem.quantity) {
         toast.error(t("product-not"));
       } else {

@@ -17,6 +17,7 @@ const PostPage = () => {
 
   useEffect(() => {
     dispatch(getPost({ id }));
+    window.scrollTo(0, 0);
   }, [dispatch, id]);
 
   return (

@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { baseUrl } from "../../utils/baseUrl";
+import { productUrl } from "../../utils/baseUrls";
 
 export const getProducts = createAsyncThunk(
   "product/get-products",
   async (thunkAPI) => {
     try {
-      const { data } = await axios.get(`${baseUrl}products`);
+      const { data } = await axios.get(productUrl);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.data);
@@ -17,7 +17,7 @@ export const getProduct = createAsyncThunk(
   "product/get-product",
   async (id) => {
     try {
-      const { data } = await axios.get(`${baseUrl}product/${id}`);
+      const { data } = await axios.get(`${productUrl}${id}`);
       return data;
     } catch (error) {
       return console.log(error);
@@ -28,7 +28,7 @@ export const createProduct = createAsyncThunk(
   "product/create-product",
   async ({ access_token, productData }) => {
     try {
-      const { data } = await axios.post(`${baseUrl}product`, productData, {
+      const { data } = await axios.post(productUrl, productData, {
         headers: {
           Authorization: access_token,
         },
@@ -43,7 +43,7 @@ export const updateProduct = createAsyncThunk(
   "product/update-product",
   async ({ access_token, id, productData }) => {
     try {
-      const { data } = await axios.put(`${baseUrl}product/${id}`, productData, {
+      const { data } = await axios.put(`${productUrl}${id}`, productData, {
         headers: {
           Authorization: access_token,
         },
@@ -59,7 +59,7 @@ export const deleteProduct = createAsyncThunk(
   "product/delete-product",
   async ({ access_token, id }, thunkApi) => {
     try {
-      const { data } = await axios.delete(`${baseUrl}product/${id}`, {
+      const { data } = await axios.delete(`${productUrl}${id}`, {
         headers: {
           Authorization: access_token,
         },
@@ -75,7 +75,7 @@ export const selectedDeleteProduct = createAsyncThunk(
   async ({ access_token, selectedIds }, thunkApi) => {
     try {
       const { data } = await axios.post(
-        `${baseUrl}product/selected`,
+        `${productUrl}selected`,
         selectedIds,
         {
           headers: {
@@ -95,7 +95,7 @@ export const addReview = createAsyncThunk(
   async ({ access_token, productId, rating, comment, pictures }, thunkApi) => {
     try {
       const { data } = await axios.put(
-        `${baseUrl}review`,
+        `${productUrl}review`,
         {
           productId,
           rating,

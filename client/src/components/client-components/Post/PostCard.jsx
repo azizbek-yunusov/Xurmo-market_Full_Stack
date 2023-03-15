@@ -15,7 +15,7 @@ const PostCard = ({
   image,
 }) => {
   return (
-    <div className="p-3">
+    <div className="">
       <Link to={`/post/view/${_id}`} className="w-full flex_center tranistion_normal rounded-lg overflow-hidden">
         <img
           src={image?.url}

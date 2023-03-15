@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { baseUrl } from "../../utils/baseUrl";
+import { orderUrl } from "../../utils/baseUrls";
 
 export const getOrders = createAsyncThunk(
   "order/get-orders",
   async (access_token, thunkAPI) => {
     try {
-      const response = await axios.get(`${baseUrl}orders`, {
+      const response = await axios.get(orderUrl, {
         headers: {
           Authorization: access_token,
         },
@@ -21,7 +21,7 @@ export const getOrder = createAsyncThunk(
   "order/get-order",
   async ({ access_token, id }, thunkAPI) => {
     try {
-      const response = await axios.get(`${baseUrl}order/${id}`, {
+      const response = await axios.get(`${orderUrl}${id}`, {
         headers: {
           Authorization: access_token,
         },
@@ -36,7 +36,7 @@ export const getMyOrders = createAsyncThunk(
   "order/get-my-orders",
   async (access_token, thunkAPI) => {
     try {
-      const response = await axios.get(`${baseUrl}myorders`, {
+      const response = await axios.get(`${orderUrl}my`, {
         headers: {
           Authorization: access_token,
         },
@@ -51,7 +51,7 @@ export const newOrder = createAsyncThunk(
   "order/new-order",
   async ({ access_token, orderData }) => {
     try {
-      const { data } = await axios.post(`${baseUrl}order`, orderData, {
+      const { data } = await axios.post(orderUrl, orderData, {
         headers: {
           Authorization: access_token,
         },
@@ -66,7 +66,7 @@ export const updateOrder = createAsyncThunk(
   "order/update-order",
   async ({ access_token, id, orderData }) => {
     try {
-      const { data } = await axios.put(`${baseUrl}order/${id}`, orderData, {
+      const { data } = await axios.put(`${orderUrl}${id}`, orderData, {
         headers: {
           Authorization: access_token,
         },
@@ -82,7 +82,7 @@ export const deleteOrder = createAsyncThunk(
   "order/delete-order",
   async ({ access_token, id }, thunkApi) => {
     try {
-      const { data } = await axios.delete(`${baseUrl}order/${id}`, {
+      const { data } = await axios.delete(`${orderUrl}${id}`, {
         headers: {
           Authorization: access_token,
         },
@@ -97,15 +97,11 @@ export const selectedDeleteOrder = createAsyncThunk(
   "order/selected-delete-order",
   async ({ access_token, selectedIds }, thunkApi) => {
     try {
-      const { data } = await axios.post(
-        `${baseUrl}order/selected`,
-        selectedIds,
-        {
-          headers: {
-            Authorization: access_token,
-          },
-        }
-      );
+      const { data } = await axios.post(`${orderUrl}selected`, selectedIds, {
+        headers: {
+          Authorization: access_token,
+        },
+      });
       return data;
     } catch (error) {
       return console.log(error);
@@ -118,7 +114,7 @@ export const addReview = createAsyncThunk(
   async ({ access_token, productId, rating, comment, pictures }, thunkApi) => {
     try {
       const { data } = await axios.put(
-        `${baseUrl}review`,
+        `${orderUrl}review`,
         {
           productId,
           rating,

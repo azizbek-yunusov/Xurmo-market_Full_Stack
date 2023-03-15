@@ -1,5 +1,5 @@
 import axios from "axios";
-import { baseUrl } from "../../utils/baseUrl";
+import { userUrl } from "../../utils/baseUrls";
 
 
 export const newAddress = (addressData, access_token) => async (dispatch) => {
@@ -7,7 +7,7 @@ export const newAddress = (addressData, access_token) => async (dispatch) => {
     dispatch({
       type: "ADDRESS_PENDING",
     });
-    const { data } = await axios.post(`${baseUrl}address`, addressData, {
+    const { data } = await axios.post(`${userUrl}address`, addressData, {
       headers: {
         Authorization: access_token,
       },
@@ -26,7 +26,7 @@ export const deleteAddress = (id, access_token) => async (dispatch) => {
     dispatch({
       type: "ADDRESS_PENDING",
     });
-    const { data } = await axios.delete(`${baseUrl}address/${id}`, {
+    const { data } = await axios.delete(`${userUrl}address/${id}`, {
       headers: { Authorization: access_token },
     });
     dispatch({

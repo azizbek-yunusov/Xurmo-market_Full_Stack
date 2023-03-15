@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { baseUrl } from "../../utils/baseUrl";
+import { authUrl } from "../../utils/baseUrls";
 
 export const signInv = createAsyncThunk(
   "auth/sign-in",
   async ({ formState }) => {
     try {
-      const { data } = await axios.post(`${baseUrl}signin`, formState);
+      const { data } = await axios.post(`${authUrl}signin`, formState);
       return data;
     } catch (error) {
       return console.log(error);
@@ -16,8 +16,8 @@ export const signInv = createAsyncThunk(
 
 export const refreshV = createAsyncThunk("auth/refresh-token", async () => {
   try {
-    // const response = await axios.post(`${baseUrl}refreshtoken`);
-    const { data } = await axios.post(`${baseUrl}refreshtoken`, null);
+    // const response = await axios.post(`${authUrl}refreshtoken`);
+    const { data } = await axios.post(`${authUrl}refreshtoken`, null);
     return data;
   } catch (error) {
     return console.log(error);

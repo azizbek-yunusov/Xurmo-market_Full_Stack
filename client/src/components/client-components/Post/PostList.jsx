@@ -27,12 +27,12 @@ const PostList = () => {
       <Swiper
         breakpoints={{
           300: {
-            slidesPerView: 1.05,
-            spaceBetween: 5,
+            slidesPerView: 1.08,
+            spaceBetween: 10,
           },
           768: {
             slidesPerView: 2,
-            spaceBetween: 5,
+            spaceBetween: 10,
           },
           1024: {
             slidesPerView: 4,

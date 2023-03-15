@@ -91,6 +91,7 @@ function App() {
   useEffect(() => {
     dispatch(refreshToken());
   }, [dispatch]);
+
   useEffect(() => {
     window.replainSettings = { id: "9ba7af42-4b86-455f-b953-ebe0286ecce7" };
     (function (u) {
@@ -120,12 +121,7 @@ function App() {
       </>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/myprofile" element={<OverView />} />
-        <Route path="/myprofile/orders" element={<MyOrders />} />
-        <Route path="/myprofile/addresses" element={<Addresses />} />
-        <Route path="/myprofile/settings" element={<Settings />} />
-        <Route path="/myprofile/update" element={<EditMyProfile />} />
-        <Route path="/myprofile/favorites" element={<Favorites />} />
+
         <Route path="/product/view/:id" element={<ProductDetail />} />
         <Route path="/products" element={<ProductsList />} />
         <Route path="/category/:slug" element={<CurrentCategory />} />
@@ -133,14 +129,22 @@ function App() {
         <Route path="/cart" element={<Basket />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/wishlist" element={<WishList />} />
-        <Route path="/check-out" element={<CheckOut />} />
         <Route path="/post/view/:id" element={<PostPage />} />
+        {auth.isLogged && (
+          <>
+            <Route path="/myprofile" element={<OverView />} />
+            <Route path="/myprofile/orders" element={<MyOrders />} />
+            <Route path="/myprofile/addresses" element={<Addresses />} />
+            <Route path="/myprofile/settings" element={<Settings />} />
+            <Route path="/myprofile/update" element={<EditMyProfile />} />
+            <Route path="/myprofile/favorites" element={<Favorites />} />
+            <Route path="/check-out" element={<CheckOut />} />
+          </>
+        )}
         <Route
           path="/user/activate/:activationtoken"
           element={<ActivationEmail />}
         />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/signin" element={<SignIn />} />
         <Route path="*" element={<NotFound />} />
         {!auth.isLogged && (
           <>

@@ -31,7 +31,7 @@ const store = configureStore({
     banner,
     post,
   },
-  devTools: true,
+  devTools: false,
 });
 
 function UserProvider({ children }) {

@@ -13,6 +13,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 const router = Router();
 
 router.put("/review", authMiddleware, addReview);
+
 router.delete("/review/:id", authMiddleware, authAdminMiddleware, deleteReview);
 router.put(
   "/review/update/:id",
