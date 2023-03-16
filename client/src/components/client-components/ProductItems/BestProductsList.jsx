@@ -1,17 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import ProductCard from "./ProductCard";
 import { useTranslation } from "react-i18next";
 import { ProductList } from "../SkeletonLoaders";
-import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../../../redux/product";
+import { useSelector } from "react-redux";
 const BestProductsList = () => {
   const { t } = useTranslation(["product"]);
   const { isLoading, products } = useSelector((state) => state.product);
-  const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(getProducts());
-  // }, [dispatch]);
   return (
     <>
       {!isLoading ? (

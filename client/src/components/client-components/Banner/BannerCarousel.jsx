@@ -8,18 +8,11 @@ import "swiper/css/navigation";
 import BannerItem from "./BannerItem";
 import DayProductList from "./DayProductList";
 import { BannerLoader } from "../SkeletonLoaders";
-import { getBanners } from "../../../redux/banner";
-import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../../../redux/product";
+import { useSelector } from "react-redux";
 
 const BannerCarousel = () => {
   const { isLoading, banners } = useSelector((state) => state.banner);
   const { products } = useSelector((state) => state.product);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getBanners());
-    dispatch(getProducts());
-  }, [dispatch]);
   return (
     <>
       {!isLoading ? (

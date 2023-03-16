@@ -31,7 +31,7 @@ const ListProductCard = (props) => {
 
   const addToCartHandle = async (id) => {
     if (isLogged) {
-      const { data } = await axios.get(`${productUrl}product/${id}`);
+      const { data } = await axios.get(`${productUrl}${id}`);
       if (data.inStock <= existItem.quantity) {
         toast.error(t("product-not"));
       } else {

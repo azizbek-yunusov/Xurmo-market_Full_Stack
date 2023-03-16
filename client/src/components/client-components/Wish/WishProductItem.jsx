@@ -25,7 +25,7 @@ const WishProductItem = ({ productId }) => {
 
   const addToCartHandle = async (id) => {
     if (isLogged) {
-      const { data } = await axios.get(`${productUrl}product/${id}`);
+      const { data } = await axios.get(`${productUrl}${id}`);
       const existItem = cart?.find((x) => x.productId?._id === data._id);
 
       if (data.inStock <= existItem.quantity) {

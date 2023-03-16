@@ -36,7 +36,7 @@ const Navbar = () => {
             }`}
           >
             <div className="container-full  grid lg:grid-cols-12 md:pb-2 md:pt-[14px] py-1">
-              <div className="col-span-3 flex justify-between items-center">
+              <div className="col-span-3  flex justify-between items-center">
                 <Link
                   to="/"
                   className="text-gray-700 lg:block hidden md:text-[26px] text-xl font-bold global-font"
@@ -45,18 +45,18 @@ const Navbar = () => {
                 </Link>
                 <CatalogButton />
               </div>
-              <div className="lg:col-span-6 col-span-9 flex justify-end items-center">
+              <div className="lg:col-span-6  col-span-9 flex justify-end items-center">
                 <SearchBox />
               </div>
-              <div className="hidden lg:col-span-3 lg:flex justify-end items-center">
+              <div className="hidden  lg:col-span-3 lg:flex justify-end items-center">
                 <ul className="flex justify-between items-center my-1">
                   <li className="lg:mr-3 xl:mr-6">
                     <FavoritesButton />
                   </li>
-                  <li className="lg:mx-3 xl:mx-6">
+                  <li className="md:mx-1 xl:mx-6">
                     <Cart />
                   </li>
-                  <li className="xl:mx-4 ml-3 -mt-1">
+                  <li className="xl:ml-4 md:ml-1 ml-3 -mt-1">
                     {isLogged ? <AuthButton /> : <UserButton />}
                   </li>
                 </ul>

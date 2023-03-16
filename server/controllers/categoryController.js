@@ -1,4 +1,4 @@
-const CategoryItemModel = require("../models/CategoryItemModel");
+const SubCategoryModel = require("../models/SubCategoryModel");
 const CategoryModel = require("../models/CategoryModel");
 const cloudinary = require("../utils/cloudinary");
 
@@ -20,10 +20,10 @@ const getCategory = async (req, res) => {
       "createdBy",
       "_id name lastName avatar email"
     );
-    const categoryItems = await CategoryItemModel.find({
+    const subCategorys = await SubCategoryModel.find({
       categoryId: category._id,
     })
-    res.status(201).json({ category, categoryItems });
+    res.status(201).json({ category, subCategorys });
   } catch (err) {
     console.log(err);
   }
@@ -109,23 +109,23 @@ const deleteSelected = async (req, res) => {
 };
 // Category Item
 
-const getCategoryItems = async (req, res) => {
+const getSubCategories = async (req, res) => {
   try {
-    const categoryItems = await CategoryItemModel.find()
+    const subCategorys = await SubCategoryModel.find()
       .populate("createdBy", "_id name lastName avatar email")
       .populate("categoryId", "_id slug nameUz nameEn nameRu image");
-    res.status(201).json(categoryItems);
+    res.status(201).json(subCategorys);
   } catch (err) {
     console.log(err);
   }
 };
-const createCategoryItem = async (req, res) => {
+const createSubCategory = async (req, res) => {
   const { categoryId, titleUz, titleEn, titleRu, slug, image } = req.body;
   try {
     const result = await cloudinary.uploader.upload(image, {
       folder: "Categories",
     });
-    const categoryItem = await CategoryItemModel.create({
+    const subCategory = await SubCategoryModel.create({
       categoryId,
       titleUz,
       titleEn,
@@ -137,19 +137,19 @@ const createCategoryItem = async (req, res) => {
       },
       createdBy: req.user.id,
     });
-    await categoryItem.save();
-    res.status(200).json(categoryItem);
+    await subCategory.save();
+    res.status(200).json(subCategory);
   } catch (err) {
     console.log(err);
   }
 };
 
-const deleteCategoryItem = async (req, res) => {
+const deleteSubCategory = async (req, res) => {
   try {
-    const categoryItem = await CategoryItemModel.findByIdAndDelete(
+    const subCategory = await SubCategoryModel.findByIdAndDelete(
       req.params.id
     );
-    res.status(201).json(categoryItem);
+    res.status(201).json(subCategory);
   } catch (err) {
     console.log(err);
   }
@@ -163,7 +163,7 @@ module.exports = {
   getSlugCategory,
   deleteSelected,
   deleteCategory,
-  getCategoryItems,
-  createCategoryItem,
-  deleteCategoryItem,
+  getSubCategories,
+  createSubCategory,
+  deleteSubCategory,
 };

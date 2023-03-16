@@ -2,13 +2,14 @@ import "../../../assets/styles/swipperThumbs.scss";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Thumbs } from "swiper";
 import { useState } from "react";
+import ImageViewer from "react-simple-image-viewer";
 import "swiper/css";
 import "swiper/css/thumbs";
 const ImageThumbs = ({ images }) => {
   const [activeThumb, setActiveThumb] = useState();
   return (
     <>
-      <main className="md:block hidden product_detail">
+      <main className="md:block product_detail">
         {images && images[0] && (
           <>
             <Swiper

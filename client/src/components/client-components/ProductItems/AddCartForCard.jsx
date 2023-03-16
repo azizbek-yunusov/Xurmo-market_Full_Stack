@@ -16,7 +16,7 @@ const AddCartForCard = ({ isCart, existId, id, quantity, access_token }) => {
   const { t } = useTranslation(["product"]);
   const addToCartHandle = async (id, access_token) => {
     if (isLogged) {
-      const { data } = await axios.get(`${productUrl}product/${id}`);
+      const { data } = await axios.get(`${productUrl}${id}`);
       if (data.inStock <= quantity) {
         toast.error(t("product-not"));
       } else {

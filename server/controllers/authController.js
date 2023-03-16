@@ -60,6 +60,7 @@ const activateEmail = async (req, res) => {
     await newUser.save();
     const refreshtoken = createRefreshToken({ id: savedUser._id });
     const access_token = createAccessToken({ id: savedUser._id });
+
     res.cookie("refreshtoken", refreshtoken, {
       httpOnly: true,
       path: "/",
@@ -101,7 +102,8 @@ const signIn = async (req, res) => {
     const access_token = createAccessToken({ id: savedUser._id });
     res.cookie("refreshtoken", refreshtoken, {
       httpOnly: true,
-      path: "/",
+      secure: true,
+      sameSite: "None",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 

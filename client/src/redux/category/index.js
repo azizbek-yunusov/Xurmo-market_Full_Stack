@@ -139,7 +139,7 @@ export const categorySlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.currentCategory = action.payload.category;
-        state.items = action.payload.categoryItems;
+        state.items = action.payload.subCategorys;
       })
       .addCase(getCategory.rejected, (state, action) => {
         state.isLoading = false;

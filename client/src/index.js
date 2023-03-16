@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import "./i18n";
 import "./index.css";
-import 'moment/locale/uz-latn';
+import "moment/locale/uz-latn";
 // import 'moment/locale/ru';
 import App from "./App";
 import "./assets/styles/swipper.css";
@@ -17,11 +17,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <HelmetProvider>
-      <GoogleOAuthProvider
-        clientId={
-          "1062466711644-41poj89urjls6ip16t1f3irv1hmhteoo.apps.googleusercontent.com"
-        }
-      >
+      <GoogleOAuthProvider clientId={"1062466711644-41poj89urjls6ip16t1f3irv1hmhteoo.apps.googleusercontent.com"}>
         <UserProvider>
           <BrowserRouter>
             <ThemeProvider theme={theme}>

@@ -24,7 +24,7 @@ const BottomScoll = ({ product }) => {
   const isCart = existItem === undefined ? false : true;
   const addToCartHandle = async (id, access_token) => {
     if (isLogged) {
-      const { data } = await axios.get(`${productUrl}product/${id}`);
+      const { data } = await axios.get(`${productUrl}${id}`);
       if (data.inStock <= existItem.quantity) {
         toast.error(t("product-not"));
       } else {

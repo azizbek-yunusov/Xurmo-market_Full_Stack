@@ -1,4 +1,5 @@
-const api = "https://e-commerce-first-api-qeof.onrender.com/api";
+// const api = process.env.API_URL;
+const api = "/api";
 export const authUrl = `${api}/auth/`;
 export const productUrl = `${api}/product/`;
 export const userUrl = `${api}/user/`;

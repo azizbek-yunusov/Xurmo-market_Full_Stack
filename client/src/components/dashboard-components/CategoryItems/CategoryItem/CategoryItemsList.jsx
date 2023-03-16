@@ -36,21 +36,21 @@ const CategoryItemsList = () => {
   const [isTable, setIsTable] = useState(false);
   const [loading, setLoading] = useState(true);
   const [selectedCategoryIds, setSelectedCategoryIds] = useState([]);
-  const [categoryItems, setCategoryItem] = useState([]);
+  const [subCategorys, setsubCategory] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
-  const getCategoryItems = async () => {
+  const getSubCategories = async () => {
     try {
       const { data } = await axios.get("/categories/category/items");
-      setCategoryItem(data);
+      setsubCategory(data);
       setLoading(false);
     } catch (err) {
       console.log(err);
     }
   };
 
-  const filteredCategories = categoryItems?.filter(
+  const filteredCategories = subCategorys?.filter(
     (value) =>
       value.titleUz.toLowerCase().includes(term.toLowerCase()) ||
       value.titleRu.toLowerCase().includes(term.toLowerCase()) ||
@@ -60,7 +60,7 @@ const CategoryItemsList = () => {
     let newSelectedCategoryIds;
 
     if (e.target.checked) {
-      newSelectedCategoryIds = categoryItems.map((category) => category._id);
+      newSelectedCategoryIds = subCategorys.map((category) => category._id);
     } else {
       newSelectedCategoryIds = [];
     }
@@ -104,14 +104,14 @@ const CategoryItemsList = () => {
       console.log(err);
     }
   };
-  const handleDeleteCategoryItem = async (id) => {
+  const handledeleteSubCategory = async (id) => {
     try {
       await axios.delete(`/category/item/${id}`, {
         headers: {
           Authorization: access_token,
         },
       });
-      getCategoryItems();
+      getSubCategories();
       toast.success(t("category-item-delete"));
     } catch (err) {
       console.log(err);
@@ -119,9 +119,9 @@ const CategoryItemsList = () => {
   };
 
   useEffect(() => {
-    getCategoryItems();
+    getSubCategories();
   }, []);
-  console.log(categoryItems);
+  console.log(subCategorys);
   return (
     <>
       <HelmetTitle title={t("category-items")} />
@@ -147,7 +147,7 @@ const CategoryItemsList = () => {
                     label={t("select-category")}
                   >
                     <MenuItem value={"all"}>All</MenuItem>
-                    <MenuItem value={"user"}>categoryItems</MenuItem>
+                    <MenuItem value={"user"}>subCategorys</MenuItem>
                     <MenuItem value={"admin"}>Admins</MenuItem>
                   </Select>
                 </FormControl>
@@ -179,7 +179,7 @@ const CategoryItemsList = () => {
                     label={t("select-rating")}
                   >
                     <MenuItem value={"all"}>All</MenuItem>
-                    <MenuItem value={"user"}>categoryItems</MenuItem>
+                    <MenuItem value={"user"}>subCategorys</MenuItem>
                     <MenuItem value={"admin"}>Admins</MenuItem>
                   </Select>
                 </FormControl>
@@ -298,25 +298,25 @@ const CategoryItemsList = () => {
                   </div>
                 </div>
               )}
-              {categoryItems.length ? (
+              {subCategorys.length ? (
                 <>
                   {!isTable ? (
                     <TableBody
-                      categoryItems={categoryItems}
+                      subCategorys={subCategorys}
                       handleSelectAll={handleSelectAll}
                       selectedCategoryIds={selectedCategoryIds}
                       filteredCategories={filteredCategories}
                       handleSelectOne={handleSelectOne}
-                      handleDeleteCategoryItem={handleDeleteCategoryItem}
+                      handledeleteSubCategory={handledeleteSubCategory}
                     />
                   ) : (
                     <GridList
-                      categoryItems={categoryItems}
+                      subCategorys={subCategorys}
                       handleSelectAll={handleSelectAll}
                       selectedCategoryIds={selectedCategoryIds}
                       filteredCategories={filteredCategories}
                       handleSelectOne={handleSelectOne}
-                      handleDeleteCategoryItem={handleDeleteCategoryItem}
+                      handledeleteSubCategory={handledeleteSubCategory}
                     />
                   )}
                 </>

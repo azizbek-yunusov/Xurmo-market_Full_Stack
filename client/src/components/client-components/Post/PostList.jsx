@@ -9,12 +9,7 @@ import { Link } from "react-router-dom";
 
 const PostList = () => {
   const { posts } = useSelector((state) => state.post);
-  const dispatch = useDispatch();
   let { t } = useTranslation(["dashboard"]);
-
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch]);
 
   return (
     <div className="md:my-5 my-3 container-full">

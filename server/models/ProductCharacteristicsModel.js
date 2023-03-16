@@ -42,7 +42,7 @@ const characteristicsSchema = new Schema(
     items: [
       {
         type: Schema.Types.ObjectId,
-        ref: "CategoryItem",
+        ref: "subCategory",
       },
     ],
     createdAt: {

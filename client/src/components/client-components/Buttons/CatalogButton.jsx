@@ -96,7 +96,7 @@ const CatalogButton = () => {
       <Button
         variant="contained"
         color="secondary"
-        className="w-40"
+        className="xl:w-40 w-25"
         size="medium"
         startIcon={<BiCategory />}
         onClick={handleOpenMenu}

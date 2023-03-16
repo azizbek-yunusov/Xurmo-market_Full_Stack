@@ -1,18 +1,12 @@
-import React, { useEffect } from "react";
-import CategoryItem from "./CategoryItem";
+import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { CategoryListLoader } from "../SkeletonLoaders";
-import { useDispatch, useSelector } from "react-redux";
-import { getCategories } from "../../../redux/category";
+import { useSelector } from "react-redux";
+import CategoryItem from "./CategoryItem";
 
 const CategoryList = () => {
   const { isLoading, categories } = useSelector((state) => state.category);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getCategories());
-  }, [dispatch]);
 
   return (
     <>

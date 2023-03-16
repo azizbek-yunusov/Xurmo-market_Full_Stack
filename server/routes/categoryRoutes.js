@@ -7,9 +7,9 @@ const {
   deleteSelected,
   deleteCategory,
   getSlugCategory,
-  createCategoryItem,
-  getCategoryItems,
-  deleteCategoryItem,
+  createSubCategory,
+  getSubCategories,
+  deleteSubCategory,
 } = require("../controllers/categoryController");
 const authAdminMiddleware = require("../middleware/authAdminMiddleware");
 const authMiddleware = require("../middleware/authMiddleware");
@@ -45,14 +45,14 @@ router.post(
   "/item",
   authMiddleware,
   authAdminMiddleware,
-  createCategoryItem
+  createSubCategory
 );
 router.delete(
   "/item/:id",
   authMiddleware,
   authAdminMiddleware,
-  deleteCategoryItem
+  deleteSubCategory
 );
-router.get("/items", getCategoryItems);
+router.get("/items", getSubCategories);
 
 module.exports = router;

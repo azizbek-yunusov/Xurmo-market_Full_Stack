@@ -18,11 +18,12 @@ import { productUrl } from "../../../utils/baseUrls";
 import Price from "../Helpers/Price";
 const Products = ({ cart }) => {
   const { access_token, isLogged } = useSelector((state) => state.auth);
+  const { favorites } = useSelector((state) => state.favorite);
   const dispatch = useDispatch();
   let { t } = useTranslation(["product"]);
   const addToCartHandle = async (id) => {
     if (isLogged) {
-      const { data } = await axios.get(`${productUrl}product/${id}`);
+      const { data } = await axios.get(`${productUrl}${id}`);
       const existItem = cart?.find((x) => x.productId?._id === data._id);
 
       if (data.inStock <= existItem.quantity) {
@@ -34,6 +35,8 @@ const Products = ({ cart }) => {
       toast.error(t("error-register"));
     }
   };
+  // const existItemWish = favorites?.find((x) => x.productId._id === id);
+  // const isFavorite = existItemWish === undefined ? false : true;
   return (
     <>
       <div className="container-full grid md:grid-cols-12 lg:gap-x-5 gap-y-3">
@@ -41,8 +44,8 @@ const Products = ({ cart }) => {
           <div className="md:border border-gray-200 md:p-0 xl:p-5 md:rounded-2xl">
             <div className="md:flex hidden md:p-4 xl:p-0 justify-between items-center font-semibold text-gray-700">
               <h1 className="md:text-2xl">{t("cart")}</h1>
-              <h1 className="md:text-xl font-mono">
-                {t("all")} {cart.length}
+              <h1 className="md:text-xl text-gray-500">
+                 {cart.length}{" "}{t("product")}
               </h1>
             </div>
             <div>
@@ -78,7 +81,12 @@ const Products = ({ cart }) => {
                             <div className="md:flex hidden">
                               <button
                                 onClick={() =>
-                                  dispatch(deleteFromCart(item.productId?._id))
+                                  dispatch(
+                                    deleteFromCart(
+                                      item.productId?._id,
+                                      access_token
+                                    )
+                                  )
                                 }
                                 className="flex items-center text-base text-red-500"
                               >
@@ -90,7 +98,10 @@ const Products = ({ cart }) => {
                               <button
                                 onClick={() =>
                                   dispatch(
-                                    deleteFavoriteItem(item.productId?._id)
+                                    deleteFavoriteItem(
+                                      item.productId?._id,
+                                      access_token
+                                    )
                                   )
                                 }
                                 className="flex items-center text-base text-blue-500"
@@ -109,7 +120,10 @@ const Products = ({ cart }) => {
                                 <button
                                   onClick={() =>
                                     dispatch(
-                                      decrQtyItemCart(item.productId?._id)
+                                      decrQtyItemCart(
+                                        item.productId?._id,
+                                        access_token
+                                      )
                                     )
                                   }
                                   className="px-2 py-1"
@@ -137,7 +151,12 @@ const Products = ({ cart }) => {
                               {item.quantity > 1 ? (
                                 <button
                                   onClick={() =>
-                                    decrQtyItemCart(item.productId?._id)
+                                    dispatch(
+                                      decrQtyItemCart(
+                                        item.productId?._id,
+                                        access_token
+                                      )
+                                    )
                                   }
                                   className="px-2 py-1"
                                 >
@@ -172,7 +191,12 @@ const Products = ({ cart }) => {
                             >
                               <button
                                 onClick={() =>
-                                  deleteFavoriteItem(item.productId?._id)
+                                  dispatch(
+                                    deleteFavoriteItem(
+                                      item.productId?._id,
+                                      access_token
+                                    )
+                                  )
                                 }
                                 className="flex items-center text-base mx-4 text-gray-400"
                               >
@@ -180,7 +204,12 @@ const Products = ({ cart }) => {
                               </button>
                               <button
                                 onClick={() =>
-                                  deleteFromCart(item.productId?._id)
+                                  dispatch(
+                                    deleteFromCart(
+                                      item.productId?._id,
+                                      access_token
+                                    )
+                                  )
                                 }
                                 className="flex items-center text-base text-red-500"
                               >
@@ -199,7 +228,7 @@ const Products = ({ cart }) => {
         <div className="lg:col-span-4 col-span-12">
           <div className="lg:sticky lg:top-28 border border-gray-200 p-5 md:rounded-2xl rounded-xl">
             <div className="flex justify-between md:px-2 xl:px-3 items-center mb-5 xl:border-b-2 border-b border-b-gray-200">
-              <h1 className="md:text-xl xl:text-2xl mb-5 text-gray-600 font-bold">
+              <h1 className="md:text-xl xl:text-2xl mb-5 text-gray-700 font-bold">
                 {t("total")}
               </h1>
 
@@ -208,7 +237,7 @@ const Products = ({ cart }) => {
                   (a, c) => a + c.productId?.price * c.quantity,
                   0
                 )}
-                className="md:text-xl xl:text-2xl mb-5 text-gray-600 font-bold"
+                className="md:text-xl xl:text-2xl mb-5 text-gray-700 font-bold"
               />
             </div>
             <div className="border-2 border-[#ff8400] flex justify-between items-center overflow-hidden rounded-lg">

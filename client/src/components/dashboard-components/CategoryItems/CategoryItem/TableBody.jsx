@@ -6,12 +6,12 @@ import { FiEdit } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 const TableBody = ({
-  categoryItems,
+  subCategorys,
   handleSelectAll,
   selectedCategoryIds,
   filteredCategories,
   handleSelectOne,
-  handleDeleteCategoryItem,
+  handledeleteSubCategory,
 }) => {
   const { i18n } = useTranslation();
   let { t } = useTranslation(["category"]);
@@ -21,11 +21,11 @@ const TableBody = ({
         <tr className="bg-gray-100 text-left dark:bg-[#232338] text-gray-500 dark:text-gray-200 text-sm font-light rounded-t-lg uppercase">
           <th className="py-2 text-center">
             <Checkbox
-              checked={selectedCategoryIds.length === categoryItems.length}
+              checked={selectedCategoryIds.length === subCategorys.length}
               color="primary"
               indeterminate={
                 selectedCategoryIds.length > 0 &&
-                selectedCategoryIds.length < categoryItems.length
+                selectedCategoryIds.length < subCategorys.length
               }
               onChange={handleSelectAll}
             />
@@ -158,7 +158,7 @@ const TableBody = ({
                       </div>
                     </Link>
                     <button
-                      onClick={() => handleDeleteCategoryItem(item._id)}
+                      onClick={() => handledeleteSubCategory(item._id)}
                       className="cursor-pointer w-5 mr-3 transform hover:text-purple-500 hover:scale-110"
                     >
                       <svg

@@ -93,7 +93,7 @@ const UserButton = () => {
         className="md:hidden flex justify-between text-gray-500 active:text-orange-400 transition_normal flex-col items-center"
       >
         <AiOutlineUser className="text-2xl" />
-        <p className="text-xs pt-[6px] sm:text-sm">{t("sign-in-b")}</p>
+        <p className="text-xs pt-0 sm:text-sm">{t("sign-in-b")}</p>
       </Link>
     </>
   );

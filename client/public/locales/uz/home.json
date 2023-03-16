@@ -48,5 +48,8 @@
   "cabinet": "Kabinet",
   "popular-search-list": "Eng kop qidiruvlar",
   "app-dowload": "Ilovani yuklang oling",
-  "app-dowload-descr": "Haridlarni uydan chiqmagan holda mobil ilova orqali amalga oshiring!"
+  "app-dowload-descr": "Haridlarni uydan chiqmagan holda mobil ilova orqali amalga oshiring!",
+  "page-not-found": "Kecharasiz, ushbu sahifa topilmadi",
+  "page-not-found-title": "Kechirasiz, siz qidirayotgan sahifani topa olmadik. Ehtimol, sizda URLni noto'g'ri kiritdingizmi? Imloni tekshirishga ishonch hosil qiling.",
+  "go-to-home": "Bosh sahifaga"
 }

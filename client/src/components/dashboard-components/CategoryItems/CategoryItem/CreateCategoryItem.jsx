@@ -43,7 +43,7 @@ const CreateCategoryItem = () => {
     setFileToBase(file);
   };
 
-  const createCategoryItem = async (e) => {
+  const CreateCategoryItem = async (e) => {
     e.preventDefault();
     const categoryData = {
       categoryId: category,
@@ -90,7 +90,7 @@ const CreateCategoryItem = () => {
           <div className="-mt-24 rounded-2xl flex mx-4 bg_color border_primary">
             <div className="flex w-full p-8 px-8 xl:px-16">
               <div className="w-full">
-                <form onSubmit={createCategoryItem}>
+                <form onSubmit={CreateCategoryItem}>
                   <div className="grid grid-cols-1 gap-6 gap-x-8 xl:gap-x-14 md:grid-cols-2">
                     <div className="col-span-1">
                       <FormControl fullWidth sx={{ marginBottom: 2 }}>

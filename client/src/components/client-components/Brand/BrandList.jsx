@@ -1,18 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "swiper/css";
-import { getBrands } from "../../../redux/brand/brandSlice";
 import BrandItem from "./BrandItem";
 
 const BrandsList = () => {
   let { t } = useTranslation(["home"]);
-  const dispatch = useDispatch();
   const { brands } = useSelector((state) => state.brand);
-  useEffect(() => {
-    dispatch(getBrands());
-  }, [dispatch]);
   return (
     <div className="container-full md:my-5 my-5 md:pt-10 md:pb-5 py-4 bg-slate-100">
       <div className="flex_betwen">

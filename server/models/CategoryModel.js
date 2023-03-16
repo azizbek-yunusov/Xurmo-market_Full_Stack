@@ -31,7 +31,7 @@ const categorySchema = new Schema(
     items: [
       {
         type: Schema.Types.ObjectId,
-        ref: "CategoryItem",
+        ref: "SubCategory",
       },
     ],
     createdAt: {

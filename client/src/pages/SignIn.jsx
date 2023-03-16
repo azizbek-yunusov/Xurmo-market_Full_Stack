@@ -63,7 +63,6 @@ const SignIn = () => {
       try {
         setLoader(true);
         await dispatch(signIn(formState));
-        
       } catch (err) {
         console.log(err);
       }
@@ -85,7 +84,7 @@ const SignIn = () => {
       dispatch(clearErrors());
       setLoader(false);
     }
-  },  [isError, isLogged, message]);
+  },  [dispatch, isError, isLogged, message]);
   return (
     <>
       <HelmetTitle title={t("sign-in")} />

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import WishProductItem from "./WishProductItem";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
