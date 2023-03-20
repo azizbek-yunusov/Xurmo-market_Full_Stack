@@ -25,7 +25,7 @@ import {
   getBrands,
   selectedDeleteBrand,
 } from "../../../redux/brand/brandSlice";
-import HelmetTitle from "../../../utils/HelmetTitle";
+import { HelmetTitle } from "../../../utils";
 import { NotData } from "../Helpers";
 import { Layout } from "../Layouts";
 import GridList from "./GridList";

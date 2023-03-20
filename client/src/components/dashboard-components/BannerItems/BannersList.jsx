@@ -29,7 +29,7 @@ import {
   getBanners,
   selectedDeleteBanner,
 } from "../../../redux/banner";
-import HelmetTitle from "../../../utils/HelmetTitle";
+import { HelmetTitle } from "../../../utils";
 import { MoreMenu, NotData } from "../Helpers";
 import { Layout } from "../Layouts";
 import GridList from "./GridList";

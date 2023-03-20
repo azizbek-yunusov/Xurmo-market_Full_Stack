@@ -9,6 +9,7 @@ i18n
   .use(initReactI18next)
   .init({
     fallbackLng: "uz",
+    lng: localStorage.getItem('i18nextLng') || 'uz',
     debug: false,
     backend: {
       loadPath: "/locales/{{lng}}/{{ns}}.json",

@@ -74,7 +74,9 @@ const SearchBox = () => {
     recognition.start();
   };
   useEffect(() => {
-    dispatch(getProducts());
+    if (!products.length) {
+      dispatch(getProducts());
+    }
   }, [dispatch]);
   return (
     <div className="relative">

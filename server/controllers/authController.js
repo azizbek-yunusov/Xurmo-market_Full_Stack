@@ -86,11 +86,10 @@ const signIn = async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({ err: "All fields are required" });
     }
-    const savedUser = await UserModel.findOne({ email })
-      .populate(
-        "cart.productId favorites.productId",
-        "_id name price images discount inStock numOfReviews reviews ratings"
-      );
+    const savedUser = await UserModel.findOne({ email }).populate(
+      "cart.productId favorites.productId",
+      "_id name price images discount inStock numOfReviews reviews ratings"
+    );
     if (!savedUser) {
       return res.status(400).json({ err: "Your email is incorrect" });
     }
@@ -100,13 +99,24 @@ const signIn = async (req, res) => {
 
     const refreshtoken = createRefreshToken({ id: savedUser._id });
     const access_token = createAccessToken({ id: savedUser._id });
-    res.cookie("refreshtoken", refreshtoken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    });
-
+    if (savedUser.admin) {
+      res.cookie("admintoken", refreshtoken, {
+        httpOnly: true,
+        secure: true,
+        signed: true,
+        expires: new Date(Date.now() + 60 * 60 * 1000 * 24),
+        sameSite: "None",
+      });
+    } else {
+      res.cookie("refreshtoken", refreshtoken, {
+        httpOnly: true,
+        secure: true,
+        signed: true,
+        expires: new Date(Date.now() + 60 * 60 * 1000 * 24),
+        sameSite: "None",
+      });
+    }
+    
     res.status(200).json({
       msg: "Login success!",
       access_token,
@@ -135,6 +145,31 @@ const getAccessToken = async (req, res) => {
           "cart.productId favorites.productId",
           "_id name price images discount inStock numOfReviews reviews ratings"
         );
+      if (!user) return res.status(400).json({ msg: "This does not exist." });
+      const access_token = createAccessToken({ id: client.id });
+
+      res.status(200).json({
+        msg: "success!",
+        access_token,
+        user: user,
+      });
+    });
+  } catch (err) {
+    return res.status(500).json({ msg: err.message });
+  }
+};
+
+const getAccessAdminToken = async (req, res) => {
+  try {
+    const refreshToken = await req.cookies.admintoken;
+    if (!refreshToken)
+      return res.status(400).json({ msg: "Please login now!" });
+
+    jwt.verify(refreshToken, JWT_SECRET, async (err, client) => {
+      if (err) return res.status(400).json({ msg: "Please login now." });
+
+      const user = await UserModel.findById(client.id).select("-password");
+
       if (!user) return res.status(400).json({ msg: "This does not exist." });
       const access_token = createAccessToken({ id: client.id });
 
@@ -188,6 +223,15 @@ const resetPassword = async (req, res) => {
 const logout = async (req, res) => {
   try {
     res.clearCookie("refreshtoken", { path: "/" });
+    return res.json({ msg: "Sign out" });
+  } catch (err) {
+    return res.status(500).json({ msg: err.message });
+  }
+};
+
+const logoutAdmin = async (req, res) => {
+  try {
+    res.clearCookie("admintoken", { path: "/" });
     return res.json({ msg: "Sign out" });
   } catch (err) {
     return res.status(500).json({ msg: err.message });
@@ -272,4 +316,6 @@ module.exports = {
   getAccessToken,
   forgotPassword,
   resetPassword,
+  getAccessAdminToken,
+  logoutAdmin,
 };

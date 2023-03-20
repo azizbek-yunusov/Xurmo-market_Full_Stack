@@ -7,8 +7,8 @@ import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import { Button, CircularProgress } from "@mui/material";
 import NewAddress from "./NewAddress";
-import HelmetTitle from "../../../utils/HelmetTitle";
 import { deleteAddress } from "../../../redux/actions/addressAction";
+import { HelmetTitle } from "../../../utils";
 
 const Addresses = () => {
   let { t } = useTranslation(["user"]);

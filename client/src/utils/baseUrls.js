@@ -1,5 +1,5 @@
-// const api = process.env.API_URL;
-const api = "/api";
+var api = "/api";
+const roleNavigate = "http://localhost:5173/dashboard/cabinet";
 export const authUrl = `${api}/auth/`;
 export const productUrl = `${api}/product/`;
 export const userUrl = `${api}/user/`;

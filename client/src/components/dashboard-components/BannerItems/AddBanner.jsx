@@ -7,7 +7,7 @@ import { IoMdClose } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { createBanner } from "../../../redux/banner";
-import HelmetTitle from "../../../utils/HelmetTitle";
+import { HelmetTitle } from "../../../utils";
 import { Layout } from "../Layouts";
 
 const AddBanner = () => {

@@ -15,7 +15,6 @@ import Payme from "../../../assets/svg/payme.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import InputMask from "react-input-mask";
-import HelmetTitle from "../../../utils/HelmetTitle";
 import Top from "./Top";
 import address from "../../../data/address.json";
 import Price from "../Helpers/Price";
@@ -24,6 +23,7 @@ import {
   paymentMethodData,
 } from "../../../data/OrderTypeData";
 import { newOrder } from "../../../redux/order";
+import { HelmetTitle } from "../../../utils";
 
 const CheckOut = () => {
   const { t } = useTranslation(["order"]);
@@ -120,7 +120,7 @@ const CheckOut = () => {
       await disptach(newOrder({ access_token, orderData }));
       if (!isLoading) {
         toast.success(t("new-order-added"));
-        navigate("/");
+        navigate("/myprofile/orders");
       }
       if (isError) {
         toast.error("Something Went Wrong!");

@@ -7,7 +7,7 @@ import { IoMdClose } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { createBrand } from "../../../redux/brand/brandSlice";
-import HelmetTitle from "../../../utils/HelmetTitle";
+import { HelmetTitle } from "../../../utils";
 import { Layout } from "../Layouts";
 
 const CreateBrand = () => {

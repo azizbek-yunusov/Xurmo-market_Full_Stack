@@ -31,7 +31,7 @@ const store = configureStore({
     banner,
     post,
   },
-  devTools: false,
+  devTools: process.env.NODE_ENV !== "production",
 });
 
 function UserProvider({ children }) {

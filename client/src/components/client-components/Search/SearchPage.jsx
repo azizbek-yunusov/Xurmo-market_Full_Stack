@@ -57,7 +57,7 @@ const SearchPage = () => {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
-          `/search?page=${page}&query=${query}&category=${category}&price=${price}&brand=${brand}&rating=${rating}&order=${order}`
+          `/api/product/search?page=${page}&query=${query}&category=${category}&price=${price}&brand=${brand}&rating=${rating}&order=${order}`
         );
         setResult(data.products);
         setLoading(false);

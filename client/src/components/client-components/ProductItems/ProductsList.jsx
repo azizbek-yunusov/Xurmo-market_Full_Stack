@@ -2,7 +2,7 @@ import { Breadcrumbs } from "@mui/material";
 import { useDispatch } from "react-redux";
 import React from "react";
 import { Link } from "react-router-dom";
-import HelmetTitle from "../../../utils/HelmetTitle";
+import { HelmetTitle } from "../../../utils";
 
 const ProductsList = () => {
   const dispatch = useDispatch();

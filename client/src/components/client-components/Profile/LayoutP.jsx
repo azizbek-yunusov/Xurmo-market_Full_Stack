@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import SideBarPf from "./SideBarPf";
 import Tabs from "./Tabs";
-import HelmetTitle from "../../../utils/HelmetTitle";
 import { useSelector } from "react-redux";
 import { MdLocationOn } from "react-icons/md";
 import { AiFillCalendar, AiOutlineSetting } from "react-icons/ai";
 import moment from "moment";
 import { IconButton } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { HelmetTitle } from "../../../utils";
 
 const LayoutP = ({ children }) => {
   let { t } = useTranslation(["user"]);
@@ -26,7 +26,7 @@ const LayoutP = ({ children }) => {
         <div className="relative">
           <img
             src="/images/profilebg.png"
-            className="lg:h-[200px] object-cover w-full rounded-t-2xl"
+            className="lg:h-[200px] object-cover w-full rounded-2xl"
             alt=""
           />
           <div className="absolute top-1 right-1">

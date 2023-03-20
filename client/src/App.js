@@ -102,7 +102,6 @@ function App() {
       x.parentNode.insertBefore(s, x);
     })("https://widget.replain.cc/dist/client.js");
   }, []);
-
   return (
     <>
       <Toaster position="top-left" reverseOrder={true} />

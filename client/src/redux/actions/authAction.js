@@ -15,7 +15,9 @@ export const signIn = (formState) => async (dispatch) => {
         isAdmin: data.user.admin ? true : false,
       },
     });
-    if (data.access_token) {
+    if (data.user.admin) {
+      localStorage.setItem("auth", true);
+    } else {
       localStorage.setItem("firstLogin", true);
     }
     dispatch({ type: "USER_FULFILLED", payload: data.user });
@@ -51,7 +53,7 @@ export const refreshToken = () => async (dispatch) => {
         payload: {
           access_token: data.access_token,
           user: data.user,
-          isAdmin: data.user.admin ? true : false,
+          isAdmin: data.user.admin === false,
         },
       });
       dispatch({ type: "USER_FULFILLED", payload: data.user });

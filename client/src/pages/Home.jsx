@@ -13,6 +13,7 @@ import { getBanners } from "../redux/banner";
 import { getBrands } from "../redux/brand/brandSlice";
 import { getCategories } from "../redux/category";
 import { getPosts } from "../redux/post";
+import { getProducts } from "../redux/product";
 import { HelmetTitle } from "../utils";
 
 const Home = () => {
@@ -23,6 +24,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(getBanners());
     dispatch(getCategories());
+    dispatch(getProducts());
     dispatch(getBrands());
     dispatch(getPosts());
   }, [dispatch]);
