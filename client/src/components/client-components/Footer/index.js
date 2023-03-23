@@ -22,7 +22,7 @@ export const Footer = () => {
   return (
     <>
       {!auth.isAdmin && (
-        <div className="bg-slate-100 border-t border-t-gray-300">
+        <div className="bg-slate-50 border-t border-t-gray-300">
           <div className="container-full md:py-12 py-0">
             <div className="grid lg:grid-cols-4 grid-cols-1 lg:gap-x-10">
               <div className="">
@@ -34,7 +34,7 @@ export const Footer = () => {
                     <p className="md:mt-5 md:mb-3">{t("contact-center")}</p>
                     <a
                       href="tel:+998945545594"
-                      className="text-lg font-semibold md:mb-6"
+                      className="text-lg font-semibold md:mb-6 text-gray-700"
                     >
                       +998 (94) 554 55 94
                     </a>
@@ -43,7 +43,7 @@ export const Footer = () => {
                         <a
                           key={index}
                           href={`${item.href}`}
-                          className="rounded-md bg-slate-500 p-2 text-2xl mx-2 text-white"
+                          className="rounded-md bg-zinc-700 p-2 text-2xl mx-2 text-white"
                         >
                           {item.icon}
                         </a>
@@ -179,7 +179,7 @@ export const Footer = () => {
               target="_blank"
               rel="noreferrer"
               href="https://azizbek.vercel.app"
-              className="text-lg text-slate-300 hover:underline hover:text-slate-600"
+              className="text-lg text-zinc-600 hover:underline hover:text-slate-600"
             >
               Azizbek Yunusov
             </a>

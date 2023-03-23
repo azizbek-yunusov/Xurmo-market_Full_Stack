@@ -131,10 +131,10 @@ const UpdateProduct = () => {
                       >
                         {categories?.map((item, index) => (
                           <MenuItem key={index} value={item.slug}>
-                            {i18n.language === "uz"
-                              ? item.nameUz
+                            {i18n.language === "oz"
+                              ? item.nameOz
                               : i18n.language === "en"
-                              ? item.nameEn
+                              ? item.nameUz
                               : i18n.language === "ru"
                               ? item.nameRu
                               : null}

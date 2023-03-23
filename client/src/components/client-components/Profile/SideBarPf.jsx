@@ -31,7 +31,7 @@ const SideBarPf = () => {
         <div className="flex flex-col items-center">
           <div className="z-10 overflow-hidden md:rounded-2xl max-w-max bg-white">
             <img
-              className="md:rounded-2xl h-40 w-40 object-cover bg-teal-300"
+              className="md:rounded-2xl h-40 w-40 object-cover bg-orange-500"
               src={user.avatar?.url}
               alt=""
             />

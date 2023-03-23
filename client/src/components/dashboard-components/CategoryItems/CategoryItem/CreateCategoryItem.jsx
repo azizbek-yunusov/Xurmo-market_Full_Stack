@@ -25,7 +25,7 @@ const CreateCategoryItem = () => {
   const { categories } = useSelector((state) => state.category);
   const dispatch = useDispatch();
   const [category, setCategory] = useState("");
-  const [titleUz, setTitleUz] = useState("");
+  const [titleOz, setTitleOz] = useState("");
   const [titleEn, setTitleEn] = useState("");
   const [titleRu, setTitleRU] = useState("");
   const [slug, setSlug] = useState("");
@@ -47,7 +47,7 @@ const CreateCategoryItem = () => {
     e.preventDefault();
     const categoryData = {
       categoryId: category,
-      titleUz,
+      titleOz,
       titleEn,
       titleRu,
       slug,
@@ -106,10 +106,10 @@ const CreateCategoryItem = () => {
                         >
                           {categories?.map((item, index) => (
                             <MenuItem key={index} value={item._id}>
-                              {i18n.language === "uz"
-                                ? item.nameUz
+                              {i18n.language === "oz"
+                                ? item.nameOz
                                 : i18n.language === "en"
-                                ? item.nameEn
+                                ? item.nameUz
                                 : i18n.language === "ru"
                                 ? item.nameRu
                                 : null}
@@ -125,8 +125,8 @@ const CreateCategoryItem = () => {
                         placeholder={t("title-uz-pl")}
                         type="text"
                         className="rounded-xl"
-                        value={titleUz}
-                        onChange={(e) => setTitleUz(e.target.value)}
+                        value={titleOz}
+                        onChange={(e) => setTitleOz(e.target.value)}
                       />
                       <TextField
                         id="outlined-basic"

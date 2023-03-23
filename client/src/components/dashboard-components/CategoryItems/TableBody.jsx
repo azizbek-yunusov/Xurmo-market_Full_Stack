@@ -65,10 +65,10 @@ const TableBody = ({
                         to={`/category/detail/${item._id}`}
                         className="transition_normal hover:text-purple-500"
                       >
-                        {i18n.language === "uz"
-                          ? item.nameUz
+                        {i18n.language === "oz"
+                          ? item.nameOz
                           : i18n.language === "en"
-                          ? item.nameEn
+                          ? item.nameUz
                           : i18n.language === "ru"
                           ? item.nameRu
                           : null}

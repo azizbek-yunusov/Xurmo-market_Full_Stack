@@ -15,6 +15,8 @@ import {
 import { useTranslation } from "react-i18next";
 import HelmetTitle from "../utils/HelmetTitle";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import Logo from "../components/client-components/Helpers/Logo";
 const SignIn = () => {
   const [loader, setLoader] = useState(false);
   const { isLoading, isLogged, isError, message } = useSelector(
@@ -84,34 +86,37 @@ const SignIn = () => {
       dispatch(clearErrors());
       setLoader(false);
     }
-  },  [dispatch, isError, isLogged, message]);
+  }, [dispatch, isError, isLogged, message]);
   return (
     <>
       <HelmetTitle title={t("sign-in")} />
       <div className="bg-white ">
         <div className="grid grid-cols-12 min-h-screen bg-white gap-0">
           <div className="xl:col-span-8 lg:col-span-7 relative lg:flex hidden justify-center items-center overflow-hidden">
-            <img
+            <LazyLoadImage
               src="/images/loginBg.png"
-              className="max-w-3xl w-full z-20 object-cover"
               alt="Login images"
+              effect="blur"
+              className="max-w-3xl w-full z-20 object-cover"
             />
-            <img
-              className="absolute left-0 bottom-0 z-10"
+            <LazyLoadImage
               src="/images/auth-bottom-bg.png"
               alt="Login images"
+              effect="blur"
+              className="absolute left-0 bottom-0 z-10"
             />
-            <img
-              className="absolute left-0 bottom-1 z-20"
+            <LazyLoadImage
               src="/images/tree-bg.png"
               alt="Login images"
+              effect="blur"
+              className="absolute left-0 bottom-1 z-20"
             />
           </div>
           <div className="xl:col-span-4 lg:col-span-5 col-span-12 border-l border-l-gray-300 flex items-center justify-center xl:px-16 md:px-10 px-8 w-full mx-auto">
             <div className="">
               <div className="">
                 <h2 className="text-2xl font-bold text-gray-700 ">
-                  Logo {t("sign-in-t")} 👋🏻
+                  <Logo /> {t("sign-in-t")} 👋🏻
                 </h2>
                 <p className="mt-3 text-gray-500">{t("sign-in-p")}</p>
               </div>
@@ -175,6 +180,7 @@ const SignIn = () => {
                         <Checkbox
                           id="storeData"
                           name="storeData"
+                          color="secondary"
                           ref={storeDataEl}
                         />
                       }
@@ -213,7 +219,7 @@ const SignIn = () => {
                               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                             />
                           </svg>
-                          {"Loading... "}
+                          {t("loading")}...
                         </div>
                       ) : (
                         `${t("sign-in-b")}`

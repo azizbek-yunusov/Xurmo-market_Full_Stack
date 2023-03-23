@@ -25,10 +25,10 @@ const CategoryDetail = () => {
       <HelmetTitle
         title={t(
           `${
-            i18n.language === "uz"
-              ? currentCategory?.nameUz
+            i18n.language === "oz"
+              ? currentCategory?.nameOz
               : i18n.language === "en"
-              ? currentCategory?.nameEn
+              ? currentCategory?.nameUz
               : i18n.language === "ru"
               ? currentCategory?.nameRu
               : null
@@ -41,10 +41,10 @@ const CategoryDetail = () => {
         ) : (
           <section>
             <h1 className="text-3xl font-semibold text_color mb-8">
-              {i18n.language === "uz"
-                ? currentCategory?.nameUz
+              {i18n.language === "oz"
+                ? currentCategory?.nameOz
                 : i18n.language === "en"
-                ? currentCategory?.nameEn
+                ? currentCategory?.nameUz
                 : i18n.language === "ru"
                 ? currentCategory?.nameRu
                 : null}
@@ -54,8 +54,8 @@ const CategoryDetail = () => {
                 {items.map((elem) => (
                   <div key={elem._id} className="flex_col cursor-pointer">
                     <p className="font-semibold mt-2 text_color text-lg">
-                      {i18n.language === "uz"
-                        ? elem.titleUz
+                      {i18n.language === "oz"
+                        ? elem.titleOz
                         : i18n.language === "en"
                         ? elem.titleEn
                         : i18n.language === "ru"
@@ -76,8 +76,8 @@ const CategoryDetail = () => {
                       />
                     </div>
                     <p className="text-center mt-2 text-lg text_color">
-                      {i18n.language === "uz"
-                        ? elem.titleUz
+                      {i18n.language === "oz"
+                        ? elem.titleOz
                         : i18n.language === "en"
                         ? elem.titleEn
                         : i18n.language === "ru"

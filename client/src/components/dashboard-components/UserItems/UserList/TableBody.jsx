@@ -61,7 +61,7 @@ const TableBody = ({
                   <div className="flex justify-start items-center">
                     <div className="mr-4">
                       <img
-                        className="h-10 w-10 rounded-full bg-teal-300"
+                        className="h-10 w-10 rounded-full bg-orange-500"
                         src={item.avatar.url}
                         alt=""
                       />

@@ -26,7 +26,7 @@ const GridList = ({
             <div className="w-full flex_center py-2">
               <img
                 src={item.avatar.url}
-                className="h-28 object-cover rounded-full bg-teal-300"
+                className="h-28 object-cover rounded-full 300"
                 alt=""
               />
             </div>

@@ -89,7 +89,7 @@ const UserButton = () => {
         <Box sx={{ py: 1, px: 1 }}>
           <div className="flex_betwen">
             <img
-              className="h-10 w-10 rounded-full bg-teal-300"
+              className="h-10 w-10 rounded-full bg-orange-500"
               src={avatar?.url}
               alt=""
             />

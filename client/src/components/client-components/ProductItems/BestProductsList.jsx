@@ -8,13 +8,13 @@ const BestProductsList = () => {
   const { t } = useTranslation(["product"]);
   const { isLoading, products } = useSelector((state) => state.product);
   return (
-    <>
+    <section>
       {!isLoading ? (
         <section className="container-full md:my-5">
           {products.length ? (
             <div className="">
               <div className="flex_betwen md:mb-8 mb-5">
-                <h1 className="lg:text-4xl text-xl font-semibold text-zinc-800">
+                <h1 className="lg:text-3xl text-xl font-semibold text-zinc-800">
                   {t("bestp")}
                 </h1>
                 <Link
@@ -37,7 +37,7 @@ const BestProductsList = () => {
       ) : (
         <ProductList />
       )}
-    </>
+    </section>
   );
 };
 export default BestProductsList;

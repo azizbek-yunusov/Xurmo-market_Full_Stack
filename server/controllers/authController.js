@@ -103,20 +103,18 @@ const signIn = async (req, res) => {
       res.cookie("admintoken", refreshtoken, {
         httpOnly: true,
         secure: true,
-        signed: true,
-        expires: new Date(Date.now() + 60 * 60 * 1000 * 24),
         sameSite: "None",
+        maxAge: 72 * 60 * 60 * 1000,
       });
     } else {
       res.cookie("refreshtoken", refreshtoken, {
         httpOnly: true,
         secure: true,
-        signed: true,
-        expires: new Date(Date.now() + 60 * 60 * 1000 * 24),
         sameSite: "None",
+        maxAge: 72 * 60 * 60 * 1000,
       });
     }
-    
+
     res.status(200).json({
       msg: "Login success!",
       access_token,
@@ -125,14 +123,15 @@ const signIn = async (req, res) => {
       },
     });
   } catch (err) {
-    // return res.status(500).json({ msg: err.message });
-    console.log(err);
+    return res.status(500).json({ msg: err.message });
   }
 };
 
 const getAccessToken = async (req, res) => {
   try {
-    const refreshToken = await req.cookies.refreshtoken;
+    const cookie = req.cookies;
+    if (!cookie?.refreshtoken) throw new Error("No Refresh Token in Cookies");
+    const refreshToken = cookie.refreshtoken;
     if (!refreshToken)
       return res.status(400).json({ msg: "Please login now!" });
 
@@ -222,7 +221,7 @@ const resetPassword = async (req, res) => {
 
 const logout = async (req, res) => {
   try {
-    res.clearCookie("refreshtoken", { path: "/" });
+    res.clearCookie("refreshtoken");
     return res.json({ msg: "Sign out" });
   } catch (err) {
     return res.status(500).json({ msg: err.message });
@@ -231,7 +230,7 @@ const logout = async (req, res) => {
 
 const logoutAdmin = async (req, res) => {
   try {
-    res.clearCookie("admintoken", { path: "/" });
+    res.clearCookie("admintoken");
     return res.json({ msg: "Sign out" });
   } catch (err) {
     return res.status(500).json({ msg: err.message });

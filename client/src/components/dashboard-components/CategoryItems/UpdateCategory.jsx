@@ -18,8 +18,8 @@ const UpdateCategory = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   let { t } = useTranslation(["category"]);
-  const [nameUz, setNameUz] = useState("");
-  const [nameEn, setNameEn] = useState("");
+  const [nameOz, setNameOz] = useState("");
+  const [nameUz, setNameEn] = useState("");
   const [nameRu, setNameRu] = useState("");
   const [slug, setSlug] = useState("");
   const [image, setImage] = useState(null);
@@ -39,9 +39,9 @@ const UpdateCategory = () => {
   const updateCategoryHandle = async (e) => {
     e.preventDefault();
     const categoryData = {
-      nameUz,
+      nameOz,
       nameRu,
-      nameEn,
+      nameUz,
       slug,
     };
     await dispatch(updateCategory({ access_token, id, categoryData }));
@@ -59,8 +59,8 @@ const UpdateCategory = () => {
   }, [dispatch, id]);
   useEffect(() => {
     if (currentCategory) {
-      setNameUz(currentCategory?.nameUz || "");
-      setNameEn(currentCategory?.nameEn || "");
+      setNameOz(currentCategory?.nameOz || "");
+      setNameEn(currentCategory?.nameUz || "");
       setNameRu(currentCategory?.nameRu || "");
       setSlug(currentCategory?.slug || "");
       setImage(currentCategory?.image || "");
@@ -101,8 +101,8 @@ const UpdateCategory = () => {
                         placeholder={t("name-uz-pl")}
                         type="text"
                         className="rounded-xl"
-                        value={nameUz}
-                        onChange={(e) => setNameUz(e.target.value)}
+                        value={nameOz}
+                        onChange={(e) => setNameOz(e.target.value)}
                       />
                       <TextField
                         id="outlined-basic"
@@ -112,7 +112,7 @@ const UpdateCategory = () => {
                         placeholder={t("name-en-pl")}
                         type="text"
                         className="rounded-xl"
-                        value={nameEn}
+                        value={nameUz}
                         sx={{ marginTop: "20px" }}
                         onChange={(e) => setNameEn(e.target.value)}
                       />

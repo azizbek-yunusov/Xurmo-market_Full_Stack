@@ -52,7 +52,7 @@ const CategoryItemsList = () => {
 
   const filteredCategories = subCategorys?.filter(
     (value) =>
-      value.titleUz.toLowerCase().includes(term.toLowerCase()) ||
+      value.titleOz.toLowerCase().includes(term.toLowerCase()) ||
       value.titleRu.toLowerCase().includes(term.toLowerCase()) ||
       value.titleEn.toLowerCase().includes(term.toLowerCase())
   );

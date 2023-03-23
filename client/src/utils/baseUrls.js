@@ -1,5 +1,4 @@
-var api = "/api";
-const roleNavigate = "http://localhost:5173/dashboard/cabinet";
+var api = process.env.NODE_ENV !== "production" ?  "/api" : "https://e-commerce-first-api-qeof.onrender.com/api";
 export const authUrl = `${api}/auth/`;
 export const productUrl = `${api}/product/`;
 export const userUrl = `${api}/user/`;

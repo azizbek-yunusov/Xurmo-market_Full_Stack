@@ -222,10 +222,10 @@ const CreateProduct = () => {
                       >
                         {categories?.map((item, index) => (
                           <MenuItem key={index} value={item.slug}>
-                            {i18n.language === "uz"
-                              ? item.nameUz
+                            {i18n.language === "oz"
+                              ? item.nameOz
                               : i18n.language === "en"
-                              ? item.nameEn
+                              ? item.nameUz
                               : i18n.language === "ru"
                               ? item.nameRu
                               : null}
@@ -259,8 +259,8 @@ const CreateProduct = () => {
                       >
                         {items?.map((item, index) => (
                           <MenuItem key={index} value={item.slug}>
-                            {i18n.language === "uz"
-                              ? item.titleUz
+                            {i18n.language === "oz"
+                              ? item.titleOz
                               : i18n.language === "en"
                               ? item.titleEn
                               : i18n.language === "ru"

@@ -7,7 +7,10 @@ import BrandsList from "../components/client-components/Brand/BrandList";
 import { CategoryList } from "../components/client-components/Categories";
 import MobileApp from "../components/client-components/Footer/MobileApp";
 import { PostList } from "../components/client-components/Post";
-import { BestProductsList } from "../components/client-components/ProductItems";
+import {
+  BestProductsList,
+  DiscountedProducts,
+} from "../components/client-components/ProductItems";
 import { ListBox } from "../components/client-components/TopBrand";
 import { getBanners } from "../redux/banner";
 import { getBrands } from "../redux/brand/brandSlice";
@@ -28,23 +31,20 @@ const Home = () => {
     dispatch(getBrands());
     dispatch(getPosts());
   }, [dispatch]);
+
   return (
-    <>
-      {auth.isAdmin ? (
-        <Navigate to={"/dashboard"} />
-      ) : (
-        <>
-          <HelmetTitle title={t("home")} />
-        </>
-      )}
+    <main>
+      <HelmetTitle title={t("home")} />
+      {auth.isAdmin && <Navigate to={"/dashboard"} />}
       <BannerCarousel />
       <CategoryList />
       <BestProductsList />
+      <DiscountedProducts />
       <BrandsList />
       <ListBox />
       <PostList />
       <MobileApp />
-    </>
+    </main>
   );
 };
 

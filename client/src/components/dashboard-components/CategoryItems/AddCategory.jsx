@@ -15,8 +15,8 @@ const AddCategory = () => {
   const { access_token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   let { t } = useTranslation(["category"]);
-  const [nameUz, setNameUz] = useState("");
-  const [nameEn, setNameEn] = useState("");
+  const [nameOz, setNameOz] = useState("");
+  const [nameUz, setNameEn] = useState("");
   const [nameRu, setNameRU] = useState("");
   const [slug, setSlug] = useState("");
   const [image, setImage] = useState([]);
@@ -37,8 +37,8 @@ const AddCategory = () => {
   const createCategoryHandle = async (e) => {
     e.preventDefault();
     const categoryData = {
+      nameOz,
       nameUz,
-      nameEn,
       nameRu,
       slug,
       image,
@@ -88,8 +88,8 @@ const AddCategory = () => {
                         placeholder={t("name-uz-pl")}
                         type="text"
                         className="rounded-xl"
-                        value={nameUz}
-                        onChange={(e) => setNameUz(e.target.value)}
+                        value={nameOz}
+                        onChange={(e) => setNameOz(e.target.value)}
                       />
                       <TextField
                         id="outlined-basic"
@@ -99,7 +99,7 @@ const AddCategory = () => {
                         placeholder={t("name-en-pl")}
                         type="text"
                         className="rounded-xl"
-                        value={nameEn}
+                        value={nameUz}
                         sx={{ marginTop: "20px" }}
                         onChange={(e) => setNameEn(e.target.value)}
                       />

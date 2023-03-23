@@ -8,14 +8,14 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    fallbackLng: "uz",
-    lng: localStorage.getItem('i18nextLng') || 'uz',
+    fallbackLng: "oz",
+    lng: localStorage.getItem('i18nextLng') || 'oz',
     debug: false,
     backend: {
       loadPath: "/locales/{{lng}}/{{ns}}.json",
     },
     ns: ["home", "order", "product", "dashboard", "brand", "banner", "category", "user"],
-    supportedLngs: ["en", "ru", "uz"],
+    supportedLngs: ["oz", "uz", "ru"],
     interpolation: {
       escapeValue: false,
       formatSeparator: ",",

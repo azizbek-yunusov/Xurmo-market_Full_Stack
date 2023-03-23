@@ -1,13 +1,14 @@
 import { Rating } from "@mui/material";
 import React from "react";
-import {
-  AiFillStar,
-  AiOutlineStar,
-} from "react-icons/ai";
+import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { BsFillHeartFill, BsHeart } from "react-icons/bs";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { addToFavorite, deleteFavoriteItem } from "../../../redux/actions/favoriteAction";
+import {
+  addToFavorite,
+  deleteFavoriteItem,
+} from "../../../redux/actions/favoriteAction";
 import Price from "../Helpers/Price";
 import AddCartForCard from "./AddCartForCard";
 import AddWishForCard from "./AddWishForCard";
@@ -54,10 +55,11 @@ const ProductCard = (props) => {
             to={`/product/view/${_id}`}
             className="flex justify-center items-center"
           >
-            <img
-              className="md:h-44 h-[140px] object-cover"
+            <LazyLoadImage
               src={images[0].url}
-              alt=""
+              alt={name}
+              effect="blur"
+              className="md:h-44 h-[140px] object-cover"
             />
           </Link>
           <div className="w-full mt-1 text-gray-800">

@@ -7,7 +7,7 @@ const subCategorySchema = new Schema(
       ref: "Category",
       required: true,
     },
-    titleUz: {
+    titleOz: {
       type: String,
       required: true,
     },

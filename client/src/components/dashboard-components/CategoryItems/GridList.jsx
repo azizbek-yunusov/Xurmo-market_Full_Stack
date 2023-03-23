@@ -31,10 +31,10 @@ const GridList = ({
               />
             </div>
             <h1 className="text_color xl:text-lg mb-5 mt-3">
-              {i18n.language === "uz"
-                ? item.nameUz
+              {i18n.language === "oz"
+                ? item.nameOz
                 : i18n.language === "en"
-                ? item.nameEn
+                ? item.nameUz
                 : i18n.language === "ru"
                 ? item.nameRu
                 : null}

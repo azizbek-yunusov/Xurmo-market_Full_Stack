@@ -2,11 +2,11 @@ const { Schema, model } = require("mongoose");
 
 const categorySchema = new Schema(
   {
-    nameUz: {
+    nameOz: {
       type: String,
       required: true,
     },
-    nameEn: {
+    nameUz: {
       type: String,
       required: true,
     },

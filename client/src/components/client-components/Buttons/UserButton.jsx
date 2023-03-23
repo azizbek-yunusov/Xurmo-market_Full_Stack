@@ -66,7 +66,7 @@ const UserButton = () => {
           className="flex justify-between cursor-pointer text-gray-500 active:text-orange-400 transition_normal flex-col items-center"
         >
           <AiOutlineUser className="text-2xl" />
-          <p className="text-xs pt-2 sm:text-sm">{t("sign-in-b")}</p>
+          <p className="text-xs md:pt-1 lg:pt-2 sm:text-sm">{t("sign-in-b")}</p>
         </div>
         <StyledMenu
           id="demo-customized-menu"

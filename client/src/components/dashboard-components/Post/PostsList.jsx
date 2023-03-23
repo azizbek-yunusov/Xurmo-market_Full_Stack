@@ -123,10 +123,10 @@ const PostsList = () => {
                     <MenuItem value={"all"}>{t("all")}</MenuItem>
                     {/* {categories.map((item) => (
                       <MenuItem key={item._id} value={item.slug}>
-                        {i18n.language === "uz"
-                          ? item.nameUz
+                        {i18n.language === "oz"
+                          ? item.nameOz
                           : i18n.language === "en"
-                          ? item.nameEn
+                          ? item.nameUz
                           : i18n.language === "ru"
                           ? item.nameRu
                           : null}

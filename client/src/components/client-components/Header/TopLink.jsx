@@ -14,11 +14,11 @@ const TopLink = () => {
     <>
       {auth && auth.isAdmin ? null : (
         <div>
-          <div className="lg:block hidden tranistion_normal w-full bg-gradient-to-r from-purple-500 to-orange-400">
-            <div className="container-full py-[6px] flex items-center justify-between">
+          <div className="lg:block hidden tranistion_normal w-full bg_secondary">
+            <div className="container-full py-1 flex items-center justify-between">
               <div className="flex justify-between items-center">
                 <Link top={"/products"}>
-                  <button className="rounded-lg px-3 font-semibold py-1 text bg-white text-purple-700">
+                  <button className="rounded-lg px-3 font-semibold py-1 text bg-white text-red-500">
                     {"-% "}{t("discount")}
                   </button>
                 </Link>

@@ -66,8 +66,8 @@ const TableBody = ({
                         to={`/item/${item._id}`}
                         className="transition_normal hover:text-purple-500"
                       >
-                        {i18n.language === "uz"
-                          ? item.titleUz
+                        {i18n.language === "oz"
+                          ? item.titleOz
                           : i18n.language === "en"
                           ? item.titleEn
                           : i18n.language === "ru"
@@ -84,10 +84,10 @@ const TableBody = ({
                         to={`/item/${item.categoryId._id}`}
                         className="transition_normal hover:text-purple-500"
                       >
-                        {i18n.language === "uz"
-                          ? item.categoryId.nameUz
+                        {i18n.language === "oz"
+                          ? item.categoryId.nameOz
                           : i18n.language === "en"
-                          ? item.categoryId.nameEn
+                          ? item.categoryId.nameUz
                           : i18n.language === "ru"
                           ? item.categoryId.nameRu
                           : null}

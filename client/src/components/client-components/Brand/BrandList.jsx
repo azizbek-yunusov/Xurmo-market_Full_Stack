@@ -9,7 +9,7 @@ const BrandsList = () => {
   let { t } = useTranslation(["home"]);
   const { brands } = useSelector((state) => state.brand);
   return (
-    <div className="container-full md:my-5 my-5 md:pt-10 md:pb-5 py-4 bg-slate-100">
+    <div className="container-full md:my-5 my-5 md:pt-10 md:pb-5 py-4">
       <div className="flex_betwen">
         <h1 className="lg:text-3xl text-xl text-gray-800 text-left font-semibold">
           {t("brands")}

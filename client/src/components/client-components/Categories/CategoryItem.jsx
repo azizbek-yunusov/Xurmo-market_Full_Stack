@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-const CategoryItem = ({ nameUz, nameEn, nameRu, slug, image }) => {
+const CategoryItem = ({ nameOz, nameUz, nameRu, slug, image }) => {
   const { i18n } = useTranslation();
   
   return (
@@ -18,10 +18,10 @@ const CategoryItem = ({ nameUz, nameEn, nameRu, slug, image }) => {
         />
       </div>
       <p className="text-zinc-800 lg:text-base text-center text-xs tranistion_normal hover:text-red-600">
-        {i18n.language === "uz"
-          ? nameUz
+        {i18n.language === "oz"
+          ? nameOz
           : i18n.language === "en"
-          ? nameEn
+          ? nameUz
           : i18n.language === "ru"
           ? nameRu
           : null}

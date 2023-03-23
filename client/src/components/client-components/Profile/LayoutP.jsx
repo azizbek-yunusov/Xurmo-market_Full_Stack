@@ -57,7 +57,7 @@ const LayoutP = ({ children }) => {
             <div className="z-40 bg-white dark:bg-purple-800/30 dark:backdrop-blur-sm p-[6px] max-w-max rounded-2xl -mt-14">
               <img
                 src={user.avatar?.url || "/images/profile.png"}
-                className="h-32 w-32 z-40 object-cover rounded-xl bg-teal-300"
+                className="h-32 w-32 z-40 object-cover rounded-xl bg-orange-500"
                 alt=""
               />
             </div>

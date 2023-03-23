@@ -44,9 +44,9 @@ const CategoriesTable = () => {
   const [page, setPage] = useState(0);
   const filteredCategories = categories?.filter(
     (value) =>
-      value.nameUz.toLowerCase().includes(term.toLowerCase()) ||
+      value.nameOz.toLowerCase().includes(term.toLowerCase()) ||
       value.nameRu.toLowerCase().includes(term.toLowerCase()) ||
-      value.nameEn.toLowerCase().includes(term.toLowerCase())
+      value.nameUz.toLowerCase().includes(term.toLowerCase())
   );
   const handleSelectAll = (e) => {
     let newSelectedCategoryIds;

@@ -49,7 +49,7 @@ const Filter = ({ categories, brands, getFilterUrl, category }) => {
     return searchName.toLowerCase().includes(termBd.toLowerCase());
   });
   const filteredCategories = categories.filter((s) => {
-    const searchName = s.nameUz;
+    const searchName = s.nameOz;
     return searchName.toLowerCase().includes(termCy.toLowerCase());
   });
   const handleChange = (event, newValue) => {
@@ -142,10 +142,10 @@ const Filter = ({ categories, brands, getFilterUrl, category }) => {
                       defaultChecked={item === category ? true : false}
                     />
                     <p className="my-[6px] w-full text-gray-600">
-                      {i18n.language === "uz"
-                        ? item.nameUz
+                      {i18n.language === "oz"
+                        ? item.nameOz
                         : i18n.language === "en"
-                        ? item.nameEn
+                        ? item.nameUz
                         : i18n.language === "ru"
                         ? item.nameRu
                         : null}

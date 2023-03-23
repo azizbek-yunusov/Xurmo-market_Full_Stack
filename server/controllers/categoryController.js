@@ -40,14 +40,14 @@ const getSlugCategory = async (req, res) => {
 };
 
 const createCategory = async (req, res) => {
-  const { nameUz, nameEn, nameRu, slug, image, createdAt } = req.body;
+  const { nameOz, nameUz, nameRu, slug, image, createdAt } = req.body;
   try {
     const result = await cloudinary.uploader.upload(image, {
       folder: "Categories",
     });
     const category = await CategoryModel.create({
+      nameOz,
       nameUz,
-      nameEn,
       nameRu,
       slug,
       image: {
@@ -66,10 +66,10 @@ const createCategory = async (req, res) => {
 
 const updateCategory = async (req, res) => {
   try {
-    const { nameUz, nameEn, slug, nameRu, image } = req.body;
+    const { nameOz, nameUz, slug, nameRu, image } = req.body;
     const category = await CategoryModel.findByIdAndUpdate(req.params.id, {
+      nameOz,
       nameUz,
-      nameEn,
       nameRu,
       slug,
       image,
@@ -113,21 +113,21 @@ const getSubCategories = async (req, res) => {
   try {
     const subCategorys = await SubCategoryModel.find()
       .populate("createdBy", "_id name lastName avatar email")
-      .populate("categoryId", "_id slug nameUz nameEn nameRu image");
+      .populate("categoryId", "_id slug nameOz nameUz nameRu image");
     res.status(201).json(subCategorys);
   } catch (err) {
     console.log(err);
   }
 };
 const createSubCategory = async (req, res) => {
-  const { categoryId, titleUz, titleEn, titleRu, slug, image } = req.body;
+  const { categoryId, titleOz, titleEn, titleRu, slug, image } = req.body;
   try {
     const result = await cloudinary.uploader.upload(image, {
       folder: "Categories",
     });
     const subCategory = await SubCategoryModel.create({
       categoryId,
-      titleUz,
+      titleOz,
       titleEn,
       titleRu,
       slug,
