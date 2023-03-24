@@ -1,6 +1,10 @@
 const { Schema, model } = require("mongoose");
 
 const orderSchema = new Schema({
+  orderId: {
+    type: String,
+    required: true,
+  },
   firstName: {
     type: String,
   },

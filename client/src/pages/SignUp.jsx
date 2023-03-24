@@ -74,7 +74,7 @@ const SignUp = () => {
   };
 
   return (
-    <>
+    <main>
       <HelmetTitle title={t("sign-in")} />
       <div className="bg-white ">
         <div className="grid grid-cols-12 min-h-screen bg-white gap-0">
@@ -314,7 +314,7 @@ const SignUp = () => {
           </Box>
         </Fade>
       </Modal>
-    </>
+    </main>
   );
 };
 

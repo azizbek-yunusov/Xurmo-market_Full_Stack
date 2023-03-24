@@ -104,14 +104,14 @@ const signIn = async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: "None",
-        maxAge: 72 * 60 * 60 * 1000,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       });
     } else {
       res.cookie("refreshtoken", refreshtoken, {
         httpOnly: true,
         secure: true,
         sameSite: "None",
-        maxAge: 72 * 60 * 60 * 1000,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       });
     }
 
@@ -129,9 +129,7 @@ const signIn = async (req, res) => {
 
 const getAccessToken = async (req, res) => {
   try {
-    const cookie = req.cookies;
-    if (!cookie?.refreshtoken) throw new Error("No Refresh Token in Cookies");
-    const refreshToken = cookie.refreshtoken;
+    const refreshToken = await req.cookies.refreshtoken;
     if (!refreshToken)
       return res.status(400).json({ msg: "Please login now!" });
 
@@ -306,6 +304,7 @@ const createAccessToken = (payload) => {
 const createRefreshToken = (payload) => {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: "7d" });
 };
+
 module.exports = {
   signUp,
   signIn,

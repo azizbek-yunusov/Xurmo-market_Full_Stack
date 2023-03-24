@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import NotFoundSvg from "../assets/svg/illustration_404.svg";
+// import NotFoundSvg from "../assets/svg/illustration_404.svg";
 import { HelmetTitle } from "../utils";
 
 const NotFound = () => {
@@ -23,7 +23,7 @@ const NotFound = () => {
         <p className="text-gray-400 text-base md:my-3 md:px-[250px] xl:px-[450px] text-center">
           {t("page-not-found-title")}
         </p>
-        <img src={NotFoundSvg} className="h-64 lg:h-72" alt="" />
+        {/* <img src={NotFoundSvg} className="h-64 lg:h-72" alt="" /> */}
         <Button
           onClick={() => navigate("/")}
           variant="contained"

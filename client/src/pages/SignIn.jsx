@@ -13,10 +13,11 @@ import {
   TextField,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import HelmetTitle from "../utils/HelmetTitle";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import Logo from "../components/client-components/Helpers/Logo";
+import Logo from "../components/Helpers/Logo";
+import { HelmetTitle } from "../utils";
+
 const SignIn = () => {
   const [loader, setLoader] = useState(false);
   const { isLoading, isLogged, isError, message } = useSelector(
@@ -115,9 +116,9 @@ const SignIn = () => {
           <div className="xl:col-span-4 lg:col-span-5 col-span-12 border-l border-l-gray-300 flex items-center justify-center xl:px-16 md:px-10 px-8 w-full mx-auto">
             <div className="">
               <div className="">
-                <h2 className="text-2xl font-bold text-gray-700 ">
+                <div className="text-2xl font-bold text-gray-700 ">
                   <Logo /> {t("sign-in-t")} 👋🏻
-                </h2>
+                </div>
                 <p className="mt-3 text-gray-500">{t("sign-in-p")}</p>
               </div>
               <div className="mt-8">

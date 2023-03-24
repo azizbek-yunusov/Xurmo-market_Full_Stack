@@ -2,16 +2,16 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { BannerCarousel } from "../components/client-components/Banner";
-import BrandsList from "../components/client-components/Brand/BrandList";
-import { CategoryList } from "../components/client-components/Categories";
-import MobileApp from "../components/client-components/Footer/MobileApp";
-import { PostList } from "../components/client-components/Post";
+import { BannerCarousel } from "../components/Banner";
+import BrandsList from "../components/Brand/BrandList";
+import { CategoryList } from "../components/Categories";
+import MobileApp from "../components/Footer/MobileApp";
+import { PostList } from "../components/Post";
 import {
   BestProductsList,
   DiscountedProducts,
-} from "../components/client-components/ProductItems";
-import { ListBox } from "../components/client-components/TopBrand";
+} from "../components/ProductItems";
+import { ListBox } from "../components/TopBrand";
 import { getBanners } from "../redux/banner";
 import { getBrands } from "../redux/brand/brandSlice";
 import { getCategories } from "../redux/category";

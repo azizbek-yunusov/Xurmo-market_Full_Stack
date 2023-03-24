@@ -1,6 +1,14 @@
 const OrderModel = require("../models/OrderModel");
 const UserModel = require("../models/UserModel");
 
+function generateOrderId() {
+  let number = '';
+  for (let i = 0; i < 5; i++) {
+    number += Math.floor(Math.random() * 10).toString();
+  }
+  return number;
+}
+
 const newOrder = async (req, res) => {
   try {
     const customer = await UserModel.findById(req.user.id).populate(
@@ -13,6 +21,7 @@ const newOrder = async (req, res) => {
     }));
     req.body.orderItems = product;
     req.body.user = req.user.id;
+    req.body.orderId = generateOrderId();
 
     const newOrder = await OrderModel.create(req.body);
 
