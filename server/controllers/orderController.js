@@ -2,7 +2,7 @@ const OrderModel = require("../models/OrderModel");
 const UserModel = require("../models/UserModel");
 
 function generateOrderId() {
-  let number = '';
+  let number = "";
   for (let i = 0; i < 5; i++) {
     number += Math.floor(Math.random() * 10).toString();
   }
@@ -15,6 +15,7 @@ const newOrder = async (req, res) => {
       "cart.productId",
       "_id name price images"
     );
+    console.log(req.body);
     const product = customer.cart.map((c) => ({
       quantity: c.quantity,
       productId: { ...c.productId._doc },
@@ -24,7 +25,11 @@ const newOrder = async (req, res) => {
     req.body.orderId = generateOrderId();
 
     const newOrder = await OrderModel.create(req.body);
-
+    const statusHistory = {
+      orderStatus: req.body.orderStatus,
+      date: new Date(),
+    };
+    newOrder.statusHistory.push(statusHistory);
     const order = await newOrder.save();
     await customer.cleanCart();
     res.status(201).json({ message: "New Order Created", order });
@@ -67,6 +72,36 @@ const getMyOrders = async (req, res) => {
   }
 };
 
+const updateOrderStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+    const statusHistory = {
+      orderStatus: status,
+      date: new Date(),
+    };
+    await OrderModel.findByIdAndUpdate(
+      req.params.id,
+      {
+        orderStatus: status,
+        updatedAt: new Date(),
+      },
+      {
+        new: true,
+      }
+    );
+
+    let order = await OrderModel.findById(req.params.id).populate(
+      "orderItems.productId",
+      "_id name price images"
+    );
+    order.statusHistory.push(statusHistory);
+    await order.save();
+    res.status(200).json(order);
+  } catch (err) {
+    return res.status(500).json({ msg: err.message });
+  }
+};
+
 const deleteSelected = async (req, res) => {
   try {
     let selected = [...req.body.selected];
@@ -88,13 +123,19 @@ const deleteSelected = async (req, res) => {
 
 const deleteOrder = async (req, res) => {
   try {
-    await OrderModel.findByIdAndDelete(req.params.id);
-    res.status(201).json({
-      msg: "Delete Order",
-    });
+    const order =  await OrderModel.findByIdAndDelete(req.params.id);
+    res.status(201).json(order);
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }
 };
 
-module.exports = { newOrder, getAllOrders, getOrder, deleteSelected, getMyOrders, deleteOrder };
+module.exports = {
+  newOrder,
+  getAllOrders,
+  getOrder,
+  deleteSelected,
+  getMyOrders,
+  updateOrderStatus,
+  deleteOrder,
+};

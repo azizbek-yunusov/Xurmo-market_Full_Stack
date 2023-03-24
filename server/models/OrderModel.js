@@ -70,25 +70,36 @@ const orderSchema = new Schema({
   deliveredAt: { type: Date },
   orderStatus: {
     type: String,
-    default: "Not Processed",
+    default: "Accepted",
     enum: [
-      "Order Placed",
-      "Not Processed",
-      "Shipped",
-      "Cash on Delivery",
-      "Processing",
+      "Accepted",
+      "UnderAnalysis",
+      "Done",
       "Dispatched",
-      "Cancelled",
+      "Rejected",
       "Delivered",
     ],
   },
+  statusHistory: [
+    {
+      orderStatus: {
+        type: String,
+      },
+      date: {
+        type: Date,
+      },
+    },
+  ],
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",
   },
   createdAt: {
     type: Date,
-    default: Date.now,
+    default: new Date(),
+  },
+  updatedAt: {
+    type: Date,
   },
 });
 
