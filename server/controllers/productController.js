@@ -1,4 +1,5 @@
 const ProductModel = require("../models/ProductModel");
+const ReviewModel = require("../models/ReviewModel");
 const cloudinary = require("../utils/cloudinary");
 
 const getAllProducts = async (req, res) => {
@@ -36,8 +37,13 @@ const getProduct = async (req, res) => {
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
+    const reviews = await ReviewModel.find({ productId: product._id, isActive: true }).populate("user", "_id name lastName email avatar");
 
-    res.status(201).json(product);
+    res.status(201).json({
+      msg: "Succuss",
+      product,
+      reviews,
+    });
   } catch (err) {
     console.log(err);
   }
