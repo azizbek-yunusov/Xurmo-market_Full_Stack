@@ -80,26 +80,66 @@ const activateEmail = async (req, res) => {
   }
 };
 
-const signIn = async (req, res) => {
+const signInClient = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
       return res.status(400).json({ err: "All fields are required" });
     }
-    const savedUser = await UserModel.findOne({ email }).populate(
+    const client = await UserModel.findOne({ email }).populate(
       "cart.productId favorites.productId",
       "_id name price images discount inStock numOfReviews reviews ratings"
     );
-    if (!savedUser) {
+    if (!client) {
       return res.status(400).json({ err: "Your email is incorrect" });
     }
-    const isPasswordValid = await bcrypt.compare(password, savedUser.password);
+    const isPasswordValid = await bcrypt.compare(password, client.password);
     if (!isPasswordValid)
       return res.status(400).json({ err: "Password is incorrect." });
 
-    const refreshtoken = createRefreshToken({ id: savedUser._id });
-    const access_token = createAccessToken({ id: savedUser._id });
-    if (savedUser.admin) {
+    const refreshtoken = createRefreshToken({ id: client._id });
+    const access_token = createAccessToken({ id: client._id });
+
+    res.cookie("refreshtoken", refreshtoken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.status(200).json({
+      msg: "Login success!",
+      access_token,
+      user: {
+        ...client._doc,
+      },
+    });
+  } catch (err) {
+    return res.status(500).json({ msg: err.message });
+  }
+};
+
+const signInAdmin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ err: "All fields are required" });
+    }
+    const user = await UserModel.findOne({ email }).populate(
+      "cart.productId favorites.productId",
+      "_id name price images discount inStock numOfReviews reviews ratings"
+    );
+    if (!user) {
+      return res.status(400).json({ err: "Your email is incorrect" });
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid)
+      return res.status(400).json({ err: "Password is incorrect." });
+
+    const refreshtoken = createRefreshToken({ id: user._id });
+    const access_token = createAccessToken({ id: user._id });
+
+    if (user.admin) {
       res.cookie("admintoken", refreshtoken, {
         httpOnly: true,
         secure: true,
@@ -107,25 +147,14 @@ const signIn = async (req, res) => {
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
     } else {
-      res.cookie("refreshtoken", refreshtoken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      });
-      res.cookie("auth", true, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      });
+      return res.status(500).json({ msg: "Admin resources access denied" });
     }
 
     res.status(200).json({
       msg: "Login success!",
       access_token,
       user: {
-        ...savedUser._doc,
+        ...user._doc,
       },
     });
   } catch (err) {
@@ -137,10 +166,10 @@ const getAccessToken = async (req, res) => {
   try {
     const refreshToken = await req.cookies.refreshtoken;
     if (!refreshToken)
-      return res.status(400).json({ msg: "Please login now!" });
+      return res.status(401).json({ msg: "Please login now!" });
 
     jwt.verify(refreshToken, JWT_SECRET, async (err, client) => {
-      if (err) return res.status(400).json({ msg: "Please login now." });
+      if (err) return res.status(401).json({ msg: "Please login now." });
 
       const user = await UserModel.findById(client.id)
         .select("-password")
@@ -223,7 +252,7 @@ const resetPassword = async (req, res) => {
   }
 };
 
-const logout = async (req, res) => {
+const signOutClient = async (req, res) => {
   try {
     res.clearCookie("refreshtoken");
     return res.json({ msg: "Sign out" });
@@ -232,7 +261,7 @@ const logout = async (req, res) => {
   }
 };
 
-const logoutAdmin = async (req, res) => {
+const signOutAdmin = async (req, res) => {
   try {
     res.clearCookie("admintoken");
     return res.json({ msg: "Sign out" });
@@ -313,13 +342,14 @@ const createRefreshToken = (payload) => {
 
 module.exports = {
   signUp,
-  signIn,
-  logout,
+  signInClient,
+  signInAdmin,
+  signOutAdmin,
+  signOutClient,
   googleOauth,
   activateEmail,
   getAccessToken,
   forgotPassword,
   resetPassword,
   getAccessAdminToken,
-  logoutAdmin,
 };
