@@ -64,6 +64,10 @@ const reviewSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    isOrder:{
+      type: Boolean,
+      default: false,
+    },
     createdAt: {
       type: Date,
       default: new Date(),

@@ -7,6 +7,7 @@ const {
   getProduct,
   deleteProduct,
   deleteSelected,
+  getProductView,
   getSearch
 } = require("../controllers/productController");
 const authAdminMiddleware = require("../middleware/authAdminMiddleware");
@@ -16,6 +17,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 router.get("/", getAllProducts);
 router.get("/best", getbestProducts);
 router.get("/:id", getProduct);
+router.get("/view/:slug", getProductView);
 router.get("/search", getSearch)
 // admin only
 router.post("/", authMiddleware, authAdminMiddleware, createProduct);

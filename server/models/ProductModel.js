@@ -10,6 +10,9 @@ const productSchema = new Schema(
       type: Number,
       required: true,
     },
+    oldPrice: {
+      type: Number,
+    },
     descr: {
       type: String,
       required: true,
@@ -51,55 +54,7 @@ const productSchema = new Schema(
       type: Number,
       default: 0,
     },
-    reviews: [
-      {
-        user: {
-          type: Schema.Types.ObjectId,
-          ref: "User",
-        },
-        name: {
-          type: String,
-        },
-        rating: {
-          type: Number,
-        },
-        comment: {
-          type: String,
-        },
-        pictures: [
-          {
-            public_id: {
-              type: String,
-              // required: true,
-            },
-            url: {
-              type: String,
-              // required: true,
-            },
-          },
-        ],
-        likes: [
-          {
-            type: Schema.Types.ObjectId,
-            ref: "User",
-          },
-        ],
-        dislikes: [
-          {
-            type: Schema.Types.ObjectId,
-            ref: "User",
-          },
-        ],
-        isShow: {
-          type: Boolean,
-          default: true,
-        },
-        createdAt: {
-          type: Date,
-          default: new Date(),
-        },
-      },
-    ],
+
     features: [
       {
         feature: {
@@ -110,7 +65,7 @@ const productSchema = new Schema(
         },
       },
     ],
-    isShow: {
+    isActive: {
       type: Boolean,
       default: true,
     },

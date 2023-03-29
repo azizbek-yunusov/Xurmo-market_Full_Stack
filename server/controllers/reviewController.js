@@ -30,43 +30,8 @@ const addReview = async (req, res) => {
       comment,
       pictures: picturesBuffer,
     };
-
-    // let findReview = await ReviewModel.find({ productId });
-    // if (!findReview) {
-    // }
     const review = await ReviewModel.create(reviewData);
     await review.save();
-    // let product = await ProductModel.findById(productId)
-    //   .populate("createdBy", "_id name avatar")
-    //   .populate("reviews.user", "_id name lastName email avatar");
-
-    // const isReviewed = product.reviews.find(
-    //   (rev) => rev.name.toString() === req.user.id.toString()
-    // );
-    // if (isReviewed) {
-    //   product.reviews.forEach((rev) => {
-    //     if (rev.name.toString() === req.user.id.toString())
-    //       (rev.rating = rating), (rev.comment = comment), (rev.pictures = pictures);
-    //   });
-    // } else {
-    //   product.reviews.push(review);
-    //   product.numOfReviews = product.reviews.length;
-    // }
-
-    // let avg = 0;
-
-    // product.reviews.forEach((rev) => {
-    //   avg += rev.rating;
-    // });
-
-    // product.ratings = avg / product.reviews.length;
-
-    // await product.save({ validateBeforeSave: false });
-
-    // res.status(200).json({
-    //   msg: "Successfully",
-    //   product,
-    // });
   } catch (err) {
     return console.log(err);
   }
@@ -130,42 +95,103 @@ const updateReview = async (req, res) => {
 
 const likeReview = async (req, res) => {
   try {
-    const comment = await ReviewModel.find({
+    const isLike = await ReviewModel.find({
       _id: req.params.id,
       likes: req.user.id,
     });
-    if (comment.length > 0) {
-      console.log("Like bosgansan");
+    const isUnLikes = await ReviewModel.find({
+      _id: req.params.id,
+      unLikes: req.user.id,
+    });
+    if (isLike.length) {
+      await ReviewModel.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $pull: { likes: req.user.id },
+        },
+        { new: true }
+      );
+    } else if (isUnLikes.length) {
+      await ReviewModel.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $push: { likes: req.user.id },
+        },
+        { new: true }
+      );
+      await ReviewModel.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $pull: { unLikes: req.user.id },
+        },
+        { new: true }
+      );
+    } else {
+      await ReviewModel.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $push: { likes: req.user.id },
+        },
+        { new: true }
+      );
     }
-    // return res.status(400).json({ msg: "" });
-
-    // await ReviewModel.findOneAndUpdate(
-    //   { _id: req.params.id },
-    //   {
-    //     $push: { likes: req.user.id },
-    //   },
-    //   { new: true }
-    // );
-
-    // res.json({ msg: "Liked Comment!" });
+    const review = await ReviewModel.findById(req.params.id).populate(
+      "user reply.user",
+      "_id name email avatar"
+    );
+    res.status(200).json(review);
   } catch (err) {
-    // return res.status(500).json({ msg: err.message });
-    console.log(err);
+    return res.status(500).json({ err: err.message });
   }
 };
 
 const unLikeReview = async (req, res) => {
   try {
-    await ReviewModel.findOneAndUpdate(
-      { _id: req.params.id },
-      {
-        $pull: { likes: req.user._id },
-      },
-      { new: true }
+    const isUnLikes = await ReviewModel.find({
+      _id: req.params.id,
+      unLikes: req.user.id,
+    });
+    const isLike = await ReviewModel.find({
+      _id: req.params.id,
+      likes: req.user.id,
+    });
+    if (isUnLikes.length) {
+      await ReviewModel.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $pull: { unLikes: req.user.id },
+        },
+        { new: true }
+      );
+    } else if (isLike.length) {
+      await ReviewModel.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $push: { unLikes: req.user.id },
+        },
+        { new: true }
+      );
+      await ReviewModel.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $pull: { likes: req.user.id },
+        },
+        { new: true }
+      );
+    } else {
+      await ReviewModel.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $push: { unLikes: req.user.id },
+        },
+        { new: true }
+      );
+    }
+    const review = await ReviewModel.findById(req.params.id).populate(
+      "user reply.user",
+      "_id name email avatar"
     );
-
-    res.json({ msg: "UnLiked Comment!" });
-    res.status(200).json({ msg: "success" });
+    res.status(200).json(review);
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }
@@ -192,8 +218,14 @@ const replyComment = async (req, res) => {
           res.json(result);
         }
       });
+
+    const review = await ReviewModel.findById(req.params.id).populate(
+      "user reply.user",
+      "_id name email avatar"
+    );
+    res.status(200).json(review);
   } catch (err) {
-    return res.status(500).json({ msg: err.message });
+    return res.status(500).json({ err: err.message });
   }
 };
 

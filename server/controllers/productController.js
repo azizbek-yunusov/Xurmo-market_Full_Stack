@@ -31,13 +31,64 @@ const getbestProducts = async (req, res) => {
 
 const getProduct = async (req, res) => {
   try {
-    const product = await ProductModel.findById(req.params.id)
-      .populate("createdBy", "_id name lastName email avatar")
-      .populate("reviews.user", "_id name lastName email avatar");
+    const product = await ProductModel.findById(req.params.id).populate(
+      "createdBy",
+      "_id name lastName email avatar"
+    );
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
-    const reviews = await ReviewModel.find({ productId: product._id, isActive: true }).populate("user", "_id name lastName email avatar");
+    const reviews = await ReviewModel.find({
+      productId: product._id,
+      isActive: true,
+    }).populate("user reply.user", "_id name lastName email avatar");
+    if (reviews.length) {
+      product.numOfReviews = reviews.length;
+      let avg = 0;
+
+      reviews.forEach((rev) => {
+        avg += rev.rating;
+      });
+
+      product.ratings = avg / reviews.length;
+      await product.save({ validateBeforeSave: false });
+    } else {
+      product.numOfReviews = 0;
+      product.ratings = 0;
+      await product.save({ validateBeforeSave: false });
+    }
+
+    res.status(201).json({
+      msg: "Succuss",
+      product,
+      reviews,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const getProductView = async (req, res) => {
+  try {
+    const product = await ProductModel.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    const reviews = await ReviewModel.find({
+      productId: product._id,
+      isActive: true,
+    }).populate("user", "_id name lastName email avatar");
+    if (reviews.length) {
+      product.numOfReviews = reviews.length;
+      let avg = 0;
+
+      reviews.forEach((rev) => {
+        avg += rev.rating;
+      });
+
+      product.ratings = avg / reviews.length;
+      await product.save({ validateBeforeSave: false });
+    }
 
     res.status(201).json({
       msg: "Succuss",
@@ -234,6 +285,7 @@ const getSearch = async (req, res) => {
 module.exports = {
   getAllProducts,
   getbestProducts,
+  getProductView,
   getProduct,
   createProduct,
   updateProduct,

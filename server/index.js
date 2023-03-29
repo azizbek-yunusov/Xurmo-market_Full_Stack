@@ -12,7 +12,7 @@ const routes = require("./routes");
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
-app.set('trust proxy', 1);
+// app.set('trust proxy', 1);
 app.use(cookieParser());
 app.use(cors());
 app.use(bodyParser.json({ limit: "100mb" }));
