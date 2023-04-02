@@ -4,7 +4,6 @@ const userSchema = new Schema({
   name: {
     type: String,
     required: true,
-    trim: true,
   },
   lastName: {
     type: String,
@@ -23,11 +22,12 @@ const userSchema = new Schema({
     public_id: {
       type: String,
       required: true,
-      default: '/Avatars/lpsik4m2oowrlowbyq3l'
+      default: "/Avatars/lpsik4m2oowrlowbyq3l",
     },
     url: {
       type: String,
-      default: 'https://res.cloudinary.com/dztvgxnaj/image/upload/v1674919995/Avatars/lpsik4m2oowrlowbyq3l.png',
+      default:
+        "https://res.cloudinary.com/dztvgxnaj/image/upload/v1674919995/Avatars/lpsik4m2oowrlowbyq3l.png",
       required: true,
     },
   },
@@ -71,10 +71,6 @@ const userSchema = new Schema({
         type: Boolean,
         default: false,
       },
-      other: {
-        type: String,
-      },
-      postalCode: { type: String },
     },
   ],
   favorites: [
@@ -89,6 +85,11 @@ const userSchema = new Schema({
   admin: {
     type: Boolean,
     default: false,
+  },
+  status: {
+    type: String,
+    default: "Active",
+    enum: ["Active", "Banned"],
   },
   createdAt: {
     type: Date,

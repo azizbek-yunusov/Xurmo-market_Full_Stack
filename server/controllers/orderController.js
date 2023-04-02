@@ -1,4 +1,5 @@
 const OrderModel = require("../models/OrderModel");
+const ProductModel = require("../models/ProductModel");
 const UserModel = require("../models/UserModel");
 
 function generateOrderId() {
@@ -15,12 +16,11 @@ const newOrder = async (req, res) => {
       "cart.productId",
       "_id name price images"
     );
-    console.log(req.body);
-    const product = customer.cart.map((c) => ({
+    const products = customer.cart.map((c) => ({
       quantity: c.quantity,
       productId: { ...c.productId._doc },
     }));
-    req.body.orderItems = product;
+    req.body.orderItems = products;
     req.body.user = req.user.id;
     req.body.orderId = generateOrderId();
 
@@ -32,6 +32,16 @@ const newOrder = async (req, res) => {
     newOrder.statusHistory.push(statusHistory);
     const order = await newOrder.save();
     await customer.cleanCart();
+
+    let update = products.map((item) => {
+      return {
+        updateOne: {
+          filter: { _id: item.productId },
+          update: { $inc: { inStock: -item.quantity, sold: +item.quantity } },
+        },
+      };
+    });
+    await ProductModel.bulkWrite(update, {});
     res.status(201).json({ message: "New Order Created", order });
   } catch (err) {
     console.log(err);
@@ -123,7 +133,7 @@ const deleteSelected = async (req, res) => {
 
 const deleteOrder = async (req, res) => {
   try {
-    const order =  await OrderModel.findByIdAndDelete(req.params.id);
+    const order = await OrderModel.findByIdAndDelete(req.params.id);
     res.status(201).json(order);
   } catch (err) {
     return res.status(500).json({ msg: err.message });

@@ -90,6 +90,11 @@ const orderSchema = new Schema({
       },
     },
   ],
+  paymentStatus: {
+    type: String,
+    default: "Unpaid",
+    enum: ["Unpaid", "Pending", "Paid", "Returned"],
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",

@@ -17,6 +17,8 @@ const categorySchema = new Schema(
     slug: {
       type: String,
       required: true,
+      trim: true,
+      unique: true,
     },
     image: {
       public_id: {

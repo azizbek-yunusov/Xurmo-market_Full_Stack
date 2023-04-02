@@ -1,5 +1,7 @@
+const OrderModel = require("../models/OrderModel");
 const ProductModel = require("../models/ProductModel");
 const ReviewModel = require("../models/ReviewModel");
+const UserModel = require("../models/UserModel");
 const cloudinary = require("../utils/cloudinary");
 
 const getAllProducts = async (req, res) => {
