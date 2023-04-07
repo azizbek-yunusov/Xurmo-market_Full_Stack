@@ -18,7 +18,7 @@ router.get("/", getAllProducts);
 router.get("/best", getbestProducts);
 router.get("/:id", getProduct);
 router.get("/view/:slug", getProductView);
-router.get("/search", getSearch)
+router.get("/products/search", getSearch)
 // admin only
 router.post("/", authMiddleware, authAdminMiddleware, createProduct);
 router.put("/:id", authMiddleware, authAdminMiddleware, updateProduct);

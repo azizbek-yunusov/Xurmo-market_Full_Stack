@@ -3,7 +3,6 @@ const router = Router();
 const authMiddleware = require("../middleware/authMiddleware");
 const {
   signUp,
-  activateEmail,
   signInClient,
   signInAdmin,
   getAccessToken,
@@ -13,10 +12,11 @@ const {
   getAccessAdminToken,
   signOutClient,
   signOutAdmin,
+  verifyOtp,
 } = require("../controllers/authController");
 
 router.post("/signup", signUp);
-router.post("/activation", activateEmail);
+router.post("/verify", verifyOtp);
 router.post("/admin/signin", signInAdmin);
 router.post("/signin", signInClient);
 router.post("/refreshtoken", getAccessToken);

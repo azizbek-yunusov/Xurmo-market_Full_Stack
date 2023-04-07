@@ -48,7 +48,7 @@ const productSchema = new Schema(
     },
     categoryChild: {
       type: String,
-      required: true,
+      // required: true,
     },
     ratings: {
       type: Number,

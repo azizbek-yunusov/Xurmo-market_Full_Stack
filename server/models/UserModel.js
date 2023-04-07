@@ -86,6 +86,26 @@ const userSchema = new Schema({
     type: Boolean,
     default: false,
   },
+
+  verified: {
+    type: Boolean,
+    default: false,
+  },
+  otp: {
+    type: Number,
+  },
+  otp: {
+    type: Number,
+  },
+  otpExpiry: {
+    type: Date,
+  },
+  resetPasswordOtp: {
+    type: Number,
+  },
+  resetPasswordOtpExpiry: {
+    type: Date,
+  },
   status: {
     type: String,
     default: "Active",
@@ -181,5 +201,7 @@ userSchema.methods.cleanFavorites = function () {
   this.favorites = [];
   return this.save();
 };
+
+userSchema.index({ otp_expiry: 1 }, { expireAfterSeconds: 0 });
 
 module.exports = model("User", userSchema);

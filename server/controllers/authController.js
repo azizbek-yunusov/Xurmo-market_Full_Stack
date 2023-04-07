@@ -2,12 +2,20 @@ const UserModel = require("../models/UserModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { google } = require("googleapis");
-const { sendEmail } = require("../utils/sendEmail");
+const { sendMail } = require("../utils/sendEmailOTP");
 const { OAuth2 } = google.auth;
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const client = new OAuth2(process.env.MAILING_SERVICE_CLIENT_ID);
 const { CLIENT_URL } = process.env;
+
+function generateOTP() {
+  let otp = "";
+  for (let i = 0; i < 4; i++) {
+    otp += Math.floor(Math.random() * 10);
+  }
+  return otp;
+}
 
 const signUp = async (req, res) => {
   try {
@@ -17,24 +25,29 @@ const signUp = async (req, res) => {
     }
     const userExists = await UserModel.findOne({ email });
     if (userExists) {
-      return res.status(400).json({ error: "This email already exists" });
+      return res.status(400).json({ error: "User already exists" });
     }
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    const newUser = {
+
+    // generation OTP
+    const otp = generateOTP();
+
+    const newUser = await UserModel.create({
       name,
       email,
       password: hashedPassword,
-    };
-    const activationtoken = createActivationToken(newUser);
+      otp,
+      otp_expiry: new Date(Date.now() + process.env.OTP_EXPIRE * 60 * 1000),
+    });
+    await sendMail(email, "Verify your account", `Your OTP is ${otp}`);
 
-    const url = `${CLIENT_URL}/user/activate/${activationtoken}`;
-    sendEmail(email, url, "Verify your email address");
-
-    res
-      .status(200)
-      .json({ msg: "Register Success! Please activate your email to start." });
+    await newUser.save();
+    res.status(200).json({
+      msg: "Register Success! Please activate your email to start.",
+      user: newUser,
+    });
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }
@@ -58,10 +71,10 @@ const activateEmail = async (req, res) => {
     });
 
     await newUser.save();
-    const refreshtoken = createRefreshToken({ id: savedUser._id });
+    const refresh_token = createRefreshToken({ id: savedUser._id });
     const access_token = createAccessToken({ id: savedUser._id });
 
-    res.cookie("refreshtoken", refreshtoken, {
+    res.cookie("refreshtoken", refresh_token, {
       httpOnly: true,
       path: "/",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
@@ -70,11 +83,45 @@ const activateEmail = async (req, res) => {
     res.json({
       msg: "Login success!",
       access_token,
+      refresh_token,
       user: {
         ...savedUser._doc,
       },
     });
     res.json({ msg: "Account has been activated!" });
+  } catch (err) {
+    console.log(err);
+  }
+};
+const verifyOtp = async (req, res) => {
+  try {
+    const { otp } = req.body;
+    const user = await UserModel.findOne({ otp });
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+    if (user.otp !== otp || user.otpExpiry < Date.now()) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid OTP or has been Expired" });
+    }
+
+    user.verified = true;
+    user.otp = null;
+    user.otpExpiry = null;
+
+    await user.save();
+    const refresh_token = createRefreshToken({ id: user._id });
+    const access_token = createAccessToken({ id: user._id });
+
+    res.status(200).json({
+      msg: "Verified!!!",
+      access_token,
+      refresh_token,
+      user: {
+        ...user._doc,
+      },
+    });
   } catch (err) {
     console.log(err);
   }
@@ -97,10 +144,10 @@ const signInClient = async (req, res) => {
     if (!isPasswordValid)
       return res.status(400).json({ err: "Password is incorrect." });
 
-    const refreshtoken = createRefreshToken({ id: client._id });
+    const refresh_token = createRefreshToken({ id: client._id });
     const access_token = createAccessToken({ id: client._id });
 
-    res.cookie("refreshtoken", refreshtoken, {
+    res.cookie("refreshtoken", refresh_token, {
       httpOnly: true,
       secure: true,
       sameSite: "None",
@@ -110,6 +157,7 @@ const signInClient = async (req, res) => {
     res.status(200).json({
       msg: "Login success!",
       access_token,
+      refresh_token,
       user: {
         ...client._doc,
       },
@@ -119,56 +167,14 @@ const signInClient = async (req, res) => {
   }
 };
 
-const signInAdmin = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    if (!email || !password) {
-      return res.status(400).json({ err: "All fields are required" });
-    }
-    const user = await UserModel.findOne({ email }).populate(
-      "cart.productId favorites.productId",
-      "_id name price images discount inStock numOfReviews reviews ratings"
-    );
-    if (!user) {
-      return res.status(400).json({ err: "Your email is incorrect" });
-    }
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid)
-      return res.status(400).json({ err: "Password is incorrect." });
-
-    const refreshtoken = createRefreshToken({ id: user._id });
-    const access_token = createAccessToken({ id: user._id });
-
-    if (user.admin) {
-      res.cookie("admintoken", refreshtoken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      });
-    } else {
-      return res.status(500).json({ msg: "Admin resources access denied" });
-    }
-
-    res.status(200).json({
-      msg: "Login success!",
-      access_token,
-      user: {
-        ...user._doc,
-      },
-    });
-  } catch (err) {
-    return res.status(500).json({ msg: err.message });
-  }
-};
-
 const getAccessToken = async (req, res) => {
   try {
-    const refreshToken = await req.cookies.refreshtoken;
-    if (!refreshToken)
+    const { refresh_token } = req.body;
+    // const refreshToken = await req.cookies.refreshtoken;
+    if (!refresh_token)
       return res.status(401).json({ msg: "Please login now!" });
 
-    jwt.verify(refreshToken, JWT_SECRET, async (err, client) => {
+    jwt.verify(refresh_token, JWT_SECRET, async (err, client) => {
       if (err) return res.status(401).json({ msg: "Please login now." });
 
       const user = await UserModel.findById(client.id)
@@ -191,13 +197,55 @@ const getAccessToken = async (req, res) => {
   }
 };
 
+const signInAdmin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ err: "All fields are required" });
+    }
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ err: "Email is incorrect" });
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid)
+      return res.status(400).json({ err: "Password is incorrect." });
+
+    const refresh_token = createRefreshToken({ id: user._id });
+    const access_token = createAccessToken({ id: user._id });
+
+    if (user.admin) {
+      res.cookie("admintoken", refresh_token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+    } else {
+      return res.status(500).json({ msg: "Admin resources access denied" });
+    }
+
+    res.status(200).json({
+      msg: "Login success!",
+      access_token,
+      admin_token: refresh_token,
+      user: {
+        ...user._doc,
+      },
+    });
+  } catch (err) {
+    return res.status(500).json({ msg: err.message });
+  }
+};
+
 const getAccessAdminToken = async (req, res) => {
   try {
-    const refreshToken = await req.cookies.admintoken;
-    if (!refreshToken)
+    // const refreshToken = await req.cookies.admintoken;
+    const refresh_token = req.body.admin_token;
+    if (!refresh_token)
       return res.status(400).json({ msg: "Please login now!" });
 
-    jwt.verify(refreshToken, JWT_SECRET, async (err, client) => {
+    jwt.verify(refresh_token, JWT_SECRET, async (err, client) => {
       if (err) return res.status(400).json({ msg: "Please login now." });
 
       const user = await UserModel.findById(client.id).select("-password");
@@ -352,4 +400,5 @@ module.exports = {
   forgotPassword,
   resetPassword,
   getAccessAdminToken,
+  verifyOtp,
 };
