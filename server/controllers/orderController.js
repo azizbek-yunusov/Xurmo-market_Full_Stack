@@ -1,6 +1,7 @@
 const OrderModel = require("../models/OrderModel");
 const ProductModel = require("../models/ProductModel");
 const UserModel = require("../models/UserModel");
+const { sendMail } = require("../utils/sendEmail");
 
 function generateOrderId() {
   let number = "";
@@ -42,6 +43,13 @@ const newOrder = async (req, res) => {
       };
     });
     await ProductModel.bulkWrite(update, {});
+    console.log(order.orderId);
+    // send a message about the user's order
+    await sendMail(
+      customer.email,
+      `Sizning buyutmangiz qabul qilindi`,
+      `Assalomu alaykum,\n\nSizning internet-magazinimizda buyurtma berishni xohlaganiz uchun tashakkur. \n Buyurtmangiz muvaffaqiyatli qabul qilindi va tez orada yetkazib beriladi. Siz bilan yana bir marotaba bog'lanib, buyurtma haqida batafsil ma'lumot beramiz.\n\nTashakkur,\n\n[Xurmo.uz]`
+    );
     res.status(201).json({ message: "New Order Created", order });
   } catch (err) {
     console.log(err);
@@ -75,7 +83,8 @@ const getMyOrders = async (req, res) => {
   try {
     const orders = await OrderModel.find({ user: req.user.id })
       .populate("user", "_id name email avatar")
-      .populate("orderItems.productId", "_id name price images");
+      .populate("orderItems.productId", "_id name price images")
+      .populate("orderItems.reviewId", "_id rating comment pictures");
     res.status(200).json(orders);
   } catch (err) {
     return res.status(500).json({ msg: err.message });
@@ -106,6 +115,48 @@ const updateOrderStatus = async (req, res) => {
     );
     order.statusHistory.push(statusHistory);
     await order.save();
+    const customer = await UserModel.findById(order.user);
+    if (status === "Delivered") {
+      await sendMail(
+        customer.email,
+        `Sizning buyutmangiz yetkazildi`,
+        `Assalomu alaykum,\n\nSizning buyurtmangiz muvaffaqiyatli yetkazib berildi.\nIltimos, buyurtmani ko'rib chiqing va shikastlangan yoki shikastlanmaganligi bo'yicha yoki shikoyat bo'lsa biz bilan bog'laning.\nSiz bilan hamkorlik qilishdan mamnunmiz.\n\nTashakkur,\n\n[Xurmo.uz]`
+      );
+    }
+    if (status === "Rejected") {
+      await sendMail(
+        customer.email,
+        `Sizning buyutmangiz bekor qilindi`,
+        `Assalomu alaykum,\n\nSizning buyurtmangiz bekor qilindi. Buyurtma miqdorini sizning bank hisobingizga qaytarib beramiz.\n\nAgar sizning bekor qilish sababingiz bo'lsa, iltimos biz bilan ulashing, sizga yordam berishdan mamnun bo'lamiz.\n\nTashakkur,\n\n[Xurmo.uz]`
+      );
+    }
+    res.status(200).json(order);
+  } catch (err) {
+    return res.status(500).json({ msg: err.message });
+  }
+};
+
+const resetOrderStatus = async (req, res) => {
+  try {
+    await OrderModel.findByIdAndUpdate(
+      req.params.id,
+      {
+        orderStatus: "Accepted",
+        updatedAt: new Date(),
+        statusHistory: {
+          orderStatus: "Accepted",
+          date: new Date(),
+        },
+      },
+      {
+        new: true,
+      }
+    );
+
+    let order = await OrderModel.findById(req.params.id).populate(
+      "orderItems.productId",
+      "_id name price images"
+    );
     res.status(200).json(order);
   } catch (err) {
     return res.status(500).json({ msg: err.message });
@@ -148,4 +199,5 @@ module.exports = {
   getMyOrders,
   updateOrderStatus,
   deleteOrder,
+  resetOrderStatus,
 };

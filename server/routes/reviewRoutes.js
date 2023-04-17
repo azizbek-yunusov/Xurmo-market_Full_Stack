@@ -8,6 +8,7 @@ const {
   replyComment,
   likeReview,
   unLikeReview,
+  deleteSelected,
 } = require("../controllers/reviewController");
 const authAdminMiddleware = require("../middleware/authAdminMiddleware");
 const authMiddleware = require("../middleware/authMiddleware");
@@ -21,6 +22,6 @@ router.delete("/:id", authMiddleware, authAdminMiddleware, deleteReview);
 router.put("/reply/:id", authMiddleware, replyComment);
 router.patch("/:id/like", authMiddleware, likeReview);
 router.patch("/:id/unlike", authMiddleware, unLikeReview);
-// router.post("/selected", authMiddleware, authAdminMiddleware, deleteSelected);
+router.post("/selected", authMiddleware, authAdminMiddleware, deleteSelected);
 
 module.exports = router;

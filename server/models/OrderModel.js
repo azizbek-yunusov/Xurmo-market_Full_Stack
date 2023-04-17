@@ -40,6 +40,12 @@ const orderSchema = new Schema({
       },
       quantity: {
         type: Number,
+        required: true,
+      },
+      reviewId: {
+        type: Schema.Types.ObjectId,
+        ref: "Review",
+        default: null
       },
     },
   ],
@@ -107,5 +113,20 @@ const orderSchema = new Schema({
     type: Date,
   },
 });
+
+orderSchema.methods.addReviewId = function (product, review) {
+  let orderItems = [...this.orderItems];
+  const index = orderItems.findIndex((e) => {
+    return e.productId.toString() === product._id.toString();
+  });
+
+  if (index >= 0) {
+    orderItems[index].reviewId = review._id;
+  }
+  const newOrderItems = orderItems;
+  this.orderItems = newOrderItems;
+
+  return this.save();
+};
 
 module.exports = model("Order", orderSchema);

@@ -2,7 +2,7 @@ const UserModel = require("../models/UserModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { google } = require("googleapis");
-const { sendMail } = require("../utils/sendEmailOTP");
+const { sendMail } = require("../utils/sendEmail");
 const { OAuth2 } = google.auth;
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -41,13 +41,36 @@ const signUp = async (req, res) => {
       otp,
       otp_expiry: new Date(Date.now() + process.env.OTP_EXPIRE * 60 * 1000),
     });
-    await sendMail(email, "Verify your account", `Your OTP is ${otp}`);
+    await sendMail(
+      email,
+      "Foydalanuvchi tasdiqlash kodi (OTP)",
+      `Assalomu alaykum,\n\nSizning internet-magazinimizga kirish uchun tasdiqlash kodi (OTP) talab qilindi. Kodingiz quyida keltirilgan:\n\nTasdiqlash kodi: ${otp}\n\nBu kodni magazinimizda kirish uchun foydalaning. Bu kodni boshqa kimga taqdim etmang.\n\nTashakkur,\n\n[Xurmo.uz]`
+    );
 
     await newUser.save();
-    res.status(200).json({
-      msg: "Register Success! Please activate your email to start.",
-      user: newUser,
+
+    const refresh_token = createRefreshToken({ id: newUser._id });
+    const access_token = createAccessToken({ id: newUser._id });
+
+    res.cookie("refreshtoken", refresh_token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
+
+    res.status(200).json({
+      msg: "Register success!",
+      access_token,
+      refresh_token,
+      user: {
+        ...newUser._doc,
+      },
+    });
+    // res.status(200).json({
+    //   msg: "Register Success! Please activate your email to start.",
+    //   user: newUser,
+    // });
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }

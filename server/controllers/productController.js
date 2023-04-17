@@ -44,22 +44,7 @@ const getProduct = async (req, res) => {
       productId: product._id,
       isActive: true,
     }).populate("user reply.user", "_id name lastName email avatar");
-    if (reviews.length) {
-      product.numOfReviews = reviews.length;
-      let avg = 0;
-
-      reviews.forEach((rev) => {
-        avg += rev.rating;
-      });
-
-      product.ratings = avg / reviews.length;
-      await product.save({ validateBeforeSave: false });
-    } else {
-      product.numOfReviews = 0;
-      product.ratings = 0;
-      await product.save({ validateBeforeSave: false });
-    }
-
+    
     res.status(201).json({
       msg: "Succuss",
       product,
