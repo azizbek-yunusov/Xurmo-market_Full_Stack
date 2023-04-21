@@ -19,9 +19,12 @@ function generateOTP() {
 
 const signUp = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, confirmPass } = req.body;
     if (!name || !email || !password) {
       return res.status(400).json({ error: "Please add all the feilds!!!" });
+    }
+    if (password !== confirmPass) {
+      return res.status(400).json({ error: "Passwords do not match" });
     }
     const userExists = await UserModel.findOne({ email });
     if (userExists) {
@@ -43,8 +46,8 @@ const signUp = async (req, res) => {
     });
     await sendMail(
       email,
-      "Foydalanuvchi tasdiqlash kodi (OTP)",
-      `Assalomu alaykum,\n\nSizning internet-magazinimizga kirish uchun tasdiqlash kodi (OTP) talab qilindi. Kodingiz quyida keltirilgan:\n\nTasdiqlash kodi: ${otp}\n\nBu kodni magazinimizda kirish uchun foydalaning. Bu kodni boshqa kimga taqdim etmang.\n\nTashakkur,\n\n[Xurmo.uz]`
+      "Tasdiqlash kodi (OTP)",
+      `Assalomu alaykum,\n\nSizning ro'yhatdan o'tish uchun tasdiqlash kodi (OTP) talab qilindi. Kodingiz quyida keltirilgan:\n\nTasdiqlash kodi: ${otp}\n\nBu kodni saytga kirish uchun foydalaning.\n\nTashakkur,\n\n[Xurmo.uz]`
     );
 
     await newUser.save();
@@ -58,19 +61,14 @@ const signUp = async (req, res) => {
       sameSite: "None",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-
+    
     res.status(200).json({
-      msg: "Register success!",
-      access_token,
-      refresh_token,
+      success: true,
       user: {
         ...newUser._doc,
       },
+      msg: "Enter the verification code (OTP)",
     });
-    // res.status(200).json({
-    //   msg: "Register Success! Please activate your email to start.",
-    //   user: newUser,
-    // });
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }
@@ -113,7 +111,7 @@ const activateEmail = async (req, res) => {
     });
     res.json({ msg: "Account has been activated!" });
   } catch (err) {
-    console.log(err);
+    return res.status(500).json({ msg: err.message });
   }
 };
 const verifyOtp = async (req, res) => {
@@ -123,10 +121,16 @@ const verifyOtp = async (req, res) => {
     if (!user) {
       return res.status(400).json({ message: "User not found" });
     }
-    if (user.otp !== otp || user.otpExpiry < Date.now()) {
+    console.log(user.otp, "===", otp);
+    if (user.otp !== otp) {
       return res
         .status(400)
-        .json({ success: false, message: "Invalid OTP or has been Expired" });
+        .json({ success: false, message: "Invalid OTP code" });
+    }
+    if (user.otpExpiry < Date.now()) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid OTP has been Expired" });
     }
 
     user.verified = true;
@@ -146,7 +150,7 @@ const verifyOtp = async (req, res) => {
       },
     });
   } catch (err) {
-    console.log(err);
+    return res.status(500).json({ msg: err.message });
   }
 };
 
@@ -300,7 +304,7 @@ const forgotPassword = async (req, res) => {
     sendMail(email, url, "Reset your password");
     res.json({ msg: "Re-send the password, please check your email." });
   } catch (err) {
-    console.log(err);
+    return res.status(500).json({ msg: err.message });
   }
 };
 

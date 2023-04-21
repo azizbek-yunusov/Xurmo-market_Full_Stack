@@ -92,10 +92,7 @@ const userSchema = new Schema({
     default: false,
   },
   otp: {
-    type: Number,
-  },
-  otp: {
-    type: Number,
+    type: String,
   },
   otpExpiry: {
     type: Date,

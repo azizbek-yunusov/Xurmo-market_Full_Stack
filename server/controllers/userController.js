@@ -297,7 +297,6 @@ const createUser = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const userData = {
-      _id: req.body.id,
       name: req.body.name,
       lastName: req.body.lastName,
       email: req.body.email,
