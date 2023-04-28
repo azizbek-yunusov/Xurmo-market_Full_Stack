@@ -44,7 +44,7 @@ const getProduct = async (req, res) => {
       productId: product._id,
       isActive: true,
     }).populate("user reply.user", "_id name lastName email avatar");
-    
+
     res.status(201).json({
       msg: "Succuss",
       product,
@@ -105,6 +105,7 @@ const createProduct = async (req, res) => {
 
     req.body.images = imagesBuffer;
     req.body.createdBy = req.user.id;
+    req.body.slug = req.body.name.toLowerCase().replace(/\s+/g, "-");
 
     const product = await ProductModel.create(req.body);
     await product.save();
@@ -152,15 +153,45 @@ const updateProduct = async (req, res) => {
 };
 
 const deleteProduct = async (req, res) => {
-  const product = await ProductModel.findById(req.params.id);
-  if (!product) {
-    return res.status(401).json({ msg: "Product not found" });
+  try {
+    const product = await ProductModel.findById(req.params.id);
+    if (!product) {
+      return res.status(401).json({ msg: "Product not found" });
+    }
+    for (let i = 0; i < product.images.length; i++) {
+      await cloudinary.uploader.destroy(product.images[i].public_id);
+    }
+    const isUserCart = await UserModel.find({
+      $or: [
+        { "cart.productId": product._id },
+        { "favorites.productId": product._id },
+      ],
+    });
+    isUserCart?.forEach((user) => {
+      try {
+        user.removeFromCart(product._id);
+      } catch (err) {
+        console.log(err);
+      }
+    });
+    const isUserWish = await UserModel.find({
+      $or: [
+        { "cart.productId": product._id },
+        { "favorites.productId": product._id },
+      ],
+    });
+    isUserWish?.forEach((user) => {
+      try {
+        user.removeFromFavorite(product._id);
+      } catch (err) {
+        console.log(err);
+      }
+    });
+    await product.remove();
+    res.status(201).json(product);
+  } catch (err) {
+    return res.status(500).json({ msg: err.message });
   }
-  for (let i = 0; i < product.images.length; i++) {
-    await cloudinary.uploader.destroy(product.images[i].public_id);
-  }
-  await product.remove();
-  res.status(201).json(product);
 };
 
 const deleteSelected = async (req, res) => {
