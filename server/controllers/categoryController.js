@@ -22,7 +22,7 @@ const getCategory = async (req, res) => {
     );
     const subCategorys = await SubCategoryModel.find({
       categoryId: category._id,
-    })
+    });
     res.status(201).json({ category, subCategorys });
   } catch (err) {
     console.log(err);
@@ -31,9 +31,15 @@ const getCategory = async (req, res) => {
 
 const getSlugCategory = async (req, res) => {
   try {
-    const slug = req.params
-    // const category = await CategoryModel.findOne({ slug });
-    // res.status(201).json(category);
+    const category = await CategoryModel.findOne({ slug: req.params.slug });
+    if (!category) {
+      return res.status(404).json({ err: "Category not found!" });
+    }
+    const subCategories = await SubCategoryModel.find({
+      categoryId: category._id,
+    });
+
+    res.status(200).json({ msg: "Success", category, subCategories });
   } catch (err) {
     console.log(err);
   }
@@ -146,9 +152,7 @@ const createSubCategory = async (req, res) => {
 
 const deleteSubCategory = async (req, res) => {
   try {
-    const subCategory = await SubCategoryModel.findByIdAndDelete(
-      req.params.id
-    );
+    const subCategory = await SubCategoryModel.findByIdAndDelete(req.params.id);
     res.status(201).json(subCategory);
   } catch (err) {
     console.log(err);

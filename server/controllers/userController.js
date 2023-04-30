@@ -204,38 +204,6 @@ const uploadAvatar = async (req, res) => {
   }
 };
 
-const addAdress = async (req, res) => {
-  try {
-    const { region, district, street, house, isActive } = req.body;
-    const address = {
-      region,
-      street,
-      district,
-      house,
-      isActive,
-    };
-    let user = await UserModel.findById(req.user.id);
-    user.addresses.push(address);
-    await user.save();
-
-    res.status(200).json(user.addresses);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const deleteAddress = async (req, res) => {
-  try {
-    let user = await UserModel.findById(req.user.id);
-    await user.removeFromAddress(req.params.id);
-
-    await user.save();
-    res.status(200).json(user.addresses);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 // Admin Only
 const getAllUsers = async (req, res) => {
   try {
@@ -362,6 +330,4 @@ module.exports = {
   deleteSelected,
   getUserInfo,
   changePassword,
-  addAdress,
-  deleteAddress,
 };

@@ -8,9 +8,7 @@ const {
   updateUser,
   deleteUser,
   getUserInfo,
-  addAdress,
   createUser,
-  deleteAddress,
   uploadAvatar,
   updateProfile,
   deleteSelected,
@@ -22,6 +20,7 @@ const {
   cleanWishList,
   changePassword,
 } = require("../controllers/userController");
+const { addAdress, myAddresses, standardizationAddress, deleteAddress } = require("../controllers/addressController");
 
 router.put("/addcart/:id", authMiddleware, addToCart);
 router.delete("/cart/:id", authMiddleware, deleteCartItems);
@@ -31,7 +30,13 @@ router.delete("/fovorite/:id", authMiddleware, deleteFavoriteItem);
 router.put("/fovorites", authMiddleware, cleanWishList);
 router.put("/update", authMiddleware, updateProfile);
 router.put("/avatar", authMiddleware, uploadAvatar);
+router.get("/addresses", authMiddleware, myAddresses);
 router.post("/address", authMiddleware, addAdress);
+router.put(
+  "/address/standardization/:id",
+  authMiddleware,
+  standardizationAddress
+);
 router.delete("/address/:id", authMiddleware, deleteAddress);
 router.put("/change-password", authMiddleware, changePassword);
 router.get("/me", authMiddleware, getUserInfo);

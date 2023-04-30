@@ -49,9 +49,6 @@ const userSchema = new Schema({
   ],
   addresses: [
     {
-      country: {
-        type: String,
-      },
       region: {
         type: String,
       },
@@ -64,10 +61,7 @@ const userSchema = new Schema({
       house: {
         type: String,
       },
-      apartment: {
-        type: String,
-      },
-      isActive: {
+      standart: {
         type: Boolean,
         default: false,
       },

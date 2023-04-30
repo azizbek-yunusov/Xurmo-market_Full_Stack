@@ -18,35 +18,15 @@ const router = Router();
 // path - /category
 router.get("/", getAllCategoris);
 router.get("/:id", getCategory);
-router.get("/slug/:slug", getSlugCategory);
+router.get("/client/:slug", getSlugCategory);
 
 // admin only
 router.post("/", authMiddleware, authAdminMiddleware, createCategory);
-router.put(
-  "/:id",
-  authMiddleware,
-  authAdminMiddleware,
-  updateCategory
-);
-router.delete(
-  "/:id",
-  authMiddleware,
-  authAdminMiddleware,
-  deleteCategory
-);
-router.post(
-  "/selected",
-  authMiddleware,
-  authAdminMiddleware,
-  deleteSelected
-);
+router.put("/:id", authMiddleware, authAdminMiddleware, updateCategory);
+router.delete("/:id", authMiddleware, authAdminMiddleware, deleteCategory);
+router.post("/selected", authMiddleware, authAdminMiddleware, deleteSelected);
 
-router.post(
-  "/item",
-  authMiddleware,
-  authAdminMiddleware,
-  createSubCategory
-);
+router.post("/item", authMiddleware, authAdminMiddleware, createSubCategory);
 router.delete(
   "/item/:id",
   authMiddleware,
