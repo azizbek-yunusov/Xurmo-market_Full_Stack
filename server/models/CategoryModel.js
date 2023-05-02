@@ -30,19 +30,10 @@ const categorySchema = new Schema(
         required: true,
       },
     },
-    items: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "SubCategory",
-      },
-    ],
-    createdAt: {
-      type: Date,
-      default: new Date(),
-    },
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: "User",
+      required: true,
     },
   },
   {

@@ -9,6 +9,8 @@ const productSchema = new Schema(
     slug: {
       type: String,
       required: true,
+      trim: true,
+      unique: true,
     },
     price: {
       type: Number,
@@ -33,7 +35,11 @@ const productSchema = new Schema(
         },
       },
     ],
-    brand: { type: String, required: true },
+    brand: {
+      type: Schema.Types.ObjectId,
+      ref: "Brand",
+      required: true,
+    },
     discount: {
       type: Number,
       default: 0,
@@ -46,12 +52,19 @@ const productSchema = new Schema(
       type: Number,
       default: 1,
     },
-    category: {
-      type: String,
+    brand: {
+      type: Schema.Types.ObjectId,
+      ref: "Brand",
       required: true,
     },
-    categoryChild: {
-      type: String,
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: "Category",
+      required: true,
+    },
+    subCategory: {
+      type: Schema.Types.ObjectId,
+      ref: "SubCategory",
       // required: true,
     },
     ratings: {
@@ -62,7 +75,6 @@ const productSchema = new Schema(
       type: Number,
       default: 0,
     },
-
     features: [
       {
         feature: {
@@ -76,10 +88,6 @@ const productSchema = new Schema(
     isActive: {
       type: Boolean,
       default: true,
-    },
-    createdAt: {
-      type: Date,
-      default: new Date(),
     },
     createdBy: {
       type: Schema.Types.ObjectId,

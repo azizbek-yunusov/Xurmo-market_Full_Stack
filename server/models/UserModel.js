@@ -47,26 +47,6 @@ const userSchema = new Schema({
       },
     },
   ],
-  addresses: [
-    {
-      region: {
-        type: String,
-      },
-      district: {
-        type: String,
-      },
-      street: {
-        type: String,
-      },
-      house: {
-        type: String,
-      },
-      standart: {
-        type: Boolean,
-        default: false,
-      },
-    },
-  ],
   favorites: [
     {
       productId: {

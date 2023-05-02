@@ -26,13 +26,13 @@ router.put("/:id", authMiddleware, authAdminMiddleware, updateCategory);
 router.delete("/:id", authMiddleware, authAdminMiddleware, deleteCategory);
 router.post("/selected", authMiddleware, authAdminMiddleware, deleteSelected);
 
-router.post("/item", authMiddleware, authAdminMiddleware, createSubCategory);
+router.post("/sub-category", authMiddleware, authAdminMiddleware, createSubCategory);
 router.delete(
-  "/item/:id",
+  "/sub-category/:id",
   authMiddleware,
   authAdminMiddleware,
   deleteSubCategory
 );
-router.get("/items", getSubCategories);
+router.get("/sub-categories/all", getSubCategories);
 
 module.exports = router;

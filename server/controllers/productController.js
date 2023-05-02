@@ -125,8 +125,8 @@ const updateProduct = async (req, res) => {
       discount,
       inStock,
       category,
-      categoryChild,
-      isShow,
+      subCategory,
+      isActive,
     } = req.body;
     const product = await ProductModel.findByIdAndUpdate(
       req.params.id,
@@ -134,12 +134,12 @@ const updateProduct = async (req, res) => {
         name,
         price,
         descr,
-        brand,
         discount,
         inStock,
+        brand,
         category,
-        categoryChild,
-        isShow,
+        subCategory,
+        isActive,
       },
       {
         new: true,

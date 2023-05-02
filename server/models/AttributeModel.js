@@ -1,21 +1,13 @@
 const { Schema, model } = require("mongoose");
 
-const subCategorySchema = new Schema(
+const attributeSchema = new Schema(
   {
-    categoryId: {
+    subCategory: {
       type: Schema.Types.ObjectId,
       ref: "Category",
       required: true,
     },
-    titleOz: {
-      type: String,
-      required: true,
-    },
-    titleUz: {
-      type: String,
-      required: true,
-    },
-    titleRu: {
+    name: {
       type: String,
       required: true,
     },
@@ -24,16 +16,6 @@ const subCategorySchema = new Schema(
       required: true,
       trim: true,
       unique: true,
-    },
-    image: {
-      public_id: {
-        type: String,
-        required: true,
-      },
-      url: {
-        type: String,
-        required: true,
-      },
     },
     createdBy: {
       type: Schema.Types.ObjectId,
@@ -46,4 +28,4 @@ const subCategorySchema = new Schema(
   }
 );
 
-module.exports = model("SubCategory", subCategorySchema);
+module.exports = model("Attribute", attributeSchema);
