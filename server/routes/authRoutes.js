@@ -25,6 +25,6 @@ router.post("/forgot", forgotPassword);
 router.post("/reset", authMiddleware, resetPassword);
 router.get("/logout", signOutClient);
 router.get("/admin/logout", signOutAdmin);
-router.post("/googleauth", googleOauth);
+router.post("/google-oauth", googleOauth);
 
 module.exports = router;

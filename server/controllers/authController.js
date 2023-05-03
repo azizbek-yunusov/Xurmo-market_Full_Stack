@@ -1,13 +1,10 @@
 const UserModel = require("../models/UserModel");
 const bcrypt = require("bcryptjs");
+const axios = require("axios");
 const jwt = require("jsonwebtoken");
-const { google } = require("googleapis");
 const { sendMail } = require("../utils/sendEmail");
-const { OAuth2 } = google.auth;
 
-const JWT_SECRET = process.env.JWT_SECRET;
-const client = new OAuth2(process.env.MAILING_SERVICE_CLIENT_ID);
-const { CLIENT_URL } = process.env;
+const { CLIENT_URL, GOOGLE_OAUTH, GOOGLE_SECRET, JWT_SECRET } = process.env;
 
 function generateOTP() {
   let otp = "";
@@ -61,7 +58,7 @@ const signUp = async (req, res) => {
       sameSite: "None",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-    
+
     res.status(200).json({
       success: true,
       user: {
@@ -74,46 +71,7 @@ const signUp = async (req, res) => {
   }
 };
 
-const activateEmail = async (req, res) => {
-  try {
-    const { activationtoken } = req.body;
-    const user = jwt.verify(activationtoken, JWT_SECRET);
 
-    const { name, email, password } = user;
-    const userExists = await UserModel.findOne({ email });
-    if (userExists)
-      return res.status(400).json({ msg: "This email already exists." });
-    const newUser = await UserModel.create({
-      name,
-      email,
-      password,
-      cart: [],
-      addresses: [],
-    });
-
-    await newUser.save();
-    const refresh_token = createRefreshToken({ id: savedUser._id });
-    const access_token = createAccessToken({ id: savedUser._id });
-
-    res.cookie("refreshtoken", refresh_token, {
-      httpOnly: true,
-      path: "/",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    });
-
-    res.json({
-      msg: "Login success!",
-      access_token,
-      refresh_token,
-      user: {
-        ...savedUser._doc,
-      },
-    });
-    res.json({ msg: "Account has been activated!" });
-  } catch (err) {
-    return res.status(500).json({ msg: err.message });
-  }
-};
 const verifyOtp = async (req, res) => {
   try {
     const { otp } = req.body;
@@ -347,55 +305,69 @@ const signOutAdmin = async (req, res) => {
 
 const googleOauth = async (req, res) => {
   try {
-    const { tokenId } = req.body;
-
-    const verify = await client.verifyIdToken({
-      idToken: tokenId,
-      audience: process.env.MAILING_SERVICE_CLIENT_ID,
+    const { access_token } = req.body;
+    if (!access_token) {
+      return res.status(401).json({ err: "access_token required!!!" });
+    }
+    const response = await axios.get(GOOGLE_OAUTH, {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
     });
+    if (!response.data) {
+      return res.status(401).json({ err: "Something Went Wrong!" });
+    }
+    const name = response.data.given_name;
+    const lastName = response.data?.family_name;
+    const email = response.data.email;
+    const password = email + GOOGLE_SECRET;
+    const picture = response.data.picture;
+    const verified = response.data.email_verified;
 
-    const { email_verified, email, name, picture } = verify.payload;
-
-    const password = email + process.env.GOOGLE_SECRET;
-
-    const passwordHash = await bcrypt.hash(password, 12);
-
-    if (!email_verified)
-      return res.status(400).json({ msg: "Email verification failed." });
-
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
     const user = await UserModel.findOne({ email });
-
     if (user) {
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch)
-        return res.status(400).json({ msg: "Password is incorrect." });
+      console.log(user);
+      console.log();
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (!isPasswordValid)
+        return res.status(400).json({ err: "Password is incorrect." });
 
       const refresh_token = createRefreshToken({ id: user._id });
-      res.cookie("refreshtoken", refresh_token, {
-        httpOnly: true,
-        path: "/user/refresh_token",
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      const access_token = createAccessToken({ id: user._id });
+      res.status(200).json({
+        msg: "Login success!",
+        access_token,
+        refresh_token,
+        user: {
+          ...user._doc,
+        },
       });
-
-      res.json({ msg: "Login success!" });
     } else {
-      const newUser = new UserModel({
+      const newUser = await UserModel.create({
         name,
+        lastName,
         email,
-        password: passwordHash,
-        avatar: picture,
+        password: hashedPassword,
+        avatar: {
+          public_id: picture,
+          url: picture,
+        },
+        verified,
       });
-
       await newUser.save();
 
       const refresh_token = createRefreshToken({ id: newUser._id });
-      res.cookie("refreshtoken", refresh_token, {
-        httpOnly: true,
-        path: "/user/refresh_token",
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      const access_token = createAccessToken({ id: newUser._id });
+      res.status(200).json({
+        msg: "Login success!",
+        access_token,
+        refresh_token,
+        user: {
+          ...newUser._doc,
+        },
       });
-
-      res.json({ msg: "Login success!" });
     }
   } catch (err) {
     return res.status(500).json({ msg: err.message });
@@ -422,7 +394,6 @@ module.exports = {
   signOutAdmin,
   signOutClient,
   googleOauth,
-  activateEmail,
   getAccessToken,
   forgotPassword,
   resetPassword,
