@@ -12,22 +12,31 @@ const {
   uploadAvatar,
   updateProfile,
   deleteSelected,
-  addToCart,
-  deleteCartItems,
-  decrementQtyItem,
-  addToFavorite,
-  deleteFavoriteItem,
-  cleanWishList,
   changePassword,
 } = require("../controllers/userController");
-const { addAdress, myAddresses, standardizationAddress, deleteAddress } = require("../controllers/addressController");
+const {
+  addAdress,
+  myAddresses,
+  standardizationAddress,
+  deleteAddress,
+} = require("../controllers/addressController");
+const {
+  addToFavorites,
+  deleteFromFavorites,
+  clearFavorite,
+} = require("../controllers/favoriteController");
+const {
+  addToCart,
+  deleteCartItem,
+  decrementQtyItem,
+} = require("../controllers/cartController");
 
-router.put("/addcart/:id", authMiddleware, addToCart);
-router.delete("/cart/:id", authMiddleware, deleteCartItems);
-router.delete("/decr/:id", authMiddleware, decrementQtyItem);
-router.post("/fovorite/:id", authMiddleware, addToFavorite);
-router.delete("/fovorite/:id", authMiddleware, deleteFavoriteItem);
-router.put("/fovorites", authMiddleware, cleanWishList);
+router.post("/cart/:id", authMiddleware, addToCart);
+router.put("/cart/:id", authMiddleware, deleteCartItem);
+router.put("/decr/:id", authMiddleware, decrementQtyItem);
+router.post("/favorite/:id", authMiddleware, addToFavorites);
+router.put("/favorite/:id", authMiddleware, deleteFromFavorites);
+router.put("/favorites", authMiddleware, clearFavorite);
 router.put("/update", authMiddleware, updateProfile);
 router.put("/avatar", authMiddleware, uploadAvatar);
 router.get("/addresses", authMiddleware, myAddresses);

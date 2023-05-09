@@ -1,3 +1,4 @@
+const CartModel = require("../models/CartModel");
 const OrderModel = require("../models/OrderModel");
 const ProductModel = require("../models/ProductModel");
 const UserModel = require("../models/UserModel");
@@ -13,14 +14,15 @@ function generateOrderId() {
 
 const newOrder = async (req, res) => {
   try {
-    const customer = await UserModel.findById(req.user.id).populate(
-      "cart.productId",
-      "_id name price images"
-    );
-    const products = customer.cart.map((c) => ({
+    const userId = req.user.id;
+    const customer = await UserModel.findById(userId);
+    let cart = await CartModel.findOne({ userId });
+
+    const products = cart.products.map((c) => ({
       quantity: c.quantity,
-      productId: { ...c.productId._doc },
+      productId: c.productId,
     }));
+    console.log(products);
     req.body.orderItems = products;
     req.body.user = req.user.id;
     req.body.orderId = generateOrderId();
@@ -32,7 +34,13 @@ const newOrder = async (req, res) => {
     };
     newOrder.statusHistory.push(statusHistory);
     const order = await newOrder.save();
-    await customer.cleanCart();
+    await CartModel.findOneAndUpdate(
+      { user: userId },
+      {
+        products: [],
+      },
+      { new: true }
+    );
 
     let update = products.map((item) => {
       return {

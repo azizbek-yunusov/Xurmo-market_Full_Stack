@@ -3,6 +3,8 @@ const bcrypt = require("bcryptjs");
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
 const { sendMail } = require("../utils/sendEmail");
+const FavoriteProductModel = require("../models/FavoriteProductModel");
+const CartModel = require("../models/CartModel");
 
 const { CLIENT_URL, GOOGLE_OAUTH, GOOGLE_SECRET, JWT_SECRET } = process.env;
 
@@ -70,7 +72,6 @@ const signUp = async (req, res) => {
     return res.status(500).json({ msg: err.message });
   }
 };
-
 
 const verifyOtp = async (req, res) => {
   try {
@@ -162,19 +163,26 @@ const getAccessToken = async (req, res) => {
     jwt.verify(refresh_token, JWT_SECRET, async (err, client) => {
       if (err) return res.status(401).json({ msg: "Please login now." });
 
-      const user = await UserModel.findById(client.id)
-        .select("-password")
-        .populate(
-          "cart.productId favorites.productId",
-          "_id name price images discount inStock numOfReviews reviews ratings"
-        );
+      const user = await UserModel.findById(client.id).select("-password");
       if (!user) return res.status(400).json({ msg: "This does not exist." });
       const access_token = createAccessToken({ id: client.id });
+      const cart = await CartModel.findOne({ user }).populate(
+        "products.productId",
+        "_id name price images discount inStock numOfReviews ratings"
+      );
+      const favorite = await FavoriteProductModel.findOne({
+        user,
+      }).populate(
+        "products",
+        "_id name price images discount inStock numOfReviews ratings"
+      );
 
       res.status(200).json({
         msg: "success!",
         access_token,
-        user: user,
+        user,
+        cart: cart.products,
+        favorites: favorite.products,
       });
     });
   } catch (err) {

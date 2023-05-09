@@ -56,58 +56,6 @@ const decrementQtyItem = async (req, res) => {
   }
 };
 
-const addToFavorite = async (req, res) => {
-  try {
-    const product = await ProductModel.findById(req.params.id);
-    if (!product) {
-      return res.status(500).json({ msg: "Product not found" });
-    }
-    let client = await UserModel.findById(req.user.id);
-    await client.newFavorite(product);
-    const user = await UserModel.findById(req.user.id)
-      .select("-password")
-      .populate(
-        "favorites.productId",
-        "_id name price images discount inStock numOfReviews reviews ratings"
-      );
-    res.status(200).json(user.favorites);
-  } catch (err) {
-    return res.status(500).json({ msg: err.message });
-  }
-};
-
-const deleteFavoriteItem = async (req, res) => {
-  try {
-    let client = await UserModel.findById(req.user.id);
-    await client.removeFromFavorite(req.params.id);
-    const user = await UserModel.findById(req.user.id)
-      .select("-password")
-      .populate(
-        "favorites.productId",
-        "_id name price images discount inStock numOfReviews reviews ratings"
-      );
-    res.status(200).json(user.favorites);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const cleanWishList = async (req, res) => {
-  try {
-    let client = await UserModel.findById(req.user.id);
-    await client.cleanFavorites();
-    const user = await UserModel.findById(req.user.id)
-      .select("-password")
-      .populate(
-        "favorites.productId",
-        "_id name price images discount inStock numOfReviews reviews ratings"
-      );
-    res.status(200).json(user.favorites);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 const getUserInfo = async (req, res) => {
   try {
     const user = await UserModel.findById(req.user.id).populate(
@@ -317,9 +265,6 @@ module.exports = {
   addToCart,
   deleteCartItems,
   decrementQtyItem,
-  addToFavorite,
-  deleteFavoriteItem,
-  cleanWishList,
   getAllUsers,
   getUser,
   createUser,
