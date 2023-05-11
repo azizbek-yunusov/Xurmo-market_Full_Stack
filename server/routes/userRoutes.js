@@ -29,11 +29,13 @@ const {
   addToCart,
   deleteCartItem,
   decrementQtyItem,
+  clearCart,
 } = require("../controllers/cartController");
 
 router.post("/cart/:id", authMiddleware, addToCart);
 router.put("/cart/:id", authMiddleware, deleteCartItem);
 router.put("/decr/:id", authMiddleware, decrementQtyItem);
+router.delete("/cart", authMiddleware, clearCart);
 router.post("/favorite/:id", authMiddleware, addToFavorites);
 router.put("/favorite/:id", authMiddleware, deleteFromFavorites);
 router.put("/favorites", authMiddleware, clearFavorite);

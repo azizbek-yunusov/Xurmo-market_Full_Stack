@@ -119,10 +119,7 @@ const signInClient = async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({ err: "All fields are required" });
     }
-    const client = await UserModel.findOne({ email }).populate(
-      "cart.productId favorites.productId",
-      "_id name price images discount inStock numOfReviews reviews ratings"
-    );
+    const client = await UserModel.findOne({ email });
     if (!client) {
       return res.status(400).json({ err: "Your email is incorrect" });
     }
@@ -133,13 +130,16 @@ const signInClient = async (req, res) => {
     const refresh_token = createRefreshToken({ id: client._id });
     const access_token = createAccessToken({ id: client._id });
 
-    res.cookie("refreshtoken", refresh_token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-
+    const cart = await CartModel.findOne({ user: client._id }).populate(
+      "products.productId",
+      "_id name price images discount inStock numOfReviews ratings"
+    );
+    const favorite = await FavoriteProductModel.findOne({
+      user: client._id,
+    }).populate(
+      "products",
+      "_id name price images discount inStock numOfReviews ratings"
+    );
     res.status(200).json({
       msg: "Login success!",
       access_token,
@@ -147,6 +147,8 @@ const signInClient = async (req, res) => {
       user: {
         ...client._doc,
       },
+      cart: cart?.products || [],
+      favorites: favorite?.products || [],
     });
   } catch (err) {
     return res.status(500).json({ msg: err.message });
@@ -176,13 +178,12 @@ const getAccessToken = async (req, res) => {
         "products",
         "_id name price images discount inStock numOfReviews ratings"
       );
-
       res.status(200).json({
         msg: "success!",
         access_token,
         user,
-        cart: cart.products,
-        favorites: favorite.products,
+        cart: cart?.products || [],
+        favorites: favorite?.products || [],
       });
     });
   } catch (err) {

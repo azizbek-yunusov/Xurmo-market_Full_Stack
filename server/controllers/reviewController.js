@@ -51,29 +51,14 @@ const addReview = async (req, res) => {
       const review = await ReviewModel.create(reviewData);
       await review.save();
       const orderExists = await OrderModel.find({
-        user: req.user.id,
+        user,
         "orderItems.productId": productId,
       });
       if (orderExists.length) {
         await orderExists[0].addReviewId(product, review);
       }
-      console.log(review);
       res.status(200).json({ msg: "Success", review });
     }
-    // const isPursed = await OrderModel.findOne({
-    //   "orderItems.productId": productId,
-    // }).then((order) => {
-    //   if (order) {
-    //     // Order topildi
-    //     const orderItem = order.orderItems.find(
-    //       (item) => item.productId === productId
-    //     );
-    //     console.log(orderItem);
-    //   } else {
-    //     // Order topilmadi
-    //   }
-    // });
-    // console.log(isPursed);
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }
@@ -148,6 +133,13 @@ const updateReview = async (req, res) => {
       product.numOfReviews = 0;
       product.ratings = 0;
       await product.save({ validateBeforeSave: false });
+    }
+    const orderExists = await OrderModel.find({
+      user,
+      "orderItems.productId": product._id,
+    });
+    if (orderExists.length) {
+      await orderExists[0].addReviewId(product, review);
     }
     res.status(200).json({ msg: "Success", review });
   } catch (err) {

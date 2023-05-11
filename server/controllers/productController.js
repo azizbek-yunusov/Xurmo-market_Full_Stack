@@ -57,25 +57,16 @@ const getProduct = async (req, res) => {
 
 const getProductView = async (req, res) => {
   try {
-    const product = await ProductModel.findById(req.params.id);
+    const product = await ProductModel.findOne({
+      slug: req.params.slug,
+    }).populate("category subCategory brand").select("-createdBy -createdAt -updatedAt");
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
     const reviews = await ReviewModel.find({
       productId: product._id,
       isActive: true,
-    }).populate("user", "_id name lastName email avatar");
-    if (reviews.length) {
-      product.numOfReviews = reviews.length;
-      let avg = 0;
-
-      reviews.forEach((rev) => {
-        avg += rev.rating;
-      });
-
-      product.ratings = avg / reviews.length;
-      await product.save({ validateBeforeSave: false });
-    }
+    }).populate("user reply.user", "_id name lastName email avatar");
 
     res.status(201).json({
       msg: "Succuss",
@@ -161,32 +152,6 @@ const deleteProduct = async (req, res) => {
     for (let i = 0; i < product.images.length; i++) {
       await cloudinary.uploader.destroy(product.images[i].public_id);
     }
-    const isUserCart = await UserModel.find({
-      $or: [
-        { "cart.productId": product._id },
-        { "favorites.productId": product._id },
-      ],
-    });
-    isUserCart?.forEach((user) => {
-      try {
-        user.removeFromCart(product._id);
-      } catch (err) {
-        console.log(err);
-      }
-    });
-    const isUserWish = await UserModel.find({
-      $or: [
-        { "cart.productId": product._id },
-        { "favorites.productId": product._id },
-      ],
-    });
-    isUserWish?.forEach((user) => {
-      try {
-        user.removeFromFavorite(product._id);
-      } catch (err) {
-        console.log(err);
-      }
-    });
     await product.remove();
     res.status(201).json(product);
   } catch (err) {

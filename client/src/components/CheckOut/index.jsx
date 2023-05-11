@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import Payme from "../../assets/svg/payme.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import InputMask from "react-input-mask";
 import Top from "./Top";
 import address from "../../data/address.json";
@@ -127,6 +127,9 @@ const CheckOut = () => {
       setStreet(standart.street || "");
       setHouse(standart.house || "");
     }
+    if (!cart.length) {
+      navigate(-1);
+    }
     window.scrollTo(0, 0);
   }, [user, standart]);
   console.log("Vil:", region, "Tum:", district);
@@ -143,6 +146,9 @@ const CheckOut = () => {
             <Breadcrumbs className="md:flex hidden">
               <Link to={"/"} className="">
                 {t("home")}
+              </Link>
+              <Link to={"/cart"} className="">
+                {t("cart")}
               </Link>
               <Link to={"/check-out"} className="">
                 {t("check-out")}

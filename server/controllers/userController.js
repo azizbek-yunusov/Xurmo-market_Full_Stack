@@ -4,64 +4,9 @@ const ProductModel = require("../models/ProductModel");
 const bcrypt = require("bcryptjs");
 
 // User me
-const addToCart = async (req, res) => {
-  try {
-    const product = await ProductModel.findById(req.params.id);
-    if (!product) {
-      return res.status(500).json({ msg: "Product not found" });
-    }
-    let client = await UserModel.findById(req.user.id);
-    await client.addToCart(product);
-    const user = await UserModel.findById(req.user.id)
-      .select("-password")
-      .populate(
-        "cart.productId",
-        "_id name price images discount inStock numOfReviews reviews ratings"
-      );
-    res.status(200).json(user.cart);
-  } catch (err) {
-    return res.status(500).json({ msg: err.message });
-  }
-};
-
-const deleteCartItems = async (req, res) => {
-  try {
-    let client = await UserModel.findById(req.user.id);
-    await client.removeFromCart(req.params.id);
-    const user = await UserModel.findById(req.user.id)
-      .select("-password")
-      .populate(
-        "cart.productId",
-        "_id name price images discount inStock numOfReviews reviews ratings"
-      );
-    res.status(200).json(user.cart);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const decrementQtyItem = async (req, res) => {
-  try {
-    let client = await UserModel.findById(req.user.id);
-    await client.decrementQty(req.params.id);
-    const user = await UserModel.findById(req.user.id)
-      .select("-password")
-      .populate(
-        "cart.productId",
-        "_id name price images discount inStock numOfReviews reviews ratings"
-      );
-    res.status(200).json(user.cart);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 const getUserInfo = async (req, res) => {
   try {
-    const user = await UserModel.findById(req.user.id).populate(
-      "cart.productId favorites.productId",
-      "_id name price images discount inStock numOfReviews reviews ratings"
-    );
+    const user = await UserModel.findById(req.user.id);
     res.status(200).json(user);
   } catch (err) {
     return res.status(500).json({ msg: err.message });
@@ -79,11 +24,8 @@ const updateProfile = async (req, res) => {
 
     const user = await UserModel.findByIdAndUpdate(req.user.id, userData, {
       new: true,
-    }).populate(
-      "cart.productId favorites.productId",
-      "_id name price images discount inStock numOfReviews reviews ratings"
-    );
-    res.status(200).json(user);
+    });
+    res.status(200).json({ msg: "Profile updated", user });
   } catch (err) {
     return res.status(500).json({ err });
   }
@@ -95,10 +37,7 @@ const changePassword = async (req, res) => {
     if (!oldPassword || !newPassword || !conNewPassword) {
       return res.status(400).json({ error: "Please add all the feilds" });
     }
-    const user = await UserModel.findById(req.user.id).populate(
-      "cart.productId favorites.productId",
-      "_id name price images discount inStock numOfReviews reviews ratings"
-    );
+    const user = await UserModel.findById(req.user.id);
 
     const validPassword = await bcrypt.compare(oldPassword, user.password);
     if (!validPassword) return res.status(400).send("Invalid password");
@@ -111,7 +50,7 @@ const changePassword = async (req, res) => {
     user.password = hashedNewPassword;
     await user.save();
 
-    res.status(200).json(user);
+    res.status(200).json({ msg: "Password updated", user });
   } catch (err) {
     return res.status(500).json({ err });
   }
@@ -121,10 +60,7 @@ const uploadAvatar = async (req, res) => {
   try {
     let newUserAvatar = {};
     if (req.body.avatar !== "") {
-      const currentAvatar = await UserModel.findById(req.user.id).populate(
-        "cart.productId favorites.productId",
-        "_id name price images discount inStock numOfReviews reviews ratings"
-      );
+      const currentAvatar = await UserModel.findById(req.user.id);
 
       const ImgId = currentAvatar.avatar.public_id;
 
@@ -262,9 +198,6 @@ const deleteSelected = async (req, res) => {
 };
 
 module.exports = {
-  addToCart,
-  deleteCartItems,
-  decrementQtyItem,
   getAllUsers,
   getUser,
   createUser,

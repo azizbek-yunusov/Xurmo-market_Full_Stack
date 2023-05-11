@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { authUrl, token } from "../../utils/baseUrls";
+import { authUrl, token, userUrl } from "../../utils/baseUrls";
 
 export const signUp = createAsyncThunk(
   "auth/sign-up",
@@ -50,7 +50,7 @@ export const refreshToken = createAsyncThunk("auth/refresh-token", async () => {
       const { data } = await axios.post(`${authUrl}refreshtoken`, {
         refresh_token: token,
       });
-      console.log(data);
+
       return data;
     }
   } catch (error) {
@@ -65,10 +65,62 @@ export const googleOauth = createAsyncThunk(
       const { data } = await axios.post(`${authUrl}google-oauth`, {
         access_token,
       });
-      console.log(data);
+
       if (data.refresh_token) {
         localStorage.setItem("refresh_token", data.refresh_token);
       }
+      return data;
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+);
+
+export const editProfile = createAsyncThunk(
+  "auth/edit-profile",
+  async ({ userData, access_token }) => {
+    try {
+      const { data } = await axios.put(`${userUrl}update`, userData, {
+        headers: {
+          Authorization: access_token,
+        },
+      });
+      return data;
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+);
+
+export const uploadAvatar = createAsyncThunk(
+  "auth/upload-avatar",
+  async ({ avatar, access_token }) => {
+    try {
+      const { data } = await axios.put(
+        `${userUrl}avatar`,
+        { avatar },
+        {
+          headers: {
+            Authorization: access_token,
+          },
+        }
+      );
+      return data;
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+);
+
+export const changePassword = createAsyncThunk(
+  "auth/change-password",
+  async ({ passwords, access_token }) => {
+    try {
+      const { data } = await axios.put(`${userUrl}change-password`, passwords, {
+        headers: {
+          Authorization: access_token,
+        },
+      });
       return data;
     } catch (error) {
       return console.log(error);
@@ -100,7 +152,7 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     toggleLoginModal: (state) => {
-      !state.isLoginShow;
+      state.isLoginShow = !state.isLoginShow;
     },
   },
   extraReducers: (builder) => {
@@ -175,6 +227,32 @@ export const authSlice = createSlice({
         state.isAdmin = action.payload.user.admin ? true : false;
       })
       .addCase(googleOauth.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isLogged = false;
+        // state.message = action.error;
+      })
+      .addCase(editProfile.pending, (state) => {})
+      .addCase(editProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isLogged = true;
+        state.user = action.payload.user;
+      })
+      .addCase(editProfile.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isLogged = false;
+        // state.message = action.error;
+      })
+      .addCase(uploadAvatar.pending, (state) => {})
+      .addCase(uploadAvatar.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isLogged = true;
+        state.user = action.payload.user;
+      })
+      .addCase(uploadAvatar.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isLogged = false;

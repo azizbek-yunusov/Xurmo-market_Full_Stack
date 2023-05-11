@@ -6,12 +6,6 @@ const bannerSchema = new Schema(
       type: String,
       required: true,
     },
-    href: {
-      type: String,
-      required: true,
-      trim: true,
-      unique: true,
-    },
     image: {
       public_id: {
         type: String,
@@ -22,14 +16,14 @@ const bannerSchema = new Schema(
         required: true,
       },
     },
+    redirect: {
+      type: String,
+      required: true,
+    },
     status: {
       type: Boolean,
       required: true,
-      default: false
-    },
-    createdAt: {
-      type: Date,
-      default: new Date(),
+      default: false,
     },
     createdBy: {
       type: Schema.Types.ObjectId,

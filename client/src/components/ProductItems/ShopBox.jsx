@@ -31,21 +31,24 @@ const ShopBox = ({ product }) => {
   const isFavorite = existItemWish === undefined ? false : true;
   const addToCartHandle = async (id) => {
     if (isLogged) {
-      const existItem = cart?.find((x) => x.productId?._id === _id);
-      if (inStock <= existItem?.quantity) {
-        toast.error(t("product-not"));
-      } else {
-        await dispatch(addToCart({ id, access_token }));
-        if (!isCart) {
-          toast.success(t("added-cart"));
-        }
+      await dispatch(addToCart({ id, access_token }));
+      if (!isCart) {
+        toast.success(t("added-cart"));
       }
     } else {
       dispatch(toggleLoginModal());
       toast.error(t("error-register"));
     }
   };
-  let id = existItem.productId._id;
+  let id = existItem?.productId._id;
+
+  const decrementQtyItemHandle = async (id) => {
+    if (isLogged) {
+      dispatch(decrementQtyItem({ id, access_token }));
+    } else {
+      toast.error(t("error-register"));
+    }
+  };
   return (
     <div className="flex justify-center md:px-4 col-span-1">
       <div className="md:w-auto w-full">
@@ -78,7 +81,7 @@ const ShopBox = ({ product }) => {
                     <Tooltip title="remove from cart">
                       <button
                         onClick={() =>
-                          dispatch(decrementQtyItem(id, access_token))
+                          decrementQtyItemHandle(id)
                         }
                         className="text-gray-700 md:px-4 pl-3 py-1 text-2xl"
                       >
