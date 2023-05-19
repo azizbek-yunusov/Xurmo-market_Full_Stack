@@ -28,7 +28,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-// app.set('trust proxy', 1);
 app.use(cookieParser());
 app.use(cors());
 app.use(bodyParser.json({ limit: "100mb" }));

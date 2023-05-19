@@ -59,7 +59,9 @@ const getProductView = async (req, res) => {
   try {
     const product = await ProductModel.findOne({
       slug: req.params.slug,
-    }).populate("category subCategory brand").select("-createdBy -createdAt -updatedAt");
+    })
+      .populate("category subCategory brand")
+      .select("-createdBy -createdAt -updatedAt");
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
@@ -82,7 +84,7 @@ const createProduct = async (req, res) => {
   try {
     let images = [...req.body.images];
     let imagesBuffer = [];
-
+    console.log(req.body);
     for (let i = 0; i < images.length; i++) {
       const result = await cloudinary.uploader.upload(images[i], {
         folder: "products",
@@ -97,6 +99,12 @@ const createProduct = async (req, res) => {
     req.body.images = imagesBuffer;
     req.body.createdBy = req.user.id;
     req.body.slug = req.body.name.toLowerCase().replace(/\s+/g, "-");
+
+    if (req.body.discount > 0) {
+      req.body.oldPrice = req.body.price;
+      req.body.price =
+        req.body.price - (req.body.discount * req.body.price) / 100;
+    }
 
     const product = await ProductModel.create(req.body);
     await product.save();

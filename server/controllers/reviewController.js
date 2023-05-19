@@ -243,7 +243,7 @@ const unLikeReview = async (req, res) => {
     }
     const review = await ReviewModel.findById(req.params.id).populate(
       "user reply.user",
-      "_id name email avatar"
+      "_id name avatar"
     );
     res.status(200).json(review);
   } catch (err) {
@@ -264,7 +264,7 @@ const replyComment = async (req, res) => {
       },
       { new: true }
     )
-      .populate("user reply.user", "_id name email avatar")
+      .populate("user reply.user", "_id name avatar")
       .exec((err, result) => {
         if (err) {
           return res.status(422).json({ error: err });
@@ -275,7 +275,7 @@ const replyComment = async (req, res) => {
 
     const review = await ReviewModel.findById(req.params.id).populate(
       "user reply.user",
-      "_id name email avatar"
+      "_id name avatar"
     );
     res.status(200).json(review);
   } catch (err) {
@@ -311,7 +311,7 @@ const deleteSelected = async (req, res) => {
         if (err) {
           console.error(err);
         } else {
-          console.log("Selected orders deleted");
+          console.log("Selected reviews deleted");
         }
       });
     });

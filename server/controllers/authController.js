@@ -78,18 +78,16 @@ const verifyOtp = async (req, res) => {
     const { otp } = req.body;
     const user = await UserModel.findOne({ otp });
     if (!user) {
-      return res.status(400).json({ message: "User not found" });
+      return res.status(400).json({ err: "User not found" });
     }
     console.log(user.otp, "===", otp);
     if (user.otp !== otp) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Invalid OTP code" });
+      return res.status(400).json({ success: false, err: "Invalid OTP code" });
     }
     if (user.otpExpiry < Date.now()) {
       return res
         .status(400)
-        .json({ success: false, message: "Invalid OTP has been Expired" });
+        .json({ success: false, err: "Invalid OTP has been Expired" });
     }
 
     user.verified = true;
@@ -250,7 +248,7 @@ const getAccessAdminToken = async (req, res) => {
       res.status(200).json({
         msg: "success!",
         access_token,
-        user: user,
+        user,
       });
     });
   } catch (err) {

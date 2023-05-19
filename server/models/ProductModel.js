@@ -19,6 +19,10 @@ const productSchema = new Schema(
     oldPrice: {
       type: Number,
     },
+    discount: {
+      type: Number,
+      default: 0,
+    },
     descr: {
       type: String,
       required: true,
@@ -50,7 +54,7 @@ const productSchema = new Schema(
     },
     sold: {
       type: Number,
-      default: 1,
+      default: 0,
     },
     brand: {
       type: Schema.Types.ObjectId,
