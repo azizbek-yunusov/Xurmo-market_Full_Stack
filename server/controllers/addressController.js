@@ -36,7 +36,7 @@ const standardizationAddress = async (req, res) => {
     if (!myAddresses) {
       return res.status(404).json({ err: "Not Found!" });
     }
-    const standartedAddress = await AddressModel.findOneAndUpdate(
+    let standartedAddress = await AddressModel.findOneAndUpdate(
       { _id: req.params.id },
       {
         standart: true,
@@ -62,11 +62,11 @@ const standardizationAddress = async (req, res) => {
     });
 
     const addresses = await AddressModel.find({ user: req.user.id });
-
+    standartedAddress = addresses.find((addrs) => addrs.standart == true);
     res.status(200).json({
       msg: "Successfully!",
-      standartedAddress,
       addresses,
+      standartedAddress,
     });
   } catch (err) {
     return res.status(500).json({ err });
