@@ -1,8 +1,10 @@
+const CategoryModel = require("../models/CategoryModel");
 const OrderModel = require("../models/OrderModel");
 const ProductModel = require("../models/ProductModel");
 const ReviewModel = require("../models/ReviewModel");
 const UserModel = require("../models/UserModel");
 const cloudinary = require("../utils/cloudinary");
+const { getStoreProductsQuery } = require("../utils/queryies");
 
 const getAllProducts = async (req, res) => {
   try {
@@ -186,7 +188,61 @@ const deleteSelected = async (req, res) => {
   }
 };
 
-const PAGE_SIZE = 3;
+const PAGE_SIZE = 8;
+
+const getSearchList = async (req, res) => {
+  try {
+    let {
+      sortOrder,
+      rating,
+      max,
+      min,
+      category,
+      page = 1,
+      limit = 10,
+    } = req.query;
+    const categoryFilter = category ? { category } : {};
+    const basicQuery = getStoreProductsQuery(min, max, rating);
+
+    const categoryDoc = await CategoryModel.findOne(
+      { slug: categoryFilter.category },
+      "products -_id"
+    );
+
+    if (categoryDoc && categoryFilter !== category) {
+      basicQuery.push({
+        $match: {
+          _id: {
+            $in: Array.from(categoryDoc.products),
+          },
+        },
+      });
+    }
+
+    let products = null;
+    const productsCount = await ProductModel.aggregate(basicQuery);
+    const count = productsCount.length;
+    const size = count > limit ? page - 1 : 0;
+    const currentPage = count > limit ? Number(page) : 1;
+
+    const paginateQuery = [
+      { $sort: sortOrder },
+      { $skip: size * limit },
+      { $limit: limit * 1 },
+    ];
+    products = await ProductModel.aggregate(basicQuery.concat(paginateQuery));
+
+    res.status(200).json({
+      products,
+      totalPages: Math.ceil(count / limit),
+      currentPage,
+      count,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const getSearch = async (req, res) => {
   try {
     const { query } = req;
@@ -273,6 +329,7 @@ const getSearch = async (req, res) => {
     console.log(err);
   }
 };
+
 module.exports = {
   getAllProducts,
   getbestProducts,
@@ -283,4 +340,5 @@ module.exports = {
   deleteProduct,
   deleteSelected,
   getSearch,
+  getSearchList
 };
