@@ -294,6 +294,30 @@ const deleteReview = async (req, res) => {
         await cloudinary.uploader.destroy(review.pictures[i].public_id);
       }
     }
+
+    const product = await ProductModel.findOne({ _id: review.productId });
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    const reviews = await ReviewModel.find({
+      productId: review.productId,
+      isActive: true,
+    });
+    if (reviews.length) {
+      product.numOfReviews = reviews.length;
+      let avg = 0;
+
+      reviews.forEach((rev) => {
+        avg += rev.rating;
+      });
+
+      product.ratings = avg / reviews.length;
+      await product.save({ validateBeforeSave: false });
+    } else {
+      product.numOfReviews = 0;
+      product.ratings = 0;
+      await product.save({ validateBeforeSave: false });
+    }
     await review.remove();
     res.status(201).json(review);
   } catch (err) {

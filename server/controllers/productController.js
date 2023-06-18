@@ -127,6 +127,12 @@ const updateProduct = async (req, res) => {
       subCategory,
       isActive,
     } = req.body;
+    
+    if (req.body.discount > 0) {
+      req.body.oldPrice = req.body.price;
+      req.body.price =
+        req.body.price - (req.body.discount * req.body.price) / 100;
+    }
     const product = await ProductModel.findByIdAndUpdate(
       req.params.id,
       {
