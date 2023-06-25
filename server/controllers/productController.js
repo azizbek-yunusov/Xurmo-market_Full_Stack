@@ -80,6 +80,38 @@ const getProductView = async (req, res) => {
   }
 };
 
+const getSearchProducts = async (req, res) => {
+  try {
+    const resultPerPage = 8;
+    const productsCount = await ProductModel.countDocuments();
+    console.log(req.query);
+
+    const apiFeature = new ApiFeatures(ProductModel.find(), req.query)
+      .search()
+      .filter();
+
+    let products = await apiFeature.query.clone();
+
+    let filteredProductsCount = products.length;
+
+    apiFeature.pagination(resultPerPage);
+
+    products = await apiFeature.query.clone();
+
+    res.status(200).json({
+      success: true,
+      products,
+      resultPerPage,
+      filteredProductsCount,
+      productsCount,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Admin only
+
 const createProduct = async (req, res) => {
   try {
     let images = [...req.body.images];
@@ -127,7 +159,7 @@ const updateProduct = async (req, res) => {
       subCategory,
       isActive,
     } = req.body;
-    
+
     if (req.body.discount > 0) {
       req.body.oldPrice = req.body.price;
       req.body.price =
@@ -198,19 +230,19 @@ const getSearchList = async (req, res) => {
   try {
     const resultPerPage = 8;
     const productsCount = await ProductModel.countDocuments();
-  
+
     const apiFeature = new ApiFeatures(ProductModel.find(), req.query)
       .search()
       .filter();
-  
+
     let products = await apiFeature.query;
-  
+
     let filteredProductsCount = products.length;
-  
+
     apiFeature.pagination(resultPerPage);
-  
+
     products = await apiFeature.query;
-  
+
     res.status(200).json({
       success: true,
       products,
@@ -218,7 +250,6 @@ const getSearchList = async (req, res) => {
       resultPerPage,
       filteredProductsCount,
     });
-  
   } catch (err) {
     console.log(err);
   }
@@ -321,5 +352,6 @@ module.exports = {
   deleteProduct,
   deleteSelected,
   getSearch,
-  getSearchList
+  getSearchList,
+  getSearchProducts
 };

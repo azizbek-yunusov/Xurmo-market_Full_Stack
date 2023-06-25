@@ -9,7 +9,8 @@ const {
   deleteSelected,
   getProductView,
   getSearch,
-  getSearchList
+  getSearchList,
+  getSearchProducts
 } = require("../controllers/productController");
 const authAdminMiddleware = require("../middleware/authAdminMiddleware");
 const authMiddleware = require("../middleware/authMiddleware");
@@ -17,6 +18,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 // path - /banner
 router.get("/", getAllProducts);
 router.get("/list", getSearchList);
+router.get("/search", getSearchProducts);
 router.get("/best", getbestProducts);
 router.get("/:id", getProduct);
 router.get("/view/:slug", getProductView);

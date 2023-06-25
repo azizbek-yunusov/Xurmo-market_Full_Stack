@@ -1,22 +1,22 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Breadcrumbs, Rating, Tab, Tabs, Typography } from "@mui/material";
+import { Breadcrumbs, Rating, Tab, Tabs } from "@mui/material";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
-import ImageThumbs from "./ImageThumbs";
-import Comments from "./Comments";
-import { ReviewsBox } from "./ReviewsBox";
-import BottomScoll from "./BottomScoll";
-import Stock from "../Helpers/Stock";
-import AddToWish from "../Helpers/AddToWish";
 import { useTranslation } from "react-i18next";
-import ShopBox from "./ShopBox";
-import NoReviews from "./NoReviews";
-import SimilarProducts from "./SimilarProducts";
-import HelmetTitle from "../../utils/HelmetTitle";
-import { getProduct } from "../../redux/product";
-import { features } from "../../data/features";
-import ProductDetailLoader from "../SkeletonLoaders/ProductDetailLoader";
+import ProductDetailLoader from "../components/SkeletonLoaders/ProductDetailLoader";
+import { getProduct } from "../redux/product";
+import { HelmetTitle } from "../utils";
+import BottomScoll from "../components/ProductItems/BottomScoll";
+import AddToWish from "../components/Helpers/AddToWish";
+import ImageThumbs from "../components/ProductItems/ImageThumbs";
+import Stock from "../components/Helpers/Stock";
+import { features } from "../data/features";
+import ShopBox from "../components/ProductItems/ShopBox";
+import Comments from "../components/ProductItems/Comments";
+import NoReviews from "../components/ProductItems/NoReviews";
+import { ReviewsBox } from "../components/ProductItems/ReviewsBox";
+import SimilarProducts from "../components/ProductItems/SimilarProducts";
 
 const ProductDetail = () => {
   let { t } = useTranslation(["product"]);
