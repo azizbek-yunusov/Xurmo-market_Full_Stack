@@ -97,13 +97,25 @@ const getSearchProducts = async (req, res) => {
     apiFeature.pagination(resultPerPage);
 
     products = await apiFeature.query.clone();
-
+    const maxPriceProduct = products?.reduce((maxProduct, product) => {
+      if (product.price > maxProduct.price) {
+        return product;
+      }
+      return maxProduct;
+    });
+    const minPriceProduct = products?.reduce((minProduct, product) => {
+      if (product.price < minProduct.price) {
+        return product;
+      }
+      return minProduct;
+    });
     res.status(200).json({
       success: true,
       products,
       resultPerPage,
       filteredProductsCount,
       productsCount,
+      defaultPrice: [minPriceProduct.price, maxPriceProduct.price]
     });
   } catch (error) {
     console.log(error);
@@ -353,5 +365,5 @@ module.exports = {
   deleteSelected,
   getSearch,
   getSearchList,
-  getSearchProducts
+  getSearchProducts,
 };
