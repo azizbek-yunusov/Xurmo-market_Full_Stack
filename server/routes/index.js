@@ -2,6 +2,7 @@ const router = require('express').Router();
 
 const authRoutes = require("./authRoutes");
 const userRoutes = require("./userRoutes");
+const adminRoutes = require("./adminRoutes");
 const productRoutes = require("./productRoutes");
 const reviewRoutes = require("./reviewRoutes");
 const bannerRoutes = require("./bannerRoutes");
@@ -12,6 +13,7 @@ const postRoutes = require("./postRoutes");
 
 router.use('/auth', authRoutes);
 router.use('/user', userRoutes);
+router.use('/admin', adminRoutes);
 router.use('/product', productRoutes);
 router.use('/review', reviewRoutes);
 router.use('/banner', bannerRoutes);

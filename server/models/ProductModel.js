@@ -23,9 +23,43 @@ const productSchema = new Schema(
       type: Number,
       default: 0,
     },
+    discountExpire: {
+      type: Date,
+    },
     descr: {
       type: String,
       required: true,
+    },
+    brand: {
+      type: Schema.Types.ObjectId,
+      ref: "Brand",
+      required: true,
+    },
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: "Category",
+      required: true,
+    },
+    subCategory: {
+      type: Schema.Types.ObjectId,
+      ref: "SubCategory",
+      // required: true,
+    },
+    inStock: {
+      type: Number,
+      default: 1,
+    },
+    sold: {
+      type: Number,
+      default: 0,
+    },
+    ratings: {
+      type: Number,
+      default: 0,
+    },
+    numOfReviews: {
+      type: Number,
+      default: 0,
     },
     images: [
       {
@@ -44,54 +78,10 @@ const productSchema = new Schema(
       ref: "Brand",
       required: true,
     },
-    discount: {
-      type: Number,
-      default: 0,
-    },
-    inStock: {
-      type: Number,
-      default: 1,
-    },
-    sold: {
-      type: Number,
-      default: 0,
-    },
-    brand: {
-      type: Schema.Types.ObjectId,
-      ref: "Brand",
-      required: true,
-    },
-    category: {
-      type: Schema.Types.ObjectId,
-      ref: "Category",
-      required: true,
-    },
-    subCategory: {
-      type: Schema.Types.ObjectId,
-      ref: "SubCategory",
-      // required: true,
-    },
-    ratings: {
-      type: Number,
-      default: 0,
-    },
-    numOfReviews: {
-      type: Number,
-      default: 0,
-    },
-    features: [
-      {
-        feature: {
-          type: String,
-        },
-        value: {
-          type: String,
-        },
-      },
-    ],
-    isActive: {
-      type: Boolean,
-      default: true,
+    status: {
+      type: String,
+      enum: ["activated", "banned"],
+      default: "activated",
     },
     createdBy: {
       type: Schema.Types.ObjectId,

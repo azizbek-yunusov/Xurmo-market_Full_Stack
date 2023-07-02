@@ -3,8 +3,8 @@ const AdminModel = require("../models/AdminModel");
 module.exports = async (req, res, next) => {
   try {
     const admin = await AdminModel.findOne({ _id: req.user.id });
-    if (!admin.role === "admin" || !admin.role === "owner") {
-      return res.status(401).json({ msg: "Admin resources access denied" });
+    if (admin.role !== "owner") {
+      return res.status(401).json({ msg: "Owner resources access denied" });
     }
 
     next();

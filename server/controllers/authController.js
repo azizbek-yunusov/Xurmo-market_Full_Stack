@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const { sendMail } = require("../utils/sendEmail");
 const FavoriteProductModel = require("../models/FavoriteProductModel");
 const CartModel = require("../models/CartModel");
+const AdminModel = require("../models/AdminModel");
 
 const { CLIENT_URL, GOOGLE_OAUTH, GOOGLE_SECRET, JWT_SECRET } = process.env;
 
@@ -191,22 +192,23 @@ const getAccessToken = async (req, res) => {
 
 const signInAdmin = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    if (!email || !password) {
+    const { userName, password } = req.body;
+    if (!userName || !password) {
       return res.status(400).json({ err: "All fields are required" });
     }
-    const user = await UserModel.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ err: "Email is incorrect" });
+    const admin = await AdminModel.findOne({ userName });
+    if (!admin) {
+      return res.status(400).json({ err: "userName is incorrect" });
     }
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    console.log(admin);
+    const isPasswordValid = await bcrypt.compare(password, admin.password);
     if (!isPasswordValid)
       return res.status(400).json({ err: "Password is incorrect." });
 
-    const refresh_token = createRefreshToken({ id: user._id });
-    const access_token = createAccessToken({ id: user._id });
+    const refresh_token = createRefreshToken({ id: admin._id });
+    const access_token = createAccessToken({ id: admin._id });
 
-    if (user.admin) {
+    if (admin.role === "admin" || admin.role === "owner") {
       res.cookie("admintoken", refresh_token, {
         httpOnly: true,
         secure: true,
@@ -221,8 +223,8 @@ const signInAdmin = async (req, res) => {
       msg: "Login success!",
       access_token,
       admin_token: refresh_token,
-      user: {
-        ...user._doc,
+      admin: {
+        ...admin._doc,
       },
     });
   } catch (err) {
@@ -237,18 +239,18 @@ const getAccessAdminToken = async (req, res) => {
     if (!refresh_token)
       return res.status(400).json({ msg: "Please login now!" });
 
-    jwt.verify(refresh_token, JWT_SECRET, async (err, client) => {
+    jwt.verify(refresh_token, JWT_SECRET, async (err, user) => {
       if (err) return res.status(400).json({ msg: "Please login now." });
 
-      const user = await UserModel.findById(client.id).select("-password");
+      const admin = await AdminModel.findById(user.id).select("-password");
 
-      if (!user) return res.status(400).json({ msg: "This does not exist." });
-      const access_token = createAccessToken({ id: client.id });
+      if (!admin) return res.status(400).json({ msg: "This does not exist." });
+      const access_token = createAccessToken({ id: admin.id });
 
       res.status(200).json({
         msg: "success!",
         access_token,
-        user,
+        admin,
       });
     });
   } catch (err) {
