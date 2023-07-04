@@ -2,11 +2,12 @@ const ProductModel = require("../models/ProductModel");
 const ReviewModel = require("../models/ReviewModel");
 const ApiFeatures = require("../utils/apiFeatures");
 const cloudinary = require("../utils/cloudinary");
+const { createSlug } = require("../utils/createSlug");
 
 const getAllProducts = async (req, res) => {
   try {
     const products = await ProductModel.find()
-      .populate("createdBy", "_id name lastName email avatar")
+      // .populate("createdBy", "_id firstName lastName userName avatar")
       .populate("category", "_id nameOz nameUz nameRu")
       .populate("brand", "_id name");
 
@@ -60,7 +61,7 @@ const getProductView = async (req, res) => {
     const product = await ProductModel.findOne({
       slug: req.params.slug,
     })
-      .populate("category subCategory brand")
+      // .populate("category subCategory brand")
       .select("-createdBy -createdAt -updatedAt");
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
@@ -115,7 +116,7 @@ const getSearchProducts = async (req, res) => {
       resultPerPage,
       filteredProductsCount,
       productsCount,
-      defaultPrice: [minPriceProduct.price, maxPriceProduct.price]
+      defaultPrice: [minPriceProduct.price, maxPriceProduct.price],
     });
   } catch (error) {
     console.log(error);
@@ -142,7 +143,7 @@ const createProduct = async (req, res) => {
 
     req.body.images = imagesBuffer;
     req.body.createdBy = req.user.id;
-    req.body.slug = req.body.name.toLowerCase().replace(/\s+/g, "-");
+    req.body.slug = createSlug(req.body.name)
 
     if (req.body.discount > 0) {
       req.body.oldPrice = req.body.price;
@@ -214,6 +215,35 @@ const deleteProduct = async (req, res) => {
     res.status(201).json(product);
   } catch (err) {
     return res.status(500).json({ msg: err.message });
+  }
+};
+
+const discountSelected = async (req, res) => {
+  try {
+    let selected = [...req.body.selected];
+
+    selected.forEach((productId) => {
+      ProductModel.updateOne(
+        { _id: productId },
+        {
+          discount: req.body.discount,
+          discountExpire: req.body.expire,
+        },
+        {
+          new: true,
+        },
+        (err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log("Successfully");
+          }
+        }
+      );
+    });
+    res.status(200).json({ msg: "successfully" });
+  } catch (err) {
+    console.log(err);
   }
 };
 
@@ -364,6 +394,7 @@ module.exports = {
   deleteProduct,
   deleteSelected,
   getSearch,
+  discountSelected,
   getSearchList,
   getSearchProducts,
 };

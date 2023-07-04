@@ -10,7 +10,8 @@ const {
   getProductView,
   getSearch,
   getSearchList,
-  getSearchProducts
+  getSearchProducts,
+  discountSelected
 } = require("../controllers/productController");
 const authAdminMiddleware = require("../middleware/authAdminMiddleware");
 const authMiddleware = require("../middleware/authMiddleware");
@@ -37,6 +38,12 @@ router.post(
   authMiddleware,
   authAdminMiddleware,
   deleteSelected
+);
+router.post(
+  "/discount-selected",
+  authMiddleware,
+  authAdminMiddleware,
+  discountSelected
 );
 
 

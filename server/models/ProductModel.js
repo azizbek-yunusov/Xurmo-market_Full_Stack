@@ -22,9 +22,12 @@ const productSchema = new Schema(
     discount: {
       type: Number,
       default: 0,
+      min: 0,
+      max: 99
     },
     discountExpire: {
-      type: Date,
+      type: String,
+      defult: null,
     },
     descr: {
       type: String,
@@ -73,11 +76,6 @@ const productSchema = new Schema(
         },
       },
     ],
-    brand: {
-      type: Schema.Types.ObjectId,
-      ref: "Brand",
-      required: true,
-    },
     status: {
       type: String,
       enum: ["activated", "banned"],
@@ -85,7 +83,7 @@ const productSchema = new Schema(
     },
     createdBy: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Admin",
     },
   },
   {

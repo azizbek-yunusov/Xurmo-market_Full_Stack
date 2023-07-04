@@ -13,6 +13,8 @@ const postSchema = new Schema(
     slug: {
       type: String,
       required: true,
+      trim: true,
+      unique: true,
     },
     content: {
       type: String,
@@ -40,9 +42,9 @@ const postSchema = new Schema(
       type: Date,
       default: new Date(),
     },
-    createdBy: {
+    author: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Admin",
     },
   },
   {
