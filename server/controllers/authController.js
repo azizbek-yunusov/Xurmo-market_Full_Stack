@@ -384,9 +384,6 @@ const googleOauth = async (req, res) => {
 };
 
 // Token
-const createActivationToken = (payload) => {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: "5m" });
-};
 
 const createAccessToken = (payload) => {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: "1d" });

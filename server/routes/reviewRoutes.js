@@ -12,16 +12,17 @@ const {
 } = require("../controllers/reviewController");
 const authAdminMiddleware = require("../middleware/authAdminMiddleware");
 const authMiddleware = require("../middleware/authMiddleware");
+const testAdminLimitMiddleware = require("../middleware/testAdminLimitMiddleware");
 const router = Router();
 
-router.get("/", authMiddleware, authAdminMiddleware, getAllReviews);
-router.get("/:id", getReview);
 router.post("/", authMiddleware, addReview);
-router.put("/:id", authMiddleware, authAdminMiddleware, updateReview);
-router.delete("/:id", authMiddleware, authAdminMiddleware, deleteReview);
 router.put("/reply/:id", authMiddleware, replyComment);
 router.patch("/:id/like", authMiddleware, likeReview);
 router.patch("/:id/unlike", authMiddleware, unLikeReview);
-router.post("/selected", authMiddleware, authAdminMiddleware, deleteSelected);
+router.get("/:id", getReview);
+router.get("/", authMiddleware, authAdminMiddleware, getAllReviews);
+router.put("/:id", authMiddleware, authAdminMiddleware, testAdminLimitMiddleware, updateReview);
+router.delete("/:id", authMiddleware, authAdminMiddleware, testAdminLimitMiddleware, deleteReview);
+router.post("/selected", authMiddleware, authAdminMiddleware, testAdminLimitMiddleware, deleteSelected);
 
 module.exports = router;

@@ -36,11 +36,6 @@ const userSchema = new Schema({
   phoneNumber: {
     type: String,
   },
-  admin: {
-    type: Boolean,
-    default: false,
-  },
-
   verified: {
     type: Boolean,
     default: false,

@@ -1,24 +1,26 @@
 const PostModel = require("../models/PostModel");
 const cloudinary = require("../utils/cloudinary");
+const { createSlug } = require("../utils/createSlug");
 
 const createPost = async (req, res) => {
-  const { title, excerpt, slug, content, image } = req.body;
+  const { title, content, image } = req.body;
   try {
     const result = await cloudinary.uploader.upload(image, {
       folder: "Posts",
       // width: 300,
       // crop: "scale"
     });
+    console.log(req.body);
+    let slug = createSlug(title);
     const post = await PostModel.create({
       title,
-      excerpt,
       slug,
       content,
       image: {
         public_id: result.public_id,
         url: result.secure_url,
       },
-      createdBy: req.user.id,
+      author: req.user.id,
     });
     await post.save();
     res.status(200).json(post);
@@ -30,8 +32,8 @@ const createPost = async (req, res) => {
 const getPosts = async (req, res) => {
   try {
     const posts = await PostModel.find().populate(
-      "createdBy",
-      "_id name lastName avatar email"
+      "author",
+      "_id firstName lastName avatar userName"
     );
     res.status(201).json(posts);
   } catch (err) {
@@ -41,11 +43,10 @@ const getPosts = async (req, res) => {
 
 const getPostOne = async (req, res) => {
   try {
-    const postId = req.params.id;
-
+    console.log(req.params.slug);
     PostModel.findOneAndUpdate(
       {
-        _id: postId,
+        slug: req.params.slug,
       },
       {
         $inc: { viewsCount: 1 },
@@ -75,12 +76,21 @@ const getPostOne = async (req, res) => {
   }
 };
 
+const getPost = async (req, res) => {
+  try {
+    const post = await PostModel.findById(req.params.id);
+    res.status(200).json(post)
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const updatePost = async (req, res) => {
   try {
-    const { title, excerpt, slug, content, image } = req.body;
+    const { title, content, image } = req.body;
+    let slug = createSlug(title);
     const post = await PostModel.findByIdAndUpdate(req.params.id, {
       title,
-      excerpt,
       slug,
       content,
       image,
@@ -126,6 +136,7 @@ module.exports = {
   createPost,
   getPosts,
   getPostOne,
+  getPost,
   updatePost,
   deletePost,
   deleteSelected,

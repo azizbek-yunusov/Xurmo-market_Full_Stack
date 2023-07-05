@@ -6,10 +6,6 @@ const postSchema = new Schema(
       type: String,
       required: true,
     },
-    excerpt: {
-      type: String,
-      required: true,
-    },
     slug: {
       type: String,
       required: true,
@@ -34,13 +30,9 @@ const postSchema = new Schema(
       type: Number,
       default: 0,
     },
-    isShow: {
+    active: {
       type: Boolean,
       default: false,
-    },
-    createdAt: {
-      type: Date,
-      default: new Date(),
     },
     author: {
       type: Schema.Types.ObjectId,

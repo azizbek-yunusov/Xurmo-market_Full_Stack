@@ -2,10 +2,6 @@ const { Schema, model } = require("mongoose");
 
 const bannerSchema = new Schema(
   {
-    name: {
-      type: String,
-      required: true,
-    },
     image: {
       public_id: {
         type: String,
@@ -19,8 +15,9 @@ const bannerSchema = new Schema(
     redirect: {
       type: String,
       required: true,
+      trim: true,
     },
-    status: {
+    activated: {
       type: Boolean,
       required: true,
       default: false,

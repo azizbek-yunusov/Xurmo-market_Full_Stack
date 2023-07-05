@@ -26,9 +26,9 @@ const Home = () => {
     if (!products.length) {
       dispatch(getProducts());
     }
-    // if (!banners.length) {
-    //   dispatch(getBanners());
-    // }
+    if (!banners.length) {
+      dispatch(getBanners());
+    }
     if (!categories.length) {
       dispatch(getCategories());
     }
@@ -47,7 +47,7 @@ const Home = () => {
     <>
       <main>
         <HelmetTitle title={t("home")} />
-        {/* <BannerCarousel /> */}
+        <BannerCarousel />
         <CategoryList />
         <BestProductsList />
         <BrandsList />

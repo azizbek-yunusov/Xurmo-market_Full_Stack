@@ -7,20 +7,27 @@ const {
   deleteOrder,
   deleteSelected,
   updateOrderStatus,
-  resetOrderStatus
+  resetOrderStatus,
 } = require("../controllers/orderController");
 const authAdminMiddleware = require("../middleware/authAdminMiddleware");
 const authMiddleware = require("../middleware/authMiddleware");
+const testAdminLimitMiddleware = require("../middleware/testAdminLimitMiddleware");
 const router = Router();
 
 // path - /order
 router.post("/", authMiddleware, newOrder);
 router.get("/my", authMiddleware, getMyOrders);
 // admin only
-router.delete("/:id", authMiddleware, authAdminMiddleware, deleteOrder);
+router.delete(
+  "/:id",
+  authMiddleware,
+  authAdminMiddleware,
+  testAdminLimitMiddleware,
+  deleteOrder
+);
 router.get("/", authMiddleware, authAdminMiddleware, getAllOrders);
 router.get("/:id", authMiddleware, authAdminMiddleware, getOrder);
-router.put("/:id", authMiddleware, authAdminMiddleware, updateOrderStatus); 
+router.put("/:id", authMiddleware, authAdminMiddleware, updateOrderStatus);
 router.put("/reset/:id", authMiddleware, authAdminMiddleware, resetOrderStatus);
 router.post("/selected", authMiddleware, authAdminMiddleware, deleteSelected);
 

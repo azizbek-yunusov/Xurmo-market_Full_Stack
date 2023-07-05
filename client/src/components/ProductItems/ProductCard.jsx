@@ -55,7 +55,7 @@ const ProductCard = ({
 
   return (
     <>
-      <div className="overflow-hidden relative flex tranistion_normal md:hover:shadow-xl flex-col justify-between md:h-[400px] h-[330px] md:rounded-xl rounded-md md:p-3 p-2 md:px-3">
+      <div className="overflow-hidden relative flex tranistion_normal md:hover:shadow-xl flex-col justify-between md:min-h-[400px] min-h-[330px] md:rounded-xl rounded-md md:py-2 p-2 md:px-3">
         {discount > 0 && (
           <div className="md:px-2 p-[2px] px-1 md:py-1 absolute top-2 left-2 md:text-sm text-xs font-semibold md:rounded-lg rounded bg-red-600 text-white">
             -{discount}

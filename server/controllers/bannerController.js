@@ -2,7 +2,7 @@ const BannerModel = require("../models/BannerModel");
 const cloudinary = require("../utils/cloudinary");
 
 const createBanner = async (req, res) => {
-  const { name, href, image, createdAt } = req.body;
+  const { redirect, activated, image } = req.body;
   try {
     const result = await cloudinary.uploader.upload(image, {
       folder: "Banners",
@@ -10,13 +10,12 @@ const createBanner = async (req, res) => {
       // crop: "scale"
     });
     const banner = await BannerModel.create({
-      name,
-      href,
+      redirect,
+      activated,
       image: {
         public_id: result.public_id,
         url: result.secure_url,
       },
-      createdAt,
       createdBy: req.user.id,
     });
     await banner.save();
@@ -28,10 +27,7 @@ const createBanner = async (req, res) => {
 
 const getAllBanners = async (req, res) => {
   try {
-    const banners = await BannerModel.find().populate(
-      "createdBy",
-      "_id name lastName avatar email"
-    );
+    const banners = await BannerModel.find();
     res.status(201).json(banners);
   } catch (err) {
     console.log(err);
@@ -40,10 +36,7 @@ const getAllBanners = async (req, res) => {
 
 const getBanner = async (req, res) => {
   try {
-    const banner = await BannerModel.findById(req.params.id).populate(
-      "createdBy",
-      "_id name lastName avatar email"
-    );
+    const banner = await BannerModel.findById(req.params.id);
     res.status(201).json(banner);
   } catch (err) {
     console.log(err);

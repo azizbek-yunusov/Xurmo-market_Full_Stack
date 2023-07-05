@@ -1,16 +1,17 @@
 const BrandModel = require("../models/BrandModel");
-const ProductModel = require("../models/ProductModel");
 const cloudinary = require("../utils/cloudinary");
+const { createSlug } = require("../utils/createSlug");
 
 const createBrand = async (req, res) => {
-  const { name, slug, image, createdAt } = req.body;
+  const { name, image, activated } = req.body;
   try {
     const result = await cloudinary.uploader.upload(image, {
       folder: "Brands",
     });
-    if (!name || !slug || !image) {
+    if (!name || !image) {
       return res.status(400).json({ error: "Please add all the feilds" });
     }
+    let slug = createSlug(name);
     const brand = await BrandModel.create({
       name,
       slug,
@@ -18,7 +19,7 @@ const createBrand = async (req, res) => {
         public_id: result.public_id,
         url: result.secure_url,
       },
-      createdAt,
+      activated,
       createdBy: req.user.id,
     });
     await brand.save();
@@ -30,7 +31,10 @@ const createBrand = async (req, res) => {
 
 const getAllBrands = async (req, res) => {
   try {
-    const brands = await BrandModel.find().populate("createdBy", "_id avatar lastName email name");
+    const brands = await BrandModel.find().populate(
+      "createdBy",
+      "_id avatar lastName firstName userName"
+    );
     res.status(201).json(brands);
   } catch (err) {
     console.log(err);
@@ -39,7 +43,10 @@ const getAllBrands = async (req, res) => {
 
 const getBrand = async (req, res) => {
   try {
-    const brand = await BrandModel.findById(req.params.id).populate("createdBy", "_id avatar lastName email name");
+    const brand = await BrandModel.findById(req.params.id).populate(
+      "createdBy",
+      "_id avatar lastName firstName userName"
+    );
     res.status(201).json(brand);
   } catch (err) {
     console.log(err);
@@ -48,7 +55,8 @@ const getBrand = async (req, res) => {
 
 const updateBrand = async (req, res) => {
   try {
-    const { name, slug } = req.body;
+    const { name } = req.body;
+    let slug = createSlug(name);
     const brand = await BrandModel.findByIdAndUpdate(req.params.id, {
       name,
       slug,
