@@ -3,7 +3,7 @@ const {
   addReview,
   getAllReviews,
   getReview,
-  updateReview,
+  verifyReview,
   deleteReview,
   replyComment,
   likeReview,
@@ -21,7 +21,7 @@ router.patch("/:id/like", authMiddleware, likeReview);
 router.patch("/:id/unlike", authMiddleware, unLikeReview);
 router.get("/:id", getReview);
 router.get("/", authMiddleware, authAdminMiddleware, getAllReviews);
-router.put("/:id", authMiddleware, authAdminMiddleware, testAdminLimitMiddleware, updateReview);
+router.put("/:id", authMiddleware, authAdminMiddleware, testAdminLimitMiddleware, verifyReview);
 router.delete("/:id", authMiddleware, authAdminMiddleware, testAdminLimitMiddleware, deleteReview);
 router.post("/selected", authMiddleware, authAdminMiddleware, testAdminLimitMiddleware, deleteSelected);
 

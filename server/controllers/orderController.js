@@ -42,20 +42,11 @@ const newOrder = async (req, res) => {
       };
     });
     await ProductModel.bulkWrite(update, {});
-    console.log(order.orderId);
-    // send a message about the user's order
     await sendMail(
       customer.email,
       `Sizning buyutmangiz qabul qilindi`,
       `Assalomu alaykum,\n\nSizning internet-magazinimizda buyurtma berishni xohlaganiz uchun tashakkur. \n Buyurtmangiz muvaffaqiyatli qabul qilindi va tez orada yetkazib beriladi. Siz bilan yana bir marotaba bog'lanib, buyurtma haqida batafsil ma'lumot beramiz.\n\nTashakkur,\n\n[Xurmo.uz]`
     );
-    // await CartModel.findOneAndUpdate(
-    //   { user: userId },
-    //   {
-    //     products: [],
-    //   },
-    //   { new: true }
-    // );
     res.status(201).json({ message: "New Order Created", order });
   } catch (err) {
     console.log(err);

@@ -18,7 +18,6 @@ const addToCart = async (req, res) => {
           {
             productId: product._id,
             quantity: 1,
-            price: product.price,
           },
         ],
       });
@@ -36,13 +35,11 @@ const addToCart = async (req, res) => {
           return res.status(500).json({ err: "product-not" });
         }
         productItem.quantity++;
-        (productItem.price = productItem.quantity * product.price),
-          cart.products[itemIndex] === productItem;
+        cart.products[itemIndex] === productItem;
       } else {
         cart.products.push({
           productId: product._id,
           quantity: 1,
-          price: product.price,
         });
       }
       await cart.save();
@@ -120,8 +117,7 @@ const decrementQtyItem = async (req, res) => {
         );
       } else {
         productItem.quantity--;
-        (productItem.price = productItem.quantity * product.price),
-          cart.products[itemIndex] === productItem;
+        cart.products[itemIndex] === productItem;
       }
     }
 

@@ -7,14 +7,14 @@ import NetworkStatus from "./components/Helpers/NetworkStatus";
 const SignIn = lazy(() => import("./pages/SignIn"));
 const SignUp = lazy(() => import("./pages/SignUp"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-const CheckOut = lazy(() => import("./components/CheckOut"));
+const CheckOut = lazy(() => import("./pages/CheckOut"));
 import { FetchLoader } from "./components/SkeletonLoaders";
 import { token } from "./utils/baseUrls";
-import LoginModal from "./components/Helpers/LoginModal";
 import { refreshToken } from "./redux/auth";
 import Layout from "./components/Layout";
-import Spinner from "./components/SkeletonLoaders/Spinner";
 import { clientRoutes, publicRoutes } from "./routers/routes";
+import { AuthModal } from "./components/Auth";
+import LazyLoader from "./components/Helpers/LazyLoader";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,22 +26,22 @@ function App() {
     }
   }, [token]);
 
-  // useEffect(() => {
-  //   window.replainSettings = { id: "9ba7af42-4b86-455f-b953-ebe0286ecce7" };
-  //   (function (u) {
-  //     var s = document.createElement("script");
-  //     s.async = true;
-  //     s.src = u;
-  //     var x = document.getElementsByTagName("script")[0];
-  //     x.parentNode.insertBefore(s, x);
-  //   })("https://widget.replain.cc/dist/client.js");
-  // }, []);
+  useEffect(() => {
+    window.replainSettings = { id: "9ba7af42-4b86-455f-b953-ebe0286ecce7" };
+    (function (u) {
+      var s = document.createElement("script");
+      s.async = true;
+      s.src = u;
+      var x = document.getElementsByTagName("script")[0];
+      x.parentNode.insertBefore(s, x);
+    })("https://widget.replain.cc/dist/client.js");
+  }, []);
   return (
     <main>
       <Toaster position="top-left" reverseOrder={true} />
       <NetworkStatus />
-      {isLoginShow && <LoginModal />}
-      <Suspense fallback={<Spinner />}>
+      {isLoginShow && <AuthModal />}
+      <Suspense fallback={<LazyLoader />}>
         <Routes>
           <Route path="*" element={<NotFound />} />
           <Route path="/signup" element={<SignUp />} />
@@ -52,11 +52,7 @@ function App() {
               <Route key={index} path={path} element={element} />
             ))}
             {clientRoutes.map(({ path, element }, index) => (
-              <Route
-                key={index}
-                path={path}
-                element={element}
-              />
+              <Route key={index} path={path} element={element} />
             ))}
           </Route>
         </Routes>

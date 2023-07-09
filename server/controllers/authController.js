@@ -17,6 +17,24 @@ function generateOTP() {
   return otp;
 }
 
+const testEmail = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const otp = generateOTP();
+    await sendMail(
+      email,
+      "Tasdiqlash kodi (OTP)",
+      `Assalomu alaykum,\n\nSizning ro'yhatdan o'tish uchun tasdiqlash kodi (OTP) talab qilindi. Kodingiz quyida keltirilgan:\n\nTasdiqlash kodi: ${otp}\n\nBu kodni saytga kirish uchun foydalaning.\n\nTashakkur,\n\n[Xurmo.uz]`
+    );
+
+    res.status(200).json({
+      msg: "success",
+    });
+  } catch (err) {
+    return res.status(500).json({ msg: err.message });
+  }
+};
+
 const signUp = async (req, res) => {
   try {
     const { name, email, password, confirmPass } = req.body;
@@ -36,7 +54,11 @@ const signUp = async (req, res) => {
 
     // generation OTP
     const otp = generateOTP();
-
+    await sendMail(
+      email,
+      "Tasdiqlash kodi (OTP)",
+      `Assalomu alaykum,\n\nSizning ro'yhatdan o'tish uchun tasdiqlash kodi (OTP) talab qilindi. Kodingiz quyida keltirilgan:\n\nTasdiqlash kodi: ${otp}\n\nBu kodni saytga kirish uchun foydalaning.\n\nTashakkur,\n\n[Xurmo.uz]`
+    );
     const newUser = await UserModel.create({
       name,
       email,
@@ -44,24 +66,8 @@ const signUp = async (req, res) => {
       otp,
       otp_expiry: new Date(Date.now() + process.env.OTP_EXPIRE * 60 * 1000),
     });
-    await sendMail(
-      email,
-      "Tasdiqlash kodi (OTP)",
-      `Assalomu alaykum,\n\nSizning ro'yhatdan o'tish uchun tasdiqlash kodi (OTP) talab qilindi. Kodingiz quyida keltirilgan:\n\nTasdiqlash kodi: ${otp}\n\nBu kodni saytga kirish uchun foydalaning.\n\nTashakkur,\n\n[Xurmo.uz]`
-    );
 
     await newUser.save();
-
-    const refresh_token = createRefreshToken({ id: newUser._id });
-    const access_token = createAccessToken({ id: newUser._id });
-
-    res.cookie("refreshtoken", refresh_token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-
     res.status(200).json({
       success: true,
       user: {
@@ -81,7 +87,6 @@ const verifyOtp = async (req, res) => {
     if (!user) {
       return res.status(400).json({ err: "User not found" });
     }
-    console.log(user.otp, "===", otp);
     if (user.otp !== otp) {
       return res.status(400).json({ success: false, err: "Invalid OTP code" });
     }
@@ -139,6 +144,12 @@ const signInClient = async (req, res) => {
       "products",
       "_id name price images discount inStock numOfReviews ratings"
     );
+    res.cookie("refresh_token", refresh_token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
     res.status(200).json({
       msg: "Login success!",
       access_token,
@@ -395,6 +406,7 @@ const createRefreshToken = (payload) => {
 
 module.exports = {
   signUp,
+  testEmail,
   signInClient,
   signInAdmin,
   signOutAdmin,

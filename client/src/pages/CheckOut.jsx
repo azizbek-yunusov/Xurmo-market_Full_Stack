@@ -15,17 +15,18 @@ import Payme from "../assets/svg/payme.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import InputMask from "react-input-mask";
-import Top from "./Top";
 import addressesUzb from "../data/addressesUzb.json";
-import Price from "../Helpers/Price";
 import { newOrder } from "../redux/order";
 import { clearCart } from "../redux/cart";
 import { HelmetTitle } from "../utils";
 import { deliveryTypeData, paymentMethodData } from "../data/OrderTypeData";
+import Top from "../components/CheckOut/Top";
+import Price from "../components/Helpers/Price";
 
 const CheckOut = () => {
   const { t } = useTranslation(["order"]);
   const disptach = useDispatch();
+  const navigate = useNavigate()
   const { isLoading, isError } = useSelector((state) => state.order);
   const { user } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
@@ -42,8 +43,7 @@ const CheckOut = () => {
   const [payment, setPayment] = useState("Cash on Delivery");
   const [delivery, setDelivery] = useState("Delivery address");
   const [selectDistricts, setSelectDistricts] = useState([]);
-  const navigate = useNavigate();
-
+  
   const handlePaymentChange = (e) => {
     setPayment(e.target.value);
     if (payment !== "Cash on Delivery") {
@@ -105,7 +105,7 @@ const CheckOut = () => {
       await disptach(newOrder({ access_token, orderData }));
       if (!isLoading) {
         toast.success(t("new-order-added"));
-        navigate("/profile/orders");
+        navigate("/profile?tab=1");
         clearCart(access_token);
       }
       if (isError) {
@@ -129,12 +129,8 @@ const CheckOut = () => {
       setStreet(standart.street || "");
       setHouse(standart.house || "");
     }
-    if (!cart.length) {
-      navigate(-1);
-    }
     window.scrollTo(0, 0);
   }, [user, standart]);
-  console.log("Vil:", region, "Tum:", district);
   return (
     <>
       <HelmetTitle title={t("check-out")} />

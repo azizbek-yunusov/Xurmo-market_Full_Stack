@@ -1,24 +1,37 @@
 const { createTransport } = require("nodemailer");
+const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SENDER_EMAIL_ADDRESS } =
+  process.env;
 
 const sendMail = async (email, subject, text) => {
-  const transport = createTransport({
+  const transporter = createTransport({
     service: "gmail",
     auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
+      user: SMTP_USER,
+      pass: SMTP_PASS,
     },
   });
 
   const mailOptions = {
-    from: process.env.SENDER_EMAIL_ADDRESS,
+    host: SMTP_HOST,
+    port: SMTP_PORT,
+    from: SENDER_EMAIL_ADDRESS,
     to: email,
     subject,
     text,
   };
 
-  transport.sendMail(mailOptions, (err, infor) => {
-    if (err) return console.log(err);
-    return infor;
+  // transport.sendMail(mailOptions, (err, infor) => {
+  //   if (err) return console.log(err);
+  //   return infor;
+  // });
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log("Error" + error);
+      return res.status(500).json({ error });
+    } else {
+      console.log("Email sent:" + info.response);
+      res.status(201).json({ status: 201, info });
+    }
   });
 };
 

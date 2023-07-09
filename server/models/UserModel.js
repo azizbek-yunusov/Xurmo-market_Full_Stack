@@ -29,7 +29,7 @@ const userSchema = new Schema({
     url: {
       type: String,
       default:
-        "https://res.cloudinary.com/dztvgxnaj/image/upload/v1674919995/Avatars/lpsik4m2oowrlowbyq3l.png",
+        "https://res.cloudinary.com/dztvgxnaj/image/upload/v1688633939/Avatars/ywpwmyqhnpjljn8u6exk.jpg",
       required: true,
     },
   },

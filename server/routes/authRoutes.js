@@ -13,9 +13,11 @@ const {
   signOutClient,
   signOutAdmin,
   verifyOtp,
+  testEmail,
 } = require("../controllers/authController");
 
 router.post("/signup", signUp);
+router.post("/test", testEmail);
 router.post("/verify", verifyOtp);
 router.post("/admin/signin", signInAdmin);
 router.post("/signin", signInClient);

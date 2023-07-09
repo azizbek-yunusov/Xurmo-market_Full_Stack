@@ -43,7 +43,7 @@ const getProduct = async (req, res) => {
     }
     const reviews = await ReviewModel.find({
       productId: product._id,
-      isActive: true,
+      status: "verified",
     }).populate("user reply.user", "_id name lastName email avatar");
 
     res.status(201).json({

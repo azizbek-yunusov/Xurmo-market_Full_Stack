@@ -16,7 +16,7 @@ const addReview = async (req, res) => {
       await ReviewModel.findByIdAndUpdate(
         oldReview[0]._id,
         {
-          isActive: false,
+          status: false,
           rating,
           comment,
           updatedAt: new Date(),
@@ -94,16 +94,14 @@ const showReview = async (req, res) => {
   }
 };
 
-const updateReview = async (req, res) => {
+const verifyReview = async (req, res) => {
   try {
-    const { isActive, rating, comment } = req.body;
-
+    const { status } = req.body;
+    console.log(status);
     const review = await ReviewModel.findByIdAndUpdate(
       req.params.id,
       {
-        isActive,
-        rating,
-        comment,
+        status,
         updatedAt: new Date(),
       },
       {
@@ -117,7 +115,7 @@ const updateReview = async (req, res) => {
     }
     const reviews = await ReviewModel.find({
       productId: review.productId,
-      isActive: true,
+      status: "verified",
     });
     if (reviews.length) {
       product.numOfReviews = reviews.length;
@@ -301,7 +299,7 @@ const deleteReview = async (req, res) => {
     }
     const reviews = await ReviewModel.find({
       productId: review.productId,
-      isActive: true,
+      status: "verified",
     });
     if (reviews.length) {
       product.numOfReviews = reviews.length;
@@ -355,5 +353,5 @@ module.exports = {
   replyComment,
   deleteSelected,
   unLikeReview,
-  updateReview,
+  verifyReview,
 };

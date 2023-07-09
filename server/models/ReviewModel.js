@@ -60,11 +60,12 @@ const reviewSchema = new Schema(
         },
       },
     ],
-    isActive: {
-      type: Boolean,
-      default: false,
+    status: {
+      type: String,
+      default: "pending",
+      enum: ["verified", "pending", "banned"],
     },
-    isOrder:{
+    isOrder: {
       type: Boolean,
       default: false,
     },
