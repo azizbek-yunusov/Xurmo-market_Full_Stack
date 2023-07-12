@@ -85,38 +85,21 @@ const getSearchProducts = async (req, res) => {
   try {
     const resultPerPage = 8;
     const productsCount = await ProductModel.countDocuments();
-    console.log(req.query);
-
+    let query = req.query;
+    console.log(query);
     const apiFeature = new ApiFeatures(ProductModel.find(), req.query)
       .search()
       .filter();
-
     let products = await apiFeature.query.clone();
-
     let filteredProductsCount = products.length;
-
     apiFeature.pagination(resultPerPage);
 
-    products = await apiFeature.query.clone();
-    const maxPriceProduct = products?.reduce((maxProduct, product) => {
-      if (product.price > maxProduct.price) {
-        return product;
-      }
-      return maxProduct;
-    });
-    const minPriceProduct = products?.reduce((minProduct, product) => {
-      if (product.price < minProduct.price) {
-        return product;
-      }
-      return minProduct;
-    });
     res.status(200).json({
       success: true,
       products,
       resultPerPage,
       filteredProductsCount,
       productsCount,
-      defaultPrice: [minPriceProduct.price, maxPriceProduct.price],
     });
   } catch (error) {
     console.log(error);
@@ -143,7 +126,7 @@ const createProduct = async (req, res) => {
 
     req.body.images = imagesBuffer;
     req.body.createdBy = req.user.id;
-    req.body.slug = createSlug(req.body.name)
+    req.body.slug = createSlug(req.body.name);
 
     if (req.body.discount > 0) {
       req.body.oldPrice = req.body.price;
@@ -296,7 +279,6 @@ const getSearchList = async (req, res) => {
     console.log(err);
   }
 };
-
 const getSearch = async (req, res) => {
   try {
     const { query } = req;
@@ -306,24 +288,23 @@ const getSearch = async (req, res) => {
     const brand = query.brand || "";
     const price = query.price || "";
     const rating = query.rating || "";
-    const searchQuery = query.query || "";
+    const searchQuery = query.keyword || "";
     const order = query.order || "";
 
-    const queryFilter =
-      searchQuery && searchQuery !== "all"
-        ? {
-            name: {
-              $regex: searchQuery,
-              $options: "i",
-            },
-          }
-        : {};
+    const queryFilter = searchQuery
+      ? {
+          name: {
+            $regex: searchQuery,
+            $options: "i",
+          },
+        }
+      : {};
 
-    const categoryFilter = category && category !== "all" ? { category } : {};
-    const brandFilter = brand && brand !== "all" ? { brand } : {};
+    const categoryFilter = category ? { category } : {};
+    const brandFilter = brand ? { brand } : {};
 
     const ratingFilter =
-      rating && rating !== "all"
+      rating && rating
         ? {
             rating: {
               $gte: Number(rating),
@@ -331,16 +312,15 @@ const getSearch = async (req, res) => {
           }
         : {};
 
-    const priceFilter =
-      price && price !== "all"
-        ? {
-            // 1-50
-            price: {
-              $gte: Number(price.split("-")[0]),
-              $lte: Number(price.split("-")[1]),
-            },
-          }
-        : {};
+    const priceFilter = price
+      ? {
+          // 1-50
+          price: {
+            $gte: Number(price.gte),
+            $lte: Number(price.lte),
+          },
+        }
+      : {};
 
     const sortOrder =
       order === "featured"
@@ -362,9 +342,9 @@ const getSearch = async (req, res) => {
       ...priceFilter,
       ...ratingFilter,
     })
-      .sort(sortOrder)
-      .skip(pageSize * (page - 1))
-      .limit(pageSize);
+      // .sort(sortOrder)
+      // .skip(pageSize * (page - 1))
+      // .limit(pageSize);
 
     const countProducts = await ProductModel.countDocuments({
       ...queryFilter,

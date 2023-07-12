@@ -20,7 +20,7 @@ const testAdminLimitMiddleware = require("../middleware/testAdminLimitMiddleware
 // path - /banner
 router.get("/", getAllProducts);
 router.get("/list", getSearchList);
-router.get("/search", getSearchProducts);
+router.get("/search", getSearch);
 router.get("/best", getbestProducts);
 router.get("/:id", getProduct);
 router.get("/view/:slug", getProductView);

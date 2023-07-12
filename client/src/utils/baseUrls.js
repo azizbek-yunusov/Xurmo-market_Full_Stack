@@ -1,8 +1,8 @@
-export const apiUrl =
-  import.meta.env.MODE === "development"
-    ? "http://localhost:5000"
-    : "https://xurmo-api.vercel.app";
-const api = "/api";
+export const apiUrl ="https://xurmo-api.vercel.app";
+  // import.meta.env.MODE === "development"
+  //   ? "http://localhost:5000"
+  //   : 
+const api = "https://xurmo-api.vercel.app/api";
 export const authUrl = `${api}/auth/`;
 export const productUrl = `${api}/product/`;
 export const reviewUrl = `${api}/review/`;
@@ -14,3 +14,8 @@ export const orderUrl = `${api}/order/`;
 export const postUrl = `${api}/post/`;
 
 export const token = localStorage.getItem("refresh_token") || false;
+export const config = {
+  headers: {
+    "ngrok-skip-browser-warning": "true",
+  },
+};
