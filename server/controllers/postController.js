@@ -31,7 +31,7 @@ const createPost = async (req, res) => {
 
 const getPosts = async (req, res) => {
   try {
-    const posts = await PostModel.find().populate(
+    const posts = await PostModel.find().sort({ createdAt: -1 }).populate(
       "author",
       "_id firstName lastName avatar userName"
     );

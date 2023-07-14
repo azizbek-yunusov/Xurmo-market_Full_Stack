@@ -94,7 +94,7 @@ const uploadAvatar = async (req, res) => {
 // Admin Only
 const getAllAdmins = async (req, res) => {
   try {
-    const admins = await AdminModel.find({ role: "admin" });
+    const admins = await AdminModel.find({ role: "admin" }).sort({ createdAt: -1 });
     res.status(200).json(admins);
   } catch (err) {
     console.log(err);

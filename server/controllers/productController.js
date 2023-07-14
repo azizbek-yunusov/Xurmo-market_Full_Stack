@@ -7,7 +7,8 @@ const { createSlug } = require("../utils/createSlug");
 const getAllProducts = async (req, res) => {
   try {
     const products = await ProductModel.find()
-      // .populate("createdBy", "_id firstName lastName userName avatar")
+      .sort({ createdAt: -1 })
+      .populate("createdBy", "_id firstName lastName userName avatar")
       .populate("category", "_id nameOz nameUz nameRu")
       .populate("brand", "_id name");
 
@@ -61,8 +62,8 @@ const getProductView = async (req, res) => {
     const product = await ProductModel.findOne({
       slug: req.params.slug,
     })
-      // .populate("category subCategory brand")
-      .select("-createdBy -createdAt -updatedAt");
+      .populate("category", "slug nameOz  nameUz nameRu")
+      .populate("brand", "name");
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
@@ -112,7 +113,6 @@ const createProduct = async (req, res) => {
   try {
     let images = [...req.body.images];
     let imagesBuffer = [];
-    console.log(req.body);
     for (let i = 0; i < images.length; i++) {
       const result = await cloudinary.uploader.upload(images[i], {
         folder: "products",
@@ -136,9 +136,11 @@ const createProduct = async (req, res) => {
 
     const product = await ProductModel.create(req.body);
     await product.save();
+    console.log(product);
     res.status(200).json(product);
   } catch (err) {
     console.log(err);
+    return res.status(500).json({ msg: err.message });
   }
 };
 
@@ -191,10 +193,10 @@ const deleteProduct = async (req, res) => {
     if (!product) {
       return res.status(401).json({ msg: "Product not found" });
     }
-    for (let i = 0; i < product.images.length; i++) {
-      await cloudinary.uploader.destroy(product.images[i].public_id);
-    }
-    await product.remove();
+    // for (let i = 0; i < product.images.length; i++) {
+    //   await cloudinary.uploader.destroy(product.images[i].public_id);
+    // }
+    // await product.remove();
     res.status(201).json(product);
   } catch (err) {
     return res.status(500).json({ msg: err.message });
@@ -341,10 +343,10 @@ const getSearch = async (req, res) => {
       ...brandFilter,
       ...priceFilter,
       ...ratingFilter,
-    })
-      // .sort(sortOrder)
-      // .skip(pageSize * (page - 1))
-      // .limit(pageSize);
+    });
+    // .sort(sortOrder)
+    // .skip(pageSize * (page - 1))
+    // .limit(pageSize);
 
     const countProducts = await ProductModel.countDocuments({
       ...queryFilter,

@@ -91,7 +91,7 @@ const uploadAvatar = async (req, res) => {
 // Admin Only
 const getAllUsers = async (req, res) => {
   try {
-    const users = await UserModel.find();
+    const users = await UserModel.find().sort({ createdAt: -1 });
     res.status(200).json(users);
   } catch (err) {
     console.log(err);
@@ -113,8 +113,9 @@ const getUser = async (req, res) => {
 
 const createUser = async (req, res) => {
   try {
-    const { name, lastName, email, phoneNumber, password, avatar, admin } =
+    const { name, lastName, email, phoneNumber, password, avatar, status } =
       req.body;
+
     if (!name || !email || !password || !avatar) {
       return res.status(400).json({ error: "Please add all the feilds" });
     }
@@ -132,12 +133,12 @@ const createUser = async (req, res) => {
       lastName,
       phoneNumber,
       email,
+      status,
       password: hashedPassword,
       avatar: {
         public_id: result.public_id,
         url: result.secure_url,
       },
-      admin,
     });
     await user.save();
     res.status(200).json(user);
@@ -153,13 +154,12 @@ const updateUser = async (req, res) => {
       lastName: req.body.lastName,
       email: req.body.email,
       phoneNumber: req.body.phoneNumber,
-      admin: req.body.admin,
+      status: req.body.status,
     };
-    const user = await UserModel.findByIdAndUpdate(req.body.id);
-    await UserModel.findByIdAndUpdate(user._id, userData, {
+    await UserModel.findByIdAndUpdate(req.params.id, userData, {
       new: true,
     });
-
+    const user = await UserModel.findByIdAndUpdate(req.params.id);
     res.status(200).json(user);
   } catch (err) {
     console.log(err);
@@ -168,10 +168,10 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    const user = await UserModel.findByIdAndDelete(req.params.id);
-    if (!user) {
-      res.status(404).json({ message: "User Not Found" });
-    }
+    const user = await UserModel.findById(req.params.id);
+    // await cloudinary.uploader.destroy(user.avatar.public_id);
+    // await user.remove();
+
     res.status(201).json(user);
   } catch (err) {
     console.log(err);

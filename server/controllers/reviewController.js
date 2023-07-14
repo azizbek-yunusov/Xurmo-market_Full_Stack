@@ -66,7 +66,7 @@ const addReview = async (req, res) => {
 
 const getAllReviews = async (req, res) => {
   try {
-    const reviews = await ReviewModel.find()
+    const reviews = await ReviewModel.find().sort({ createdAt: -1 })
       .populate("productId", "_id name price images")
       .populate("user", "_id name email avatar");
     res.status(200).json(reviews);

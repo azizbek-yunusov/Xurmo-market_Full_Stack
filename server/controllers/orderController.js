@@ -55,7 +55,7 @@ const newOrder = async (req, res) => {
 
 const getAllOrders = async (req, res) => {
   try {
-    const orders = await OrderModel.find()
+    const orders = await OrderModel.find().sort({ createdAt: -1 })
       .populate("orderItems.productId", "_id name price images")
       .populate("user", "_id name email avatar");
     res.status(200).json(orders);

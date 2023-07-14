@@ -76,6 +76,7 @@ const signUp = async (req, res) => {
       msg: "Enter the verification code (OTP)",
     });
   } catch (err) {
+    console.log(err);
     return res.status(500).json({ msg: err.message });
   }
 };

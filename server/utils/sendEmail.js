@@ -12,8 +12,6 @@ const sendMail = async (email, subject, text) => {
   });
 
   const mailOptions = {
-    host: SMTP_HOST,
-    port: SMTP_PORT,
     from: SENDER_EMAIL_ADDRESS,
     to: email,
     subject,

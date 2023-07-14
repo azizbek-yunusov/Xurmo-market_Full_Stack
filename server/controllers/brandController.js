@@ -31,7 +31,7 @@ const createBrand = async (req, res) => {
 
 const getAllBrands = async (req, res) => {
   try {
-    const brands = await BrandModel.find().populate(
+    const brands = await BrandModel.find().sort({ createdAt: -1 }).populate(
       "createdBy",
       "_id avatar lastName firstName userName"
     );
